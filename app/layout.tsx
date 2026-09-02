@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Forge replaces lecture-and-quiz courses with hands-on projects in Software Development, Networking, and Multimedia — reviewed by mentors and certified for hiring.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>

@@ -100,20 +100,30 @@ function DashboardContent() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">Open Opportunities</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { title: "Senior React Developer", applicants: "45", status: "Active", bgGradient: "from-blue-400 via-purple-400 to-indigo-500" },
-                { title: "Product Designer", applicants: "32", status: "Active", bgGradient: "from-orange-400 via-red-400 to-pink-500" },
-                { title: "Data Scientist", applicants: "28", status: "Active", bgGradient: "from-emerald-400 via-teal-400 to-cyan-500" },
+                { title: "Senior React Developer", applicants: "45", views: "890", status: "Active", level: "Senior", daysPosted: "5d", bgGradient: "from-blue-400 via-purple-400 to-indigo-500" },
+                { title: "Product Designer", applicants: "32", views: "650", status: "Active", level: "Mid-level", daysPosted: "3d", bgGradient: "from-orange-400 via-red-400 to-pink-500" },
+                { title: "Data Scientist", applicants: "28", views: "520", status: "Active", level: "Senior", daysPosted: "7d", bgGradient: "from-emerald-400 via-teal-400 to-cyan-500" },
               ].map((opp, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                   <div className={`h-32 bg-gradient-to-br ${opp.bgGradient}`}></div>
                   <div className="p-6">
-                    <h3 className="font-bold text-gray-900 mb-2 text-lg">{opp.title}</h3>
-                    <div className="flex justify-between text-sm mb-4">
-                      <span className="text-gray-600">{opp.applicants} Applicants</span>
-                      <span className="text-green-600 font-medium">{opp.status}</span>
+                    <h3 className="font-bold text-gray-900 mb-1 text-lg">{opp.title}</h3>
+                    <div className="flex gap-2 mb-4">
+                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{opp.level}</span>
+                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">{opp.daysPosted}</span>
+                    </div>
+                    <div className="space-y-2 text-sm mb-4">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Applicants</span>
+                        <span className="font-semibold text-gray-900">{opp.applicants}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Views</span>
+                        <span className="font-semibold text-gray-900">{opp.views}</span>
+                      </div>
                     </div>
                     <button className="w-full px-3 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm">
-                      View Candidates
+                      Review Candidates
                     </button>
                   </div>
                 </motion.div>
@@ -123,36 +133,73 @@ function DashboardContent() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Recent Applications</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Application Pipeline</h2>
               <div className="space-y-4">
                 {[
-                  { candidate: "Alex Johnson", role: "Senior React Developer", time: "2 hours ago" },
-                  { candidate: "Sarah Chen", role: "Product Designer", time: "5 hours ago" },
-                  { candidate: "Mike Davis", role: "Data Scientist", time: "1 day ago" },
+                  { candidate: "Alex Johnson", role: "Senior React Developer", status: "Interview Scheduled", skills: "React, Node.js, TypeScript", rating: 4.9, time: "2 hours ago" },
+                  { candidate: "Sarah Chen", role: "Product Designer", status: "Under Review", skills: "Figma, UX Research", rating: 4.7, time: "5 hours ago" },
+                  { candidate: "Mike Davis", role: "Data Scientist", status: "Phone Screen", skills: "Python, ML, SQL", rating: 4.8, time: "1 day ago" },
+                  { candidate: "Emma Wilson", role: "Senior React Developer", status: "New", skills: "React, JavaScript", rating: 4.6, time: "2 days ago" },
                 ].map((app, i) => (
                   <div key={i} className="pb-4 border-b border-gray-200 last:border-0">
-                    <p className="font-semibold text-gray-900">{app.candidate}</p>
-                    <p className="text-sm text-gray-600 mt-1">Applied for: {app.role}</p>
-                    <p className="text-xs text-gray-500 mt-2">{app.time}</p>
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">{app.candidate}</p>
+                        <p className="text-sm text-gray-600 mt-1">{app.role}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center gap-1">
+                          <Star size={14} className="text-yellow-500 fill-yellow-500" />
+                          <span className="text-sm font-semibold">{app.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2 text-xs">
+                        <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded">{app.status}</span>
+                        <span className="text-gray-500">{app.skills}</span>
+                      </div>
+                      <p className="text-xs text-gray-500">{app.time}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
-              <div className="space-y-3">
-                <button className="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors text-left flex items-center gap-2">
-                  <Plus size={18} />
-                  Post Job
-                </button>
-                <button className="w-full px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors text-left flex items-center gap-2">
-                  <Users size={18} />
-                  View Candidates
-                </button>
-                <button onClick={handleLogout} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors text-center">
-                  Logout
-                </button>
+            <div className="space-y-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Hiring Summary</h2>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-sm text-gray-600 font-medium">To Interview</p>
+                    <p className="text-3xl font-bold text-gray-900 mt-1">12</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 font-medium">Under Review</p>
+                    <p className="text-3xl font-bold text-gray-900 mt-1">28</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 font-medium">Offers Made</p>
+                    <p className="text-3xl font-bold text-green-600 mt-1">4</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
+                <div className="space-y-3">
+                  <button className="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors text-left flex items-center gap-2 text-sm">
+                    <Plus size={18} />
+                    Post Job
+                  </button>
+                  <button className="w-full px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors text-left flex items-center gap-2 text-sm">
+                    <Users size={18} />
+                    Browse Profiles
+                  </button>
+                  <button onClick={handleLogout} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors text-center text-sm">
+                    Logout
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -101,9 +101,10 @@ function DashboardContent() {
               <h2 className="text-xl font-bold text-gray-900 mb-6">Platform Statistics</h2>
               <div className="space-y-4">
                 {[
-                  { metric: "New User Registrations", value: "245 today", trend: "↑ 12%" },
-                  { metric: "Course Enrollments", value: "1,240 this week", trend: "↑ 8%" },
-                  { metric: "Certifications Issued", value: "456 this month", trend: "↑ 15%" },
+                  { metric: "New User Registrations", value: "245 today", trend: "↑ 12%", color: "green" },
+                  { metric: "Course Enrollments", value: "1,240 this week", trend: "↑ 8%", color: "green" },
+                  { metric: "Certifications Issued", value: "456 this month", trend: "↑ 15%", color: "green" },
+                  { metric: "Support Tickets", value: "24 pending", trend: "↓ 5%", color: "blue" },
                 ].map((stat, i) => (
                   <div key={i} className="pb-4 border-b border-gray-200 last:border-0">
                     <div className="flex justify-between items-center">
@@ -111,7 +112,7 @@ function DashboardContent() {
                         <p className="font-semibold text-gray-900">{stat.metric}</p>
                         <p className="text-sm text-gray-600 mt-1">{stat.value}</p>
                       </div>
-                      <p className="text-green-600 font-semibold">{stat.trend}</p>
+                      <p className={`font-semibold ${stat.color === "green" ? "text-green-600" : "text-blue-600"}`}>{stat.trend}</p>
                     </div>
                   </div>
                 ))}
@@ -119,23 +120,108 @@ function DashboardContent() {
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Admin Actions</h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-6">System Status</h2>
+              <div className="space-y-4">
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-gray-600">API Response Time</span>
+                    <span className="text-sm font-semibold text-gray-900">145ms</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full" style={{ width: "92%" }}></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-gray-600">Database Load</span>
+                    <span className="text-sm font-semibold text-gray-900">68%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-yellow-600 h-2 rounded-full" style={{ width: "68%" }}></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex justify-between mb-2">
+                    <span className="text-sm text-gray-600">Storage Used</span>
+                    <span className="text-sm font-semibold text-gray-900">42%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div className="bg-green-600 h-2 rounded-full" style={{ width: "42%" }}></div>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-gray-200">
+                  <p className="text-sm text-gray-600 mb-2">Uptime This Month</p>
+                  <p className="text-2xl font-bold text-green-600">99.98%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Recent System Events</h2>
               <div className="space-y-3">
-                <button className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-left flex items-center gap-2">
-                  <Users size={18} />
-                  Manage Users
-                </button>
-                <button className="w-full px-4 py-3 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-left flex items-center gap-2">
-                  <Plus size={18} />
-                  Add Content
-                </button>
-                <button className="w-full px-4 py-3 bg-yellow-50 text-yellow-600 rounded-lg font-medium hover:bg-yellow-100 transition-colors text-left flex items-center gap-2">
-                  <AlertTriangle size={18} />
-                  View Reports
-                </button>
-                <button onClick={handleLogout} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors text-center">
-                  Logout
-                </button>
+                {[
+                  { event: "⚙️ System Update", desc: "Security patches applied to server", time: "2 hours ago", severity: "info" },
+                  { event: "🔐 Security Alert", desc: "Multiple failed login attempts detected", time: "4 hours ago", severity: "warning" },
+                  { event: "📊 Backup Completed", desc: "Daily database backup completed successfully", time: "6 hours ago", severity: "success" },
+                  { event: "⚡ Performance Alert", desc: "API response time exceeded threshold", time: "1 day ago", severity: "warning" },
+                ].map((item, i) => (
+                  <div key={i} className={`p-4 rounded-lg border ${
+                    item.severity === "success" ? "bg-green-50 border-green-200" :
+                    item.severity === "warning" ? "bg-yellow-50 border-yellow-200" :
+                    "bg-blue-50 border-blue-200"
+                  }`}>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="font-semibold text-gray-900">{item.event}</p>
+                        <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+                      </div>
+                      <p className="text-xs text-gray-500">{item.time}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6">Admin Actions</h2>
+                <div className="space-y-3">
+                  <button className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors text-left flex items-center gap-2 text-sm">
+                    <Users size={18} />
+                    Manage Users
+                  </button>
+                  <button className="w-full px-4 py-3 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-left flex items-center gap-2 text-sm">
+                    <Plus size={18} />
+                    View Reports
+                  </button>
+                  <button className="w-full px-4 py-3 bg-purple-50 text-purple-600 rounded-lg font-medium hover:bg-purple-100 transition-colors text-left flex items-center gap-2 text-sm">
+                    <Shield size={18} />
+                    Security Settings
+                  </button>
+                  <button className="w-full px-4 py-3 bg-yellow-50 text-yellow-600 rounded-lg font-medium hover:bg-yellow-100 transition-colors text-left flex items-center gap-2 text-sm">
+                    <AlertTriangle size={18} />
+                    System Alerts
+                  </button>
+                  <button onClick={handleLogout} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors text-center text-sm">
+                    Logout
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                <p className="text-red-900 font-semibold mb-3 flex items-center gap-2">
+                  <AlertTriangle size={18} /> Critical Alerts
+                </p>
+                <ul className="space-y-2 text-sm text-red-800">
+                  <li>• No active security issues</li>
+                  <li>• All systems operational</li>
+                  <li>• Backup status: OK</li>
+                </ul>
               </div>
             </div>
           </div>

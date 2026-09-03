@@ -203,6 +203,45 @@ function DashboardContent() {
             </div>
           </div>
 
+          {/* Course Performance */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Course Performance</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {[
+                { title: "Web Development", students: "45", completion: "76%", trend: "↑ 8%", bgGradient: "from-orange-400 via-yellow-400 to-amber-500" },
+                { title: "UI/UX Design", students: "32", completion: "88%", trend: "↑ 12%", bgGradient: "from-blue-400 via-purple-400 to-indigo-500" },
+                { title: "Mobile Development", students: "28", completion: "65%", trend: "↑ 5%", bgGradient: "from-emerald-400 via-teal-400 to-cyan-500" },
+              ].map((course, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="bg-white rounded-lg border border-gray-200 p-6"
+                >
+                  <div className={`h-24 bg-gradient-to-br ${course.bgGradient} rounded-lg mb-4`}></div>
+                  <h3 className="font-bold text-gray-900 mb-3">{course.title}</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Enrolled Students</span>
+                      <span className="font-semibold text-gray-900">{course.students}</span>
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-sm mb-2">
+                        <span className="text-gray-600">Avg. Completion</span>
+                        <span className="font-semibold text-green-600">{course.completion}</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-600 h-2 rounded-full" style={{ width: course.completion }}></div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-green-600 font-medium">{course.trend}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
           {/* Main Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Recent Activity */}

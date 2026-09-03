@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
-import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck } from "lucide-react";
+import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck, Zap, Target, TrendingUp } from "lucide-react";
 
 function DashboardContent() {
   const router = useRouter();
@@ -165,6 +165,97 @@ function DashboardContent() {
                         <div className="bg-green-600 h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
                       </div>
                     </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Learning Insights */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Your Learning Insights</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { label: "Learning Streak", value: "7 days", icon: Zap, color: "bg-orange-100 text-orange-600", desc: "Keep it going!" },
+                { label: "Study Time", value: "24.5 hours", icon: BarChart3, color: "bg-blue-100 text-blue-600", desc: "This month" },
+                { label: "Courses Completed", value: "12", icon: Target, color: "bg-green-100 text-green-600", desc: "Great progress" },
+              ].map((insight, i) => {
+                const Icon = insight.icon;
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="bg-white rounded-lg border border-gray-200 p-6"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-gray-600 text-sm font-medium">{insight.label}</p>
+                        <p className="text-3xl font-bold text-gray-900 mt-2">{insight.value}</p>
+                        <p className="text-xs text-gray-500 mt-2">{insight.desc}</p>
+                      </div>
+                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${insight.color}`}>
+                        <Icon size={24} />
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Recommended For You */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Recommended For You</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  title: "Advanced CSS Techniques",
+                  instructor: "Emma Wilson",
+                  level: "Intermediate",
+                  rating: 4.9,
+                  reason: "Based on your Web Development interest",
+                  bgGradient: "from-cyan-400 via-blue-400 to-indigo-500",
+                },
+                {
+                  title: "Mobile App Design",
+                  instructor: "David Chen",
+                  level: "Intermediate",
+                  rating: 4.8,
+                  reason: "Popular with designers like you",
+                  bgGradient: "from-pink-400 via-purple-400 to-blue-500",
+                },
+                {
+                  title: "TypeScript Mastery",
+                  instructor: "James Smith",
+                  level: "Advanced",
+                  rating: 4.7,
+                  reason: "Next step in your journey",
+                  bgGradient: "from-amber-400 via-orange-400 to-red-500",
+                },
+              ].map((course, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                >
+                  <div className={`h-32 bg-gradient-to-br ${course.bgGradient}`}></div>
+                  <div className="p-6">
+                    <h3 className="font-bold text-gray-900 mb-1">{course.title}</h3>
+                    <p className="text-sm text-gray-600 mb-3">by {course.instructor}</p>
+                    <div className="flex items-center justify-between mb-3 text-sm">
+                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded">{course.level}</span>
+                      <div className="flex items-center gap-1">
+                        <span>⭐ {course.rating}</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-green-600 font-medium mb-4">{course.reason}</p>
+                    <button className="w-full px-3 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm">
+                      Explore
+                    </button>
                   </div>
                 </motion.div>
               ))}

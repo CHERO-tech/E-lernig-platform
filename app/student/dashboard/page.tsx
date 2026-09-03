@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
-import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, Palette, Code, Smartphone, File, Video, HelpCircle, FileCheck } from "lucide-react";
+import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck } from "lucide-react";
 
 function DashboardContent() {
   const router = useRouter();
@@ -105,34 +105,65 @@ function DashboardContent() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">Active Course</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { Icon: Palette, title: "UI Design", desc: "Advanced Design Principles", progress: 75, bgColor: "bg-blue-100", iconColor: "text-blue-600" },
-                { Icon: Code, title: "React is for Beginners", desc: "Learn the basics of React", progress: 75, bgColor: "bg-green-100", iconColor: "text-green-600" },
-                { Icon: Smartphone, title: "Digital Marketing", desc: "Understand SEO and Analytics", progress: 0, bgColor: "bg-purple-100", iconColor: "text-purple-600" },
+                { 
+                  title: "UI Design", 
+                  desc: "Advanced Design Principles", 
+                  progress: 75,
+                  bgGradient: "from-blue-400 via-purple-400 to-indigo-500"
+                },
+                { 
+                  title: "React is for Beginners", 
+                  desc: "Learn the basics of React", 
+                  progress: 75,
+                  bgGradient: "from-emerald-400 via-teal-400 to-cyan-500"
+                },
+                { 
+                  title: "Digital Marketing", 
+                  desc: "Understand SEO and Analytics", 
+                  progress: 0,
+                  bgGradient: "from-orange-400 via-red-400 to-pink-500"
+                },
               ].map((course, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${course.bgColor}`}>
-                      <course.Icon size={24} className={course.iconColor} />
+                  {/* Photo Background */}
+                  <div className={`h-40 bg-gradient-to-br ${course.bgGradient} relative overflow-hidden`}>
+                    {/* Decorative pattern overlay */}
+                    <div className="absolute inset-0 opacity-10">
+                      <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="15" fill="white"/>
+                        <circle cx="80" cy="30" r="20" fill="white"/>
+                        <rect x="60" y="60" width="30" height="30" fill="white"/>
+                        <path d="M 10 80 Q 25 70 40 80" stroke="white" strokeWidth="2" fill="none"/>
+                      </svg>
                     </div>
-                    <button className="text-gray-400 hover:text-gray-600">
-                      <MoreHorizontal size={18} />
-                    </button>
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-1">{course.title}</h3>
-                  <p className="text-sm text-gray-600 mb-4">{course.desc}</p>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Progress</span>
-                      <span className="font-semibold text-gray-900">{course.progress}%</span>
+                  
+                  {/* Content */}
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-1 text-lg">{course.title}</h3>
+                        <p className="text-sm text-gray-600">{course.desc}</p>
+                      </div>
+                      <button className="text-gray-400 hover:text-gray-600">
+                        <MoreHorizontal size={18} />
+                      </button>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-green-600 h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-600">Progress</span>
+                        <span className="font-semibold text-gray-900">{course.progress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-600 h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

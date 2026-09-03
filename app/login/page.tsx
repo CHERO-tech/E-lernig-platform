@@ -38,7 +38,42 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-white flex">
-      {/* Left Column - Form */}
+      {/* Left Column - Decorative Design */}
+      <div className="hidden lg:flex lg:w-1/4 bg-gradient-to-b from-emerald-50 via-green-50 to-white flex-col justify-center items-center p-8 relative overflow-hidden">
+        {/* Decorative circles */}
+        <div className="absolute top-16 left-8 w-20 h-20 rounded-full bg-emerald-200 opacity-20"></div>
+        <div className="absolute bottom-24 right-4 w-28 h-28 rounded-full bg-yellow-300 opacity-12"></div>
+        <div className="absolute top-1/3 right-6 w-16 h-16 rounded-full bg-orange-300 opacity-15"></div>
+
+        <div className="relative z-10 text-center max-w-xs">
+          {/* Illustration */}
+          <div className="mb-6 h-48 flex items-center justify-center">
+            <svg
+              viewBox="0 0 280 280"
+              className="w-full max-w-xs"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Learning/Growth theme */}
+              <circle cx="140" cy="140" r="110" fill="#86efac" opacity="0.1" />
+              <path d="M 80 180 Q 140 120 200 180" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" />
+              <circle cx="60" cy="100" r="18" fill="#4ade80" opacity="0.7" />
+              <circle cx="220" cy="110" r="22" fill="#22c55e" opacity="0.8" />
+              <circle cx="140" cy="60" r="20" fill="#52B788" opacity="0.9" />
+              <rect x="110" y="200" width="60" height="12" rx="6" fill="#22c55e" opacity="0.5" />
+              <circle cx="50" cy="50" r="8" fill="#fb923c" opacity="0.6" />
+              <circle cx="250" cy="240" r="6" fill="#ec4899" opacity="0.5" />
+            </svg>
+          </div>
+
+          <h3 className="text-lg font-bold text-gray-800 mb-2">Mulai Belajar</h3>
+          <p className="text-gray-600 text-xs leading-relaxed">
+            Raih kesempatan untuk mengembangkan diri dan mengejar impian karir Anda
+          </p>
+        </div>
+      </div>
+
+      {/* Center Column - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-12">
         <motion.div
           className="max-w-sm w-full"
@@ -119,17 +154,16 @@ export default function LoginPage() {
       </div>
 
       {/* Right Column - Illustration & Content */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/4 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-8 relative overflow-hidden">
         {/* Decorative Circles */}
-        <div className="absolute top-8 right-12 w-24 h-24 rounded-full bg-green-300 opacity-15"></div>
-        <div className="absolute bottom-16 left-8 w-40 h-40 rounded-full bg-orange-300 opacity-10"></div>
-        <div className="absolute top-1/3 right-1/4 w-20 h-20 rounded-full bg-pink-300 opacity-10"></div>
-        <div className="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-yellow-300 opacity-10"></div>
+        <div className="absolute top-6 right-6 w-20 h-20 rounded-full bg-green-300 opacity-15"></div>
+        <div className="absolute bottom-12 left-2 w-32 h-32 rounded-full bg-orange-300 opacity-10"></div>
+        <div className="absolute top-1/3 right-8 w-16 h-16 rounded-full bg-pink-300 opacity-10"></div>
 
         {/* Content */}
-        <div className="relative z-10 text-center max-w-md">
+        <div className="relative z-10 text-center max-w-xs">
           {/* Illustration */}
-          <div className="mb-8 h-56 flex items-center justify-center">
+          <div className="mb-6 h-40 flex items-center justify-center">
             <svg
               viewBox="0 0 320 280"
               className="w-full max-w-sm drop-shadow-sm"
@@ -149,15 +183,15 @@ export default function LoginPage() {
           </div>
 
           {/* eRKAM Branding */}
-          <div className="mb-6">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="text-xl font-bold text-gray-800">eRKAM</span>
-              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+          <div className="mb-4">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <span className="text-base font-bold text-gray-800">eRKAM</span>
+              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.5 1.5c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z" />
               </svg>
             </div>
-            <p className="text-gray-600 text-sm leading-relaxed px-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            <p className="text-gray-600 text-xs leading-relaxed px-1">
+              Platform pembelajaran digital terpadu untuk mengembangkan keterampilan Anda.
             </p>
           </div>
         </div>

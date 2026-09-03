@@ -76,21 +76,23 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-white flex">
       {/* Left Column - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-12">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-6 sm:px-10 lg:px-16 py-12">
         <motion.div
-          className="max-w-sm w-full"
+          className="w-full max-w-md"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {step === "role" ? "Register" : "Create Account"}
-          </h1>
-          <p className="text-gray-600 text-sm mb-8">
-            {step === "role"
-              ? "Choose your role to get started"
-              : "Complete your information to create an account"}
-          </p>
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-3 text-center">
+              {step === "role" ? "Register" : "Create Account"}
+            </h1>
+            <p className="text-gray-600 text-center text-sm">
+              {step === "role"
+                ? "Choose your role to get started"
+                : "Complete your information to create an account"}
+            </p>
+          </div>
 
           {step === "role" ? (
             <div className="space-y-3">
@@ -112,52 +114,56 @@ export default function RegisterPage() {
               ))}
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Full Name</label>
+                <label htmlFor="fullName" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Full Name</label>
                 <input
+                  id="fullName"
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Email</label>
+                <label htmlFor="email" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Email</label>
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Password</label>
+                <label htmlFor="password" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Password</label>
                 <input
+                  id="password"
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Confirm Password</label>
+                <label htmlFor="confirmPassword" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Confirm Password</label>
                 <input
+                  id="confirmPassword"
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
@@ -171,21 +177,21 @@ export default function RegisterPage() {
                 </motion.div>
               )}
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-3 pt-4">
                 <button
                   type="button"
                   onClick={() => {
                     setStep("role");
                     setError("");
                   }}
-                  className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 font-medium rounded hover:bg-gray-50 transition-colors text-sm"
+                  className="flex-1 py-3 px-4 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all text-sm"
                 >
                   Back
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded transition-colors disabled:opacity-50 text-sm"
+                  className="flex-1 py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-md hover:shadow-lg"
                 >
                   {loading ? "Creating..." : "Register"}
                 </button>

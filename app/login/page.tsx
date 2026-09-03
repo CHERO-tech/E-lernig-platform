@@ -74,50 +74,54 @@ export default function LoginPage() {
       </div>
 
       {/* Center Column - Form */}
-      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-12">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-6 sm:px-10 lg:px-16 py-12">
         <motion.div
-          className="max-w-sm w-full"
+          className="w-full max-w-md"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Login</h1>
-          <p className="text-gray-600 text-sm mb-8">Enter your email and password to login</p>
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-3 text-center">Login</h1>
+            <p className="text-gray-600 text-center text-sm">Enter your email and password to login</p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Email</label>
+              <label htmlFor="email" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Email</label>
               <input
+                id="email"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Password</label>
+              <label htmlFor="password" className="block text-xs font-semibold text-gray-800 mb-3 uppercase tracking-wide">Password</label>
               <input
+                id="password"
                 type="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
               />
             </div>
 
             {/* Checkbox & Forgot Password */}
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between pt-2">
               <label className="flex items-center cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer" />
-                <span className="ml-2 text-gray-700">Remember me</span>
+                <input type="checkbox" className="w-4 h-4 border-gray-400 rounded cursor-pointer accent-green-600" />
+                <span className="ml-2 text-sm text-gray-700 font-medium">Remember me</span>
               </label>
-              <Link href="/forgot-password" className="text-green-600 hover:text-green-700 font-medium">
+              <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -137,18 +141,20 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded transition-colors disabled:opacity-50 text-sm mt-6"
+              className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-8 shadow-md hover:shadow-lg"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
           {/* Register Link */}
-          <div className="mt-6 text-center text-sm text-gray-600">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-green-600 font-semibold hover:text-green-700">
-              Register here
-            </Link>
+          <div className="mt-8 text-center">
+            <p className="text-sm text-gray-700">
+              Don't have an account?{" "}
+              <Link href="/register" className="text-green-600 font-bold hover:text-green-700 transition-colors">
+                Register here
+              </Link>
+            </p>
           </div>
         </motion.div>
       </div>

@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f1f3ec;
+  --paper: #ffffff;
   --paper-raised: #ffffff;
   --page-bg: #ffffff;
-  --ink: #10140f;
-  --ink-soft: #46524a;
-  --ember: #1f7a4d;
-  --ember-strong: #145c39;
-  --forge: #14301f;
-  --forge-soft: #dce6de;
-  --brass: #4c7a5e;
-  --brass-soft: #dceae1;
-  --wire: #7c8b80;
-  --line: rgba(16, 20, 15, 0.14);
-  --shadow: rgba(16, 20, 15, 0.18);
+  --ink: #1a1a1a;
+  --ink-soft: #666666;
+  --ember: #27AE60;
+  --ember-strong: #1E8449;
+  --forge: #27AE60;
+  --forge-soft: #D5F4E6;
+  --brass: #52B788;
+  --brass-soft: #D8F3DC;
+  --wire: #999999;
+  --line: rgba(0, 0, 0, 0.08);
+  --shadow: rgba(0, 0, 0, 0.1);
   --surface-dark: #0e2818;
 
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;

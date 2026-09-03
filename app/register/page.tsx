@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { CheckCircle, ChevronRight } from "lucide-react";
 import { useAuth } from "@/lib/auth/useAuth";
 import { UserRole } from "@/lib/auth/types";
 
@@ -75,196 +74,178 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center">
-      <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-0">
-        {/* Left Column - Form */}
+    <div className="min-h-screen bg-white flex">
+      {/* Left Column - Form */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-12">
         <motion.div
-          className="flex flex-col justify-center px-8 lg:px-12 py-12"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
+          className="max-w-sm w-full"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          <div className="max-w-sm mx-auto w-full">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">
-                {step === "role" ? "Pilih Role" : "Daftar Akun"}
-              </h1>
-              <p className="text-slate-600 text-sm">
-                {step === "role"
-                  ? "Pilih peran Anda untuk memulai"
-                  : "Lengkapi data untuk membuat akun"}
-              </p>
-            </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            {step === "role" ? "Register" : "Daftar Akun"}
+          </h1>
+          <p className="text-gray-600 text-sm mb-8">
+            {step === "role"
+              ? "Pilih peran Anda untuk memulai"
+              : "Lengkapi data untuk membuat akun"}
+          </p>
 
-            {step === "role" ? (
-              <div className="space-y-3">
-                {ROLES.map((role) => (
-                  <motion.button
-                    key={role.value}
-                    onClick={() => handleRoleSelect(role.value)}
-                    className="w-full p-4 border-2 border-slate-200 rounded-lg hover:border-emerald-600 hover:bg-emerald-50 transition-all text-left group"
-                    whileHover={{ scale: 1.01 }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{role.icon}</span>
-                      <div className="flex-1">
-                        <p className="font-semibold text-slate-900">{role.label}</p>
-                        <p className="text-sm text-slate-600">{role.description}</p>
-                      </div>
-                      <ChevronRight className="opacity-0 group-hover:opacity-100 transition-opacity text-emerald-600" size={20} />
+          {step === "role" ? (
+            <div className="space-y-3">
+              {ROLES.map((role) => (
+                <motion.button
+                  key={role.value}
+                  onClick={() => handleRoleSelect(role.value)}
+                  className="w-full p-3 border border-gray-300 rounded hover:border-green-600 hover:bg-green-50 transition-all text-left group"
+                  whileHover={{ scale: 1.01 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{role.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 text-sm">{role.label}</p>
+                      <p className="text-xs text-gray-600">{role.description}</p>
                     </div>
-                  </motion.button>
-                ))}
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Nama Lengkap
-                  </label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Nama Anda"
-                    className="w-full px-4 py-2.5 border-2 border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-0 transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="email@example.com"
-                    className="w-full px-4 py-2.5 border-2 border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-0 transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className="w-full px-4 py-2.5 border-2 border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-0 transition-colors"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">
-                    Konfirmasi Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className="w-full px-4 py-2.5 border-2 border-slate-300 rounded-lg bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-600 focus:ring-0 transition-colors"
-                  />
-                </div>
-
-                {error && (
-                  <motion.div
-                    className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                  >
-                    {error}
-                  </motion.div>
-                )}
-
-                <div className="flex gap-2 pt-2">
-                  <motion.button
-                    type="button"
-                    onClick={() => {
-                      setStep("role");
-                      setError("");
-                    }}
-                    className="flex-1 py-2.5 px-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-lg hover:bg-slate-50 transition-all"
-                  >
-                    Kembali
-                  </motion.button>
-                  <motion.button
-                    type="submit"
-                    disabled={loading}
-                    className="flex-1 py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50"
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                  >
-                    {loading ? "Mendaftar..." : "Daftar"}
-                  </motion.button>
-                </div>
-              </form>
-            )}
-
-            {step === "role" && (
-              <p className="text-center text-slate-600 text-sm mt-6">
-                Sudah punya akun?{" "}
-                <Link href="/login" className="text-emerald-600 font-semibold hover:text-emerald-700">
-                  Login
-                </Link>
-              </p>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Right Column - Illustration */}
-        <motion.div
-          className="hidden lg:flex flex-col justify-center items-center bg-gradient-to-br from-emerald-50 to-emerald-100 p-12 relative overflow-hidden"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          {/* Decorative circles */}
-          <div className="absolute top-10 right-10 w-20 h-20 rounded-full bg-emerald-300 opacity-20"></div>
-          <div className="absolute bottom-20 left-10 w-32 h-32 rounded-full bg-orange-300 opacity-15"></div>
-          <div className="absolute top-1/2 right-1/4 w-16 h-16 rounded-full bg-pink-300 opacity-15"></div>
-
-          <div className="relative z-10 text-center max-w-sm">
-            {/* Illustration */}
-            <div className="mb-8 h-64 flex items-center justify-center">
-              <svg
-                viewBox="0 0 300 300"
-                className="w-full max-w-xs"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect x="50" y="80" width="200" height="150" rx="10" fill="#27AE60" opacity="0.2" />
-                <circle cx="100" cy="120" r="20" fill="#27AE60" />
-                <circle cx="200" cy="100" r="25" fill="#52B788" />
-                <rect x="80" y="180" width="140" height="30" rx="5" fill="#27AE60" opacity="0.3" />
-                <circle cx="70" cy="70" r="8" fill="#E67E22" />
-                <circle cx="240" cy="150" r="6" fill="#E67E22" />
-              </svg>
-            </div>
-
-            <h2 className="text-xl font-bold text-slate-800 mb-4">eRKAM</h2>
-            <p className="text-slate-600 text-sm leading-relaxed">
-              Bergabunglah dengan jutaan pelajar dan profesional untuk mengembangkan keterampilan Anda.
-            </p>
-
-            {/* Features */}
-            <div className="mt-8 space-y-3 text-left">
-              {["Pendaftaran Mudah", "Akses Seumur Hidup", "Sertifikat Profesional"].map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                  <span className="text-slate-700 text-sm">{feature}</span>
-                </div>
+                  </div>
+                </motion.button>
               ))}
             </div>
-          </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Nama Anda"
+                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="email@example.com"
+                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Konfirmasi Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
+                />
+              </div>
+
+              {error && (
+                <motion.div
+                  className="p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                >
+                  {error}
+                </motion.div>
+              )}
+
+              <div className="flex gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep("role");
+                    setError("");
+                  }}
+                  className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 font-medium rounded hover:bg-gray-50 transition-colors text-sm"
+                >
+                  Kembali
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded transition-colors disabled:opacity-50 text-sm"
+                >
+                  {loading ? "Mendaftar..." : "Daftar"}
+                </button>
+              </div>
+            </form>
+          )}
+
+          {step === "role" && (
+            <p className="text-center text-gray-600 text-sm mt-6">
+              Sudah punya akun?{" "}
+              <Link href="/login" className="text-green-600 font-semibold hover:text-green-700">
+                Login
+              </Link>
+            </p>
+          )}
         </motion.div>
+      </div>
+
+      {/* Right Column - Illustration & Content */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-12 relative overflow-hidden">
+        {/* Decorative Circles */}
+        <div className="absolute top-8 right-12 w-24 h-24 rounded-full bg-green-300 opacity-15"></div>
+        <div className="absolute bottom-16 left-8 w-40 h-40 rounded-full bg-orange-300 opacity-10"></div>
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 rounded-full bg-pink-300 opacity-10"></div>
+        <div className="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-yellow-300 opacity-10"></div>
+
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-md">
+          {/* Illustration */}
+          <div className="mb-8 h-56 flex items-center justify-center">
+            <svg
+              viewBox="0 0 320 280"
+              className="w-full max-w-sm drop-shadow-sm"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect x="60" y="90" width="200" height="140" rx="12" fill="#22c55e" opacity="0.15" />
+              <circle cx="110" cy="140" r="22" fill="#22c55e" opacity="0.8" />
+              <circle cx="220" cy="110" r="28" fill="#4ade80" opacity="0.7" />
+              <circle cx="160" cy="180" r="18" fill="#86efac" opacity="0.6" />
+              <rect x="85" y="200" width="150" height="35" rx="6" fill="#22c55e" opacity="0.2" />
+              <circle cx="75" cy="65" r="10" fill="#fb923c" opacity="0.7" />
+              <circle cx="260" cy="170" r="8" fill="#fb923c" opacity="0.6" />
+              <circle cx="90" cy="250" r="6" fill="#ec4899" opacity="0.5" />
+            </svg>
+          </div>
+
+          {/* eRKAM Branding */}
+          <div className="mb-6">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <span className="text-xl font-bold text-gray-800">eRKAM</span>
+              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.5 1.5c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z" />
+              </svg>
+            </div>
+            <p className="text-gray-600 text-sm leading-relaxed px-2">
+              Bergabunglah dengan ribuan peserta untuk mengembangkan keterampilan profesional Anda bersama mentor berpengalaman.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

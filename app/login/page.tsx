@@ -76,14 +76,14 @@ export default function LoginPage() {
       {/* Center Column - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-6 sm:px-10 lg:px-16 py-12">
         <motion.div
-          className="w-full max-w-md"
+          className="w-full max-w-md mx-auto my-8 px-6 py-10 bg-white rounded-xl shadow-lg border border-gray-100"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="mb-8">
+          <div className="mb-10">
             <h1 className="text-4xl font-bold text-gray-900 mb-3 text-center">Login</h1>
-            <p className="text-gray-600 text-center text-sm">Enter your email and password to login</p>
+            <p className="text-gray-600 text-center text-sm leading-relaxed">Enter your email and password to login</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">

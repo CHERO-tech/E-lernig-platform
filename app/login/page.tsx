@@ -181,16 +181,16 @@ export default function LoginPage() {
             </svg>
           </div>
 
-          {/* eRKAM Branding */}
+          {/* Forge Branding */}
           <div className="px-2">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-lg font-bold text-gray-800">eRKAM</span>
-              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10.5 1.5c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Forge</span>
+              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
             <p className="text-gray-600 text-xs leading-relaxed">
-              Platform pembelajaran digital terpadu untuk mengembangkan keterampilan profesional Anda.
+              Platform pembelajaran digital untuk mengembangkan keterampilan profesional Anda.
             </p>
           </div>
         </div>

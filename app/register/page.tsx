@@ -7,12 +7,37 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/lib/auth/useAuth";
 import { UserRole } from "@/lib/auth/types";
 
-const ROLES: Array<{ value: UserRole; label: string; icon: string; description: string }> = [
-  { value: "student", label: "Student", icon: "👨‍🎓", description: "Learn & develop skills" },
-  { value: "trainer", label: "Trainer", icon: "👨‍🏫", description: "Create & teach courses" },
-  { value: "school", label: "School", icon: "🏫", description: "Manage institution" },
-  { value: "guardian", label: "Guardian", icon: "👨‍👧", description: "Monitor progress" },
-  { value: "company", label: "Company", icon: "🏢", description: "Find & hire talent" },
+const ROLES: Array<{ value: UserRole; label: string; icon: React.ReactNode; description: string }> = [
+  {
+    value: "student",
+    label: "Student",
+    icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg>,
+    description: "Learn & develop skills"
+  },
+  {
+    value: "trainer",
+    label: "Trainer",
+    icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>,
+    description: "Create & teach courses"
+  },
+  {
+    value: "school",
+    label: "School",
+    icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9v2h22V9L12 3m0 4.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m8 8H4v6h16z"/></svg>,
+    description: "Manage institution"
+  },
+  {
+    value: "guardian",
+    label: "Guardian",
+    icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm7.5-2c1.93 0 3.5-1.57 3.5-3.5S18.43 4 16.5 4 13 5.57 13 7.5s1.57 3.5 3.5 3.5zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>,
+    description: "Monitor progress"
+  },
+  {
+    value: "company",
+    label: "Company",
+    icon: <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2z"/></svg>,
+    description: "Find & hire talent"
+  },
 ];
 
 export default function RegisterPage() {
@@ -103,11 +128,13 @@ export default function RegisterPage() {
                   className="w-full p-3 border border-gray-300 rounded hover:border-green-600 hover:bg-green-50 transition-all text-left group"
                   whileHover={{ scale: 1.01 }}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">{role.icon}</span>
+                  <div className="flex items-center gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                      {role.icon}
+                    </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 text-sm">{role.label}</p>
-                      <p className="text-xs text-gray-600">{role.description}</p>
+                      <p className="font-semibold text-gray-900 text-sm">{role.label}</p>
+                      <p className="text-xs text-gray-600 mt-0.5">{role.description}</p>
                     </div>
                   </div>
                 </motion.button>

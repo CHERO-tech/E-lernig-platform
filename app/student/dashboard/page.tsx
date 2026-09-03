@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
-import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, ChevronLeft, ChevronRight, Play, MoreHorizontal } from "lucide-react";
-import { useState } from "react";
+import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, Palette, Code, Smartphone, File, Video, HelpCircle, FileCheck } from "lucide-react";
 
 function DashboardContent() {
   const router = useRouter();
@@ -16,8 +15,6 @@ function DashboardContent() {
     await logout();
     router.push("/");
   };
-
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -108,9 +105,9 @@ function DashboardContent() {
             <h2 className="text-xl font-bold text-gray-900 mb-6">Active Course</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: "🎨", title: "UI Design", desc: "Advanced Design Principles", progress: 75 },
-                { icon: "⚛️", title: "React is for Beginners", desc: "Learn the basics of React", progress: 75 },
-                { icon: "📱", title: "Digital Marketing", desc: "Understand SEO and Analytics", progress: 0 },
+                { Icon: Palette, title: "UI Design", desc: "Advanced Design Principles", progress: 75, bgColor: "bg-blue-100", iconColor: "text-blue-600" },
+                { Icon: Code, title: "React is for Beginners", desc: "Learn the basics of React", progress: 75, bgColor: "bg-green-100", iconColor: "text-green-600" },
+                { Icon: Smartphone, title: "Digital Marketing", desc: "Understand SEO and Analytics", progress: 0, bgColor: "bg-purple-100", iconColor: "text-purple-600" },
               ].map((course, i) => (
                 <motion.div
                   key={i}
@@ -120,7 +117,9 @@ function DashboardContent() {
                   className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <span className="text-3xl">{course.icon}</span>
+                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${course.bgColor}`}>
+                      <course.Icon size={24} className={course.iconColor} />
+                    </div>
                     <button className="text-gray-400 hover:text-gray-600">
                       <MoreHorizontal size={18} />
                     </button>
@@ -165,13 +164,15 @@ function DashboardContent() {
               <h2 className="text-xl font-bold text-gray-900 mb-6">Recently Accessed</h2>
               <div className="space-y-1">
                 {[
-                  { icon: "📄", title: "Typography Cheatsheet.pdf", desc: "Advanced Design Principles" },
-                  { icon: "▶️", title: "Introduction to Hooks", desc: "React is for Beginners" },
-                  { icon: "📋", title: "SEO Fundamentals Quiz", desc: "Digital Marketing 101" },
-                  { icon: "📝", title: "Project Guidelines", desc: "Advanced Design Principles" },
+                  { Icon: File, title: "Typography Cheatsheet.pdf", desc: "Advanced Design Principles" },
+                  { Icon: Video, title: "Introduction to Hooks", desc: "React is for Beginners" },
+                  { Icon: HelpCircle, title: "SEO Fundamentals Quiz", desc: "Digital Marketing 101" },
+                  { Icon: FileCheck, title: "Project Guidelines", desc: "Advanced Design Principles" },
                 ].map((item, i) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
-                    <span className="text-lg">{item.icon}</span>
+                  <div key={i} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors items-center">
+                    <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 flex-shrink-0">
+                      <item.Icon size={20} />
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-gray-900 text-sm">{item.title}</p>
                       <p className="text-xs text-gray-600">{item.desc}</p>

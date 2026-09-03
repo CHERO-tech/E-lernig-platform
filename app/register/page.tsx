@@ -84,12 +84,12 @@ export default function RegisterPage() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            {step === "role" ? "Register" : "Daftar Akun"}
+            {step === "role" ? "Register" : "Create Account"}
           </h1>
           <p className="text-gray-600 text-sm mb-8">
             {step === "role"
-              ? "Pilih peran Anda untuk memulai"
-              : "Lengkapi data untuk membuat akun"}
+              ? "Choose your role to get started"
+              : "Complete your information to create an account"}
           </p>
 
           {step === "role" ? (
@@ -114,13 +114,13 @@ export default function RegisterPage() {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Nama Lengkap</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Full Name</label>
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
-                  placeholder="Nama Anda"
+                  placeholder="John Doe"
                   className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
                 />
               </div>
@@ -132,7 +132,7 @@ export default function RegisterPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="email@example.com"
+                  placeholder="you@example.com"
                   className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
                 />
               </div>
@@ -150,7 +150,7 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Konfirmasi Password</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Confirm Password</label>
                 <input
                   type="password"
                   name="confirmPassword"
@@ -180,14 +180,14 @@ export default function RegisterPage() {
                   }}
                   className="flex-1 py-2 px-4 border border-gray-300 text-gray-700 font-medium rounded hover:bg-gray-50 transition-colors text-sm"
                 >
-                  Kembali
+                  Back
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
                   className="flex-1 py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded transition-colors disabled:opacity-50 text-sm"
                 >
-                  {loading ? "Mendaftar..." : "Daftar"}
+                  {loading ? "Creating..." : "Register"}
                 </button>
               </div>
             </form>
@@ -195,9 +195,9 @@ export default function RegisterPage() {
 
           {step === "role" && (
             <p className="text-center text-gray-600 text-sm mt-6">
-              Sudah punya akun?{" "}
+              Already have an account?{" "}
               <Link href="/login" className="text-green-600 font-semibold hover:text-green-700">
-                Login
+                Login here
               </Link>
             </p>
           )}
@@ -242,7 +242,7 @@ export default function RegisterPage() {
               </svg>
             </div>
             <p className="text-gray-600 text-sm leading-relaxed px-2">
-              Bergabunglah dengan ribuan peserta untuk mengembangkan keterampilan profesional Anda bersama mentor berpengalaman.
+              Join thousands of participants to develop your professional skills with experienced mentors.
             </p>
           </div>
         </div>

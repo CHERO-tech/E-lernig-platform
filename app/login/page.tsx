@@ -66,9 +66,9 @@ export default function LoginPage() {
             </svg>
           </div>
 
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Mulai Belajar</h3>
+          <h3 className="text-lg font-bold text-gray-800 mb-2">Start Learning</h3>
           <p className="text-gray-600 text-xs leading-relaxed">
-            Raih kesempatan untuk mengembangkan diri dan mengejar impian karir Anda
+            Seize the opportunity to develop yourself and pursue your career dreams
           </p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Login</h1>
-          <p className="text-gray-600 text-sm mb-8">Silahkan input username dan password untuk login</p>
+          <p className="text-gray-600 text-sm mb-8">Enter your email and password to login</p>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email */}
@@ -93,14 +93,14 @@ export default function LoginPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="imamalik@gmail.com"
+                placeholder="you@example.com"
                 className="w-full px-3 py-2 border border-green-500 rounded text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm"
               />
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Kata Sandi</label>
+              <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Password</label>
               <input
                 type="password"
                 name="password"
@@ -115,10 +115,10 @@ export default function LoginPage() {
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center cursor-pointer">
                 <input type="checkbox" className="w-4 h-4 border-gray-300 rounded cursor-pointer" />
-                <span className="ml-2 text-gray-700">Ingat saya</span>
+                <span className="ml-2 text-gray-700">Remember me</span>
               </label>
               <Link href="/forgot-password" className="text-green-600 hover:text-green-700 font-medium">
-                Lupa Kata Sandi?
+                Forgot password?
               </Link>
             </div>
 
@@ -139,15 +139,15 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full py-2.5 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded transition-colors disabled:opacity-50 text-sm mt-6"
             >
-              {loading ? "Loading..." : "Login"}
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
           {/* Register Link */}
           <div className="mt-6 text-center text-sm text-gray-600">
-            Belum punya akun?{" "}
+            Don't have an account?{" "}
             <Link href="/register" className="text-green-600 font-semibold hover:text-green-700">
-              Register disini
+              Register here
             </Link>
           </div>
         </motion.div>
@@ -190,7 +190,7 @@ export default function LoginPage() {
               </svg>
             </div>
             <p className="text-gray-600 text-xs leading-relaxed">
-              Platform pembelajaran digital untuk mengembangkan keterampilan profesional Anda.
+              Integrated digital learning platform to develop your professional skills.
             </p>
           </div>
         </div>

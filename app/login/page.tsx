@@ -154,44 +154,43 @@ export default function LoginPage() {
       </div>
 
       {/* Right Column - Illustration & Content */}
-      <div className="hidden lg:flex lg:w-1/4 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-8 relative overflow-hidden">
+      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-6 relative overflow-hidden">
         {/* Decorative Circles */}
-        <div className="absolute top-6 right-6 w-20 h-20 rounded-full bg-green-300 opacity-15"></div>
-        <div className="absolute bottom-12 left-2 w-32 h-32 rounded-full bg-orange-300 opacity-10"></div>
-        <div className="absolute top-1/3 right-8 w-16 h-16 rounded-full bg-pink-300 opacity-10"></div>
+        <div className="absolute top-8 right-8 w-24 h-24 rounded-full bg-green-300 opacity-20"></div>
+        <div className="absolute bottom-16 left-4 w-36 h-36 rounded-full bg-orange-300 opacity-12"></div>
+        <div className="absolute top-1/2 right-1/3 w-20 h-20 rounded-full bg-pink-300 opacity-15"></div>
 
         {/* Content */}
-        <div className="relative z-10 text-center max-w-xs">
+        <div className="relative z-10 text-center w-full">
           {/* Illustration */}
-          <div className="mb-6 h-40 flex items-center justify-center">
+          <div className="mb-8 h-48 flex items-center justify-center">
             <svg
               viewBox="0 0 320 280"
-              className="w-full max-w-sm drop-shadow-sm"
+              className="w-4/5 h-auto drop-shadow"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               {/* People and education theme */}
-              <rect x="60" y="90" width="200" height="140" rx="12" fill="#22c55e" opacity="0.15" />
-              <circle cx="110" cy="140" r="22" fill="#22c55e" opacity="0.8" />
-              <circle cx="220" cy="110" r="28" fill="#4ade80" opacity="0.7" />
-              <circle cx="160" cy="180" r="18" fill="#86efac" opacity="0.6" />
-              <rect x="85" y="200" width="150" height="35" rx="6" fill="#22c55e" opacity="0.2" />
-              <circle cx="75" cy="65" r="10" fill="#fb923c" opacity="0.7" />
-              <circle cx="260" cy="170" r="8" fill="#fb923c" opacity="0.6" />
-              <circle cx="90" cy="250" r="6" fill="#ec4899" opacity="0.5" />
+              <circle cx="160" cy="80" r="35" fill="#22c55e" opacity="0.7" />
+              <rect x="80" y="140" width="160" height="100" rx="10" fill="#4ade80" opacity="0.2" />
+              <circle cx="110" cy="160" r="20" fill="#22c55e" opacity="0.8" />
+              <circle cx="210" cy="150" r="24" fill="#52B788" opacity="0.7" />
+              <circle cx="160" cy="220" r="16" fill="#86efac" opacity="0.6" />
+              <circle cx="70" cy="60" r="10" fill="#fb923c" opacity="0.7" />
+              <circle cx="270" cy="240" r="8" fill="#ec4899" opacity="0.6" />
             </svg>
           </div>
 
           {/* eRKAM Branding */}
-          <div className="mb-4">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <span className="text-base font-bold text-gray-800">eRKAM</span>
-              <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+          <div className="px-2">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="text-lg font-bold text-gray-800">eRKAM</span>
+              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.5 1.5c0 1-1 2-2 2s-2-1-2-2 1-2 2-2 2 1 2 2z" />
               </svg>
             </div>
-            <p className="text-gray-600 text-xs leading-relaxed px-1">
-              Platform pembelajaran digital terpadu untuk mengembangkan keterampilan Anda.
+            <p className="text-gray-600 text-xs leading-relaxed">
+              Platform pembelajaran digital terpadu untuk mengembangkan keterampilan profesional Anda.
             </p>
           </div>
         </div>

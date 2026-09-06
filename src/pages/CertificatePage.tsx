@@ -4,6 +4,9 @@ export default function CertificatePage() {
   return (
     <div className="min-h-screen py-12 px-8" style={{ background: "#F5F7F5" }}>
       <div className="max-w-4xl mx-auto">
+        <Link to="/student" className="inline-block mb-6 text-sm font-medium" style={{ color: "#35C47A" }}>
+          ← Back to Dashboard
+        </Link>
         <div className="flex items-center justify-between mb-8">
           <div>
             <p className="font-mono text-xs mb-1" style={{ color: "#35C47A" }}>$ cat certificate.json</p>

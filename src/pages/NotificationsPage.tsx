@@ -44,7 +44,12 @@ export default function NotificationsPage() {
     <div className="min-h-screen" style={{ background: "#F5F7F5" }}>
       {/* Header */}
       <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
-        <div className="max-w-2xl mx-auto px-8 py-10">
+        <div className="max-w-2xl mx-auto px-8 py-3">
+          <Link to="/student" className="text-sm font-medium" style={{ color: "#35C47A" }}>
+            ← Back to Dashboard
+          </Link>
+        </div>
+        <div className="max-w-2xl mx-auto px-8 py-7">
           <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ notifications --list</p>
           <div className="flex items-center justify-between">
             <div>

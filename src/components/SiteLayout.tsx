@@ -12,6 +12,7 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
     { label: "Projects", href: "/projects" },
     { label: "Blog", href: "/blog" },
     { label: "Forum", href: "/forum" },
+    { label: "Leaderboard", href: "/leaderboard" },
     { label: "Help", href: "/help" },
   ];
 

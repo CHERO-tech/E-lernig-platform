@@ -53,7 +53,13 @@ export default function AssessmentPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8" style={{ background: "#F5F7F5" }}>
+      <div className="min-h-screen" style={{ background: "#F5F7F5" }}>
+        <div className="max-w-lg mx-auto px-8 py-4">
+          <Link to="/student" className="text-sm font-medium" style={{ color: "#35C47A" }}>
+            ← Back to Dashboard
+          </Link>
+        </div>
+        <div className="flex items-center justify-center p-8 min-h-[calc(100vh-100px)]">
         <div className="max-w-lg w-full">
           <div className="rounded-2xl overflow-hidden shadow-xl" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
             {/* Result header */}
@@ -133,6 +139,7 @@ export default function AssessmentPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
     );
   }
@@ -141,6 +148,11 @@ export default function AssessmentPage() {
     <div className="min-h-screen" style={{ background: "#F5F7F5" }}>
       {/* Top bar */}
       <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
+        <div className="max-w-2xl mx-auto px-8 py-3">
+          <Link to="/student" className="text-sm font-medium" style={{ color: "#35C47A" }}>
+            ← Back to Dashboard
+          </Link>
+        </div>
         <div className="max-w-3xl mx-auto px-8 py-4 flex items-center justify-between">
           <div>
             <p className="font-mono text-xs" style={{ color: "#35C47A" }}>$ assessment --web-development</p>

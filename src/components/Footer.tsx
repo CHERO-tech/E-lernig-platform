@@ -54,9 +54,19 @@ export default function Footer() {
             title: "Support",
             items: [
               { label: "Help Center", href: "/help" },
+              { label: "FAQ", href: "/faq" },
               { label: "Contact", href: "/contact" },
               { label: "Privacy", href: "/privacy" },
               { label: "Terms", href: "/terms" },
+            ],
+          },
+          {
+            title: "Community",
+            items: [
+              { label: "Leaderboard", href: "/leaderboard" },
+              { label: "Mentor Matching", href: "/mentor-matching" },
+              { label: "Search", href: "/search" },
+              { label: "Settings", href: "/settings" },
             ],
           },
         ].map((col) => (

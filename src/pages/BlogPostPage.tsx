@@ -77,17 +77,20 @@ export default function BlogPostPage() {
 
           <Card title="Related Articles" className="mt-12">
             <div className="space-y-3">
-              {["Building Scalable Web Apps", "React Best Practices", "Performance Optimization Guide"].map(
-                (article) => (
-                  <a
-                    key={article}
-                    href="#"
-                    className="block text-sm transition-colors hover:text-pg"
-                    style={{ color: "#35C47A" }}
-                  >
-                    → {article}
-                  </a>
-                )
+              {["building-scalable-web-apps", "react-best-practices", "performance-optimization"].map(
+                (slug, i) => {
+                  const titles = ["Building Scalable Web Apps", "React Best Practices", "Performance Optimization Guide"];
+                  return (
+                    <Link
+                      key={slug}
+                      to={`/blog/${slug}`}
+                      className="block text-sm transition-colors hover:text-pg"
+                      style={{ color: "#35C47A" }}
+                    >
+                      → {titles[i]}
+                    </Link>
+                  );
+                }
               )}
             </div>
           </Card>

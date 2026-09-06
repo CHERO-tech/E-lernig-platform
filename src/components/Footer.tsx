@@ -35,7 +35,7 @@ export default function Footer() {
           {
             title: "Platform",
             items: [
-              { label: "Learning Tracks", href: "/" },
+              { label: "Learning Paths", href: "/learning-paths" },
               { label: "Courses", href: "/courses" },
               { label: "Projects", href: "/projects" },
               { label: "Certificates", href: "/certificate" },

@@ -174,8 +174,13 @@ export default function LandingPage() {
           </div>
         </Link>
         <nav className="hidden md:flex items-center gap-8">
-          {["Tracks", "How it works", "Why Tvet", "For employers"].map((item) => (
-            <a key={item} href="#" className="text-sm transition-colors" style={{ color: "#718078" }}
+          {[
+            { label: "Tracks", href: "#tracks" },
+            { label: "How it works", href: "#how-it-works" },
+            { label: "Featured", href: "#featured" },
+            { label: "Contact", href: "/contact" },
+          ].map((item) => (
+            <a key={item.label} href={item.href} className="text-sm transition-colors" style={{ color: "#718078" }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
               onMouseLeave={(e) => (e.currentTarget.style.color = "#718078")}
             >{item}</a>
@@ -284,7 +289,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── LEARNING TRACKS ── */}
-      <section className="py-24 px-8" style={{ background: "#F5F7F5" }}>
+      <section id="tracks" className="py-24 px-8" style={{ background: "#F5F7F5" }}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14 max-w-xl">
             <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ ls ./tracks</p>
@@ -330,7 +335,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── FEATURED COURSES ── */}
-      <section className="py-24 px-8" style={{ background: "#071C12" }}>
+      <section id="featured" className="py-24 px-8" style={{ background: "#071C12" }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-14">
             <div>

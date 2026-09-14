@@ -60,6 +60,7 @@ export default function PlatformAdminDashboard() {
     if (key === "users") window.location.href = "/people?type=all&role=admin&userName=Platform+Admin&userInitials=PA";
     if (key === "courses") window.location.href = "/manage-courses?role=admin&userName=Platform+Admin&userInitials=PA";
     if (key === "reports") window.location.href = "/reports?role=admin&userName=Platform+Admin&userInitials=PA";
+    if (key === "institutions") window.location.href = "/institutions?userName=Platform+Admin&userInitials=PA";
   };
 
   return (

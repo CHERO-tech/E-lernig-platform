@@ -6,46 +6,56 @@ import { Card, Badge, Button } from "../components/ui";
 interface Plan {
   id: string;
   name: string;
-  price: number;
+  price: string;
+  period?: string;
   features: string[];
   popular?: boolean;
 }
 
+// Kept in sync with LandingPage's pricing section (the app's one other
+// pricing table) — this page used to have its own disconnected Starter/
+// Professional/Enterprise tiers in USD, while the landing page and every
+// admin page (Payments, Course Management) use Free/Professional/Career
+// in RWF. Reconciled onto the RWF structure rather than leaving two
+// prices for "the same" subscription.
 const plans: Plan[] = [
   {
     id: "basic",
-    name: "Starter",
-    price: 9,
+    name: "Basic",
+    price: "Free",
     features: [
-      "Access to 5 courses",
-      "Community forum access",
-      "Email support",
-      "Certificate of completion",
+      "Learning materials",
+      "Beginner courses",
+      "Community access",
+      "Basic assessments",
     ],
   },
   {
     id: "pro",
     name: "Professional",
-    price: 29,
+    price: "RWF 15,000",
+    period: "/month",
     features: [
-      "Unlimited course access",
-      "Mentor matching",
-      "Priority support",
-      "Advanced analytics",
-      "Networking events",
+      "All Basic features",
+      "Advanced courses",
+      "Practical projects",
+      "Verified certificates",
+      "Mentor feedback",
     ],
     popular: true,
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
-    price: 99,
+    id: "career",
+    name: "Career",
+    price: "RWF 25,000",
+    period: "/month",
     features: [
-      "Everything in Professional",
-      "Dedicated account manager",
-      "Custom learning paths",
-      "API access",
-      "Team management",
+      "All Professional features",
+      "1:1 Mentorship sessions",
+      "Career preparation",
+      "Portfolio review",
+      "Employer introductions",
+      "Priority support",
     ],
   },
 ];
@@ -113,7 +123,7 @@ export default function PaymentCheckoutPage() {
                   style={{ color: "#1F7A4B" }}
                   className="font-mono font-bold"
                 >
-                  ${plan?.price}/month
+                  {plan?.price}{plan?.period ?? ""}
                 </p>
               </div>
               <div className="flex items-center justify-between">
@@ -189,7 +199,7 @@ export default function PaymentCheckoutPage() {
 
           <div className="space-y-3">
             <Button variant="primary" fullWidth onClick={handlePay}>
-              Complete Payment - ${plan?.price}/month
+              Complete Payment - {plan?.price}{plan?.period ?? ""}
             </Button>
             <Button
               variant="outline"
@@ -255,9 +265,9 @@ export default function PaymentCheckoutPage() {
                     className="text-3xl font-bold font-mono"
                     style={{ color: "#1F7A4B" }}
                   >
-                    ${p.price}
+                    {p.price}
                   </span>
-                  <span style={{ color: "#606C66" }}>/month</span>
+                  {p.period && <span style={{ color: "#606C66" }}>{p.period}</span>}
                 </div>
               </div>
 

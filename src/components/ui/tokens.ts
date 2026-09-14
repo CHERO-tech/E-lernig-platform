@@ -17,4 +17,9 @@ export const colors = {
   err: "#D64545",
   warn2: "#915F27",
   err2: "#C92C2C",
+  // Categorical chart/identity palette — fixed order, see index.css comment.
+  chart1: "#1F7A4B",
+  chart2: "#BB811B",
+  chart3: "#1B7DA7",
+  chart4: "#6C38A8",
 } as const;

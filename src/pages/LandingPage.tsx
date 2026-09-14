@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import { colors } from "../components/ui/tokens";
 
 const termLines = [
   { text: "$ academy init", color: "#35C47A" },
@@ -33,7 +34,7 @@ const tracks = [
     desc: "Learn programming, web development, mobile development, databases, software testing, Git, and cloud technologies.",
     courses: ["Programming Fundamentals", "Web Development", "Mobile Development", "Database Systems", "Git & GitHub", "Cloud Computing"],
     cta: "Explore Software Dev",
-    accent: "#35C47A",
+    accent: colors.chart1,
   },
   {
     icon: (
@@ -53,7 +54,7 @@ const tracks = [
     desc: "Build practical networking and infrastructure skills for the modern connected world.",
     courses: ["Computer Networks", "IP Addressing", "Routing & Switching", "Network Security", "Server Administration", "Network Troubleshooting"],
     cta: "Explore Networking",
-    accent: "#35C47A",
+    accent: colors.chart2,
   },
   {
     icon: (
@@ -68,7 +69,7 @@ const tracks = [
     desc: "Develop creative and digital production skills across design, video, and animation.",
     courses: ["Graphic Design", "UI/UX Design", "Video Editing", "Animation", "Photography", "Digital Content Creation"],
     cta: "Explore Multimedia",
-    accent: "#35C47A",
+    accent: colors.chart3,
   },
 ];
 
@@ -305,10 +306,10 @@ export default function LandingPage() {
               >
                 <div className="p-6 pb-5" style={{ background: "#0B291A" }}>
                   <div className="flex items-start justify-between mb-4">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "rgba(53,196,122,0.15)", color: "#35C47A" }}>
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: `color-mix(in srgb, ${track.accent} 15%, transparent)`, color: track.accent }}>
                       {track.icon}
                     </div>
-                    <span className="font-mono text-xs" style={{ color: "rgba(53,196,122,0.4)" }}>{track.tag}</span>
+                    <span className="font-mono text-xs" style={{ color: `color-mix(in srgb, ${track.accent} 40%, transparent)` }}>{track.tag}</span>
                   </div>
                   <h3 className="text-card-title mb-2" style={{ color: "#FFFFFF" }}>{track.label}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>{track.desc}</p>

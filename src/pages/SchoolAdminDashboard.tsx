@@ -2,8 +2,9 @@ import { useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  BarChart, Bar,
+  BarChart, Bar, Cell,
 } from "recharts";
+import { colors } from "../components/ui/tokens";
 
 const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg> },
@@ -25,9 +26,9 @@ const progressData = [
 ];
 
 const skillDist = [
-  { name: "Software Dev", students: 58 },
-  { name: "Networking", students: 41 },
-  { name: "Multimedia", students: 27 },
+  { name: "Software Dev", students: 58, color: colors.chart1 },
+  { name: "Networking", students: 41, color: colors.chart2 },
+  { name: "Multimedia", students: 27, color: colors.chart3 },
 ];
 
 const topStudents = [
@@ -91,16 +92,16 @@ export default function SchoolAdminDashboard() {
                     <stop offset="95%" stopColor="#35C47A" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="completed" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0B291A" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#0B291A" stopOpacity={0} />
+                    <stop offset="5%" stopColor={colors.chart2} stopOpacity={0.2} />
+                    <stop offset="95%" stopColor={colors.chart2} stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
                 <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
-                <Area type="monotone" dataKey="enrolled" stroke="#35C47A" fill="url(#enrolled)" strokeWidth={2} name="Enrolled" />
-                <Area type="monotone" dataKey="completed" stroke="#0B291A" fill="url(#completed)" strokeWidth={2} name="Completed" />
+                <Area type="monotone" dataKey="enrolled" stroke={colors.chart1} fill="url(#enrolled)" strokeWidth={2} name="Enrolled" />
+                <Area type="monotone" dataKey="completed" stroke={colors.chart2} fill="url(#completed)" strokeWidth={2} name="Completed" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -113,7 +114,11 @@ export default function SchoolAdminDashboard() {
                 <XAxis type="number" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                 <YAxis dataKey="name" type="category" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} width={80} />
                 <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
-                <Bar dataKey="students" fill="#35C47A" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="students" radius={[0, 4, 4, 0]}>
+                  {skillDist.map((entry) => (
+                    <Cell key={entry.name} fill={entry.color} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>

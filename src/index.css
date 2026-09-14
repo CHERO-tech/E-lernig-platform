@@ -39,6 +39,19 @@
   --color-warn2: #915F27;
   --color-err2: #C92C2C;
 
+  /* Categorical chart/identity palette — for genuine multi-series charts and
+     recurring named entities (the 3 learning tracks), never for decorative
+     "more colors" on a single-metric chart (that stays one color; the x-axis
+     labels already carry the identity). Fixed order, never cycled or
+     reordered — validated as a set via the dataviz skill's
+     scripts/validate_palette.js (adjacent-pair CVD + normal-vision + contrast,
+     light mode, #FFFFFF card surface). chart1 reuses pg2 so the brand color
+     stays slot one. */
+  --color-chart1: #1F7A4B;
+  --color-chart2: #BB811B;
+  --color-chart3: #1B7DA7;
+  --color-chart4: #6C38A8;
+
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 

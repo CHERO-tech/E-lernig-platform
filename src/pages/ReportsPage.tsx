@@ -10,6 +10,7 @@ import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
 import { growthData, certData } from "./PlatformAdminDashboard";
 import { completionData } from "./TrainerDashboard";
+import { identityForRole } from "../lib/roleIdentity";
 
 const roleConfig: Record<
   string,
@@ -44,8 +45,9 @@ const tooltipStyle = { background: "#FFFFFF", border: "1px solid #E2E8E4", borde
 export default function ReportsPage() {
   const [params] = useSearchParams();
   const role = params.get("role") ?? "admin";
-  const userName = params.get("userName") ?? "Platform Admin";
-  const userInitials = params.get("userInitials") ?? "PA";
+  const identity = identityForRole(role);
+  const userName = params.get("userName") ?? identity.userName;
+  const userInitials = params.get("userInitials") ?? identity.userInitials;
   const config = roleConfig[role] ?? roleConfig.admin;
 
   const [activeKey, setActiveKey] = useState(config.activeKey);

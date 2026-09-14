@@ -2,15 +2,17 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 import { Card, Button, Input, Select } from "../components/ui";
+import { identityForRole } from "../lib/roleIdentity";
 
 export default function SettingsPage() {
   const [activeKey, setActiveKey] = useState("account");
   const [saved, setSaved] = useState(false);
   const [params] = useSearchParams();
   const role = params.get("role") ?? "student";
-  const roleLabel = params.get("roleLabel") ?? "Student";
-  const userName = params.get("userName") ?? "Amahoro Jean";
-  const userInitials = params.get("userInitials") ?? "AJ";
+  const identity = identityForRole(role);
+  const roleLabel = params.get("roleLabel") ?? identity.roleLabel;
+  const userName = params.get("userName") ?? identity.userName;
+  const userInitials = params.get("userInitials") ?? identity.userInitials;
 
   const handleSave = () => {
     setSaved(true);

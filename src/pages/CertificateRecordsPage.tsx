@@ -6,6 +6,7 @@ import { navItems as trainerNavItems } from "./TrainerDashboard";
 import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
 import { navItems as guardianNavItems } from "./GuardianDashboard";
+import { identityForRole } from "../lib/roleIdentity";
 
 interface CertRecord {
   student: string;
@@ -103,8 +104,9 @@ const roleConfig: Record<
 export default function CertificateRecordsPage() {
   const [params] = useSearchParams();
   const role = params.get("role") ?? "admin";
-  const userName = params.get("userName") ?? "Platform Admin";
-  const userInitials = params.get("userInitials") ?? "PA";
+  const identity = identityForRole(role);
+  const userName = params.get("userName") ?? identity.userName;
+  const userInitials = params.get("userInitials") ?? identity.userInitials;
   const config = roleConfig[role] ?? roleConfig.admin;
 
   const [activeKey, setActiveKey] = useState("certificates");

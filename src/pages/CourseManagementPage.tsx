@@ -5,6 +5,7 @@ import { Card, Badge, Button, StatCard, Input, Select, EmptyState } from "../com
 import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
 import { allCourses, type Course } from "./CoursesPage";
+import { identityForRole } from "../lib/roleIdentity";
 
 const trackOptions = ["Software Dev", "Networking", "Multimedia"];
 const levelOptions = ["Beginner", "Intermediate", "Advanced"];
@@ -61,8 +62,9 @@ const roleConfig: Record<
 export default function CourseManagementPage() {
   const [params] = useSearchParams();
   const role = params.get("role") ?? "admin";
-  const userName = params.get("userName") ?? "Platform Admin";
-  const userInitials = params.get("userInitials") ?? "PA";
+  const identity = identityForRole(role);
+  const userName = params.get("userName") ?? identity.userName;
+  const userInitials = params.get("userInitials") ?? identity.userInitials;
   const config = roleConfig[role] ?? roleConfig.admin;
 
   const [activeKey, setActiveKey] = useState("courses");

@@ -5,6 +5,7 @@ import { Card, Badge, Button, StatCard, Input, Select, EmptyState } from "../com
 import { navItems as trainerNavItems } from "./TrainerDashboard";
 import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
+import { identityForRole } from "../lib/roleIdentity";
 
 type PersonRole = "student" | "trainer";
 
@@ -113,8 +114,9 @@ const roleConfig: Record<
 export default function PeopleDirectoryPage() {
   const [params] = useSearchParams();
   const role = params.get("role") ?? "admin";
-  const userName = params.get("userName") ?? "Platform Admin";
-  const userInitials = params.get("userInitials") ?? "PA";
+  const identity = identityForRole(role);
+  const userName = params.get("userName") ?? identity.userName;
+  const userInitials = params.get("userInitials") ?? identity.userInitials;
   const type = (params.get("type") ?? "all") as PersonRole | "all";
   const institution = params.get("institution");
   const config = roleConfig[role] ?? roleConfig.admin;

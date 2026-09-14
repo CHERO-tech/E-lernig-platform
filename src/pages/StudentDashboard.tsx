@@ -7,7 +7,7 @@ import {
 } from "recharts";
 import { Card, Badge, StatCard } from "../components/ui";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
   { key: "current-course", label: "Current Course", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg> },
   { key: "courses", label: "My Courses", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
@@ -61,8 +61,8 @@ export default function StudentDashboard() {
         setActiveKey(k);
         if (k === "notifications") window.location.href = "/notifications";
         if (k === "current-course") window.location.href = "/current-course";
-        if (k === "courses") window.location.href = "/courses";
-        if (k === "paths") window.location.href = "/learning-paths";
+        if (k === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+        if (k === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
         if (k === "certificates") window.location.href = "/certificate";
         if (k === "projects") window.location.href = "/projects";
         if (k === "portfolio") window.location.href = "/portfolio/1";
@@ -98,7 +98,7 @@ export default function StudentDashboard() {
             <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
               <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #E2E8E4" }}>
                 <h2 className="font-semibold" style={{ color: "#102019" }}>Continue Learning</h2>
-                <Link to="/courses" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>View all →</Link>
+                <Link to="/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>View all →</Link>
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {enrolledCourses.map((course) => (

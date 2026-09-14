@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import SiteLayout from "../components/SiteLayout";
+import DashboardLayout from "../components/DashboardLayout";
 import { Badge, Button } from "../components/ui";
+import { navItems as studentNavItems } from "./StudentDashboard";
 import webDevImg from "../images.jpeg";
 import progFundImg from "../images3.jpeg";
 import networkImg from "../computer_network.webp";
@@ -182,80 +184,47 @@ const priceColor = (price: string) => {
   return "#D64545";
 };
 
-export default function CoursesPage() {
-  const [activeTab, setActiveTab] = useState<"all" | "active" | "complete" | "favourite">("all");
-
-  const getCoursesByTab = () => {
-    const active = allCourses.filter((c) => c.status === "active");
-    const complete = allCourses.filter((c) => c.status === "complete");
-    const favourite = allCourses.filter((c) => c.status === "favourite");
-    const recommended = allCourses.filter((c) => c.status === "recommended");
-
-    if (activeTab === "active") return active;
-    if (activeTab === "complete") return complete;
-    if (activeTab === "favourite") return favourite;
-    return [...active, ...recommended];
-  };
-
-  const filtered = getCoursesByTab();
-  const active = allCourses.filter((c) => c.status === "active");
-  const complete = allCourses.filter((c) => c.status === "complete");
-  const favourite = allCourses.filter((c) => c.status === "favourite");
-
+function CourseTabs({
+  activeTab,
+  setActiveTab,
+  active,
+  complete,
+  favourite,
+}: {
+  activeTab: "all" | "active" | "complete" | "favourite";
+  setActiveTab: (tab: "all" | "active" | "complete" | "favourite") => void;
+  active: Course[];
+  complete: Course[];
+  favourite: Course[];
+}) {
   return (
-    <SiteLayout>
-      {/* Header */}
-      <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>
-                $ ls ./courses --all
-              </p>
-              <h1
-                className="text-4xl font-bold tracking-tight"
-                style={{ color: "#FFFFFF" }}
-              >
-                Our Courses
-              </h1>
-            </div>
-            <Link to="/assessment-placement">
-              <Button variant="outline">Take Placement Exam</Button>
-            </Link>
-          </div>
-          <p style={{ color: "#606C66" }}>
-            Explore {allCourses.length} courses across 3 learning tracks
-          </p>
-        </div>
-      </div>
+    <div className="flex gap-2 border-b" style={{ borderColor: "#E2E8E4" }}>
+      {[
+        { key: "all" as const, label: "All Courses", count: allCourses.length },
+        { key: "active" as const, label: "Active", count: active.length },
+        { key: "complete" as const, label: "Complete", count: complete.length },
+        { key: "favourite" as const, label: "Favourite", count: favourite.length },
+      ].map((tab) => (
+        <button
+          key={tab.key}
+          onClick={() => setActiveTab(tab.key)}
+          className="px-4 py-3 font-medium text-sm transition-colors"
+          style={{
+            color: activeTab === tab.key ? "#1F7A4B" : "#606C66",
+            borderBottom: activeTab === tab.key ? "2px solid #35C47A" : "none",
+          }}
+        >
+          {tab.label} ({tab.count})
+        </button>
+      ))}
+    </div>
+  );
+}
 
-      {/* Tabs */}
-      <div className="max-w-7xl mx-auto px-8 py-6">
-        <div className="flex gap-2 border-b" style={{ borderColor: "#E2E8E4" }}>
-          {[
-            { key: "all" as const, label: "All Courses", count: allCourses.length },
-            { key: "active" as const, label: "Active", count: active.length },
-            { key: "complete" as const, label: "Complete", count: complete.length },
-            { key: "favourite" as const, label: "Favourite", count: favourite.length },
-          ].map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className="px-4 py-3 font-medium text-sm transition-colors"
-              style={{
-                color: activeTab === tab.key ? "#1F7A4B" : "#606C66",
-                borderBottom: activeTab === tab.key ? "2px solid #35C47A" : "none",
-              }}
-            >
-              {tab.label} ({tab.count})
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Course Grid */}
-      <div className="max-w-7xl mx-auto px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+function CourseGrid({ filtered }: { filtered: Course[] }) {
+  return (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((course) => (
             <Link key={course.id} to={`/courses/${course.id}`}>
               <div
@@ -347,11 +316,116 @@ export default function CoursesPage() {
           ))}
         </div>
 
-        {filtered.length === 0 && (
-          <div className="text-center py-12">
-            <p style={{ color: "#606C66" }}>No courses found in this category.</p>
+      {filtered.length === 0 && (
+        <div className="text-center py-12">
+          <p style={{ color: "#606C66" }}>No courses found in this category.</p>
+        </div>
+      )}
+    </>
+  );
+}
+
+export default function CoursesPage() {
+  const [params] = useSearchParams();
+  const role = params.get("role");
+  const userName = params.get("userName") ?? "Amahoro Jean de Dieu";
+  const userInitials = params.get("userInitials") ?? "AJ";
+
+  const [activeTab, setActiveTab] = useState<"all" | "active" | "complete" | "favourite">("all");
+
+  const getCoursesByTab = () => {
+    const active = allCourses.filter((c) => c.status === "active");
+    const complete = allCourses.filter((c) => c.status === "complete");
+    const favourite = allCourses.filter((c) => c.status === "favourite");
+    const recommended = allCourses.filter((c) => c.status === "recommended");
+
+    if (activeTab === "active") return active;
+    if (activeTab === "complete") return complete;
+    if (activeTab === "favourite") return favourite;
+    return [...active, ...recommended];
+  };
+
+  const filtered = getCoursesByTab();
+  const active = allCourses.filter((c) => c.status === "active");
+  const complete = allCourses.filter((c) => c.status === "complete");
+  const favourite = allCourses.filter((c) => c.status === "favourite");
+
+  if (role === "student") {
+    return (
+      <DashboardLayout
+        role="student"
+        roleLabel="Student"
+        navItems={studentNavItems}
+        activeKey="courses"
+        onNav={(key) => {
+          if (key === "dashboard") window.location.href = "/student";
+          if (key === "current-course") window.location.href = "/current-course";
+          if (key === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+          if (key === "projects") window.location.href = "/projects";
+          if (key === "certificates") window.location.href = "/certificate";
+          if (key === "portfolio") window.location.href = "/portfolio/1";
+          if (key === "notifications") window.location.href = "/notifications";
+        }}
+        userName={userName}
+        userInitials={userInitials}
+      >
+        <div className="p-8">
+          <div className="flex items-start justify-between mb-8">
+            <div>
+              <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ ls ./courses --all</p>
+              <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>My Courses</h1>
+              <p style={{ color: "#606C66" }}>Explore {allCourses.length} courses across 3 learning tracks</p>
+            </div>
+            <Link to="/assessment-placement">
+              <Button variant="outline">Take Placement Exam</Button>
+            </Link>
           </div>
-        )}
+
+          <div className="mb-6">
+            <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} active={active} complete={complete} favourite={favourite} />
+          </div>
+
+          <CourseGrid filtered={filtered} />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  return (
+    <SiteLayout>
+      {/* Header */}
+      <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>
+                $ ls ./courses --all
+              </p>
+              <h1
+                className="text-4xl font-bold tracking-tight"
+                style={{ color: "#FFFFFF" }}
+              >
+                Our Courses
+              </h1>
+            </div>
+            <Link to="/assessment-placement">
+              <Button variant="outline">Take Placement Exam</Button>
+            </Link>
+          </div>
+          <p style={{ color: "#606C66" }}>
+            Explore {allCourses.length} courses across 3 learning tracks
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="max-w-7xl mx-auto px-8 py-6">
+        <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} active={active} complete={complete} favourite={favourite} />
+      </div>
+
+      {/* Course Grid */}
+      <div className="max-w-7xl mx-auto px-8 py-8">
+        <CourseGrid filtered={filtered} />
       </div>
     </SiteLayout>
   );

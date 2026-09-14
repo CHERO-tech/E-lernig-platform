@@ -1,7 +1,9 @@
 import type { ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import SiteLayout from "../components/SiteLayout";
+import DashboardLayout from "../components/DashboardLayout";
 import { Card, Button, Badge } from "../components/ui";
+import { navItems as studentNavItems } from "./StudentDashboard";
 
 interface LearningPath {
   id: string;
@@ -73,32 +75,10 @@ const learningPaths: LearningPath[] = [
   },
 ];
 
-export default function LearningPathsPage() {
+function LearningPathsGrid() {
   return (
-    <SiteLayout>
-      {/* Header */}
-      <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <div>
-            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>
-              $ ls ./paths --all
-            </p>
-            <h1
-              className="text-4xl font-bold mb-3 tracking-tight"
-              style={{ color: "#FFFFFF" }}
-            >
-              Learning Paths
-            </h1>
-            <p style={{ color: "#606C66" }}>
-              Choose a structured learning path and master a complete skillset
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Paths Grid */}
-      <div className="max-w-7xl mx-auto px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {learningPaths.map((path) => (
             <Card
               key={path.id}
@@ -253,6 +233,72 @@ export default function LearningPathsPage() {
             </div>
           </div>
         </Card>
+    </>
+  );
+}
+
+export default function LearningPathsPage() {
+  const [params] = useSearchParams();
+  const role = params.get("role");
+  const userName = params.get("userName") ?? "Amahoro Jean de Dieu";
+  const userInitials = params.get("userInitials") ?? "AJ";
+
+  if (role === "student") {
+    return (
+      <DashboardLayout
+        role="student"
+        roleLabel="Student"
+        navItems={studentNavItems}
+        activeKey="paths"
+        onNav={(key) => {
+          if (key === "dashboard") window.location.href = "/student";
+          if (key === "current-course") window.location.href = "/current-course";
+          if (key === "courses") window.location.href = "/courses";
+          if (key === "projects") window.location.href = "/projects";
+          if (key === "certificates") window.location.href = "/certificate";
+          if (key === "portfolio") window.location.href = "/portfolio/1";
+          if (key === "notifications") window.location.href = "/notifications";
+        }}
+        userName={userName}
+        userInitials={userInitials}
+      >
+        <div className="p-8">
+          <div className="mb-8">
+            <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ ls ./paths --all</p>
+            <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Learning Paths</h1>
+            <p style={{ color: "#606C66" }}>Choose a structured learning path and master a complete skillset</p>
+          </div>
+          <LearningPathsGrid />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  return (
+    <SiteLayout>
+      {/* Header */}
+      <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <div>
+            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>
+              $ ls ./paths --all
+            </p>
+            <h1
+              className="text-4xl font-bold mb-3 tracking-tight"
+              style={{ color: "#FFFFFF" }}
+            >
+              Learning Paths
+            </h1>
+            <p style={{ color: "#606C66" }}>
+              Choose a structured learning path and master a complete skillset
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Paths Grid */}
+      <div className="max-w-7xl mx-auto px-8 py-12">
+        <LearningPathsGrid />
       </div>
     </SiteLayout>
   );

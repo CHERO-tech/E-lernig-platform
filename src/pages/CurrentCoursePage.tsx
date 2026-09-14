@@ -35,7 +35,9 @@ export default function CurrentCoursePage() {
         activeKey="current-course"
         onNav={(key) => {
           if (key === "dashboard") window.location.href = "/student";
-          if (key === "courses") window.location.href = "/courses";
+          if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+          if (key === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+          if (key === "projects") window.location.href = "/projects";
         }}
         userName="Amahoro Jean de Dieu"
         userInitials="AJ"
@@ -59,7 +61,7 @@ export default function CurrentCoursePage() {
               title="No Active Course"
               description="You're not currently enrolled in any course. Browse available courses and start learning today!"
               action={
-                <Link to="/courses">
+                <Link to="/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ">
                   <Button variant="primary">Browse Courses</Button>
                 </Link>
               }
@@ -78,7 +80,9 @@ export default function CurrentCoursePage() {
       activeKey="current-course"
       onNav={(key) => {
         if (key === "dashboard") window.location.href = "/student";
-        if (key === "courses") window.location.href = "/courses";
+        if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+        if (key === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
+        if (key === "projects") window.location.href = "/projects";
       }}
       userName="Amahoro Jean de Dieu"
       userInitials="AJ"
@@ -190,7 +194,9 @@ export default function CurrentCoursePage() {
                 <Button variant="outline" fullWidth>View Course Details</Button>
               </Link>
               <Button variant="ghost" fullWidth>Download Resources</Button>
-              <Button variant="ghost" fullWidth>Get Help</Button>
+              <Link to="/help" className="block">
+                <Button variant="ghost" fullWidth>Get Help</Button>
+              </Link>
             </div>
           </div>
         </div>

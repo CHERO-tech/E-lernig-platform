@@ -4,10 +4,11 @@ type PaddingSize = "none" | "sm" | "md" | "lg";
 type HeaderTone = "light" | "dark";
 type CardVariant = "default" | "terminal";
 
-interface CardProps {
+interface CardProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title" | "className"> {
   children: React.ReactNode;
   padding?: PaddingSize;
-  title?: string;
+  title?: React.ReactNode;
   action?: React.ReactNode;
   headerTone?: HeaderTone;
   variant?: CardVariant;
@@ -29,6 +30,7 @@ export default function Card({
   headerTone = "light",
   variant = "default",
   className = "",
+  ...rest
 }: CardProps) {
   const headerBg = headerTone === "dark" ? "bg-dg2" : "bg-white";
   const isTerminal = variant === "terminal";
@@ -37,6 +39,7 @@ export default function Card({
   return (
     <div
       className={`relative rounded-xl overflow-hidden bg-white border border-border shadow-sm hover:shadow-md transition-shadow ${isTerminal ? "border-l-4 border-l-pg" : ""} ${className}`}
+      {...rest}
     >
       {isTerminal && (
         <span className="absolute top-3 right-3 w-2.5 h-2.5 border-t-2 border-r-2 border-pg/30 pointer-events-none" />
@@ -45,7 +48,7 @@ export default function Card({
         <div
           className={`${headerBg} px-6 py-4 border-b border-border flex items-center justify-between`}
         >
-          <p
+          <div
             className={
               isTerminal
                 ? "font-mono text-xs tracking-wide uppercase flex items-center gap-1.5"
@@ -55,7 +58,7 @@ export default function Card({
           >
             {isTerminal && <span className="opacity-60">▸</span>}
             {title}
-          </p>
+          </div>
           {action && <div>{action}</div>}
         </div>
       )}

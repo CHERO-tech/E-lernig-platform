@@ -2,7 +2,8 @@ import React from "react";
 
 type BadgeTone = "brand" | "neutral" | "success" | "warning" | "info" | "danger";
 
-interface BadgeProps {
+interface BadgeProps
+  extends Omit<React.HTMLAttributes<HTMLSpanElement>, "className"> {
   children: React.ReactNode;
   tone?: BadgeTone;
   pill?: boolean;
@@ -27,13 +28,14 @@ export default function Badge({
   dot = false,
   mono = false,
   className = "",
+  ...rest
 }: BadgeProps) {
   const roundedClass = pill ? "rounded-full" : "rounded";
   const fontClass = mono ? "font-mono" : "";
   const baseClasses = `inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium ${roundedClass} ${fontClass} transition-colors ${toneClasses[tone]} ${className}`;
 
   return (
-    <span className={baseClasses}>
+    <span className={baseClasses} {...rest}>
       {dot && (
         <span
           className="w-1.5 h-1.5 rounded-full"

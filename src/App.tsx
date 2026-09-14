@@ -46,6 +46,7 @@ import FeedbackPage from "./pages/FeedbackPage";
 import LessonsPage from "./pages/LessonsPage";
 import AssignmentsPage from "./pages/AssignmentsPage";
 import AssessmentsPage from "./pages/AssessmentsPage";
+import AnnouncementsPage from "./pages/AnnouncementsPage";
 
 export default function App() {
   return (
@@ -108,6 +109,7 @@ export default function App() {
         <Route path="/lessons" element={<LessonsPage />} />
         <Route path="/assignments" element={<AssignmentsPage />} />
         <Route path="/assessments" element={<AssessmentsPage />} />
+        <Route path="/announcements" element={<AnnouncementsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

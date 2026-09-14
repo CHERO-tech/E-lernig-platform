@@ -79,7 +79,7 @@ export default function StudentPortfolioPage() {
 
         {/* Skills */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: "#102019" }}>
+          <h2 className="text-subsection-title mb-6" style={{ color: "#102019" }}>
             Skills & Expertise
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -106,7 +106,7 @@ export default function StudentPortfolioPage() {
 
         {/* Projects */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6" style={{ color: "#102019" }}>
+          <h2 className="text-subsection-title mb-6" style={{ color: "#102019" }}>
             Featured Projects
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -135,7 +135,7 @@ export default function StudentPortfolioPage() {
 
         {/* Certificates */}
         <div>
-          <h2 className="text-2xl font-bold mb-6" style={{ color: "#102019" }}>
+          <h2 className="text-subsection-title mb-6" style={{ color: "#102019" }}>
             Certificates & Achievements
           </h2>
           <div className="space-y-3">

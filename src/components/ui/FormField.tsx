@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -27,17 +27,21 @@ export function Input({
   error,
   icon,
   className = "",
+  id,
   ...props
 }: InputProps) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
+        <label htmlFor={inputId} className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
           {label}
         </label>
       )}
       <div className="relative">
         <input
+          id={inputId}
           className={`w-full px-4 py-3 rounded-lg text-sm outline-none transition-all focus:border-pg focus-visible:ring-2 focus-visible:ring-pg/40 ${className}`}
           style={{
             background: "#F5F7F5",
@@ -67,16 +71,20 @@ export function Textarea({
   hint,
   error,
   className = "",
+  id,
   ...props
 }: TextareaProps) {
+  const generatedId = useId();
+  const textareaId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
+        <label htmlFor={textareaId} className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
           {label}
         </label>
       )}
       <textarea
+        id={textareaId}
         className={`w-full px-4 py-3 rounded-lg text-sm outline-none transition-all focus:border-pg focus-visible:ring-2 focus-visible:ring-pg/40 resize-none ${className}`}
         style={{
           background: "#F5F7F5",
@@ -103,16 +111,20 @@ export function Select({
   hint,
   error,
   className = "",
+  id,
   ...props
 }: SelectProps) {
+  const generatedId = useId();
+  const selectId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
+        <label htmlFor={selectId} className="block text-xs font-semibold mb-1.5" style={{ color: "#102019" }}>
           {label}
         </label>
       )}
       <select
+        id={selectId}
         className={`w-full px-4 py-3 rounded-lg text-sm outline-none transition-all focus:border-pg focus-visible:ring-2 focus-visible:ring-pg/40 appearance-none ${className}`}
         style={{
           background: "#F5F7F5",

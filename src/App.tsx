@@ -33,6 +33,7 @@ import PlacementExamPage from "./pages/PlacementExamPage";
 import CurrentCoursePage from "./pages/CurrentCoursePage";
 import FeaturedCoursesPage from "./pages/FeaturedCoursesPage";
 import LearningPathsPage from "./pages/LearningPathsPage";
+import CertificateRecordsPage from "./pages/CertificateRecordsPage";
 
 export default function App() {
   return (
@@ -82,6 +83,7 @@ export default function App() {
         <Route path="/admin" element={<PlatformAdminDashboard />} />
         <Route path="/guardian" element={<GuardianDashboard />} />
         <Route path="/company" element={<CompanyPortal />} />
+        <Route path="/certificates" element={<CertificateRecordsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

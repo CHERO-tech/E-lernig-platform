@@ -6,7 +6,7 @@ import {
 } from "recharts";
 import { colors } from "../components/ui/tokens";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg> },
   { key: "students", label: "Students", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="9" cy="8" r="4" /><path d="M1 20c0-4 4-6 8-6s8 2 8 6" /><circle cx="17" cy="8" r="4" /><path d="M13 20c1-2 2-3 4-3" /></svg> },
   { key: "trainers", label: "Trainers", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="8" r="4" /><path d="M2 20c0-4 5-7 10-7s10 3 10 7" /><path d="M14 14c0-2 1-3 2-3s2 1 2 3" /></svg> },
@@ -51,6 +51,7 @@ export default function SchoolAdminDashboard() {
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "settings") window.location.href = "/settings?role=school-admin&roleLabel=School+Admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
+    if (key === "certificates") window.location.href = "/certificates?role=school-admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
   };
 
   return (

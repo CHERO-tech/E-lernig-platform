@@ -6,7 +6,7 @@ import {
   BarChart, Bar,
 } from "recharts";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
   { key: "courses", label: "My Courses", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg> },
   { key: "lessons", label: "Lessons", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="5 3 19 12 5 21 5 3" /></svg> },
@@ -60,6 +60,7 @@ export default function TrainerDashboard() {
     if (key === "courses") window.location.href = "/courses";
     if (key === "projects") window.location.href = "/projects";
     if (key === "profile") window.location.href = "/settings?role=trainer&roleLabel=Trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
+    if (key === "certificates") window.location.href = "/certificates?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
   };
 
   return (

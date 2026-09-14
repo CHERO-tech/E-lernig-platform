@@ -5,7 +5,7 @@ import {
   AreaChart, Area, BarChart, Bar,
 } from "recharts";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg> },
   { key: "users", label: "Manage Users", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="9" cy="8" r="4" /><path d="M1 20c0-4 4-6 8-6s8 2 8 6" /><circle cx="17" cy="8" r="4" /><path d="M13 20c1-2 2-3 4-3" /></svg> },
   { key: "courses", label: "Manage Courses", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v10H6.5A2.5 2.5 0 0 1 4 9.5v-5A2.5 2.5 0 0 1 6.5 2z" /></svg> },
@@ -56,6 +56,7 @@ export default function PlatformAdminDashboard() {
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "settings") window.location.href = "/settings?role=admin&roleLabel=Platform+Admin&userName=Platform+Admin&userInitials=PA";
+    if (key === "certificates") window.location.href = "/certificates?role=admin&userName=Platform+Admin&userInitials=PA";
   };
 
   return (

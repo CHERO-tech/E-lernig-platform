@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "../components/DashboardLayout";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
   { key: "progress", label: "Progress", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg> },
   { key: "certificates", label: "Certificates", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="6" /><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" /></svg> },
@@ -28,6 +28,7 @@ export default function GuardianDashboard() {
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "profile") window.location.href = "/settings?role=guardian&roleLabel=Guardian&userName=Jean+de+Dieu+Senior&userInitials=JS";
+    if (key === "certificates") window.location.href = "/certificates?role=guardian&userName=Jean+de+Dieu+Senior&userInitials=JS";
   };
 
   return (

@@ -57,6 +57,22 @@
   --text-label--line-height: 1rem;
   --text-label--letter-spacing: 0.05em;
   --text-label--font-weight: 600;
+
+  /* Marketing/section heading (LandingPage's "Choose Your Track" etc., plus
+     BlogPostPage's headline — same visual role, text-4xl font-bold
+     tracking-tight, wherever it recurred). No baked line-height: some
+     instances wrap and need `leading-tight` added alongside, others don't
+     need any override — leaving line-height alone lets both keep working. */
+  --text-section-title: 2.25rem;
+  --text-section-title--letter-spacing: -0.02em;
+  --text-section-title--font-weight: 700;
+
+  /* Card/panel subsection heading (text-lg, bold-leaning — 6 of the 8 real
+     occurrences were already font-bold, so that's what this locks in; the
+     other 2 were font-semibold, a likely-unintentional drift now resolved
+     to match the majority). No baked line-height, same reasoning as above. */
+  --text-card-title: 1.125rem;
+  --text-card-title--font-weight: 700;
 }
 
 html, body, #root {

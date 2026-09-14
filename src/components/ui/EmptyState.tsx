@@ -31,7 +31,7 @@ export default function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
       <div className="mb-4">{icon || defaultIcon}</div>
-      <h3 className="text-lg font-semibold mb-2" style={{ color: "#102019" }}>
+      <h3 className="text-card-title mb-2" style={{ color: "#102019" }}>
         {title}
       </h3>
       {description && (

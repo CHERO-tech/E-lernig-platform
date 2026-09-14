@@ -118,7 +118,7 @@ export default function CourseDetailPage() {
 
             {/* Key Concepts */}
             <div style={{ background: "#FFFFFF", borderRadius: "12px", padding: "20px", border: "1px solid #E2E8E4" }}>
-              <h3 className="font-bold text-lg mb-4" style={{ color: "#102019" }}>Key Concepts</h3>
+              <h3 className="text-card-title mb-4" style={{ color: "#102019" }}>Key Concepts</h3>
               <ul className="space-y-3">
                 {keyConcepts.map((concept, idx) => (
                   <li key={idx} className="flex items-start gap-3">
@@ -133,7 +133,7 @@ export default function CourseDetailPage() {
 
             {/* Lesson Recap */}
             <div style={{ background: "#FFFFFF", borderRadius: "12px", padding: "20px", border: "1px solid #E2E8E4" }}>
-              <h3 className="font-bold text-lg mb-4" style={{ color: "#102019" }}>Lesson Recap</h3>
+              <h3 className="text-card-title mb-4" style={{ color: "#102019" }}>Lesson Recap</h3>
               <div className="space-y-3 text-sm" style={{ color: "#606C66" }}>
                 <p>In this lesson, you learned the fundamentals of building blocks of React: Components. You learned:</p>
                 <ul className="list-disc list-inside space-y-2 ml-2">
@@ -149,7 +149,7 @@ export default function CourseDetailPage() {
           <div className="space-y-6">
             {/* Study Progress Card */}
             <div style={{ background: "#FFFFFF", borderRadius: "12px", padding: "20px", border: "1px solid #E2E8E4" }}>
-              <h3 className="font-bold text-lg mb-4" style={{ color: "#102019" }}>Study Progress</h3>
+              <h3 className="text-card-title mb-4" style={{ color: "#102019" }}>Study Progress</h3>
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-24 h-24 rounded-full font-bold text-2xl" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>
                   {progressPercent}%

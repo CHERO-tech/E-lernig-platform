@@ -84,7 +84,7 @@ export default function ForumThreadPage() {
           </div>
         </Card>
 
-        <h3 className="text-lg font-bold mb-4" style={{ color: "#102019" }}>
+        <h3 className="text-card-title mb-4" style={{ color: "#102019" }}>
           Replies ({replies.length})
         </h3>
 

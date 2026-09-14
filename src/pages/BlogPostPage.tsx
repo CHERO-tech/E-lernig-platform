@@ -20,7 +20,7 @@ export default function BlogPostPage() {
               Web Development
             </Badge>
             <h1
-              className="text-4xl font-bold mb-4 tracking-tight"
+              className="text-section-title mb-4"
               style={{ color: "#102019" }}
             >
               The Future of Web Development in 2026

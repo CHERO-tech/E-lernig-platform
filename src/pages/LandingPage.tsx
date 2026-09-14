@@ -293,7 +293,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-14 max-w-xl">
             <p className="font-mono text-xs mb-3" style={{ color: "#1F7A4B" }}>$ ls ./tracks</p>
-            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#102019" }}>Choose Your Track</h2>
+            <h2 className="text-section-title mb-4" style={{ color: "#102019" }}>Choose Your Track</h2>
             <p style={{ color: "#606C66" }}>Build practical skills through focused technical learning paths designed for the digital economy.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -310,7 +310,7 @@ export default function LandingPage() {
                     </div>
                     <span className="font-mono text-xs" style={{ color: "rgba(53,196,122,0.4)" }}>{track.tag}</span>
                   </div>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: "#FFFFFF" }}>{track.label}</h3>
+                  <h3 className="text-card-title mb-2" style={{ color: "#FFFFFF" }}>{track.label}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>{track.desc}</p>
                 </div>
                 <div className="p-6">
@@ -340,7 +340,7 @@ export default function LandingPage() {
           <div className="flex items-end justify-between mb-14">
             <div>
               <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ ls ./courses --featured</p>
-              <h2 className="text-4xl font-bold leading-tight tracking-tight" style={{ color: "#FFFFFF" }}>
+              <h2 className="text-section-title leading-tight" style={{ color: "#FFFFFF" }}>
                 Featured Courses
               </h2>
             </div>
@@ -364,7 +364,7 @@ export default function LandingPage() {
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="font-bold text-lg mb-2" style={{ color: "#FFFFFF" }}>{course.title}</h3>
+                      <h3 className="text-card-title mb-2" style={{ color: "#FFFFFF" }}>{course.title}</h3>
                       <p className="text-xs font-mono mb-3" style={{ color: "#606C66" }}>{course.level} · {course.track}</p>
                     </div>
                   </div>
@@ -399,7 +399,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 max-w-xl">
             <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ cat ./how-it-works.md</p>
-            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#FFFFFF" }}>Your Learning Journey</h2>
+            <h2 className="text-section-title mb-4" style={{ color: "#FFFFFF" }}>Your Learning Journey</h2>
             <p style={{ color: "#606C66" }}>Six structured stages from first lesson to career portfolio.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -410,7 +410,7 @@ export default function LandingPage() {
                 style={{ background: "#0B291A", border: "1px solid rgba(53,196,122,0.12)" }}
               >
                 <div className="font-mono text-3xl font-bold mb-4" style={{ color: "rgba(53,196,122,0.25)" }}>{step.n}</div>
-                <h3 className="font-semibold text-lg mb-3" style={{ color: "#FFFFFF" }}>{step.title}</h3>
+                <h3 className="text-card-title mb-3" style={{ color: "#FFFFFF" }}>{step.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>{step.desc}</p>
                 <div className="mt-4 w-8 h-0.5" style={{ background: "#35C47A" }} />
               </div>
@@ -425,7 +425,7 @@ export default function LandingPage() {
           <div className="flex items-end justify-between mb-14">
             <div>
               <p className="font-mono text-xs mb-3" style={{ color: "#1F7A4B" }}>$ ls ./projects --active</p>
-              <h2 className="text-4xl font-bold leading-tight tracking-tight" style={{ color: "#102019" }}>
+              <h2 className="text-section-title leading-tight" style={{ color: "#102019" }}>
                 Don't Just Learn.<br />
                 <span style={{ color: "#1F7A4B" }}>Build.</span>
               </h2>
@@ -469,7 +469,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ cat ./pricing.json</p>
-            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#FFFFFF" }}>Plans for Every Learner</h2>
+            <h2 className="text-section-title mb-4" style={{ color: "#FFFFFF" }}>Plans for Every Learner</h2>
             <p style={{ color: "#606C66" }}>Start free, grow at your pace. Cancel anytime.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">

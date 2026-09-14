@@ -64,6 +64,7 @@ export default function TrainerDashboard() {
     if (key === "students") window.location.href = "/people?type=student&institution=INES-Ruhengeri&role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "analytics") window.location.href = "/reports?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "lessons") window.location.href = "/lessons";
+    if (key === "assignments") window.location.href = "/assignments";
   };
 
   return (
@@ -227,14 +228,16 @@ export default function TrainerDashboard() {
               <h3 className="font-semibold text-sm mb-4" style={{ color: "#102019" }}>Quick Actions</h3>
               <div className="space-y-2">
                 {[
-                  { label: "Upload Lesson", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg> },
-                  { label: "Create Quiz", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg> },
-                  { label: "Send Announcement", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg> },
-                  { label: "Grade Assignments", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg> },
+                  { label: "Upload Lesson", href: "/lessons", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg> },
+                  { label: "Create Quiz", href: "/assessments", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg> },
+                  { label: "Send Announcement", href: null, icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg> },
+                  { label: "Grade Assignments", href: "/assignments", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg> },
                 ].map((action) => (
                   <button
                     key={action.label}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-left transition-all hover:shadow-md hover:bg-white active:scale-95"
+                    onClick={action.href ? () => { window.location.href = action.href; } : undefined}
+                    disabled={!action.href}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-left transition-all active:scale-95 ${action.href ? "hover:shadow-md hover:bg-white" : "opacity-50 cursor-not-allowed"}`}
                     style={{ background: "#F5F7F5", color: "#102019", border: "1px solid #E2E8E4" }}
                   >
                     {action.icon}

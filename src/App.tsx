@@ -40,6 +40,7 @@ import ReportsPage from "./pages/ReportsPage";
 import InstitutionsPage from "./pages/InstitutionsPage";
 import CompaniesPage from "./pages/CompaniesPage";
 import PaymentsPage from "./pages/PaymentsPage";
+import InternshipsPage from "./pages/InternshipsPage";
 
 export default function App() {
   return (
@@ -96,6 +97,7 @@ export default function App() {
         <Route path="/institutions" element={<InstitutionsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/internships" element={<InternshipsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

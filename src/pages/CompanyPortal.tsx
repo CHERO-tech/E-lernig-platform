@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 
-const navItems = [
+export const navItems = [
   { key: "dashboard", label: "Dashboard", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" /></svg> },
   { key: "find", label: "Find Students", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /></svg> },
   { key: "portfolios", label: "Student Portfolios", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /></svg> },
@@ -90,6 +90,7 @@ export default function CompanyPortal() {
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "profile") window.location.href = "/settings?role=company&roleLabel=Company&userName=TechRwanda+Ltd&userInitials=TR";
+    if (key === "internships") window.location.href = "/internships";
   };
   const [trackFilter, setTrackFilter] = useState("All Tracks");
   const [levelFilter, setLevelFilter] = useState("All Levels");
@@ -217,12 +218,13 @@ export default function CompanyPortal() {
                     View Portfolio
                   </Link>
                   {student.available && (
-                    <button
-                      className="flex-1 py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-surface"
+                    <Link
+                      to="/internships"
+                      className="flex-1 text-center py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-surface"
                       style={{ color: "#102019", border: "1px solid #E2E8E4" }}
                     >
                       Offer Internship
-                    </button>
+                    </Link>
                   )}
                 </div>
               </div>

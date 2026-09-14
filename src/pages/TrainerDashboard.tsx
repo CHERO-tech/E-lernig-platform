@@ -59,6 +59,7 @@ export default function TrainerDashboard() {
     setActiveKey(key);
     if (key === "courses") window.location.href = "/courses";
     if (key === "projects") window.location.href = "/projects";
+    if (key === "profile") window.location.href = "/settings?role=trainer&roleLabel=Trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
   };
 
   return (

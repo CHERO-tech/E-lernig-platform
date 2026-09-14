@@ -1,10 +1,16 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 import { Card, Button, Input, Select } from "../components/ui";
 
 export default function SettingsPage() {
   const [activeKey, setActiveKey] = useState("account");
   const [saved, setSaved] = useState(false);
+  const [params] = useSearchParams();
+  const role = params.get("role") ?? "student";
+  const roleLabel = params.get("roleLabel") ?? "Student";
+  const userName = params.get("userName") ?? "Amahoro Jean";
+  const userInitials = params.get("userInitials") ?? "AJ";
 
   const handleSave = () => {
     setSaved(true);
@@ -19,13 +25,13 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout
-      role="student"
-      roleLabel="Student"
+      role={role}
+      roleLabel={roleLabel}
       navItems={navItems}
       activeKey={activeKey}
       onNav={setActiveKey}
-      userName="Amahoro Jean"
-      userInitials="AJ"
+      userName={userName}
+      userInitials={userInitials}
     >
       <div className="p-8">
         <div className="mb-8">

@@ -53,13 +53,18 @@ const alertColor = (type: string) => {
 export default function PlatformAdminDashboard() {
   const [activeKey, setActiveKey] = useState("dashboard");
 
+  const handleNav = (key: string) => {
+    setActiveKey(key);
+    if (key === "settings") window.location.href = "/settings?role=admin&roleLabel=Platform+Admin&userName=Platform+Admin&userInitials=PA";
+  };
+
   return (
     <DashboardLayout
       role="admin"
       roleLabel="Platform Admin"
       navItems={navItems}
       activeKey={activeKey}
-      onNav={setActiveKey}
+      onNav={handleNav}
       userName="Platform Admin"
       userInitials="PA"
     >

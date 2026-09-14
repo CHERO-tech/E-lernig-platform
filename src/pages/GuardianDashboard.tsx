@@ -25,13 +25,18 @@ const courses = [
 export default function GuardianDashboard() {
   const [activeKey, setActiveKey] = useState("dashboard");
 
+  const handleNav = (key: string) => {
+    setActiveKey(key);
+    if (key === "profile") window.location.href = "/settings?role=guardian&roleLabel=Guardian&userName=Jean+de+Dieu+Senior&userInitials=JS";
+  };
+
   return (
     <DashboardLayout
       role="guardian"
       roleLabel="Guardian"
       navItems={navItems}
       activeKey={activeKey}
-      onNav={setActiveKey}
+      onNav={handleNav}
       userName="Jean de Dieu Senior"
       userInitials="JS"
     >

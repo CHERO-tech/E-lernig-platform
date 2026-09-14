@@ -86,6 +86,11 @@ const students = [
 
 export default function CompanyPortal() {
   const [activeKey, setActiveKey] = useState("find");
+
+  const handleNav = (key: string) => {
+    setActiveKey(key);
+    if (key === "profile") window.location.href = "/settings?role=company&roleLabel=Company&userName=TechRwanda+Ltd&userInitials=TR";
+  };
   const [trackFilter, setTrackFilter] = useState("All Tracks");
   const [levelFilter, setLevelFilter] = useState("All Levels");
   const [search, setSearch] = useState("");
@@ -103,7 +108,7 @@ export default function CompanyPortal() {
       roleLabel="Company"
       navItems={navItems}
       activeKey={activeKey}
-      onNav={setActiveKey}
+      onNav={handleNav}
       userName="TechRwanda Ltd"
       userInitials="TR"
     >
@@ -205,7 +210,7 @@ export default function CompanyPortal() {
 
                 <div className="flex gap-2">
                   <Link
-                    to="/student"
+                    to="/portfolio/1"
                     className="flex-1 text-center py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90"
                     style={{ background: "#35C47A", color: "#071C12" }}
                   >

@@ -48,13 +48,18 @@ const atRisk = [
 export default function SchoolAdminDashboard() {
   const [activeKey, setActiveKey] = useState("dashboard");
 
+  const handleNav = (key: string) => {
+    setActiveKey(key);
+    if (key === "settings") window.location.href = "/settings?role=school-admin&roleLabel=School+Admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
+  };
+
   return (
     <DashboardLayout
       role="school-admin"
       roleLabel="School Admin"
       navItems={navItems}
       activeKey={activeKey}
-      onNav={setActiveKey}
+      onNav={handleNav}
       userName="Immaculée Nyiransengimana"
       userInitials="IN"
     >

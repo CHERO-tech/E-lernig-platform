@@ -37,7 +37,7 @@ export default function CurrentCoursePage() {
           if (key === "dashboard") window.location.href = "/student";
           if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
           if (key === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
-          if (key === "projects") window.location.href = "/projects";
+          if (key === "projects") window.location.href = "/projects?role=student";
         }}
         userName="Amahoro Jean de Dieu"
         userInitials="AJ"
@@ -82,7 +82,7 @@ export default function CurrentCoursePage() {
         if (key === "dashboard") window.location.href = "/student";
         if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
         if (key === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
-        if (key === "projects") window.location.href = "/projects";
+        if (key === "projects") window.location.href = "/projects?role=student";
       }}
       userName="Amahoro Jean de Dieu"
       userInitials="AJ"

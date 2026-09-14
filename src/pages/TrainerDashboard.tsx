@@ -58,7 +58,7 @@ export default function TrainerDashboard() {
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "courses") window.location.href = "/manage-courses?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
-    if (key === "projects") window.location.href = "/projects";
+    if (key === "projects") window.location.href = "/projects?role=trainer";
     if (key === "profile") window.location.href = "/settings?role=trainer&roleLabel=Trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "certificates") window.location.href = "/certificates?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "students") window.location.href = "/people?type=student&institution=INES-Ruhengeri&role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
@@ -212,7 +212,7 @@ export default function TrainerDashboard() {
                     <p className="text-sm mb-1" style={{ color: "#102019" }}>{item.project}</p>
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>{item.track}</span>
-                      <Link to="/projects" className="font-mono text-xs font-semibold" style={{ color: "#1F7A4B" }}>Review →</Link>
+                      <Link to="/projects?role=trainer" className="font-mono text-xs font-semibold" style={{ color: "#1F7A4B" }}>Review →</Link>
                     </div>
                   </div>
                 ))}

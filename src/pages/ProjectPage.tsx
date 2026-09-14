@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const statuses = ["Draft", "Submitted", "Under Review", "Approved"] as const;
 type Status = typeof statuses[number];
@@ -12,6 +12,10 @@ const statusStyle = (s: Status) => {
 };
 
 export default function ProjectPage() {
+  const [params] = useSearchParams();
+  const role = params.get("role");
+  const dashboardHref = role === "trainer" ? "/trainer" : role === "student" ? "/student" : null;
+
   const [status, setStatus] = useState<Status>("Draft");
   const [githubUrl, setGithubUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -22,6 +26,15 @@ export default function ProjectPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#F5F7F5" }}>
+      {dashboardHref && (
+        <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
+          <div className="max-w-6xl mx-auto px-8 py-3">
+            <Link to={dashboardHref} className="text-sm font-medium" style={{ color: "#35C47A" }}>
+              ← Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
         <div className="max-w-6xl mx-auto px-8 py-8">

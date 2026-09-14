@@ -64,7 +64,7 @@ export default function StudentDashboard() {
         if (k === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
         if (k === "paths") window.location.href = "/learning-paths?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
         if (k === "certificates") window.location.href = "/certificate";
-        if (k === "projects") window.location.href = "/projects";
+        if (k === "projects") window.location.href = "/projects?role=student";
         if (k === "portfolio") window.location.href = "/portfolio/1";
       }}
       userName="Amahoro Jean de Dieu"
@@ -167,7 +167,7 @@ export default function StudentDashboard() {
             <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
               <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #E2E8E4" }}>
                 <h2 className="font-semibold" style={{ color: "#102019" }}>My Projects</h2>
-                <Link to="/projects" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>All →</Link>
+                <Link to="/projects?role=student" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>All →</Link>
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {myProjects.map((proj) => (

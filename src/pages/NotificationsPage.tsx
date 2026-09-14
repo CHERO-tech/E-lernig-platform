@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 const allNotifications = [
   { id: 1, type: "success", title: "Certificate Issued", msg: "Your Web Development certificate is ready. Download it now.", time: "2 hours ago", read: false, action: { label: "View Certificate", href: "/certificate" } },
-  { id: 2, type: "info", title: "Assignment Reviewed", msg: "Your Portfolio Website submission has been reviewed by Emmanuel Nkurunziza.", time: "5 hours ago", read: false, action: { label: "View Feedback", href: "/projects" } },
+  { id: 2, type: "info", title: "Assignment Reviewed", msg: "Your Portfolio Website submission has been reviewed by Emmanuel Nkurunziza.", time: "5 hours ago", read: false, action: { label: "View Feedback", href: "/projects?role=student" } },
   { id: 3, type: "success", title: "Assessment Passed", msg: "You scored 92% on the Web Development assessment. Well done!", time: "1 day ago", read: false, action: { label: "View Results", href: "/assessment" } },
   { id: 4, type: "info", title: "New Course Available", msg: "Mobile Development with React Native is now available on the platform.", time: "2 days ago", read: true, action: { label: "Explore Course", href: "/courses" } },
-  { id: 5, type: "warning", title: "Assignment Due Soon", msg: "Your Networking project is due in 3 days. Make sure to submit before the deadline.", time: "3 days ago", read: true, action: { label: "Go to Project", href: "/projects" } },
+  { id: 5, type: "warning", title: "Assignment Due Soon", msg: "Your Networking project is due in 3 days. Make sure to submit before the deadline.", time: "3 days ago", read: true, action: { label: "Go to Project", href: "/projects?role=student" } },
   { id: 6, type: "success", title: "Payment Successful", msg: "Your Professional Plan subscription has been renewed for October 2026.", time: "1 week ago", read: true, action: null },
   { id: 7, type: "info", title: "Mentor Session Scheduled", msg: "Your 1:1 mentor session with Emmanuel is confirmed for September 12 at 10:00 AM.", time: "1 week ago", read: true, action: null },
   { id: 8, type: "warning", title: "Inactivity Alert", msg: "You haven't logged in for 7 days. Keep up your learning streak!", time: "2 weeks ago", read: true, action: { label: "Resume Learning", href: "/courses" } },

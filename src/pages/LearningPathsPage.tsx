@@ -254,7 +254,7 @@ export default function LearningPathsPage() {
           if (key === "dashboard") window.location.href = "/student";
           if (key === "current-course") window.location.href = "/current-course";
           if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
-          if (key === "projects") window.location.href = "/projects";
+          if (key === "projects") window.location.href = "/projects?role=student";
           if (key === "certificates") window.location.href = "/certificate";
           if (key === "portfolio") window.location.href = "/portfolio/1";
           if (key === "notifications") window.location.href = "/notifications";

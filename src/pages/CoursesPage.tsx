@@ -187,12 +187,14 @@ const priceColor = (price: string) => {
 function CourseTabs({
   activeTab,
   setActiveTab,
+  allCount,
   active,
   complete,
   favourite,
 }: {
   activeTab: "all" | "active" | "complete" | "favourite";
   setActiveTab: (tab: "all" | "active" | "complete" | "favourite") => void;
+  allCount: number;
   active: Course[];
   complete: Course[];
   favourite: Course[];
@@ -200,7 +202,7 @@ function CourseTabs({
   return (
     <div className="flex gap-2 border-b" style={{ borderColor: "#E2E8E4" }}>
       {[
-        { key: "all" as const, label: "All Courses", count: allCourses.length },
+        { key: "all" as const, label: "All Courses", count: allCount },
         { key: "active" as const, label: "Active", count: active.length },
         { key: "complete" as const, label: "Complete", count: complete.length },
         { key: "favourite" as const, label: "Favourite", count: favourite.length },
@@ -221,12 +223,12 @@ function CourseTabs({
   );
 }
 
-function CourseGrid({ filtered }: { filtered: Course[] }) {
+function CourseGrid({ filtered, detailHrefSuffix = "" }: { filtered: Course[]; detailHrefSuffix?: string }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((course) => (
-            <Link key={course.id} to={`/courses/${course.id}`}>
+            <Link key={course.id} to={`/courses/${course.id}${detailHrefSuffix}`}>
               <div
                 className="rounded-lg overflow-hidden transition-all hover:shadow-lg h-full flex flex-col"
                 style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}
@@ -333,22 +335,21 @@ export default function CoursesPage() {
 
   const [activeTab, setActiveTab] = useState<"all" | "active" | "complete" | "favourite">("all");
 
-  const getCoursesByTab = () => {
-    const active = allCourses.filter((c) => c.status === "active");
-    const complete = allCourses.filter((c) => c.status === "complete");
-    const favourite = allCourses.filter((c) => c.status === "favourite");
-    const recommended = allCourses.filter((c) => c.status === "recommended");
-
-    if (activeTab === "active") return active;
-    if (activeTab === "complete") return complete;
-    if (activeTab === "favourite") return favourite;
-    return [...active, ...recommended];
-  };
-
-  const filtered = getCoursesByTab();
   const active = allCourses.filter((c) => c.status === "active");
   const complete = allCourses.filter((c) => c.status === "complete");
   const favourite = allCourses.filter((c) => c.status === "favourite");
+  const recommended = allCourses.filter((c) => c.status === "recommended");
+  const enrolled = [...active, ...complete, ...favourite];
+
+  const getCoursesByTab = () => {
+    if (activeTab === "active") return active;
+    if (activeTab === "complete") return complete;
+    if (activeTab === "favourite") return favourite;
+    return role === "student" ? enrolled : [...active, ...recommended];
+  };
+
+  const filtered = getCoursesByTab();
+  const allCount = role === "student" ? enrolled.length : allCourses.length;
 
   if (role === "student") {
     return (
@@ -374,7 +375,7 @@ export default function CoursesPage() {
             <div>
               <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ ls ./courses --all</p>
               <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>My Courses</h1>
-              <p style={{ color: "#606C66" }}>Explore {allCourses.length} courses across 3 learning tracks</p>
+              <p style={{ color: "#606C66" }}>You're enrolled in {enrolled.length} course{enrolled.length === 1 ? "" : "s"}</p>
             </div>
             <Link to="/assessment-placement">
               <Button variant="outline">Take Placement Exam</Button>
@@ -382,10 +383,13 @@ export default function CoursesPage() {
           </div>
 
           <div className="mb-6">
-            <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} active={active} complete={complete} favourite={favourite} />
+            <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} allCount={allCount} active={active} complete={complete} favourite={favourite} />
           </div>
 
-          <CourseGrid filtered={filtered} />
+          <CourseGrid
+            filtered={filtered}
+            detailHrefSuffix={`?role=student&userName=${encodeURIComponent(userName)}&userInitials=${encodeURIComponent(userInitials)}`}
+          />
         </div>
       </DashboardLayout>
     );
@@ -420,7 +424,7 @@ export default function CoursesPage() {
 
       {/* Tabs */}
       <div className="max-w-7xl mx-auto px-8 py-6">
-        <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} active={active} complete={complete} favourite={favourite} />
+        <CourseTabs activeTab={activeTab} setActiveTab={setActiveTab} allCount={allCount} active={active} complete={complete} favourite={favourite} />
       </div>
 
       {/* Course Grid */}

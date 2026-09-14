@@ -95,7 +95,7 @@ export default function CurrentCoursePage() {
             <h1 className="text-page-title" style={{ color: "#102019" }}>Current Course</h1>
             <p style={{ color: "#606C66" }}>Continue your learning journey</p>
           </div>
-          <Link to={`/courses/${currentCourse.id}`}>
+          <Link to={`/courses/${currentCourse.id}?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ`}>
             <Button variant="primary">View Full Course</Button>
           </Link>
         </div>
@@ -159,7 +159,7 @@ export default function CurrentCoursePage() {
                     <p className="text-sm" style={{ color: "#606C66" }}>Continue from where you left off</p>
                   </div>
                 </div>
-                <Link to={`/courses/${currentCourse.id}`} className="block">
+                <Link to={`/courses/${currentCourse.id}?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ`} className="block">
                   <Button variant="primary" fullWidth>
                     Continue Learning
                   </Button>
@@ -190,7 +190,7 @@ export default function CurrentCoursePage() {
 
             {/* Action buttons */}
             <div className="space-y-2">
-              <Link to={`/courses/${currentCourse.id}`} className="block">
+              <Link to={`/courses/${currentCourse.id}?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ`} className="block">
                 <Button variant="outline" fullWidth>View Course Details</Button>
               </Link>
               <Button variant="ghost" fullWidth>Download Resources</Button>

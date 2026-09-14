@@ -4,6 +4,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import { Card, Badge, Button, StatCard, Input, Select, EmptyState } from "../components/ui";
 import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
+import { navItems as trainerNavItems } from "./TrainerDashboard";
 import { allCourses, type Course } from "./CoursesPage";
 import { identityForRole } from "../lib/roleIdentity";
 
@@ -56,6 +57,12 @@ const roleConfig: Record<
     navItems: platformAdminNavItems,
     dashboardHref: "/admin",
     subtitle: "Every course running on the platform",
+  },
+  trainer: {
+    roleLabel: "Trainer",
+    navItems: trainerNavItems,
+    dashboardHref: "/trainer",
+    subtitle: "Courses you're currently teaching",
   },
 };
 

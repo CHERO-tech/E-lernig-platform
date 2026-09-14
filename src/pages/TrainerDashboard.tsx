@@ -57,7 +57,7 @@ export default function TrainerDashboard() {
 
   const handleNav = (key: string) => {
     setActiveKey(key);
-    if (key === "courses") window.location.href = "/courses";
+    if (key === "courses") window.location.href = "/manage-courses?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "projects") window.location.href = "/projects";
     if (key === "profile") window.location.href = "/settings?role=trainer&roleLabel=Trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "certificates") window.location.href = "/certificates?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";

@@ -102,7 +102,7 @@ export default function StudentDashboard() {
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {enrolledCourses.map((course) => (
-                  <Link key={course.id} to={`/courses/${course.id}`} className="block hover:bg-surface transition-colors">
+                  <Link key={course.id} to={`/courses/${course.id}?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ`} className="block hover:bg-surface transition-colors">
                     <div className="p-5">
                       <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>

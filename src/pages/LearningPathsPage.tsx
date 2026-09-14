@@ -75,7 +75,7 @@ const learningPaths: LearningPath[] = [
   },
 ];
 
-function LearningPathsGrid() {
+function LearningPathsGrid({ coursesHref }: { coursesHref: string }) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -155,7 +155,7 @@ function LearningPathsGrid() {
                 </div>
               </div>
 
-              <Link to="/courses" className="block mt-auto">
+              <Link to={coursesHref} className="block mt-auto">
                 <Button variant="primary" fullWidth>
                   Explore Path
                 </Button>
@@ -253,7 +253,7 @@ export default function LearningPathsPage() {
         onNav={(key) => {
           if (key === "dashboard") window.location.href = "/student";
           if (key === "current-course") window.location.href = "/current-course";
-          if (key === "courses") window.location.href = "/courses";
+          if (key === "courses") window.location.href = "/courses?role=student&userName=Amahoro+Jean+de+Dieu&userInitials=AJ";
           if (key === "projects") window.location.href = "/projects";
           if (key === "certificates") window.location.href = "/certificate";
           if (key === "portfolio") window.location.href = "/portfolio/1";
@@ -268,7 +268,7 @@ export default function LearningPathsPage() {
             <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Learning Paths</h1>
             <p style={{ color: "#606C66" }}>Choose a structured learning path and master a complete skillset</p>
           </div>
-          <LearningPathsGrid />
+          <LearningPathsGrid coursesHref={`/courses?role=student&userName=${encodeURIComponent(userName)}&userInitials=${encodeURIComponent(userInitials)}`} />
         </div>
       </DashboardLayout>
     );
@@ -298,7 +298,7 @@ export default function LearningPathsPage() {
 
       {/* Paths Grid */}
       <div className="max-w-7xl mx-auto px-8 py-12">
-        <LearningPathsGrid />
+        <LearningPathsGrid coursesHref="/courses" />
       </div>
     </SiteLayout>
   );

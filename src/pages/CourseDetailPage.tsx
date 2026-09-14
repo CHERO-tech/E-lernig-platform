@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export const modules = [
   {
@@ -67,6 +67,15 @@ const typeIcon = (type: string) => {
 };
 
 export default function CourseDetailPage() {
+  const [params] = useSearchParams();
+  const role = params.get("role");
+  const userName = params.get("userName");
+  const userInitials = params.get("userInitials");
+  const backToCoursesHref =
+    role === "student"
+      ? `/courses?role=student&userName=${encodeURIComponent(userName ?? "Amahoro Jean de Dieu")}&userInitials=${encodeURIComponent(userInitials ?? "AJ")}`
+      : "/courses";
+
   const [expanded, setExpanded] = useState<number[]>([1]);
   const [currentLesson, setCurrentLesson] = useState(modules[0].lessons[0]);
 
@@ -81,7 +90,7 @@ export default function CourseDetailPage() {
     <div style={{ background: "#F5F7F5", minHeight: "100vh" }}>
       {/* Back Link */}
       <div className="max-w-7xl mx-auto px-8 pt-8">
-        <Link to="/courses" className="text-sm" style={{ color: "#1F7A4B" }}>
+        <Link to={backToCoursesHref} className="text-sm" style={{ color: "#1F7A4B" }}>
           ← Back to Courses
         </Link>
       </div>

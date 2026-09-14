@@ -46,8 +46,8 @@ const alerts = [
 
 const alertColor = (type: string) => {
   if (type === "success") return { bg: "rgba(53,196,122,0.08)", color: "#35C47A", border: "rgba(53,196,122,0.2)" };
-  if (type === "warning") return { bg: "rgba(217,119,6,0.08)", color: "#d97706", border: "rgba(217,119,6,0.2)" };
-  return { bg: "rgba(59,130,246,0.08)", color: "#3b82f6", border: "rgba(59,130,246,0.2)" };
+  if (type === "warning") return { bg: "rgba(193,127,51,0.08)", color: "#C17F33", border: "rgba(193,127,51,0.2)" };
+  return { bg: "rgba(51,106,193,0.08)", color: "#336AC1", border: "rgba(51,106,193,0.2)" };
 };
 
 export default function PlatformAdminDashboard() {
@@ -66,15 +66,15 @@ export default function PlatformAdminDashboard() {
       <div className="p-8">
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ sudo systemctl status academy</p>
-            <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Platform Overview</h1>
+            <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ sudo systemctl status academy</p>
+            <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Platform Overview</h1>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full" style={{ background: "#35C47A" }} />
-              <span className="font-mono text-xs" style={{ color: "#35C47A" }}>All systems operational</span>
+              <span className="font-mono text-xs" style={{ color: "#1F7A4B" }}>All systems operational</span>
             </div>
           </div>
           <div className="flex gap-3">
-            <button className="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:bg-gray-100 hover:shadow-md" style={{ background: "#F5F7F5", color: "#102019", border: "1px solid #E2E8E4" }}>Export Report</button>
+            <button className="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:bg-surface hover:shadow-md" style={{ background: "#F5F7F5", color: "#102019", border: "1px solid #E2E8E4" }}>Export Report</button>
             <button className="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:shadow-lg hover:brightness-110" style={{ background: "#35C47A", color: "#071C12" }}>System Settings</button>
           </div>
         </div>
@@ -88,9 +88,9 @@ export default function PlatformAdminDashboard() {
             { label: "Companies", value: "9", change: "Hiring partners" },
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-5 transition-all hover:shadow-lg" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
-              <p className="text-xs mb-3" style={{ color: "#718078" }}>{s.label}</p>
-              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#35C47A" }}>{s.value}</p>
-              <p className="font-mono text-xs" style={{ color: "#718078" }}>{s.change}</p>
+              <p className="text-xs mb-3" style={{ color: "#606C66" }}>{s.label}</p>
+              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#1F7A4B" }}>{s.value}</p>
+              <p className="font-mono text-xs" style={{ color: "#606C66" }}>{s.change}</p>
             </div>
           ))}
         </div>
@@ -102,9 +102,9 @@ export default function PlatformAdminDashboard() {
             { label: "Monthly Revenue", value: "RWF 15.4M", change: "+18% vs last month" },
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-5 transition-all hover:shadow-lg" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
-              <p className="text-xs mb-3" style={{ color: "#718078" }}>{s.label}</p>
-              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#35C47A" }}>{s.value}</p>
-              <p className="font-mono text-xs" style={{ color: "#718078" }}>{s.change}</p>
+              <p className="text-xs mb-3" style={{ color: "#606C66" }}>{s.label}</p>
+              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#1F7A4B" }}>{s.value}</p>
+              <p className="font-mono text-xs" style={{ color: "#606C66" }}>{s.change}</p>
             </div>
           ))}
         </div>
@@ -123,8 +123,8 @@ export default function PlatformAdminDashboard() {
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
-                  <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
                   <Area type="monotone" dataKey="students" stroke="#35C47A" fill="url(#studentGrowth)" strokeWidth={2.5} name="Students" />
                 </AreaChart>
@@ -144,8 +144,8 @@ export default function PlatformAdminDashboard() {
                 </ResponsiveContainer>
               </div>
               <div className="rounded-xl p-5 transition-all hover:shadow-lg" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
-                <p className="font-mono text-xs mb-1" style={{ color: "#718078" }}>Certificates Issued</p>
-                <p className="font-mono text-2xl font-bold mb-4" style={{ color: "#35C47A" }}>+124 this month</p>
+                <p className="font-mono text-xs mb-1" style={{ color: "#606C66" }}>Certificates Issued</p>
+                <p className="font-mono text-2xl font-bold mb-4" style={{ color: "#1F7A4B" }}>+124 this month</p>
                 <ResponsiveContainer width="100%" height={80}>
                   <BarChart data={certData} barSize={18}>
                     <Bar dataKey="certs" fill="#35C47A" radius={[3, 3, 0, 0]} />
@@ -175,7 +175,7 @@ export default function PlatformAdminDashboard() {
                     style={{ background: "#F5F7F5", border: "1px solid #E2E8E4", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}
                   >
                     <div>{a.icon}</div>
-                    <span className="font-mono text-xs" style={{ color: "#718078" }}>{a.label}</span>
+                    <span className="font-mono text-xs" style={{ color: "#606C66" }}>{a.label}</span>
                   </button>
                 ))}
               </div>
@@ -198,7 +198,7 @@ export default function PlatformAdminDashboard() {
                         <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: ac.color }} />
                         <div>
                           <p className="text-sm" style={{ color: "#102019" }}>{a.msg}</p>
-                          <p className="font-mono text-xs mt-1" style={{ color: "#718078" }}>{a.time}</p>
+                          <p className="font-mono text-xs mt-1" style={{ color: "#606C66" }}>{a.time}</p>
                         </div>
                       </div>
                     </div>
@@ -218,10 +218,10 @@ export default function PlatformAdminDashboard() {
                 { label: "Uptime", value: "99.97%", status: "good" },
               ].map((metric) => (
                 <div key={metric.label} className="flex items-center justify-between mb-3">
-                  <span className="font-mono text-xs" style={{ color: "#718078" }}>{metric.label}</span>
+                  <span className="font-mono text-xs" style={{ color: "#606C66" }}>{metric.label}</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs font-bold" style={{ color: metric.status === "warn" ? "#d97706" : "#35C47A" }}>{metric.value}</span>
-                    <span className="w-2 h-2 rounded-full" style={{ background: metric.status === "warn" ? "#d97706" : "#35C47A" }} />
+                    <span className="font-mono text-xs font-bold" style={{ color: metric.status === "warn" ? "#915F27" : "#1F7A4B" }}>{metric.value}</span>
+                    <span className="w-2 h-2 rounded-full" style={{ background: metric.status === "warn" ? "#C17F33" : "#35C47A" }} />
                   </div>
                 </div>
               ))}

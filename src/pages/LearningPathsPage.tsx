@@ -83,12 +83,12 @@ export default function LearningPathsPage() {
               $ ls ./paths --all
             </p>
             <h1
-              className="text-4xl font-bold mb-3"
-              style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+              className="text-4xl font-bold mb-3 tracking-tight"
+              style={{ color: "#FFFFFF" }}
             >
               Learning Paths
             </h1>
-            <p style={{ color: "#718078" }}>
+            <p style={{ color: "#606C66" }}>
               Choose a structured learning path and master a complete skillset
             </p>
           </div>
@@ -110,19 +110,19 @@ export default function LearningPathsPage() {
               }
               className="flex flex-col"
             >
-              <p className="text-sm mb-4" style={{ color: "#718078" }}>
+              <p className="text-sm mb-4" style={{ color: "#606C66" }}>
                 {path.description}
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-4 pb-4 border-b" style={{ borderColor: "#E2E8E4" }}>
                 <div>
-                  <p className="text-xs" style={{ color: "#718078" }}>Courses</p>
-                  <p className="font-bold text-lg" style={{ color: "#35C47A" }}>
+                  <p className="text-xs" style={{ color: "#606C66" }}>Courses</p>
+                  <p className="font-bold text-lg" style={{ color: "#1F7A4B" }}>
                     {path.courses}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs" style={{ color: "#718078" }}>Duration</p>
+                  <p className="text-xs" style={{ color: "#606C66" }}>Duration</p>
                   <p className="font-semibold text-sm" style={{ color: "#102019" }}>
                     {path.duration}
                   </p>
@@ -130,14 +130,14 @@ export default function LearningPathsPage() {
               </div>
 
               <div className="mb-4">
-                <p className="text-xs font-semibold mb-2" style={{ color: "#718078" }}>
+                <p className="text-xs font-semibold mb-2" style={{ color: "#606C66" }}>
                   Level
                 </p>
                 <p style={{ color: "#102019" }}>{path.level}</p>
               </div>
 
               <div className="mb-4">
-                <p className="text-xs font-semibold mb-2" style={{ color: "#718078" }}>
+                <p className="text-xs font-semibold mb-2" style={{ color: "#606C66" }}>
                   Key Skills
                 </p>
                 <div className="flex flex-wrap gap-1.5">
@@ -156,12 +156,12 @@ export default function LearningPathsPage() {
 
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs" style={{ color: "#718078" }}>
+                  <p className="text-xs" style={{ color: "#606C66" }}>
                     Your Progress
                   </p>
                   <p
                     className="font-mono font-semibold text-xs"
-                    style={{ color: "#35C47A" }}
+                    style={{ color: "#1F7A4B" }}
                   >
                     {path.progress}%
                   </p>
@@ -189,7 +189,7 @@ export default function LearningPathsPage() {
             <div className="flex gap-4">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0"
-                style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}
+                style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}
               >
                 1
               </div>
@@ -197,7 +197,7 @@ export default function LearningPathsPage() {
                 <p className="font-semibold mb-1" style={{ color: "#102019" }}>
                   Choose Your Path
                 </p>
-                <p style={{ color: "#718078" }}>
+                <p style={{ color: "#606C66" }}>
                   Select a learning path that matches your career goals
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function LearningPathsPage() {
             <div className="flex gap-4">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0"
-                style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}
+                style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}
               >
                 2
               </div>
@@ -213,7 +213,7 @@ export default function LearningPathsPage() {
                 <p className="font-semibold mb-1" style={{ color: "#102019" }}>
                   Follow Structured Courses
                 </p>
-                <p style={{ color: "#718078" }}>
+                <p style={{ color: "#606C66" }}>
                   Complete courses in the recommended order to build a complete skillset
                 </p>
               </div>
@@ -221,7 +221,7 @@ export default function LearningPathsPage() {
             <div className="flex gap-4">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0"
-                style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}
+                style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}
               >
                 3
               </div>
@@ -229,7 +229,7 @@ export default function LearningPathsPage() {
                 <p className="font-semibold mb-1" style={{ color: "#102019" }}>
                   Build Projects
                 </p>
-                <p style={{ color: "#718078" }}>
+                <p style={{ color: "#606C66" }}>
                   Apply your skills through practical, industry-relevant projects
                 </p>
               </div>
@@ -237,7 +237,7 @@ export default function LearningPathsPage() {
             <div className="flex gap-4">
               <div
                 className="w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0"
-                style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}
+                style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}
               >
                 4
               </div>
@@ -245,7 +245,7 @@ export default function LearningPathsPage() {
                 <p className="font-semibold mb-1" style={{ color: "#102019" }}>
                   Earn Certification
                 </p>
-                <p style={{ color: "#718078" }}>
+                <p style={{ color: "#606C66" }}>
                   Complete your path and earn a verified certificate
                 </p>
               </div>

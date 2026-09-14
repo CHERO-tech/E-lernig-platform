@@ -101,8 +101,8 @@ export default function FeaturedCoursesPage() {
                 $ ls ./courses --featured
               </p>
               <h1
-                className="text-4xl font-bold"
-                style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+                className="text-4xl font-bold tracking-tight"
+                style={{ color: "#FFFFFF" }}
               >
                 Featured Courses
               </h1>
@@ -111,7 +111,7 @@ export default function FeaturedCoursesPage() {
               <Button variant="outline">View All Courses</Button>
             </Link>
           </div>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Explore our most popular courses across all learning tracks
           </p>
         </div>
@@ -127,7 +127,7 @@ export default function FeaturedCoursesPage() {
                 style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}
               >
                 {/* Course Image */}
-                <div className="h-40 relative overflow-hidden bg-gray-200">
+                <div className="h-40 relative overflow-hidden bg-border">
                   <img
                     src={course.image}
                     alt={course.title}
@@ -170,7 +170,7 @@ export default function FeaturedCoursesPage() {
                   {/* Description */}
                   <p
                     className="text-xs mb-4 flex-1 line-clamp-2"
-                    style={{ color: "#718078" }}
+                    style={{ color: "#606C66" }}
                   >
                     {course.desc}
                   </p>
@@ -186,7 +186,7 @@ export default function FeaturedCoursesPage() {
                     >
                       {course.instructor.charAt(0)}
                     </div>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {course.instructor}
                     </p>
                   </div>
@@ -194,7 +194,7 @@ export default function FeaturedCoursesPage() {
                   {/* Stats */}
                   <div
                     className="flex items-center justify-between text-xs"
-                    style={{ color: "#718078" }}
+                    style={{ color: "#606C66" }}
                   >
                     <div className="flex items-center gap-1">
                       <svg

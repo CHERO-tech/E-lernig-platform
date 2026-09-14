@@ -119,7 +119,7 @@ export default function DashboardLayout({
             {sidebarOpen && (
               <div className="flex-1 min-w-0">
                 <p className="text-white text-sm font-medium truncate">{userName}</p>
-                <p className="font-mono text-xs truncate" style={{ color: "#718078" }}>
+                <p className="font-mono text-xs truncate" style={{ color: "#606C66" }}>
                   {role}
                 </p>
               </div>

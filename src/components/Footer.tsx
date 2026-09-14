@@ -26,7 +26,7 @@ export default function Footer() {
               TVET Digital
             </span>
           </div>
-          <p className="text-sm leading-relaxed" style={{ color: "#718078" }}>
+          <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>
             Practical digital skills education for Rwanda's next generation of
             tech professionals.
           </p>
@@ -79,8 +79,8 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     to={item.href}
-                    className="text-sm transition-colors hover:text-pg"
-                    style={{ color: "#718078" }}
+                    className="text-sm transition-colors hover:text-pg rounded outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg2"
+                    style={{ color: "#606C66" }}
                   >
                     {item.label}
                   </Link>
@@ -94,7 +94,7 @@ export default function Footer() {
         className="flex items-center justify-between pt-8"
         style={{ borderTop: "1px solid rgba(53,196,122,0.08)" }}
       >
-        <p className="font-mono text-xs" style={{ color: "#718078" }}>
+        <p className="font-mono text-xs" style={{ color: "#606C66" }}>
           © 2026 TVET Digital Skills Academy. Rwanda.
         </p>
         <p className="font-mono text-xs" style={{ color: "rgba(53,196,122,0.3)" }}>

@@ -71,12 +71,12 @@ export default function LeaderboardPage() {
             ← Back to Dashboard
           </Link>
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Leaderboard
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Top performers in the TVET Digital Academy community
           </p>
         </div>
@@ -90,12 +90,12 @@ export default function LeaderboardPage() {
           <StatCard label="Certificates Awarded" value="1,247" />
         </div>
 
-        <Card title="Top Performers" padding="none">
+        <Card variant="terminal" title="Top Performers" padding="none">
           <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
             {leaders.map((entry) => (
               <div
                 key={entry.rank}
-                className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                className="px-6 py-4 flex items-center justify-between hover:bg-surface transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <div
@@ -110,7 +110,7 @@ export default function LeaderboardPage() {
                               ? "#CD7F32"
                               : "#F5F7F5",
                       color:
-                        entry.rank > 3 ? "#718078" : "#071C12",
+                        entry.rank > 3 ? "#606C66" : "#071C12",
                     }}
                   >
                     {entry.rank}
@@ -119,7 +119,7 @@ export default function LeaderboardPage() {
                     <p className="font-semibold text-sm" style={{ color: "#102019" }}>
                       {entry.name}
                     </p>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {entry.track}
                     </p>
                   </div>
@@ -130,10 +130,10 @@ export default function LeaderboardPage() {
                     {entry.level}
                   </Badge>
                   <div className="text-right">
-                    <p className="font-mono font-bold text-sm" style={{ color: "#35C47A" }}>
+                    <p className="font-mono font-bold text-sm" style={{ color: "#1F7A4B" }}>
                       {entry.points}
                     </p>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {entry.streak} day streak
                     </p>
                   </div>
@@ -144,7 +144,7 @@ export default function LeaderboardPage() {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <Card title="Track Rankings">
+          <Card variant="terminal" title="Track Rankings">
             {[
               { track: "Software Dev", users: 856 },
               { track: "Networking", users: 634 },
@@ -157,14 +157,14 @@ export default function LeaderboardPage() {
                 <p className="text-sm" style={{ color: "#102019" }}>
                   {item.track}
                 </p>
-                <p className="font-mono font-bold" style={{ color: "#35C47A" }}>
+                <p className="font-mono font-bold" style={{ color: "#1F7A4B" }}>
                   {item.users}
                 </p>
               </div>
             ))}
           </Card>
 
-          <Card title="Achievement Tiers">
+          <Card variant="terminal" title="Achievement Tiers">
             {[
               { tier: "🥇 Gold", count: 147, description: "2000+ points" },
               { tier: "🥈 Silver", count: 342, description: "1000-2000 points" },
@@ -178,11 +178,11 @@ export default function LeaderboardPage() {
                   <p className="text-sm font-semibold" style={{ color: "#102019" }}>
                     {item.tier}
                   </p>
-                  <p className="font-mono font-bold" style={{ color: "#35C47A" }}>
+                  <p className="font-mono font-bold" style={{ color: "#1F7A4B" }}>
                     {item.count}
                   </p>
                 </div>
-                <p className="text-xs" style={{ color: "#718078" }}>
+                <p className="text-xs" style={{ color: "#606C66" }}>
                   {item.description}
                 </p>
               </div>

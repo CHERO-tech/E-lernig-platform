@@ -72,12 +72,12 @@ export default function StudentDashboard() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — student</p>
-            <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Good morning, Amahoro.</h1>
-            <p style={{ color: "#718078" }}>Continue building your skills.</p>
+            <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — student</p>
+            <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Good morning, Amahoro.</h1>
+            <p style={{ color: "#606C66" }}>Continue building your skills.</p>
           </div>
           <Link to="/notifications" className="w-9 h-9 rounded-lg flex items-center justify-center relative" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718078" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#606C66" strokeWidth="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
             <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-xs font-bold flex items-center justify-center" style={{ background: "#35C47A", color: "#071C12" }}>3</span>
           </Link>
         </div>
@@ -96,14 +96,14 @@ export default function StudentDashboard() {
             <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
               <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #E2E8E4" }}>
                 <h2 className="font-semibold" style={{ color: "#102019" }}>Continue Learning</h2>
-                <Link to="/courses" className="font-mono text-xs" style={{ color: "#35C47A" }}>View all →</Link>
+                <Link to="/courses" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>View all →</Link>
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {enrolledCourses.map((course) => (
-                  <Link key={course.id} to={`/courses/${course.id}`} className="block hover:bg-gray-50 transition-colors">
+                  <Link key={course.id} to={`/courses/${course.id}`} className="block hover:bg-surface transition-colors">
                     <div className="p-5">
                       <div className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0" style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}>
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>
                           {course.title[0]}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -111,19 +111,19 @@ export default function StudentDashboard() {
                             <p className="font-semibold text-sm" style={{ color: "#102019" }}>{course.title}</p>
                             <div className="flex items-center gap-1">
                               <svg width="12" height="12" viewBox="0 0 24 24" fill="#35C47A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                              <span className="font-mono text-xs" style={{ color: "#35C47A" }}>{course.rating}</span>
+                              <span className="font-mono text-xs" style={{ color: "#1F7A4B" }}>{course.rating}</span>
                             </div>
                           </div>
-                          <p className="text-xs mb-3" style={{ color: "#718078" }}>
+                          <p className="text-xs mb-3" style={{ color: "#606C66" }}>
                             {course.instructor} • {course.enrolled.toLocaleString()} enrolled
                           </p>
-                          <p className="font-mono text-xs mb-3" style={{ color: "#718078" }}>
+                          <p className="font-mono text-xs mb-3" style={{ color: "#606C66" }}>
                             Next: {course.next} · {course.lessons}/{course.total} lessons
                           </p>
                           <div className="h-1.5 rounded-full mb-3" style={{ background: "#E2E8E4" }}>
                             <div className="h-full rounded-full transition-all" style={{ width: `${course.progress}%`, background: "#35C47A" }} />
                           </div>
-                          <p className="font-mono text-xs" style={{ color: "#35C47A" }}>{course.progress}% complete</p>
+                          <p className="font-mono text-xs" style={{ color: "#1F7A4B" }}>{course.progress}% complete</p>
                         </div>
                       </div>
                     </div>
@@ -138,8 +138,8 @@ export default function StudentDashboard() {
               <ResponsiveContainer width="100%" height={140}>
                 <BarChart data={weeklyData} barSize={24}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
-                  <XAxis dataKey="day" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} unit="h" />
+                  <XAxis dataKey="day" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} unit="h" />
                   <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} formatter={(v) => [`${v}h`, "Learning"]} />
                   <Bar dataKey="hours" fill="#35C47A" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -155,7 +155,7 @@ export default function StudentDashboard() {
               <ResponsiveContainer width="100%" height={200}>
                 <RadarChart data={skillData}>
                   <PolarGrid stroke="#E2E8E4" />
-                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#718078" }} />
+                  <PolarAngleAxis dataKey="skill" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#606C66" }} />
                   <Radar name="Skills" dataKey="A" stroke="#35C47A" fill="#35C47A" fillOpacity={0.15} strokeWidth={2} />
                 </RadarChart>
               </ResponsiveContainer>
@@ -165,11 +165,11 @@ export default function StudentDashboard() {
             <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
               <div className="flex items-center justify-between px-5 py-4" style={{ borderBottom: "1px solid #E2E8E4" }}>
                 <h2 className="font-semibold" style={{ color: "#102019" }}>My Projects</h2>
-                <Link to="/projects" className="font-mono text-xs" style={{ color: "#35C47A" }}>All →</Link>
+                <Link to="/projects" className="font-mono text-xs" style={{ color: "#1F7A4B" }}>All →</Link>
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {myProjects.map((proj) => (
-                  <div key={proj.title} className="p-4 hover:bg-gray-50">
+                  <div key={proj.title} className="p-4 hover:bg-surface">
                     <div className="flex items-center justify-between mb-2">
                       <p className="font-medium text-sm" style={{ color: "#102019" }}>{proj.title}</p>
                       <Badge tone={proj.status === "Completed" ? "success" : proj.status === "Under Review" ? "warning" : "brand"} mono>
@@ -178,7 +178,7 @@ export default function StudentDashboard() {
                     </div>
                     <div className="flex flex-wrap gap-1">
                       {proj.skills.map((s) => (
-                        <span key={s} className="font-mono text-xs px-1.5 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#718078" }}>{s}</span>
+                        <span key={s} className="font-mono text-xs px-1.5 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#606C66" }}>{s}</span>
                       ))}
                     </div>
                   </div>

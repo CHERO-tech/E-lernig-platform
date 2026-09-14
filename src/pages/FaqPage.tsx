@@ -64,12 +64,12 @@ export default function FaqPage() {
             ← Back to Help Center
           </Link>
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Frequently Asked Questions
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Find answers to common questions about TVET Digital Academy
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function FaqPage() {
                       <span
                         className="ml-4 transition-transform"
                         style={{
-                          color: "#35C47A",
+                          color: "#1F7A4B",
                           transform:
                             expandedId === idx ? "rotate(180deg)" : "rotate(0deg)",
                         }}
@@ -115,7 +115,7 @@ export default function FaqPage() {
                       <p
                         className="text-sm mt-3 pt-3"
                         style={{
-                          color: "#718078",
+                          color: "#606C66",
                           borderTop: "1px solid #E2E8E4",
                         }}
                       >

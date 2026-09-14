@@ -55,7 +55,7 @@ export default function AssessmentPage() {
     return (
       <div className="min-h-screen" style={{ background: "#F5F7F5" }}>
         <div className="max-w-lg mx-auto px-8 py-4">
-          <Link to="/student" className="text-sm font-medium" style={{ color: "#35C47A" }}>
+          <Link to="/student" className="text-sm font-medium" style={{ color: "#1F7A4B" }}>
             ← Back to Dashboard
           </Link>
         </div>
@@ -101,7 +101,7 @@ export default function AssessmentPage() {
                       className="font-mono text-xs px-2 py-0.5 rounded"
                       style={{
                         background: s.demonstrated ? "rgba(53,196,122,0.1)" : "rgba(239,68,68,0.08)",
-                        color: s.demonstrated ? "#35C47A" : "#ef4444",
+                        color: s.demonstrated ? "#1F7A4B" : "#ef4444",
                       }}
                     >
                       {s.demonstrated ? "Demonstrated ✓" : "Not demonstrated"}
@@ -159,7 +159,7 @@ export default function AssessmentPage() {
             <p className="text-white font-semibold">Web Development Assessment</p>
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-mono text-xs" style={{ color: "#718078" }}>
+            <span className="font-mono text-xs" style={{ color: "#606C66" }}>
               {answered}/{questions.length} answered
             </span>
             <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export default function AssessmentPage() {
               className="w-8 h-8 rounded-full text-xs font-mono font-bold transition-all"
               style={{
                 background: i === currentQ ? "#35C47A" : answers[i] !== undefined ? "rgba(53,196,122,0.15)" : "#FFFFFF",
-                color: i === currentQ ? "#071C12" : answers[i] !== undefined ? "#35C47A" : "#718078",
+                color: i === currentQ ? "#071C12" : answers[i] !== undefined ? "#1F7A4B" : "#606C66",
                 border: `1px solid ${i === currentQ ? "#35C47A" : answers[i] !== undefined ? "rgba(53,196,122,0.3)" : "#E2E8E4"}`,
               }}
             >
@@ -199,10 +199,10 @@ export default function AssessmentPage() {
         {/* Question card */}
         <div className="rounded-2xl p-8 mb-6" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
           <div className="flex items-center gap-3 mb-6">
-            <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#35C47A", border: "1px solid rgba(53,196,122,0.15)" }}>
+            <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>
               Question {question.id} / {questions.length}
             </span>
-            <span className="font-mono text-xs" style={{ color: "#718078" }}>Web Development</span>
+            <span className="font-mono text-xs" style={{ color: "#606C66" }}>Web Development</span>
           </div>
           <h2 className="text-xl font-bold mb-8 leading-relaxed" style={{ color: "#102019" }}>{question.text}</h2>
 
@@ -223,13 +223,13 @@ export default function AssessmentPage() {
                     className="w-7 h-7 rounded-full flex items-center justify-center font-mono text-xs font-bold shrink-0"
                     style={{
                       background: selected ? "#35C47A" : "#FFFFFF",
-                      color: selected ? "#071C12" : "#718078",
+                      color: selected ? "#071C12" : "#606C66",
                       border: selected ? "none" : "1.5px solid #E2E8E4",
                     }}
                   >
                     {String.fromCharCode(65 + i)}
                   </div>
-                  <span className="text-sm font-medium" style={{ color: selected ? "#102019" : "#718078" }}>{opt}</span>
+                  <span className="text-sm font-medium" style={{ color: selected ? "#102019" : "#606C66" }}>{opt}</span>
                   {selected && (
                     <svg className="ml-auto shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M20 6L9 17l-5-5" /></svg>
                   )}
@@ -244,7 +244,7 @@ export default function AssessmentPage() {
           <button
             onClick={() => setCurrentQ((q) => Math.max(0, q - 1))}
             disabled={currentQ === 0}
-            className="px-6 py-3 rounded-lg font-semibold text-sm disabled:opacity-30 transition-all hover:bg-gray-200"
+            className="px-6 py-3 rounded-lg font-semibold text-sm disabled:opacity-30 transition-all hover:bg-surface"
             style={{ background: "#FFFFFF", color: "#102019", border: "1px solid #E2E8E4" }}
           >
             ← Previous

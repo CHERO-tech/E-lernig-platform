@@ -17,17 +17,17 @@ const typeIcon = (type: string) => {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
   );
   if (type === "warning") return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C17F33" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /></svg>
   );
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#336AC1" strokeWidth="2.5"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
   );
 };
 
 const typeColor = (type: string) => {
   if (type === "success") return { bg: "rgba(53,196,122,0.08)", icon: "rgba(53,196,122,0.12)" };
-  if (type === "warning") return { bg: "rgba(217,119,6,0.06)", icon: "rgba(217,119,6,0.12)" };
-  return { bg: "rgba(59,130,246,0.06)", icon: "rgba(59,130,246,0.12)" };
+  if (type === "warning") return { bg: "rgba(193,127,51,0.06)", icon: "rgba(193,127,51,0.12)" };
+  return { bg: "rgba(51,106,193,0.06)", icon: "rgba(51,106,193,0.12)" };
 };
 
 export default function NotificationsPage() {
@@ -53,9 +53,9 @@ export default function NotificationsPage() {
           <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ notifications --list</p>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>Notifications</h1>
+              <h1 className="text-page-title" style={{ color: "#FFFFFF" }}>Notifications</h1>
               {unreadCount > 0 && (
-                <p className="font-mono text-sm mt-1" style={{ color: "#718078" }}>
+                <p className="font-mono text-sm mt-1" style={{ color: "#606C66" }}>
                   <span style={{ color: "#35C47A" }}>{unreadCount}</span> unread
                 </p>
               )}
@@ -83,7 +83,7 @@ export default function NotificationsPage() {
               className="px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all"
               style={{
                 background: filter === f ? "#35C47A" : "#FFFFFF",
-                color: filter === f ? "#071C12" : "#718078",
+                color: filter === f ? "#071C12" : "#606C66",
                 border: `1px solid ${filter === f ? "#35C47A" : "#E2E8E4"}`,
               }}
             >
@@ -100,7 +100,7 @@ export default function NotificationsPage() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /></svg>
               </div>
               <p className="font-semibold" style={{ color: "#102019" }}>All caught up!</p>
-              <p className="text-sm mt-1" style={{ color: "#718078" }}>No unread notifications.</p>
+              <p className="text-sm mt-1" style={{ color: "#606C66" }}>No unread notifications.</p>
             </div>
           ) : (
             filtered.map((n) => {
@@ -129,14 +129,14 @@ export default function NotificationsPage() {
                           <span className="w-2 h-2 rounded-full shrink-0" style={{ background: "#35C47A" }} />
                         )}
                       </div>
-                      <p className="text-sm leading-relaxed mb-2" style={{ color: "#718078" }}>{n.msg}</p>
+                      <p className="text-sm leading-relaxed mb-2" style={{ color: "#606C66" }}>{n.msg}</p>
                       <div className="flex items-center gap-4">
-                        <span className="font-mono text-xs" style={{ color: "#718078" }}>{n.time}</span>
+                        <span className="font-mono text-xs" style={{ color: "#606C66" }}>{n.time}</span>
                         {n.action && (
                           <Link
                             to={n.action.href}
                             className="font-mono text-xs font-semibold"
-                            style={{ color: "#35C47A" }}
+                            style={{ color: "#1F7A4B" }}
                             onClick={(e) => e.stopPropagation()}
                           >
                             {n.action.label} →
@@ -152,7 +152,7 @@ export default function NotificationsPage() {
         </div>
 
         <div className="text-center mt-8">
-          <Link to="/student" className="font-mono text-sm" style={{ color: "#718078" }}>
+          <Link to="/student" className="font-mono text-sm" style={{ color: "#606C66" }}>
             ← Back to Dashboard
           </Link>
         </div>

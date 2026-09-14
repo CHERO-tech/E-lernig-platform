@@ -29,13 +29,13 @@ export default function PageHeader({
                 $ {command}
               </p>
               <h1
-                className="text-3xl font-bold mb-1"
-                style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+                className="text-page-title mb-1"
+                style={{ color: "#FFFFFF" }}
               >
                 {title}
               </h1>
               {subtitle && (
-                <p style={{ color: "#718078" }}>
+                <p style={{ color: "#606C66" }}>
                   {subtitle}
                 </p>
               )}
@@ -51,17 +51,17 @@ export default function PageHeader({
     <div className={`${containerClassName} mx-auto px-8 py-8`}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>
+          <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>
             $ {command}
           </p>
           <h1
-            className="text-3xl font-bold mb-1"
-            style={{ color: "#102019", letterSpacing: "-0.02em" }}
+            className="text-page-title mb-1"
+            style={{ color: "#102019" }}
           >
             {title}
           </h1>
           {subtitle && (
-            <p style={{ color: "#718078" }}>
+            <p style={{ color: "#606C66" }}>
               {subtitle}
             </p>
           )}

@@ -35,7 +35,7 @@ export default function EmptyState({
         {title}
       </h3>
       {description && (
-        <p className="text-sm mb-6 max-w-sm" style={{ color: "#718078" }}>
+        <p className="text-sm mb-6 max-w-sm" style={{ color: "#606C66" }}>
           {description}
         </p>
       )}

@@ -59,9 +59,9 @@ export default function SchoolAdminDashboard() {
     >
       <div className="p-8">
         <div className="mb-8">
-          <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — school-admin</p>
-          <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Institution Overview</h1>
-          <p style={{ color: "#718078" }}>INES-Ruhengeri · September 2026</p>
+          <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — school-admin</p>
+          <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Institution Overview</h1>
+          <p style={{ color: "#606C66" }}>INES-Ruhengeri · September 2026</p>
         </div>
 
         {/* Stats */}
@@ -74,8 +74,8 @@ export default function SchoolAdminDashboard() {
             { label: "Certificates Issued", value: "67" },
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-4 text-center transition-all hover:shadow-lg" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
-              <p className="font-mono text-2xl font-bold mb-1" style={{ color: "#35C47A" }}>{s.value}</p>
-              <p className="text-xs" style={{ color: "#718078" }}>{s.label}</p>
+              <p className="font-mono text-2xl font-bold mb-1" style={{ color: "#1F7A4B" }}>{s.value}</p>
+              <p className="text-xs" style={{ color: "#606C66" }}>{s.label}</p>
             </div>
           ))}
         </div>
@@ -96,8 +96,8 @@ export default function SchoolAdminDashboard() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
-                <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="month" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
                 <Area type="monotone" dataKey="enrolled" stroke="#35C47A" fill="url(#enrolled)" strokeWidth={2} name="Enrolled" />
                 <Area type="monotone" dataKey="completed" stroke="#0B291A" fill="url(#completed)" strokeWidth={2} name="Completed" />
@@ -110,8 +110,8 @@ export default function SchoolAdminDashboard() {
             <ResponsiveContainer width="100%" height={160}>
               <BarChart data={skillDist} layout="vertical" barSize={20}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" horizontal={false} />
-                <XAxis type="number" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                <YAxis dataKey="name" type="category" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} width={80} />
+                <XAxis type="number" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                <YAxis dataKey="name" type="category" tick={{ fontSize: 10, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} width={80} />
                 <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
                 <Bar dataKey="students" fill="#35C47A" radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -129,17 +129,17 @@ export default function SchoolAdminDashboard() {
               <thead>
                 <tr style={{ background: "#F5F7F5", borderBottom: "1px solid #E2E8E4" }}>
                   {["#", "Student", "Track", "Score", "Certs"].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left font-mono text-xs" style={{ color: "#718078" }}>{h}</th>
+                    <th key={h} className="px-4 py-3 text-left font-mono text-xs" style={{ color: "#606C66" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {topStudents.map((s, i) => (
                   <tr key={s.name} style={{ borderBottom: i < topStudents.length - 1 ? "1px solid #F5F7F5" : "none" }}>
-                    <td className="px-4 py-3 font-mono text-sm font-bold" style={{ color: i === 0 ? "#35C47A" : "#718078" }}>#{i + 1}</td>
+                    <td className="px-4 py-3 font-mono text-sm font-bold" style={{ color: i === 0 ? "#1F7A4B" : "#606C66" }}>#{i + 1}</td>
                     <td className="px-4 py-3 text-sm font-medium" style={{ color: "#102019" }}>{s.name}</td>
-                    <td className="px-4 py-3 font-mono text-xs" style={{ color: "#718078" }}>{s.program}</td>
-                    <td className="px-4 py-3 font-mono text-sm font-bold" style={{ color: "#35C47A" }}>{s.score}%</td>
+                    <td className="px-4 py-3 font-mono text-xs" style={{ color: "#606C66" }}>{s.program}</td>
+                    <td className="px-4 py-3 font-mono text-sm font-bold" style={{ color: "#1F7A4B" }}>{s.score}%</td>
                     <td className="px-4 py-3 font-mono text-xs text-center" style={{ color: "#102019" }}>{s.certs}</td>
                   </tr>
                 ))}
@@ -150,7 +150,7 @@ export default function SchoolAdminDashboard() {
           {/* At risk */}
           <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
             <div className="px-6 py-4 flex items-center gap-2" style={{ borderBottom: "1px solid #E2E8E4" }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C17F33" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
               <h2 className="font-semibold" style={{ color: "#102019" }}>Students Needing Attention</h2>
             </div>
             <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
@@ -158,20 +158,20 @@ export default function SchoolAdminDashboard() {
                 <div key={s.name} className="p-5">
                   <div className="flex items-center justify-between mb-2">
                     <p className="font-medium text-sm" style={{ color: "#102019" }}>{s.name}</p>
-                    <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(217,119,6,0.1)", color: "#d97706" }}>
+                    <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(193,127,51,0.1)", color: "#C17F33" }}>
                       Inactive {s.lastSeen}
                     </span>
                   </div>
-                  <p className="font-mono text-xs mb-3" style={{ color: "#718078" }}>{s.course}</p>
+                  <p className="font-mono text-xs mb-3" style={{ color: "#606C66" }}>{s.course}</p>
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-1.5 rounded-full" style={{ background: "#E2E8E4" }}>
-                      <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: "#d97706" }} />
+                      <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: "#C17F33" }} />
                     </div>
-                    <span className="font-mono text-xs" style={{ color: "#718078" }}>{s.progress}%</span>
+                    <span className="font-mono text-xs" style={{ color: "#606C66" }}>{s.progress}%</span>
                   </div>
                   <div className="flex gap-2 mt-3">
-                    <button className="text-xs font-semibold px-3 py-1.5 rounded transition-all hover:shadow-md hover:bg-gray-100" style={{ background: "#F5F7F5", color: "#102019", border: "1px solid #E2E8E4" }}>Send Nudge</button>
-                    <button className="text-xs font-semibold px-3 py-1.5 rounded transition-all hover:shadow-md hover:bg-opacity-80" style={{ background: "rgba(53,196,122,0.08)", color: "#35C47A", border: "1px solid rgba(53,196,122,0.15)" }}>View Profile</button>
+                    <button className="text-xs font-semibold px-3 py-1.5 rounded transition-all hover:shadow-md hover:bg-surface" style={{ background: "#F5F7F5", color: "#102019", border: "1px solid #E2E8E4" }}>Send Nudge</button>
+                    <button className="text-xs font-semibold px-3 py-1.5 rounded transition-all hover:shadow-md hover:bg-opacity-80" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>View Profile</button>
                   </div>
                 </div>
               ))}

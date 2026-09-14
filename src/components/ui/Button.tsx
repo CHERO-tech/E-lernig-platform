@@ -16,8 +16,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-pg text-dg hover:brightness-110 active:scale-95",
-  outline: "bg-white text-dt border border-border hover:bg-gray-50 active:scale-95",
-  ghost: "text-pg hover:bg-pg/10 active:scale-95",
+  outline: "bg-white text-dt border border-border hover:bg-surface active:scale-95",
+  ghost: "text-pg2 hover:bg-pg/10 active:scale-95",
   danger: "text-err border border-err/30 hover:bg-err/5 active:scale-95",
 };
 
@@ -40,7 +40,7 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const baseClasses = `transition-all inline-flex items-center justify-center gap-2 ${variantClasses[variant]} ${sizeClasses[size]} ${fullWidth ? "w-full" : ""} ${disabled || loading ? "opacity-50 cursor-not-allowed" : ""} ${className}`;
+  const baseClasses = `transition-all inline-flex items-center justify-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-pg focus-visible:ring-offset-2 focus-visible:ring-offset-ow ${variantClasses[variant]} ${sizeClasses[size]} ${fullWidth ? "w-full" : ""} ${disabled || loading ? "opacity-50 cursor-not-allowed" : ""} ${className}`;
 
   const content = (
     <>

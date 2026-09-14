@@ -206,40 +206,40 @@ export default function PlacementExamPage() {
               </svg>
             </div>
             <h1
-              className="text-3xl font-bold mb-3"
-              style={{ color: "#102019", letterSpacing: "-0.02em" }}
+              className="text-page-title mb-3"
+              style={{ color: "#102019" }}
             >
               Assessment Complete!
             </h1>
-            <p style={{ color: "#718078" }}>
+            <p style={{ color: "#606C66" }}>
               Your skill level has been determined
             </p>
           </div>
 
-          <Card title="Your Results" className="mb-6">
+          <Card variant="terminal" title="Your Results" className="mb-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-4 border-b border-border">
-                <p style={{ color: "#718078" }}>Score</p>
+                <p style={{ color: "#606C66" }}>Score</p>
                 <p
-                  style={{ color: "#35C47A" }}
+                  style={{ color: "#1F7A4B" }}
                   className="font-mono font-bold text-lg"
                 >
                   {result.score}/{result.totalQuestions}
                 </p>
               </div>
               <div className="flex items-center justify-between pb-4 border-b border-border">
-                <p style={{ color: "#718078" }}>Percentage</p>
+                <p style={{ color: "#606C66" }}>Percentage</p>
                 <p
-                  style={{ color: "#35C47A" }}
+                  style={{ color: "#1F7A4B" }}
                   className="font-mono font-bold text-lg"
                 >
                   {Math.round((result.score / result.totalQuestions) * 100)}%
                 </p>
               </div>
               <div className="flex items-center justify-between">
-                <p style={{ color: "#718078" }}>Level</p>
+                <p style={{ color: "#606C66" }}>Level</p>
                 <p
-                  style={{ color: "#35C47A" }}
+                  style={{ color: "#1F7A4B" }}
                   className="font-mono font-bold text-lg"
                 >
                   {result.level}
@@ -248,15 +248,15 @@ export default function PlacementExamPage() {
             </div>
           </Card>
 
-          <Card title="Recommended Courses for You" className="mb-8">
+          <Card variant="terminal" title="Recommended Courses for You" className="mb-8">
             <div className="space-y-2">
               {result.recommendedCourses.map((course) => (
                 <div
                   key={course}
                   className="flex items-center gap-2 py-2"
-                  style={{ color: "#718078" }}
+                  style={{ color: "#606C66" }}
                 >
-                  <span style={{ color: "#35C47A" }}>✓</span>
+                  <span style={{ color: "#1F7A4B" }}>✓</span>
                   {course}
                 </div>
               ))}
@@ -297,12 +297,12 @@ export default function PlacementExamPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h1
-              className="text-3xl font-bold"
-              style={{ color: "#102019", letterSpacing: "-0.02em" }}
+              className="text-page-title"
+              style={{ color: "#102019" }}
             >
               Skill Assessment
             </h1>
-            <span className="font-mono text-sm" style={{ color: "#718078" }}>
+            <span className="font-mono text-sm" style={{ color: "#606C66" }}>
               {currentQuestion + 1}/{questions.length}
             </span>
           </div>
@@ -314,9 +314,9 @@ export default function PlacementExamPage() {
           </div>
         </div>
 
-        <Card padding="lg" className="mb-8">
+        <Card variant="terminal" padding="lg" className="mb-8">
           <div className="mb-6">
-            <p className="text-xs font-mono mb-2" style={{ color: "#718078" }}>
+            <p className="text-xs font-mono mb-2" style={{ color: "#606C66" }}>
               {q.category.toUpperCase()}
             </p>
             <h2
@@ -350,7 +350,7 @@ export default function PlacementExamPage() {
                   onChange={() => handleSelectAnswer(idx)}
                   className="w-4 h-4 mr-4"
                 />
-                <span style={{ color: "#718078" }}>{option}</span>
+                <span style={{ color: "#606C66" }}>{option}</span>
               </label>
             ))}
           </div>
@@ -385,7 +385,7 @@ export default function PlacementExamPage() {
           </div>
         </Card>
 
-        <p className="text-center text-xs" style={{ color: "#718078" }}>
+        <p className="text-center text-xs" style={{ color: "#606C66" }}>
           Answer all questions to continue
         </p>
       </div>

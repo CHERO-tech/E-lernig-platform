@@ -85,14 +85,14 @@ export default function PaymentCheckoutPage() {
               </svg>
             </div>
             <h1
-              className="text-3xl font-bold mb-3"
-              style={{ color: "#102019", letterSpacing: "-0.02em" }}
+              className="text-page-title mb-3"
+              style={{ color: "#102019" }}
             >
               Payment Successful!
             </h1>
             <p
               className="text-base mb-8"
-              style={{ color: "#718078" }}
+              style={{ color: "#606C66" }}
             >
               You've been enrolled in the {plan?.name} plan.
             </p>
@@ -101,22 +101,22 @@ export default function PaymentCheckoutPage() {
           <Card title="Subscription Details">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-4 border-b border-border">
-                <p style={{ color: "#718078" }}>Plan</p>
+                <p style={{ color: "#606C66" }}>Plan</p>
                 <p style={{ color: "#102019" }} className="font-semibold">
                   {plan?.name}
                 </p>
               </div>
               <div className="flex items-center justify-between pb-4 border-b border-border">
-                <p style={{ color: "#718078" }}>Amount</p>
+                <p style={{ color: "#606C66" }}>Amount</p>
                 <p
-                  style={{ color: "#35C47A" }}
+                  style={{ color: "#1F7A4B" }}
                   className="font-mono font-bold"
                 >
                   ${plan?.price}/month
                 </p>
               </div>
               <div className="flex items-center justify-between">
-                <p style={{ color: "#718078" }}>Start Date</p>
+                <p style={{ color: "#606C66" }}>Start Date</p>
                 <p style={{ color: "#102019" }} className="font-semibold">
                   Sep 6, 2026
                 </p>
@@ -142,8 +142,8 @@ export default function PaymentCheckoutPage() {
       <SiteLayout>
         <div className="max-w-2xl mx-auto px-8 py-12">
           <h1
-            className="text-3xl font-bold mb-8"
-            style={{ color: "#102019", letterSpacing: "-0.02em" }}
+            className="text-page-title mb-8"
+            style={{ color: "#102019" }}
           >
             Payment Method
           </h1>
@@ -209,17 +209,17 @@ export default function PaymentCheckoutPage() {
         <Link
           to="/student"
           className="inline-block mb-4 text-sm transition-colors"
-          style={{ color: "#35C47A" }}
+          style={{ color: "#1F7A4B" }}
         >
           ← Back to Dashboard
         </Link>
         <h1
-          className="text-3xl font-bold mb-3"
-          style={{ color: "#102019", letterSpacing: "-0.02em" }}
+          className="text-page-title mb-3"
+          style={{ color: "#102019" }}
         >
           Upgrade Your Plan
         </h1>
-        <p style={{ color: "#718078" }} className="mb-12">
+        <p style={{ color: "#606C66" }} className="mb-12">
           Choose the perfect plan for your learning journey
         </p>
 
@@ -252,11 +252,11 @@ export default function PaymentCheckoutPage() {
                 <div className="flex items-baseline gap-1">
                   <span
                     className="text-3xl font-bold font-mono"
-                    style={{ color: "#35C47A" }}
+                    style={{ color: "#1F7A4B" }}
                   >
                     ${p.price}
                   </span>
-                  <span style={{ color: "#718078" }}>/month</span>
+                  <span style={{ color: "#606C66" }}>/month</span>
                 </div>
               </div>
 
@@ -266,9 +266,9 @@ export default function PaymentCheckoutPage() {
                     <li
                       key={idx}
                       className="text-sm flex items-start gap-2"
-                      style={{ color: "#718078" }}
+                      style={{ color: "#606C66" }}
                     >
-                      <span style={{ color: "#35C47A" }}>✓</span>
+                      <span style={{ color: "#1F7A4B" }}>✓</span>
                       {feature}
                     </li>
                   ))}

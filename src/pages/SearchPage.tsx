@@ -65,14 +65,14 @@ export default function SearchPage() {
         <Link
           to="/student"
           className="inline-block mb-6 text-sm transition-colors"
-          style={{ color: "#35C47A" }}
+          style={{ color: "#1F7A4B" }}
         >
           ← Back to Dashboard
         </Link>
         <div className="mb-12">
           <h1
-            className="text-3xl font-bold mb-4"
-            style={{ color: "#102019", letterSpacing: "-0.02em" }}
+            className="text-page-title mb-4"
+            style={{ color: "#102019" }}
           >
             Search
           </h1>
@@ -110,7 +110,7 @@ export default function SearchPage() {
           <div>
             <p
               className="text-sm mb-6"
-              style={{ color: "#718078" }}
+              style={{ color: "#606C66" }}
             >
               Found {filtered.length} result{filtered.length !== 1 ? "s" : ""} for "{query}"
             </p>
@@ -125,7 +125,7 @@ export default function SearchPage() {
                             result.type.slice(1)}
                         </Badge>
                         {result.category && (
-                          <span className="text-xs" style={{ color: "#718078" }}>
+                          <span className="text-xs" style={{ color: "#606C66" }}>
                             {result.category}
                           </span>
                         )}
@@ -138,7 +138,7 @@ export default function SearchPage() {
                       </h3>
                       <p
                         className="text-sm"
-                        style={{ color: "#718078" }}
+                        style={{ color: "#606C66" }}
                       >
                         {result.description}
                       </p>
@@ -146,11 +146,11 @@ export default function SearchPage() {
                     <div className="text-right shrink-0">
                       <p
                         className="text-xs font-mono font-bold"
-                        style={{ color: "#35C47A" }}
+                        style={{ color: "#1F7A4B" }}
                       >
                         {result.relevance}%
                       </p>
-                      <p className="text-xs" style={{ color: "#718078" }}>
+                      <p className="text-xs" style={{ color: "#606C66" }}>
                         match
                       </p>
                     </div>

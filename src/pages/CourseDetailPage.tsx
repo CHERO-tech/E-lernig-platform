@@ -81,7 +81,7 @@ export default function CourseDetailPage() {
     <div style={{ background: "#F5F7F5", minHeight: "100vh" }}>
       {/* Back Link */}
       <div className="max-w-7xl mx-auto px-8 pt-8">
-        <Link to="/courses" className="text-sm" style={{ color: "#35C47A" }}>
+        <Link to="/courses" className="text-sm" style={{ color: "#1F7A4B" }}>
           ← Back to Courses
         </Link>
       </div>
@@ -113,7 +113,7 @@ export default function CourseDetailPage() {
                 <h1 className="text-3xl font-bold" style={{ color: "#102019" }}>Web Development</h1>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="#35C47A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
               </div>
-              <p style={{ color: "#718078" }}>Master HTML, CSS, JavaScript and React to build modern web applications.</p>
+              <p style={{ color: "#606C66" }}>Master HTML, CSS, JavaScript and React to build modern web applications.</p>
             </div>
 
             {/* Key Concepts */}
@@ -125,7 +125,7 @@ export default function CourseDetailPage() {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2" className="mt-0.5 shrink-0">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    <span style={{ color: "#718078" }}>{concept}</span>
+                    <span style={{ color: "#606C66" }}>{concept}</span>
                   </li>
                 ))}
               </ul>
@@ -134,7 +134,7 @@ export default function CourseDetailPage() {
             {/* Lesson Recap */}
             <div style={{ background: "#FFFFFF", borderRadius: "12px", padding: "20px", border: "1px solid #E2E8E4" }}>
               <h3 className="font-bold text-lg mb-4" style={{ color: "#102019" }}>Lesson Recap</h3>
-              <div className="space-y-3 text-sm" style={{ color: "#718078" }}>
+              <div className="space-y-3 text-sm" style={{ color: "#606C66" }}>
                 <p>In this lesson, you learned the fundamentals of building blocks of React: Components. You learned:</p>
                 <ul className="list-disc list-inside space-y-2 ml-2">
                   <li>How to create and export a React component</li>
@@ -151,15 +151,15 @@ export default function CourseDetailPage() {
             <div style={{ background: "#FFFFFF", borderRadius: "12px", padding: "20px", border: "1px solid #E2E8E4" }}>
               <h3 className="font-bold text-lg mb-4" style={{ color: "#102019" }}>Study Progress</h3>
               <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full font-bold text-2xl" style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}>
+                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full font-bold text-2xl" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>
                   {progressPercent}%
                 </div>
               </div>
-              <p className="text-sm text-center mb-4" style={{ color: "#718078" }}>Track your learning milestones and where you left off</p>
+              <p className="text-sm text-center mb-4" style={{ color: "#606C66" }}>Track your learning milestones and where you left off</p>
               <div className="h-2 rounded-full" style={{ background: "#E2E8E4" }}>
                 <div className="h-full rounded-full" style={{ width: `${progressPercent}%`, background: "#35C47A" }} />
               </div>
-              <p className="text-xs text-center mt-3" style={{ color: "#718078" }}>{doneLessons} of {totalLessons} lessons completed</p>
+              <p className="text-xs text-center mt-3" style={{ color: "#606C66" }}>{doneLessons} of {totalLessons} lessons completed</p>
             </div>
 
             {/* Course Content */}
@@ -172,10 +172,10 @@ export default function CourseDetailPage() {
                   <div key={module.id} style={{ borderBottom: "1px solid #E2E8E4" }}>
                     <button
                       onClick={() => toggle(module.id)}
-                      className="w-full text-left p-4 hover:bg-gray-50 transition-colors flex items-center justify-between"
+                      className="w-full text-left p-4 hover:bg-surface transition-colors flex items-center justify-between"
                     >
                       <span className="font-medium text-sm" style={{ color: "#102019" }}>{module.title}</span>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718078" strokeWidth="2"
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#606C66" strokeWidth="2"
                         style={{ transform: expanded.includes(module.id) ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}>
                         <polyline points="6 9 12 15 18 9" />
                       </svg>
@@ -186,16 +186,16 @@ export default function CourseDetailPage() {
                           <button
                             key={idx}
                             onClick={() => setCurrentLesson(lesson)}
-                            className="w-full text-left p-3 pl-8 hover:bg-gray-100 transition-colors flex items-center gap-2 border-l-2 text-sm"
+                            className="w-full text-left p-3 pl-8 hover:bg-surface transition-colors flex items-center gap-2 border-l-2 text-sm"
                             style={{
                               borderColor: lesson === currentLesson ? "#35C47A" : "transparent",
                               background: lesson === currentLesson ? "rgba(53,196,122,0.05)" : "transparent",
                             }}
                           >
-                            <span style={{ color: lesson.done ? "#35C47A" : "#718078" }}>
+                            <span style={{ color: lesson.done ? "#1F7A4B" : "#606C66" }}>
                               {typeIcon(lesson.type)}
                             </span>
-                            <span className="flex-1" style={{ color: lesson.done ? "#35C47A" : "#718078" }}>
+                            <span className="flex-1" style={{ color: lesson.done ? "#1F7A4B" : "#606C66" }}>
                               {lesson.title}
                             </span>
                             {lesson.done && (

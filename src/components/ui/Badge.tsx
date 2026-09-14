@@ -12,12 +12,12 @@ interface BadgeProps {
 }
 
 const toneClasses: Record<BadgeTone, string> = {
-  brand: "bg-pg/10 text-pg border border-pg/20",
+  brand: "bg-pg/10 text-pg2 border border-pg/20",
   neutral: "bg-mg/10 text-mg border border-mg/20",
-  success: "bg-pg/10 text-pg border border-pg/20",
-  warning: "bg-warn/10 text-warn border border-warn/25",
+  success: "bg-pg/10 text-pg2 border border-pg/20",
+  warning: "bg-warn/10 text-warn2 border border-warn/25",
   info: "bg-info/10 text-info border border-info/25",
-  danger: "bg-err/10 text-err border border-err/25",
+  danger: "bg-err/10 text-err2 border border-err/25",
 };
 
 export default function Badge({
@@ -40,11 +40,11 @@ export default function Badge({
           style={{
             backgroundColor:
               tone === "warning"
-                ? "#d97706"
+                ? "#C17F33"
                 : tone === "info"
-                  ? "#3b82f6"
+                  ? "#336AC1"
                   : tone === "danger"
-                    ? "#dc2626"
+                    ? "#D64545"
                     : "#35C47A",
           }}
         />

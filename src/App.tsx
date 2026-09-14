@@ -33,12 +33,10 @@ import PlacementExamPage from "./pages/PlacementExamPage";
 import CurrentCoursePage from "./pages/CurrentCoursePage";
 import FeaturedCoursesPage from "./pages/FeaturedCoursesPage";
 import LearningPathsPage from "./pages/LearningPathsPage";
-import DemoNav from "./components/DemoNav";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <DemoNav />
       <Routes>
         {/* ── PUBLIC / MARKETING ── */}
         <Route path="/" element={<LandingPage />} />

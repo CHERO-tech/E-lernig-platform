@@ -75,9 +75,9 @@ export default function TrainerDashboard() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — trainer</p>
-            <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Trainer Dashboard</h1>
-            <p style={{ color: "#718078" }}>Welcome back, Emmanuel. You have 4 pending project reviews.</p>
+            <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — trainer</p>
+            <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Trainer Dashboard</h1>
+            <p style={{ color: "#606C66" }}>Welcome back, Emmanuel. You have 4 pending project reviews.</p>
           </div>
           <button
             className="px-4 py-2.5 rounded-lg text-sm font-semibold transition-all hover:opacity-90"
@@ -97,11 +97,11 @@ export default function TrainerDashboard() {
           ].map((s) => (
             <div key={s.label} className="rounded-xl p-5 transition-all hover:shadow-lg" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
               <div className="flex items-center justify-between mb-3">
-                <p className="text-xs" style={{ color: "#718078" }}>{s.label}</p>
+                <p className="text-xs" style={{ color: "#606C66" }}>{s.label}</p>
                 <div>{s.icon}</div>
               </div>
-              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#35C47A" }}>{s.value}</p>
-              <p className="font-mono text-xs" style={{ color: "#718078" }}>{s.trend}</p>
+              <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#1F7A4B" }}>{s.value}</p>
+              <p className="font-mono text-xs" style={{ color: "#606C66" }}>{s.trend}</p>
             </div>
           ))}
         </div>
@@ -114,8 +114,8 @@ export default function TrainerDashboard() {
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={enrollmentData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
-                  <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="week" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} />
                   <Line type="monotone" dataKey="students" stroke="#35C47A" strokeWidth={2.5} dot={{ fill: "#35C47A", r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
@@ -128,8 +128,8 @@ export default function TrainerDashboard() {
               <ResponsiveContainer width="100%" height={160}>
                 <BarChart data={completionData} barSize={32}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E2E8E4" vertical={false} />
-                  <XAxis dataKey="course" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#718078" }} axisLine={false} tickLine={false} unit="%" />
+                  <XAxis dataKey="course" tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 11, fontFamily: "JetBrains Mono", fill: "#606C66" }} axisLine={false} tickLine={false} unit="%" />
                   <Tooltip contentStyle={{ background: "#FFFFFF", border: "1px solid #E2E8E4", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 12 }} formatter={(v) => [`${v}%`, "Completion"]} />
                   <Bar dataKey="rate" fill="#35C47A" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -140,13 +140,13 @@ export default function TrainerDashboard() {
             <div className="rounded-xl overflow-hidden" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
               <div className="flex items-center justify-between px-6 py-4" style={{ borderBottom: "1px solid #E2E8E4" }}>
                 <h2 className="font-semibold" style={{ color: "#102019" }}>My Students</h2>
-                <button className="font-mono text-xs" style={{ color: "#35C47A" }}>View all →</button>
+                <button className="font-mono text-xs" style={{ color: "#1F7A4B" }}>View all →</button>
               </div>
               <table className="w-full">
                 <thead>
                   <tr style={{ background: "#F5F7F5", borderBottom: "1px solid #E2E8E4" }}>
                     {["Student", "Course", "Progress", "Action"].map((h) => (
-                      <th key={h} className="px-6 py-3 text-left font-mono text-xs" style={{ color: "#718078" }}>{h}</th>
+                      <th key={h} className="px-6 py-3 text-left font-mono text-xs" style={{ color: "#606C66" }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -155,26 +155,26 @@ export default function TrainerDashboard() {
                     <tr key={s.email} style={{ borderBottom: i < recentStudents.length - 1 ? "1px solid #F5F7F5" : "none" }}>
                       <td className="px-6 py-3.5">
                         <div className="flex items-center gap-3">
-                          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}>
+                          <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>
                             {s.name[0]}
                           </div>
                           <div>
                             <p className="text-sm font-medium" style={{ color: "#102019" }}>{s.name}</p>
-                            <p className="font-mono text-xs" style={{ color: "#718078" }}>{s.email}</p>
+                            <p className="font-mono text-xs" style={{ color: "#606C66" }}>{s.email}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-3.5 font-mono text-xs" style={{ color: "#718078" }}>{s.course}</td>
+                      <td className="px-6 py-3.5 font-mono text-xs" style={{ color: "#606C66" }}>{s.course}</td>
                       <td className="px-6 py-3.5">
                         <div className="flex items-center gap-2">
                           <div className="flex-1 h-1.5 rounded-full" style={{ background: "#E2E8E4" }}>
-                            <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: s.progress >= 70 ? "#35C47A" : s.progress >= 40 ? "#d97706" : "#718078" }} />
+                            <div className="h-full rounded-full" style={{ width: `${s.progress}%`, background: s.progress >= 70 ? "#35C47A" : s.progress >= 40 ? "#C17F33" : "#606C66" }} />
                           </div>
                           <span className="font-mono text-xs w-8 text-right" style={{ color: "#102019" }}>{s.progress}%</span>
                         </div>
                       </td>
                       <td className="px-6 py-3.5">
-                        <button className="font-mono text-xs" style={{ color: "#35C47A" }}>View →</button>
+                        <button className="font-mono text-xs" style={{ color: "#1F7A4B" }}>View →</button>
                       </td>
                     </tr>
                   ))}
@@ -192,20 +192,20 @@ export default function TrainerDashboard() {
               </div>
               <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
                 {pendingReviews.map((item) => (
-                  <div key={item.student} className="p-5 hover:bg-gray-50">
+                  <div key={item.student} className="p-5 hover:bg-surface">
                     <div className="flex items-start gap-3 mb-3">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0" style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}>
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shrink-0" style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}>
                         {item.student[0]}
                       </div>
                       <div>
                         <p className="font-medium text-sm" style={{ color: "#102019" }}>{item.student}</p>
-                        <p className="font-mono text-xs" style={{ color: "#718078" }}>{item.submitted}</p>
+                        <p className="font-mono text-xs" style={{ color: "#606C66" }}>{item.submitted}</p>
                       </div>
                     </div>
                     <p className="text-sm mb-1" style={{ color: "#102019" }}>{item.project}</p>
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#35C47A", border: "1px solid rgba(53,196,122,0.15)" }}>{item.track}</span>
-                      <Link to="/projects" className="font-mono text-xs font-semibold" style={{ color: "#35C47A" }}>Review →</Link>
+                      <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>{item.track}</span>
+                      <Link to="/projects" className="font-mono text-xs font-semibold" style={{ color: "#1F7A4B" }}>Review →</Link>
                     </div>
                   </div>
                 ))}

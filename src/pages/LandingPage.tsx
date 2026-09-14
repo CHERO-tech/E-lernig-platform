@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 
 const termLines = [
   { text: "$ academy init", color: "#35C47A" },
-  { text: "> loading learning paths...", color: "#718078" },
+  { text: "> loading learning paths...", color: "#606C66" },
   { text: "> software-development ✓", color: "#8BE0B0" },
   { text: "> networking ✓", color: "#8BE0B0" },
   { text: "> multimedia-design ✓", color: "#8BE0B0" },
@@ -180,10 +180,10 @@ export default function LandingPage() {
             { label: "Featured", href: "#featured" },
             { label: "Contact", href: "/contact" },
           ].map((item) => (
-            <a key={item.label} href={item.href} className="text-sm transition-colors" style={{ color: "#718078" }}
+            <a key={item.label} href={item.href} className="text-sm transition-colors" style={{ color: "#606C66" }}
               onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#718078")}
-            >{item}</a>
+              onMouseLeave={(e) => (e.currentTarget.style.color = "#606C66")}
+            >{item.label}</a>
           ))}
         </nav>
         <div className="flex items-center gap-3">
@@ -204,9 +204,9 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-8 pt-20 pb-24 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="fade-up">
             <p className="font-mono text-sm mb-8 flex items-center gap-2" style={{ color: "#35C47A" }}>
-              <span style={{ color: "#718078" }}>{">"}</span> DIGITAL SKILLS ACADEMY / RWANDA
+              <span style={{ color: "#606C66" }}>{">"}</span> DIGITAL SKILLS ACADEMY / RWANDA
             </p>
-            <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] mb-6" style={{ color: "#FFFFFF", letterSpacing: "-0.02em", textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
+            <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 tracking-tight" style={{ color: "#FFFFFF", textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
               Learn Digital Skills.<br />
               Build Real Projects.<br />
               <span style={{ color: "#35C47A" }}>Prove What You Can Do.</span>
@@ -230,7 +230,7 @@ export default function LandingPage() {
                 See How It Works
               </a>
             </div>
-            <p className="font-mono text-xs" style={{ color: "#718078" }}>
+            <p className="font-mono text-xs" style={{ color: "#606C66" }}>
               $ status — practical learning • mentor reviewed • career ready
             </p>
           </div>
@@ -244,7 +244,7 @@ export default function LandingPage() {
               <span className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
               <span className="w-3 h-3 rounded-full" style={{ background: "#ffbd2e" }} />
               <span className="w-3 h-3 rounded-full" style={{ background: "#35C47A", opacity: 0.6 }} />
-              <span className="ml-3 font-mono text-xs" style={{ color: "#718078" }}>academy — bash</span>
+              <span className="ml-3 font-mono text-xs" style={{ color: "#606C66" }}>academy — bash</span>
             </div>
             <div className="p-6 font-mono text-sm min-h-64">
               {termLines.map((line, i) => (
@@ -281,7 +281,7 @@ export default function LandingPage() {
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="font-mono text-4xl font-bold mb-2" style={{ color: "#35C47A" }}>{s.value}</div>
-                <div className="text-sm" style={{ color: "#718078" }}>{s.label}</div>
+                <div className="text-sm" style={{ color: "#606C66" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -292,9 +292,9 @@ export default function LandingPage() {
       <section id="tracks" className="py-24 px-8" style={{ background: "#F5F7F5" }}>
         <div className="max-w-7xl mx-auto">
           <div className="mb-14 max-w-xl">
-            <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ ls ./tracks</p>
-            <h2 className="text-4xl font-bold mb-4" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Choose Your Track</h2>
-            <p style={{ color: "#718078" }}>Build practical skills through focused technical learning paths designed for the digital economy.</p>
+            <p className="font-mono text-xs mb-3" style={{ color: "#1F7A4B" }}>$ ls ./tracks</p>
+            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#102019" }}>Choose Your Track</h2>
+            <p style={{ color: "#606C66" }}>Build practical skills through focused technical learning paths designed for the digital economy.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {tracks.map((track) => (
@@ -311,7 +311,7 @@ export default function LandingPage() {
                     <span className="font-mono text-xs" style={{ color: "rgba(53,196,122,0.4)" }}>{track.tag}</span>
                   </div>
                   <h3 className="font-bold text-lg mb-2" style={{ color: "#FFFFFF" }}>{track.label}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "#718078" }}>{track.desc}</p>
+                  <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>{track.desc}</p>
                 </div>
                 <div className="p-6">
                   <div className="flex flex-wrap gap-1.5 mb-5">
@@ -322,7 +322,7 @@ export default function LandingPage() {
                   <Link
                     to="/courses"
                     className="flex items-center gap-2 font-semibold text-sm transition-colors"
-                    style={{ color: "#35C47A" }}
+                    style={{ color: "#1F7A4B" }}
                   >
                     {track.cta}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -340,7 +340,7 @@ export default function LandingPage() {
           <div className="flex items-end justify-between mb-14">
             <div>
               <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ ls ./courses --featured</p>
-              <h2 className="text-4xl font-bold leading-tight" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+              <h2 className="text-4xl font-bold leading-tight tracking-tight" style={{ color: "#FFFFFF" }}>
                 Featured Courses
               </h2>
             </div>
@@ -365,7 +365,7 @@ export default function LandingPage() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h3 className="font-bold text-lg mb-2" style={{ color: "#FFFFFF" }}>{course.title}</h3>
-                      <p className="text-xs font-mono mb-3" style={{ color: "#718078" }}>{course.level} · {course.track}</p>
+                      <p className="text-xs font-mono mb-3" style={{ color: "#606C66" }}>{course.level} · {course.track}</p>
                     </div>
                   </div>
 
@@ -375,7 +375,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                       <p className="text-xs font-medium" style={{ color: "#8BE0B0" }}>{course.instructor}</p>
-                      <p className="text-xs" style={{ color: "#718078" }}>Instructor</p>
+                      <p className="text-xs" style={{ color: "#606C66" }}>Instructor</p>
                     </div>
                   </div>
 
@@ -383,7 +383,7 @@ export default function LandingPage() {
                     <div className="flex items-center gap-1.5">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="#35C47A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
                       <span className="text-xs font-mono" style={{ color: "#35C47A" }}>{course.rating}</span>
-                      <span className="text-xs" style={{ color: "#718078" }}>({course.enrolled.toLocaleString()})</span>
+                      <span className="text-xs" style={{ color: "#606C66" }}>({course.enrolled.toLocaleString()})</span>
                     </div>
                     <span className="text-xs font-semibold" style={{ color: "#35C47A" }}>View →</span>
                   </div>
@@ -399,8 +399,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 max-w-xl">
             <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ cat ./how-it-works.md</p>
-            <h2 className="text-4xl font-bold mb-4" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>Your Learning Journey</h2>
-            <p style={{ color: "#718078" }}>Six structured stages from first lesson to career portfolio.</p>
+            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#FFFFFF" }}>Your Learning Journey</h2>
+            <p style={{ color: "#606C66" }}>Six structured stages from first lesson to career portfolio.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {steps.map((step, i) => (
@@ -411,7 +411,7 @@ export default function LandingPage() {
               >
                 <div className="font-mono text-3xl font-bold mb-4" style={{ color: "rgba(53,196,122,0.25)" }}>{step.n}</div>
                 <h3 className="font-semibold text-lg mb-3" style={{ color: "#FFFFFF" }}>{step.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#718078" }}>{step.desc}</p>
+                <p className="text-sm leading-relaxed" style={{ color: "#606C66" }}>{step.desc}</p>
                 <div className="mt-4 w-8 h-0.5" style={{ background: "#35C47A" }} />
               </div>
             ))}
@@ -424,13 +424,13 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-14">
             <div>
-              <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ ls ./projects --active</p>
-              <h2 className="text-4xl font-bold leading-tight" style={{ color: "#102019", letterSpacing: "-0.02em" }}>
+              <p className="font-mono text-xs mb-3" style={{ color: "#1F7A4B" }}>$ ls ./projects --active</p>
+              <h2 className="text-4xl font-bold leading-tight tracking-tight" style={{ color: "#102019" }}>
                 Don't Just Learn.<br />
-                <span style={{ color: "#35C47A" }}>Build.</span>
+                <span style={{ color: "#1F7A4B" }}>Build.</span>
               </h2>
             </div>
-            <Link to="/projects" className="font-semibold text-sm flex items-center gap-2" style={{ color: "#35C47A" }}>
+            <Link to="/projects" className="font-semibold text-sm flex items-center gap-2" style={{ color: "#1F7A4B" }}>
               View all projects <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
             </Link>
           </div>
@@ -442,21 +442,21 @@ export default function LandingPage() {
                 style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}
               >
                 <div className="flex items-start justify-between mb-4">
-                  <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "#F5F7F5", color: "#718078", border: "1px solid #E2E8E4" }}>{proj.track}</span>
-                  <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#35C47A", border: "1px solid rgba(53,196,122,0.15)" }}>{proj.level}</span>
+                  <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "#F5F7F5", color: "#606C66", border: "1px solid #E2E8E4" }}>{proj.track}</span>
+                  <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>{proj.level}</span>
                 </div>
                 <h3 className="font-bold text-base mb-3" style={{ color: "#102019" }}>{proj.title}</h3>
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {proj.skills.map((s) => (
-                    <span key={s} className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#718078" }}>{s}</span>
+                    <span key={s} className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#606C66" }}>{s}</span>
                   ))}
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full" style={{ background: "#35C47A" }} />
-                    <span className="font-mono text-xs" style={{ color: "#718078" }}>Active</span>
+                    <span className="font-mono text-xs" style={{ color: "#606C66" }}>Active</span>
                   </div>
-                  <Link to="/projects" className="text-sm font-semibold transition-colors" style={{ color: "#35C47A" }}>View Project →</Link>
+                  <Link to="/projects" className="text-sm font-semibold transition-colors" style={{ color: "#1F7A4B" }}>View Project →</Link>
                 </div>
               </div>
             ))}
@@ -469,8 +469,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <p className="font-mono text-xs mb-3" style={{ color: "#35C47A" }}>$ cat ./pricing.json</p>
-            <h2 className="text-4xl font-bold mb-4" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>Plans for Every Learner</h2>
-            <p style={{ color: "#718078" }}>Start free, grow at your pace. Cancel anytime.</p>
+            <h2 className="text-4xl font-bold mb-4 tracking-tight" style={{ color: "#FFFFFF" }}>Plans for Every Learner</h2>
+            <p style={{ color: "#606C66" }}>Start free, grow at your pace. Cancel anytime.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {pricing.map((plan) => (
@@ -488,9 +488,9 @@ export default function LandingPage() {
                 </p>
                 <div className="flex items-end gap-1 mb-2">
                   <span className="text-4xl font-bold" style={{ color: plan.featured ? "#071C12" : "#FFFFFF" }}>{plan.price}</span>
-                  {plan.period && <span className="text-sm mb-1.5" style={{ color: plan.featured ? "rgba(7,28,18,0.6)" : "#718078" }}>{plan.period}</span>}
+                  {plan.period && <span className="text-sm mb-1.5" style={{ color: plan.featured ? "rgba(7,28,18,0.6)" : "#606C66" }}>{plan.period}</span>}
                 </div>
-                <p className="text-sm mb-6" style={{ color: plan.featured ? "rgba(7,28,18,0.7)" : "#718078" }}>{plan.desc}</p>
+                <p className="text-sm mb-6" style={{ color: plan.featured ? "rgba(7,28,18,0.7)" : "#606C66" }}>{plan.desc}</p>
                 <ul className="space-y-2.5 mb-8">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2.5 text-sm" style={{ color: plan.featured ? "#071C12" : "#8BE0B0" }}>
@@ -519,10 +519,10 @@ export default function LandingPage() {
       <section className="py-24 px-8" style={{ background: "#071C12" }}>
         <div className="max-w-4xl mx-auto text-center">
           <p className="font-mono text-xs mb-6" style={{ color: "#35C47A" }}>$ academy --join</p>
-          <h2 className="text-5xl font-bold mb-6" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+          <h2 className="text-5xl font-bold mb-6 tracking-tight" style={{ color: "#FFFFFF" }}>
             Start building your<br />digital career today.
           </h2>
-          <p className="text-lg mb-10" style={{ color: "#718078" }}>
+          <p className="text-lg mb-10" style={{ color: "#606C66" }}>
             Join thousands of Rwandan students already learning, building, and proving their skills.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 flex-wrap">

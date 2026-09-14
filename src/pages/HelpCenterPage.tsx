@@ -75,12 +75,12 @@ export default function HelpCenterPage() {
       <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
         <div className="max-w-7xl mx-auto px-8 py-12">
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Help Center
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Find answers to common questions and get support
           </p>
         </div>
@@ -136,14 +136,14 @@ export default function HelpCenterPage() {
                 key={article.id}
                 title={article.title}
                 action={
-                  <span className="text-xs" style={{ color: "#718078" }}>
+                  <span className="text-xs" style={{ color: "#606C66" }}>
                     {article.views} views
                   </span>
                 }
               >
                 <p
                   className="text-sm mb-4"
-                  style={{ color: "#718078" }}
+                  style={{ color: "#606C66" }}
                 >
                   {article.excerpt}
                 </p>

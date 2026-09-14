@@ -13,7 +13,7 @@ export default function NotFoundPage() {
               height="64"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#d97706"
+              stroke="#C17F33"
               strokeWidth="1.5"
             >
               <circle cx="12" cy="12" r="10" />

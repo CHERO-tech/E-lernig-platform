@@ -69,12 +69,12 @@ export default function MentorMatchingPage() {
             ← Back to Dashboard
           </Link>
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Find a Mentor
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Connect with experienced professionals in your field
           </p>
         </div>
@@ -89,7 +89,7 @@ export default function MentorMatchingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {mentors.map((mentor) => (
-            <Card key={mentor.id} padding="lg" className="flex flex-col">
+            <Card variant="terminal" key={mentor.id} padding="lg" className="flex flex-col">
               <div className="mb-4">
                 <div className="flex items-start justify-between mb-3">
                   <div>
@@ -99,7 +99,7 @@ export default function MentorMatchingPage() {
                     >
                       {mentor.name}
                     </h3>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {mentor.track}
                     </p>
                   </div>
@@ -111,28 +111,28 @@ export default function MentorMatchingPage() {
 
                 <div className="mb-4 space-y-1">
                   <div className="flex items-center justify-between text-xs">
-                    <span style={{ color: "#718078" }}>Experience</span>
+                    <span style={{ color: "#606C66" }}>Experience</span>
                     <span
                       className="font-mono font-bold"
-                      style={{ color: "#35C47A" }}
+                      style={{ color: "#1F7A4B" }}
                     >
                       {mentor.experience} yrs
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span style={{ color: "#718078" }}>Rating</span>
+                    <span style={{ color: "#606C66" }}>Rating</span>
                     <span
                       className="font-mono font-bold"
-                      style={{ color: "#35C47A" }}
+                      style={{ color: "#1F7A4B" }}
                     >
                       {mentor.rating} ⭐
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span style={{ color: "#718078" }}>Students</span>
+                    <span style={{ color: "#606C66" }}>Students</span>
                     <span
                       className="font-mono font-bold"
-                      style={{ color: "#35C47A" }}
+                      style={{ color: "#1F7A4B" }}
                     >
                       {mentor.students}
                     </span>

@@ -9,7 +9,7 @@ export default function BlogPostPage() {
         <Link
           to="/blog"
           className="text-sm mb-8 inline-block transition-colors"
-          style={{ color: "#35C47A" }}
+          style={{ color: "#1F7A4B" }}
         >
           ← Back to Blog
         </Link>
@@ -20,18 +20,18 @@ export default function BlogPostPage() {
               Web Development
             </Badge>
             <h1
-              className="text-4xl font-bold mb-4"
-              style={{ color: "#102019", letterSpacing: "-0.02em" }}
+              className="text-4xl font-bold mb-4 tracking-tight"
+              style={{ color: "#102019" }}
             >
               The Future of Web Development in 2026
             </h1>
-            <div className="flex items-center justify-between text-sm" style={{ color: "#718078" }}>
+            <div className="flex items-center justify-between text-sm" style={{ color: "#606C66" }}>
               <span>By Emmanuel Nkurunziza</span>
               <span>Sep 15, 2026 • 5 min read</span>
             </div>
           </div>
 
-          <div className="prose prose-sm max-w-none" style={{ color: "#718078" }}>
+          <div className="prose prose-sm max-w-none" style={{ color: "#606C66" }}>
             <p className="text-base mb-6 leading-relaxed">
               The web development landscape continues to evolve at a rapid pace. As we progress through 2026, several key technologies and practices are shaping how we build for the web. From AI-powered development tools to improved performance standards, developers have more powerful tools at their disposal than ever before.
             </p>
@@ -84,8 +84,8 @@ export default function BlogPostPage() {
                     <Link
                       key={slug}
                       to={`/blog/${slug}`}
-                      className="block text-sm transition-colors hover:text-pg"
-                      style={{ color: "#35C47A" }}
+                      className="block text-sm transition-colors hover:text-pg2"
+                      style={{ color: "#1F7A4B" }}
                     >
                       → {titles[i]}
                     </Link>

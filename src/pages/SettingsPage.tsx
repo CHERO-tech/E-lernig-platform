@@ -29,8 +29,8 @@ export default function SettingsPage() {
     >
       <div className="p-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Settings</h1>
-          <p style={{ color: "#718078" }}>Manage your account preferences and security settings</p>
+          <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Settings</h1>
+          <p style={{ color: "#606C66" }}>Manage your account preferences and security settings</p>
         </div>
 
         {activeKey === "account" && (
@@ -79,7 +79,7 @@ export default function SettingsPage() {
                   <div key={item.label} className="flex items-center justify-between py-3 border-b border-border">
                     <div>
                       <p className="font-medium text-sm" style={{ color: "#102019" }}>{item.label}</p>
-                      <p className="text-xs" style={{ color: "#718078" }}>{item.desc}</p>
+                      <p className="text-xs" style={{ color: "#606C66" }}>{item.desc}</p>
                     </div>
                     <input type="checkbox" defaultChecked className="w-5 h-5" style={{ accentColor: "#35C47A" }} />
                   </div>
@@ -101,12 +101,12 @@ export default function SettingsPage() {
                     { value: "link", label: "Link-only - Sharable with a link" },
                   ]}
                 />
-                <p className="text-xs" style={{ color: "#718078" }}>Your portfolio can be discovered by employers and institutions</p>
+                <p className="text-xs" style={{ color: "#606C66" }}>Your portfolio can be discovered by employers and institutions</p>
               </div>
             </Card>
 
             <Card title="Delete Account" className="mt-6">
-              <p className="text-sm mb-4" style={{ color: "#718078" }}>
+              <p className="text-sm mb-4" style={{ color: "#606C66" }}>
                 Once you delete your account, there is no going back. Please be certain.
               </p>
               <Button variant="danger">Delete Account</Button>

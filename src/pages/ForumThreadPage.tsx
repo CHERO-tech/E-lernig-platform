@@ -34,7 +34,7 @@ export default function ForumThreadPage() {
         <Link
           to="/forum"
           className="text-sm mb-6 inline-block transition-colors"
-          style={{ color: "#35C47A" }}
+          style={{ color: "#1F7A4B" }}
         >
           ← Back to Forum
         </Link>
@@ -56,12 +56,12 @@ export default function ForumThreadPage() {
                 <p className="font-semibold text-sm" style={{ color: "#102019" }}>
                   Kagabo Eric
                 </p>
-                <p className="text-xs" style={{ color: "#718078" }}>
+                <p className="text-xs" style={{ color: "#606C66" }}>
                   Posted 5 hours ago
                 </p>
               </div>
             </div>
-            <p className="text-sm mb-4" style={{ color: "#718078" }}>
+            <p className="text-sm mb-4" style={{ color: "#606C66" }}>
               I've been working on several web projects lately and wanted to share some best practices I've discovered:
               <br /><br />
               1. Always start with a clear project structure
@@ -103,23 +103,23 @@ export default function ForumThreadPage() {
                     <p className="font-semibold text-sm" style={{ color: "#102019" }}>
                       {reply.author}
                     </p>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {reply.date}
                     </p>
                   </div>
-                  <p className="text-sm mb-3" style={{ color: "#718078" }}>
+                  <p className="text-sm mb-3" style={{ color: "#606C66" }}>
                     {reply.content}
                   </p>
                   <div className="flex items-center gap-4">
                     <button
                       className="text-xs transition-colors"
-                      style={{ color: "#718078" }}
+                      style={{ color: "#606C66" }}
                     >
                       👍 {reply.likes} Likes
                     </button>
                     <button
                       className="text-xs transition-colors"
-                      style={{ color: "#35C47A" }}
+                      style={{ color: "#1F7A4B" }}
                     >
                       Reply
                     </button>

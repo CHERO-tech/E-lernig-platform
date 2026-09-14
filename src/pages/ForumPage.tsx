@@ -73,12 +73,12 @@ export default function ForumPage() {
                 ← Back to Dashboard
               </Link>
               <h1
-                className="text-4xl font-bold mb-3"
-                style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+                className="text-4xl font-bold mb-3 tracking-tight"
+                style={{ color: "#FFFFFF" }}
               >
                 Community Forum
               </h1>
-              <p style={{ color: "#718078" }}>
+              <p style={{ color: "#606C66" }}>
                 Connect, learn, and share knowledge with other students
               </p>
             </div>
@@ -133,21 +133,21 @@ export default function ForumPage() {
                     </div>
                     <p
                       className="text-xs mb-3"
-                      style={{ color: "#718078" }}
+                      style={{ color: "#606C66" }}
                     >
                       Started by {thread.author} • {thread.lastActivity}
                     </p>
                   </div>
                   <div className="text-right ml-4">
-                    <div className="flex gap-4 text-xs" style={{ color: "#718078" }}>
+                    <div className="flex gap-4 text-xs" style={{ color: "#606C66" }}>
                       <div>
-                        <p className="font-mono font-bold" style={{ color: "#35C47A" }}>
+                        <p className="font-mono font-bold" style={{ color: "#1F7A4B" }}>
                           {thread.replies}
                         </p>
                         <p>replies</p>
                       </div>
                       <div>
-                        <p className="font-mono font-bold" style={{ color: "#35C47A" }}>
+                        <p className="font-mono font-bold" style={{ color: "#1F7A4B" }}>
                           {thread.views}
                         </p>
                         <p>views</p>

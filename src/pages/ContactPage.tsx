@@ -22,12 +22,12 @@ export default function ContactPage() {
       <div style={{ background: "#071C12", borderBottom: "1px solid rgba(53,196,122,0.1)" }}>
         <div className="max-w-3xl mx-auto px-8 py-12">
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Contact Us
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Have a question? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
           </p>
         </div>

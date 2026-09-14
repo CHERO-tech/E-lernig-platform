@@ -109,15 +109,15 @@ export default function CompanyPortal() {
     >
       <div className="p-8">
         <div className="mb-8">
-          <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — company-portal</p>
-          <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Find Skilled Students</h1>
-          <p style={{ color: "#718078" }}>Browse verified TVET graduates and offer internship opportunities.</p>
+          <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — company-portal</p>
+          <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Find Skilled Students</h1>
+          <p style={{ color: "#606C66" }}>Browse verified TVET graduates and offer internship opportunities.</p>
         </div>
 
         {/* Search + filters */}
         <div className="flex flex-wrap gap-4 mb-8">
           <div className="flex-1 min-w-64 relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#718078" strokeWidth="2">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#606C66" strokeWidth="2">
               <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
             </svg>
             <input
@@ -146,8 +146,8 @@ export default function CompanyPortal() {
           ))}
         </div>
 
-        <p className="font-mono text-sm mb-5" style={{ color: "#718078" }}>
-          Found <span style={{ color: "#35C47A" }}>{filtered.length}</span> students
+        <p className="font-mono text-sm mb-5" style={{ color: "#606C66" }}>
+          Found <span style={{ color: "#1F7A4B" }}>{filtered.length}</span> students
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
@@ -161,7 +161,7 @@ export default function CompanyPortal() {
                 <div className="flex items-start gap-4 mb-4">
                   <div
                     className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shrink-0"
-                    style={{ background: "rgba(53,196,122,0.1)", color: "#35C47A" }}
+                    style={{ background: "rgba(53,196,122,0.1)", color: "#1F7A4B" }}
                   >
                     {student.name[0]}
                   </div>
@@ -172,32 +172,32 @@ export default function CompanyPortal() {
                         <span className="w-2 h-2 rounded-full shrink-0" style={{ background: "#35C47A" }} title="Available for internship" />
                       )}
                     </div>
-                    <p className="font-mono text-xs mb-0.5" style={{ color: "#718078" }}>{student.program}</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>{student.institution}</p>
+                    <p className="font-mono text-xs mb-0.5" style={{ color: "#606C66" }}>{student.program}</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>{student.institution}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-mono text-xl font-bold" style={{ color: "#35C47A" }}>{student.score}%</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>Score</p>
+                    <p className="font-mono text-xl font-bold" style={{ color: "#1F7A4B" }}>{student.score}%</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>Score</p>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {student.skills.map((s) => (
-                    <span key={s} className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#718078", border: "1px solid #E2E8E4" }}>{s}</span>
+                    <span key={s} className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "#F5F7F5", color: "#606C66", border: "1px solid #E2E8E4" }}>{s}</span>
                   ))}
                 </div>
 
                 <div className="flex items-center gap-4 mb-4 py-3" style={{ borderTop: "1px solid #E2E8E4", borderBottom: "1px solid #E2E8E4" }}>
                   <div className="text-center">
                     <p className="font-mono text-lg font-bold" style={{ color: "#102019" }}>{student.projects}</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>Projects</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>Projects</p>
                   </div>
                   <div className="text-center">
                     <p className="font-mono text-lg font-bold" style={{ color: "#102019" }}>{student.certs}</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>Certificates</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>Certificates</p>
                   </div>
                   <div className="text-center">
-                    <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: student.available ? "rgba(53,196,122,0.1)" : "rgba(113,128,120,0.1)", color: student.available ? "#35C47A" : "#718078" }}>
+                    <span className="font-mono text-xs px-2 py-1 rounded" style={{ background: student.available ? "rgba(53,196,122,0.1)" : "rgba(113,128,120,0.1)", color: student.available ? "#1F7A4B" : "#606C66" }}>
                       {student.available ? "Available" : "Unavailable"}
                     </span>
                   </div>
@@ -213,7 +213,7 @@ export default function CompanyPortal() {
                   </Link>
                   {student.available && (
                     <button
-                      className="flex-1 py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-gray-50"
+                      className="flex-1 py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-surface"
                       style={{ color: "#102019", border: "1px solid #E2E8E4" }}
                     >
                       Offer Internship

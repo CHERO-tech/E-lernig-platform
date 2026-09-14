@@ -20,18 +20,18 @@ export default function PrivacyPage() {
             ← Back to Home
           </Link>
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Privacy Policy
           </h1>
-          <p style={{ color: "#718078" }}>Last updated: September 2026</p>
+          <p style={{ color: "#606C66" }}>Last updated: September 2026</p>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-8 py-12">
         <Card title="1. Introduction">
-          <p className="text-sm mb-4" style={{ color: "#718078" }}>
+          <p className="text-sm mb-4" style={{ color: "#606C66" }}>
             TVET Digital Academy ("we" or "us" or "our") operates the website. This
             page informs you of our policies regarding the collection, use, and
             disclosure of personal data when you use our Service and the choices you
@@ -40,14 +40,14 @@ export default function PrivacyPage() {
         </Card>
 
         <Card title="2. Information Collection and Use" className="mt-6">
-          <p className="text-sm mb-3" style={{ color: "#718078" }}>
+          <p className="text-sm mb-3" style={{ color: "#606C66" }}>
             We collect several different types of information for various purposes to
             provide and improve our Service to you.
           </p>
           <p className="text-sm font-semibold mb-2" style={{ color: "#102019" }}>
             Types of Data Collected:
           </p>
-          <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "#718078" }}>
+          <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "#606C66" }}>
             <li>Email address</li>
             <li>First name and last name</li>
             <li>Phone number</li>
@@ -57,10 +57,10 @@ export default function PrivacyPage() {
         </Card>
 
         <Card title="3. Use of Data" className="mt-6">
-          <p className="text-sm mb-4" style={{ color: "#718078" }}>
+          <p className="text-sm mb-4" style={{ color: "#606C66" }}>
             TVET Digital Academy uses the collected data for various purposes:
           </p>
-          <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "#718078" }}>
+          <ul className="list-disc list-inside space-y-2 text-sm" style={{ color: "#606C66" }}>
             <li>To provide and maintain our Service</li>
             <li>To notify you about changes to our Service</li>
             <li>To allow you to participate in interactive features of our Service</li>
@@ -72,7 +72,7 @@ export default function PrivacyPage() {
         </Card>
 
         <Card title="4. Security of Data" className="mt-6">
-          <p className="text-sm" style={{ color: "#718078" }}>
+          <p className="text-sm" style={{ color: "#606C66" }}>
             The security of your data is important to us but remember that no method
             of transmission over the Internet or method of electronic storage is 100%
             secure. While we strive to use commercially acceptable means to protect
@@ -81,7 +81,7 @@ export default function PrivacyPage() {
         </Card>
 
         <Card title="5. Contact Us" className="mt-6">
-          <p className="text-sm" style={{ color: "#718078" }}>
+          <p className="text-sm" style={{ color: "#606C66" }}>
             If you have any questions about this Privacy Policy, please contact us at
             privacy@tvetdigital.rw
           </p>

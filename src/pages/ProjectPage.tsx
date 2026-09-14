@@ -6,9 +6,9 @@ type Status = typeof statuses[number];
 
 const statusStyle = (s: Status) => {
   if (s === "Approved") return { bg: "rgba(53,196,122,0.1)", color: "#35C47A", border: "rgba(53,196,122,0.3)" };
-  if (s === "Under Review") return { bg: "rgba(59,130,246,0.08)", color: "#3b82f6", border: "rgba(59,130,246,0.25)" };
-  if (s === "Submitted") return { bg: "rgba(217,119,6,0.08)", color: "#d97706", border: "rgba(217,119,6,0.25)" };
-  return { bg: "rgba(113,128,120,0.08)", color: "#718078", border: "rgba(113,128,120,0.25)" };
+  if (s === "Under Review") return { bg: "rgba(51,106,193,0.08)", color: "#336AC1", border: "rgba(51,106,193,0.25)" };
+  if (s === "Submitted") return { bg: "rgba(193,127,51,0.08)", color: "#C17F33", border: "rgba(193,127,51,0.25)" };
+  return { bg: "rgba(113,128,120,0.08)", color: "#606C66", border: "rgba(113,128,120,0.25)" };
 };
 
 export default function ProjectPage() {
@@ -36,10 +36,10 @@ export default function ProjectPage() {
                   {status.toUpperCase()}
                 </span>
               </div>
-              <h1 className="text-3xl font-bold mb-2" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+              <h1 className="text-page-title mb-2" style={{ color: "#FFFFFF" }}>
                 Inventory Management System
               </h1>
-              <p className="font-mono text-sm" style={{ color: "#718078" }}>
+              <p className="font-mono text-sm" style={{ color: "#606C66" }}>
                 Software Development · Advanced · Deadline: September 20, 2026
               </p>
             </div>
@@ -60,7 +60,7 @@ export default function ProjectPage() {
                       >
                         {done ? "✓" : i + 1}
                       </div>
-                      <span className="font-mono text-xs mt-1" style={{ color: done ? "#35C47A" : "#718078", fontSize: 10 }}>{s}</span>
+                      <span className="font-mono text-xs mt-1" style={{ color: done ? "#35C47A" : "#606C66", fontSize: 10 }}>{s}</span>
                     </div>
                     {i < statuses.length - 1 && (
                       <div className="w-8 h-px mb-4" style={{ background: done && i < si ? "#35C47A" : "rgba(53,196,122,0.2)" }} />
@@ -79,11 +79,11 @@ export default function ProjectPage() {
           {/* Description */}
           <div className="rounded-xl p-6" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
             <h3 className="font-semibold mb-2" style={{ color: "#102019" }}>Project Description</h3>
-            <p className="text-sm mb-4" style={{ color: "#718078" }}>
+            <p className="text-sm mb-4" style={{ color: "#606C66" }}>
               Build a complete inventory management system with product tracking, stock alerts, purchase orders, and reporting.
             </p>
             <div className="rounded-lg p-4" style={{ background: "#F5F7F5", border: "1px solid #E2E8E4" }}>
-              <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>Requirements:</p>
+              <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>Requirements:</p>
               <ul className="space-y-1">
                 {[
                   "CRUD operations for products and categories",
@@ -93,8 +93,8 @@ export default function ProjectPage() {
                   "User authentication and role management",
                   "Responsive design for mobile and desktop",
                 ].map((r) => (
-                  <li key={r} className="flex items-start gap-2 font-mono text-xs" style={{ color: "#718078" }}>
-                    <span style={{ color: "#35C47A" }}>›</span> {r}
+                  <li key={r} className="flex items-start gap-2 font-mono text-xs" style={{ color: "#606C66" }}>
+                    <span style={{ color: "#1F7A4B" }}>›</span> {r}
                   </li>
                 ))}
               </ul>
@@ -106,7 +106,7 @@ export default function ProjectPage() {
             <h3 className="font-semibold mb-4" style={{ color: "#102019" }}>Skills Being Assessed</h3>
             <div className="flex flex-wrap gap-2">
               {["React", "Node.js", "PostgreSQL", "REST API Design", "Authentication", "Data Visualization", "UI/UX"].map((s) => (
-                <span key={s} className="font-mono text-xs px-3 py-1.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#35C47A", border: "1px solid rgba(53,196,122,0.2)" }}>
+                <span key={s} className="font-mono text-xs px-3 py-1.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.2)" }}>
                   {s}
                 </span>
               ))}
@@ -139,7 +139,7 @@ export default function ProjectPage() {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
                 </div>
                 <p className="text-sm font-medium mb-1" style={{ color: "#102019" }}>Drop files here or click to browse</p>
-                <p className="font-mono text-xs" style={{ color: "#718078" }}>ZIP, PDF, images — max 50MB</p>
+                <p className="font-mono text-xs" style={{ color: "#606C66" }}>ZIP, PDF, images — max 50MB</p>
                 <label className="mt-4 inline-block px-4 py-2 rounded-lg text-sm font-medium cursor-pointer" style={{ background: "#FFFFFF", color: "#102019", border: "1px solid #E2E8E4" }}>
                   Browse Files
                   <input type="file" multiple className="hidden" onChange={(e) => {
@@ -154,7 +154,7 @@ export default function ProjectPage() {
                     <div key={i} className="flex items-center gap-3 px-4 py-2.5 rounded-lg" style={{ background: "#F5F7F5", border: "1px solid #E2E8E4" }}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /></svg>
                       <span className="flex-1 font-mono text-xs" style={{ color: "#102019" }}>{f}</span>
-                      <button onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))} style={{ color: "#718078" }}>×</button>
+                      <button onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))} style={{ color: "#606C66" }}>×</button>
                     </div>
                   ))}
                 </div>
@@ -194,8 +194,8 @@ export default function ProjectPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setStatus("Draft")}
-                className="px-5 py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-gray-50"
-                style={{ color: "#718078", border: "1px solid #E2E8E4", background: "#FFFFFF" }}
+                className="px-5 py-2.5 rounded-lg text-sm font-semibold border transition-all hover:bg-surface"
+                style={{ color: "#606C66", border: "1px solid #E2E8E4", background: "#FFFFFF" }}
               >
                 Save Draft
               </button>
@@ -225,14 +225,14 @@ export default function ProjectPage() {
                     <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm" style={{ background: "#35C47A", color: "#071C12" }}>E</div>
                     <div>
                       <p className="font-medium text-sm" style={{ color: "#102019" }}>Emmanuel Nkurunziza</p>
-                      <p className="font-mono text-xs" style={{ color: "#718078" }}>2 days ago</p>
+                      <p className="font-mono text-xs" style={{ color: "#606C66" }}>2 days ago</p>
                     </div>
                   </div>
-                  <p className="text-sm leading-relaxed mb-3" style={{ color: "#718078" }}>
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: "#606C66" }}>
                     Excellent work! Your implementation covers all requirements. The authentication flow is particularly well-designed. Consider adding pagination for the product list in a future iteration.
                   </p>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold" style={{ color: "#35C47A" }}>92/100</span>
+                    <span className="font-mono text-sm font-bold" style={{ color: "#1F7A4B" }}>92/100</span>
                     <div className="flex-1 h-1.5 rounded-full" style={{ background: "#E2E8E4" }}>
                       <div className="h-full rounded-full" style={{ width: "92%", background: "#35C47A" }} />
                     </div>
@@ -243,7 +243,7 @@ export default function ProjectPage() {
                   <div className="w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: "rgba(53,196,122,0.08)" }}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#35C47A" strokeWidth="1.5"><circle cx="12" cy="12" r="10" /><path d="M12 8v4M12 16h.01" /></svg>
                   </div>
-                  <p className="text-sm" style={{ color: "#718078" }}>
+                  <p className="text-sm" style={{ color: "#606C66" }}>
                     {status === "Draft" ? "Submit your project to receive mentor feedback." : "Your project is being reviewed. Feedback will appear here."}
                   </p>
                 </div>
@@ -253,7 +253,7 @@ export default function ProjectPage() {
 
           {/* Demo status changer */}
           <div className="rounded-xl p-5" style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}>
-            <p className="font-mono text-xs mb-3" style={{ color: "#718078" }}>Demo: Change status</p>
+            <p className="font-mono text-xs mb-3" style={{ color: "#606C66" }}>Demo: Change status</p>
             <div className="space-y-2">
               {statuses.map((s) => {
                 const sc = statusStyle(s);
@@ -264,7 +264,7 @@ export default function ProjectPage() {
                     className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
                       background: status === s ? sc.bg : "#F5F7F5",
-                      color: status === s ? sc.color : "#718078",
+                      color: status === s ? (sc.color === "#35C47A" ? "#1F7A4B" : sc.color) : "#606C66",
                       border: `1px solid ${status === s ? sc.border : "#E2E8E4"}`,
                     }}
                   >
@@ -299,7 +299,7 @@ export default function ProjectPage() {
                   </div>
                   <div>
                     <p className="text-xs font-medium" style={{ color: "#102019" }}>{item.label}</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>{item.date}</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>{item.date}</p>
                   </div>
                 </div>
               ))}

@@ -178,8 +178,8 @@ const allCourses: Course[] = [
 
 const priceColor = (price: string) => {
   if (price === "Free") return "#35C47A";
-  if (price === "Professional") return "#d97706";
-  return "#dc2626";
+  if (price === "Professional") return "#C17F33";
+  return "#D64545";
 };
 
 export default function CoursesPage() {
@@ -213,8 +213,8 @@ export default function CoursesPage() {
                 $ ls ./courses --all
               </p>
               <h1
-                className="text-4xl font-bold"
-                style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+                className="text-4xl font-bold tracking-tight"
+                style={{ color: "#FFFFFF" }}
               >
                 Our Courses
               </h1>
@@ -223,7 +223,7 @@ export default function CoursesPage() {
               <Button variant="outline">Take Placement Exam</Button>
             </Link>
           </div>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Explore {allCourses.length} courses across 3 learning tracks
           </p>
         </div>
@@ -243,7 +243,7 @@ export default function CoursesPage() {
               onClick={() => setActiveTab(tab.key)}
               className="px-4 py-3 font-medium text-sm transition-colors"
               style={{
-                color: activeTab === tab.key ? "#35C47A" : "#718078",
+                color: activeTab === tab.key ? "#1F7A4B" : "#606C66",
                 borderBottom: activeTab === tab.key ? "2px solid #35C47A" : "none",
               }}
             >
@@ -263,7 +263,7 @@ export default function CoursesPage() {
                 style={{ background: "#FFFFFF", border: "1px solid #E2E8E4" }}
               >
                 {/* Course Image Header */}
-                <div className="h-40 relative overflow-hidden bg-gray-200">
+                <div className="h-40 relative overflow-hidden bg-border">
                   <img
                     src={course.image}
                     alt={course.title}
@@ -317,7 +317,7 @@ export default function CoursesPage() {
                   {/* Description */}
                   <p
                     className="text-xs mb-4 flex-1"
-                    style={{ color: "#718078" }}
+                    style={{ color: "#606C66" }}
                   >
                     {course.desc}
                   </p>
@@ -330,13 +330,13 @@ export default function CoursesPage() {
                     >
                       {course.instructor.charAt(0)}
                     </div>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {course.instructor}
                     </p>
                   </div>
 
                   {/* Stats */}
-                  <div className="flex items-center justify-between text-xs" style={{ color: "#718078" }}>
+                  <div className="flex items-center justify-between text-xs" style={{ color: "#606C66" }}>
                     <span>⭐ {course.rating}</span>
                     <span>{course.lessons} lessons</span>
                     <span>{course.duration}</span>
@@ -349,7 +349,7 @@ export default function CoursesPage() {
 
         {filtered.length === 0 && (
           <div className="text-center py-12">
-            <p style={{ color: "#718078" }}>No courses found in this category.</p>
+            <p style={{ color: "#606C66" }}>No courses found in this category.</p>
           </div>
         )}
       </div>

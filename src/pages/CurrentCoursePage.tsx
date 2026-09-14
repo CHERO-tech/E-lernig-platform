@@ -43,8 +43,8 @@ export default function CurrentCoursePage() {
         <div className="p-8">
           <div className="flex items-start justify-between mb-8">
             <div>
-              <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — student</p>
-              <h1 className="text-3xl font-bold" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Current Course</h1>
+              <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — student</p>
+              <h1 className="text-page-title" style={{ color: "#102019" }}>Current Course</h1>
             </div>
           </div>
 
@@ -87,9 +87,9 @@ export default function CurrentCoursePage() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — student</p>
-            <h1 className="text-3xl font-bold" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Current Course</h1>
-            <p style={{ color: "#718078" }}>Continue your learning journey</p>
+            <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — student</p>
+            <h1 className="text-page-title" style={{ color: "#102019" }}>Current Course</h1>
+            <p style={{ color: "#606C66" }}>Continue your learning journey</p>
           </div>
           <Link to={`/courses/${currentCourse.id}`}>
             <Button variant="primary">View Full Course</Button>
@@ -99,13 +99,13 @@ export default function CurrentCoursePage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main course card */}
           <div className="lg:col-span-2">
-            <Card padding="lg" title={currentCourse.title} className="mb-6">
+            <Card variant="terminal" padding="lg" title={currentCourse.title} className="mb-6">
               <div className="space-y-4">
-                <p style={{ color: "#718078" }}>{currentCourse.description}</p>
+                <p style={{ color: "#606C66" }}>{currentCourse.description}</p>
 
                 <div className="grid grid-cols-2 gap-4 py-4 border-t border-b" style={{ borderColor: "#E2E8E4" }}>
                   <div>
-                    <p className="text-xs" style={{ color: "#718078" }}>Instructor</p>
+                    <p className="text-xs" style={{ color: "#606C66" }}>Instructor</p>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: "#35C47A", color: "#071C12" }}>
                         {currentCourse.instructor.charAt(0)}
@@ -114,11 +114,11 @@ export default function CurrentCoursePage() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-xs" style={{ color: "#718078" }}>Rating</p>
+                    <p className="text-xs" style={{ color: "#606C66" }}>Rating</p>
                     <div className="flex items-center gap-2 mt-2">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="#35C47A"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                      <span className="text-sm font-mono" style={{ color: "#35C47A" }}>{currentCourse.rating}</span>
-                      <span className="text-xs" style={{ color: "#718078" }}>({currentCourse.enrolled.toLocaleString()} enrolled)</span>
+                      <span className="text-sm font-mono" style={{ color: "#1F7A4B" }}>{currentCourse.rating}</span>
+                      <span className="text-xs" style={{ color: "#606C66" }}>({currentCourse.enrolled.toLocaleString()} enrolled)</span>
                     </div>
                   </div>
                 </div>
@@ -126,23 +126,23 @@ export default function CurrentCoursePage() {
             </Card>
 
             {/* Progress section */}
-            <Card padding="lg" title="Your Progress" className="mb-6">
+            <Card variant="terminal" padding="lg" title="Your Progress" className="mb-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <p style={{ color: "#718078" }}>Lessons Completed</p>
-                  <p className="font-mono font-bold" style={{ color: "#35C47A" }}>{currentCourse.lessons} / {currentCourse.totalLessons}</p>
+                  <p style={{ color: "#606C66" }}>Lessons Completed</p>
+                  <p className="font-mono font-bold" style={{ color: "#1F7A4B" }}>{currentCourse.lessons} / {currentCourse.totalLessons}</p>
                 </div>
                 <div className="h-3 rounded-full" style={{ background: "#E2E8E4" }}>
                   <div className="h-full rounded-full transition-all" style={{ width: `${currentCourse.progress}%`, background: "#35C47A" }} />
                 </div>
-                <p className="text-xs" style={{ color: "#718078" }}>
-                  <span className="font-mono font-semibold" style={{ color: "#35C47A" }}>{currentCourse.progress}%</span> complete
+                <p className="text-xs" style={{ color: "#606C66" }}>
+                  <span className="font-mono font-semibold" style={{ color: "#1F7A4B" }}>{currentCourse.progress}%</span> complete
                 </p>
               </div>
             </Card>
 
             {/* Next lesson */}
-            <Card padding="lg" title="Next Lesson">
+            <Card variant="terminal" padding="lg" title="Next Lesson">
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0" style={{ background: "rgba(53,196,122,0.1)" }}>
@@ -152,7 +152,7 @@ export default function CurrentCoursePage() {
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold mb-1" style={{ color: "#102019" }}>{currentCourse.nextLesson}</h3>
-                    <p className="text-sm" style={{ color: "#718078" }}>Continue from where you left off</p>
+                    <p className="text-sm" style={{ color: "#606C66" }}>Continue from where you left off</p>
                   </div>
                 </div>
                 <Link to={`/courses/${currentCourse.id}`} className="block">
@@ -167,18 +167,18 @@ export default function CurrentCoursePage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Quick stats */}
-            <Card padding="lg" title="Quick Stats">
+            <Card variant="terminal" padding="lg" title="Quick Stats">
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs" style={{ color: "#718078" }}>Duration</p>
+                  <p className="text-xs" style={{ color: "#606C66" }}>Duration</p>
                   <p className="font-semibold text-sm mt-1" style={{ color: "#102019" }}>12 weeks</p>
                 </div>
                 <div>
-                  <p className="text-xs" style={{ color: "#718078" }}>Level</p>
-                  <p className="font-semibold text-sm mt-1" style={{ color: "#35C47A" }}>Intermediate</p>
+                  <p className="text-xs" style={{ color: "#606C66" }}>Level</p>
+                  <p className="font-semibold text-sm mt-1" style={{ color: "#1F7A4B" }}>Intermediate</p>
                 </div>
                 <div>
-                  <p className="text-xs" style={{ color: "#718078" }}>Lessons</p>
+                  <p className="text-xs" style={{ color: "#606C66" }}>Lessons</p>
                   <p className="font-semibold text-sm mt-1" style={{ color: "#102019" }}>{currentCourse.totalLessons} lessons</p>
                 </div>
               </div>

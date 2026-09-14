@@ -44,7 +44,7 @@ export default function AuthPage() {
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ffbd2e" }} />
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#35C47A", opacity: 0.6 }} />
-              <span className="ml-2 font-mono text-xs" style={{ color: "#718078" }}>welcome.sh</span>
+              <span className="ml-2 font-mono text-xs" style={{ color: "#606C66" }}>welcome.sh</span>
             </div>
             <div className="p-6 font-mono text-sm space-y-3">
               {[
@@ -61,10 +61,10 @@ export default function AuthPage() {
             </div>
           </div>
           <div className="mt-8">
-            <h2 className="text-3xl font-bold mb-3" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+            <h2 className="text-page-title mb-3" style={{ color: "#FFFFFF" }}>
               Your skills journey<br />starts here.
             </h2>
-            <p className="text-sm" style={{ color: "#718078" }}>
+            <p className="text-sm" style={{ color: "#606C66" }}>
               Join thousands of Rwandan learners building practical digital skills.
             </p>
           </div>
@@ -73,7 +73,7 @@ export default function AuthPage() {
           {["48+ Projects", "100% Certified", "Career Ready"].map((b) => (
             <div key={b} className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#35C47A" }} />
-              <span className="font-mono text-xs" style={{ color: "#718078" }}>{b}</span>
+              <span className="font-mono text-xs" style={{ color: "#606C66" }}>{b}</span>
             </div>
           ))}
         </div>
@@ -92,7 +92,7 @@ export default function AuthPage() {
                   className="flex-1 py-4 text-sm font-semibold transition-all"
                   style={{
                     background: mode === m ? "#FFFFFF" : "transparent",
-                    color: mode === m ? "#102019" : "#718078",
+                    color: mode === m ? "#102019" : "#606C66",
                     borderBottom: mode === m ? "2px solid #35C47A" : "2px solid transparent",
                   }}
                 >
@@ -106,7 +106,7 @@ export default function AuthPage() {
                 <h1 className="text-2xl font-bold mb-1" style={{ color: "#102019" }}>
                   {mode === "login" ? "Welcome back" : "Join the Academy"}
                 </h1>
-                <p className="text-sm" style={{ color: "#718078" }}>
+                <p className="text-sm" style={{ color: "#606C66" }}>
                   {mode === "login" ? "Sign in to continue your learning journey." : "Create your account and start building skills."}
                 </p>
               </div>
@@ -173,10 +173,10 @@ export default function AuthPage() {
                           style={{
                             background: selectedRole === role.key ? "rgba(53,196,122,0.08)" : "#F5F7F5",
                             border: `1px solid ${selectedRole === role.key ? "#35C47A" : "#E2E8E4"}`,
-                            color: selectedRole === role.key ? "#35C47A" : "#718078",
+                            color: selectedRole === role.key ? "#1F7A4B" : "#606C66",
                           }}
                         >
-                          <div style={{ color: selectedRole === role.key ? "#35C47A" : "#718078" }}>{role.icon}</div>
+                          <div style={{ color: selectedRole === role.key ? "#1F7A4B" : "#606C66" }}>{role.icon}</div>
                           {role.label}
                         </button>
                       ))}
@@ -193,9 +193,9 @@ export default function AuthPage() {
                         className="rounded"
                         style={{ accentColor: "#35C47A" }}
                       />
-                      <span className="text-sm" style={{ color: "#718078" }}>Remember me</span>
+                      <span className="text-sm" style={{ color: "#606C66" }}>Remember me</span>
                     </label>
-                    <a href="#" className="text-sm font-medium" style={{ color: "#35C47A" }}>Forgot password?</a>
+                    <a href="#" className="text-sm font-medium" style={{ color: "#1F7A4B" }}>Forgot password?</a>
                   </div>
                 )}
                 <button
@@ -209,7 +209,7 @@ export default function AuthPage() {
 
               {mode === "login" && (
                 <div className="mt-4 pt-4" style={{ borderTop: "1px solid #E2E8E4" }}>
-                  <p className="text-xs text-center mb-3" style={{ color: "#718078" }}>Sign in as a demo role</p>
+                  <p className="text-xs text-center mb-3" style={{ color: "#606C66" }}>Sign in as a demo role</p>
                   <div className="grid grid-cols-3 gap-2">
                     {roles.slice(0, 3).map((role) => (
                       <button
@@ -217,9 +217,9 @@ export default function AuthPage() {
                         type="button"
                         onClick={() => navigate(role.path)}
                         className="px-2 py-2 rounded-lg text-xs font-medium transition-all hover:shadow-md hover:bg-white active:scale-95"
-                        style={{ background: "#F5F7F5", color: "#718078", border: "1px solid #E2E8E4" }}
+                        style={{ background: "#F5F7F5", color: "#606C66", border: "1px solid #E2E8E4" }}
                       >
-                        <div style={{ display: "flex", justifyContent: "center", marginBottom: "4px", color: "#35C47A" }}>{role.icon}</div>
+                        <div style={{ display: "flex", justifyContent: "center", marginBottom: "4px", color: "#1F7A4B" }}>{role.icon}</div>
                         {role.label}
                       </button>
                     ))}

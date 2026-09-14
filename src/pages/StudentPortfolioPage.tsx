@@ -46,12 +46,12 @@ export default function StudentPortfolioPage() {
           </Link>
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-4xl font-bold mb-2" style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}>
+              <h1 className="text-4xl font-bold mb-2 tracking-tight" style={{ color: "#FFFFFF" }}>
                 Amahoro Jean de Dieu
               </h1>
               <div className="flex items-center gap-4">
-                <span className="text-sm" style={{ color: "#718078" }}>INES-Ruhengeri</span>
-                <span className="text-sm" style={{ color: "#718078" }}>•</span>
+                <span className="text-sm" style={{ color: "#606C66" }}>INES-Ruhengeri</span>
+                <span className="text-sm" style={{ color: "#606C66" }}>•</span>
                 <span className="text-sm" style={{ color: "#35C47A" }}>Software Development Track</span>
               </div>
             </div>
@@ -111,8 +111,8 @@ export default function StudentPortfolioPage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.map((project) => (
-              <Card key={project.title} title={project.title}>
-                <p className="text-sm mb-4" style={{ color: "#718078" }}>
+              <Card variant="terminal" key={project.title} title={project.title}>
+                <p className="text-sm mb-4" style={{ color: "#606C66" }}>
                   {project.description}
                 </p>
                 <div className="mb-4">
@@ -140,13 +140,13 @@ export default function StudentPortfolioPage() {
           </h2>
           <div className="space-y-3">
             {certificates.map((cert) => (
-              <Card key={cert.title} padding="md">
+              <Card variant="terminal" key={cert.title} padding="md">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold text-sm" style={{ color: "#102019" }}>
                       {cert.title}
                     </p>
-                    <p className="text-xs" style={{ color: "#718078" }}>
+                    <p className="text-xs" style={{ color: "#606C66" }}>
                       {cert.issuer} • {cert.date}
                     </p>
                   </div>

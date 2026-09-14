@@ -60,12 +60,12 @@ export default function BlogPage() {
             ← Back to Dashboard
           </Link>
           <h1
-            className="text-4xl font-bold mb-3"
-            style={{ color: "#FFFFFF", letterSpacing: "-0.02em" }}
+            className="text-4xl font-bold mb-3 tracking-tight"
+            style={{ color: "#FFFFFF" }}
           >
             Blog
           </h1>
-          <p style={{ color: "#718078" }}>
+          <p style={{ color: "#606C66" }}>
             Insights, tips, and stories from the TVET community
           </p>
         </div>
@@ -90,15 +90,15 @@ export default function BlogPage() {
                 </h3>
                 <p
                   className="text-sm mb-4"
-                  style={{ color: "#718078" }}
+                  style={{ color: "#606C66" }}
                 >
                   {post.excerpt}
                 </p>
-                <div className="flex items-center justify-between text-xs" style={{ color: "#718078" }}>
+                <div className="flex items-center justify-between text-xs" style={{ color: "#606C66" }}>
                   <span>{post.author}</span>
                   <span>{post.date}</span>
                 </div>
-                <p className="text-xs mt-2 font-mono" style={{ color: "#35C47A" }}>
+                <p className="text-xs mt-2 font-mono" style={{ color: "#1F7A4B" }}>
                   {post.readTime}
                 </p>
               </Card>

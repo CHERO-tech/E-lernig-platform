@@ -37,9 +37,9 @@ export default function GuardianDashboard() {
     >
       <div className="p-8 max-w-3xl">
         <div className="mb-8">
-          <p className="font-mono text-xs mb-2" style={{ color: "#35C47A" }}>$ whoami — guardian</p>
-          <h1 className="text-3xl font-bold mb-1" style={{ color: "#102019", letterSpacing: "-0.02em" }}>Student Progress Overview</h1>
-          <p style={{ color: "#718078" }}>Tracking: <strong style={{ color: "#102019" }}>Amahoro Jean de Dieu</strong></p>
+          <p className="font-mono text-xs mb-2" style={{ color: "#1F7A4B" }}>$ whoami — guardian</p>
+          <h1 className="text-page-title mb-1" style={{ color: "#102019" }}>Student Progress Overview</h1>
+          <p style={{ color: "#606C66" }}>Tracking: <strong style={{ color: "#102019" }}>Amahoro Jean de Dieu</strong></p>
         </div>
 
         {/* Student card */}
@@ -50,15 +50,15 @@ export default function GuardianDashboard() {
             <p className="font-mono text-sm mb-3" style={{ color: "#8BE0B0" }}>INES-Ruhengeri · Software Development</p>
             <div className="flex gap-6">
               <div>
-                <p className="font-mono text-xs" style={{ color: "#718078" }}>Courses Enrolled</p>
+                <p className="font-mono text-xs" style={{ color: "#606C66" }}>Courses Enrolled</p>
                 <p className="font-mono text-xl font-bold" style={{ color: "#35C47A" }}>3</p>
               </div>
               <div>
-                <p className="font-mono text-xs" style={{ color: "#718078" }}>Completed</p>
+                <p className="font-mono text-xs" style={{ color: "#606C66" }}>Completed</p>
                 <p className="font-mono text-xl font-bold" style={{ color: "#35C47A" }}>1</p>
               </div>
               <div>
-                <p className="font-mono text-xs" style={{ color: "#718078" }}>Certificates</p>
+                <p className="font-mono text-xs" style={{ color: "#606C66" }}>Certificates</p>
                 <p className="font-mono text-xl font-bold" style={{ color: "#35C47A" }}>1</p>
               </div>
             </div>
@@ -72,7 +72,7 @@ export default function GuardianDashboard() {
           </div>
           <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
             {courses.map((c) => {
-              const statusColor = c.status === "Completed" ? "#35C47A" : c.status === "On track" ? "#3b82f6" : "#d97706";
+              const statusColor = c.status === "Completed" ? "#1F7A4B" : c.status === "On track" ? "#336AC1" : "#C17F33";
               return (
                 <div key={c.title} className="p-5">
                   <div className="flex items-center justify-between mb-3">
@@ -83,9 +83,9 @@ export default function GuardianDashboard() {
                     <div className="flex-1 h-2 rounded-full" style={{ background: "#E2E8E4" }}>
                       <div className="h-full rounded-full transition-all" style={{ width: `${c.progress}%`, background: c.progress === 100 ? "#35C47A" : "#35C47A" }} />
                     </div>
-                    <span className="font-mono text-sm font-bold w-10 text-right" style={{ color: "#35C47A" }}>{c.progress}%</span>
+                    <span className="font-mono text-sm font-bold w-10 text-right" style={{ color: "#1F7A4B" }}>{c.progress}%</span>
                   </div>
-                  <p className="font-mono text-xs" style={{ color: "#718078" }}>Last active: {c.lastActive}</p>
+                  <p className="font-mono text-xs" style={{ color: "#606C66" }}>Last active: {c.lastActive}</p>
                 </div>
               );
             })}
@@ -99,7 +99,7 @@ export default function GuardianDashboard() {
           </div>
           <div className="divide-y" style={{ borderColor: "#E2E8E4" }}>
             {notifications.map((n, i) => {
-              const color = n.type === "success" ? "#35C47A" : n.type === "warning" ? "#d97706" : "#3b82f6";
+              const color = n.type === "success" ? "#35C47A" : n.type === "warning" ? "#C17F33" : "#336AC1";
               return (
                 <div key={i} className="px-6 py-4 flex items-start gap-4">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: `${color}15` }}>
@@ -107,7 +107,7 @@ export default function GuardianDashboard() {
                   </div>
                   <div className="flex-1">
                     <p className="text-sm mb-1" style={{ color: "#102019" }}>{n.msg}</p>
-                    <p className="font-mono text-xs" style={{ color: "#718078" }}>{n.time}</p>
+                    <p className="font-mono text-xs" style={{ color: "#606C66" }}>{n.time}</p>
                   </div>
                 </div>
               );

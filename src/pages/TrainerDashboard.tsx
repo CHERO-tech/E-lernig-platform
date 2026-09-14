@@ -212,7 +212,13 @@ export default function TrainerDashboard() {
                     <p className="text-sm mb-1" style={{ color: "#102019" }}>{item.project}</p>
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs px-2 py-0.5 rounded" style={{ background: "rgba(53,196,122,0.08)", color: "#1F7A4B", border: "1px solid rgba(53,196,122,0.15)" }}>{item.track}</span>
-                      <Link to="/projects?role=trainer" className="font-mono text-xs font-semibold" style={{ color: "#1F7A4B" }}>Review →</Link>
+                      <Link
+                        to={`/projects/review?student=${encodeURIComponent(item.student)}&project=${encodeURIComponent(item.project)}&track=${encodeURIComponent(item.track)}&submitted=${encodeURIComponent(item.submitted)}`}
+                        className="font-mono text-xs font-semibold"
+                        style={{ color: "#1F7A4B" }}
+                      >
+                        Review →
+                      </Link>
                     </div>
                   </div>
                 ))}

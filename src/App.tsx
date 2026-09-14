@@ -12,6 +12,7 @@ import CompanyPortal from "./pages/CompanyPortal";
 import AssessmentPage from "./pages/AssessmentPage";
 import CertificatePage from "./pages/CertificatePage";
 import ProjectPage from "./pages/ProjectPage";
+import ProjectReviewPage from "./pages/ProjectReviewPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import HelpCenterPage from "./pages/HelpCenterPage";
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="/assessment" element={<AssessmentPage />} />
         <Route path="/certificate" element={<CertificatePage />} />
         <Route path="/projects" element={<ProjectPage />} />
+        <Route path="/projects/review" element={<ProjectReviewPage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/portfolio/:studentId" element={<StudentPortfolioPage />} />

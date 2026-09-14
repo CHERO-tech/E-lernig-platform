@@ -19,6 +19,7 @@ export default function StatCard({
 }: StatCardProps) {
   const trendColor =
     trendTone === "up" ? "#1F7A4B" : trendTone === "down" ? "#C92C2C" : "#606C66";
+  const valueColor = trendTone === "down" ? "#C92C2C" : "#1F7A4B";
 
   return (
     <div
@@ -32,7 +33,7 @@ export default function StatCard({
         </p>
         {icon && <div>{icon}</div>}
       </div>
-      <p className="font-mono text-3xl font-bold mb-1" style={{ color: "#1F7A4B" }}>
+      <p className="font-mono text-3xl font-bold mb-1" style={{ color: valueColor }}>
         {value}
       </p>
       {trend && (

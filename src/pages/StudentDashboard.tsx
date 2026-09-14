@@ -62,8 +62,10 @@ export default function StudentDashboard() {
         if (k === "notifications") window.location.href = "/notifications";
         if (k === "current-course") window.location.href = "/current-course";
         if (k === "courses") window.location.href = "/courses";
+        if (k === "paths") window.location.href = "/learning-paths";
         if (k === "certificates") window.location.href = "/certificate";
         if (k === "projects") window.location.href = "/projects";
+        if (k === "portfolio") window.location.href = "/portfolio/1";
       }}
       userName="Amahoro Jean de Dieu"
       userInitials="AJ"

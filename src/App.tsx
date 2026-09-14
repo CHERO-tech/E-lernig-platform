@@ -39,6 +39,7 @@ import CourseManagementPage from "./pages/CourseManagementPage";
 import ReportsPage from "./pages/ReportsPage";
 import InstitutionsPage from "./pages/InstitutionsPage";
 import CompaniesPage from "./pages/CompaniesPage";
+import PaymentsPage from "./pages/PaymentsPage";
 
 export default function App() {
   return (
@@ -94,6 +95,7 @@ export default function App() {
         <Route path="/reports" element={<ReportsPage />} />
         <Route path="/institutions" element={<InstitutionsPage />} />
         <Route path="/companies" element={<CompaniesPage />} />
+        <Route path="/payments" element={<PaymentsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

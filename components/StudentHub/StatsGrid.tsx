@@ -28,7 +28,7 @@ export default function StatsGrid({ stats }: StatsGridProps) {
           transition={{ delay: index * 0.1, duration: 0.4 }}
         >
           <p className="text-3xl mb-2">{item.icon}</p>
-          <p className="text-2xl md:text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-1">
+          <p className="text-2xl md:text-3xl font-bold text-ember-strong dark:text-brass mb-1">
             {stats[item.key as keyof StudentStats]}
           </p>
           <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">

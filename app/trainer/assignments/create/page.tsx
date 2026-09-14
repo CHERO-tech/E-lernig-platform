@@ -5,13 +5,17 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Plus, Trash2, Calendar } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function CreateAssignmentContent() {
   const router = useRouter();
+  const { courses, addAssignmentToCourse } = useCourses();
+  const { addNotification } = useNotifications();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    course: "advanced-react",
+    course: courses.length > 0 ? courses[0].id : "course-1",
     dueDate: "",
     maxScore: 100,
     instructions: "",
@@ -55,6 +59,29 @@ function CreateAssignmentContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.title.trim()) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Assignment title is required',
+      });
+      return;
+    }
+    addAssignmentToCourse(formData.course, {
+      title: formData.title,
+      description: formData.description,
+      instructions: formData.instructions,
+      dueDate: formData.dueDate,
+      maxScore: formData.maxScore,
+      rubric: formData.rubric.map(r => ({ id: r.id.toString(), criterion: r.criterion, points: r.points })),
+    });
+    addNotification({
+      type: 'system',
+      icon: '✅',
+      title: 'Assignment Created',
+      message: `"${formData.title}" has been added to the course.`,
+    });
     router.push("/trainer/dashboard");
   };
 
@@ -89,7 +116,7 @@ function CreateAssignmentContent() {
                     placeholder="e.g., Build a React Todo App"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -102,7 +129,7 @@ function CreateAssignmentContent() {
                     rows={3}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -114,12 +141,12 @@ function CreateAssignmentContent() {
                       name="course"
                       value={formData.course}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
-                      <option value="advanced-react">Advanced React Patterns</option>
-                      <option value="web-dev">Web Development</option>
-                      <option value="data-science">Data Science</option>
+                      {courses.map(course => (
+                        <option key={course.id} value={course.id}>{course.title}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -130,7 +157,7 @@ function CreateAssignmentContent() {
                       name="dueDate"
                       value={formData.dueDate}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -144,7 +171,7 @@ function CreateAssignmentContent() {
                     rows={4}
                     value={formData.instructions}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -155,7 +182,7 @@ function CreateAssignmentContent() {
             <div className="border-t border-gray-200 pt-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Grading Rubric</h2>
-                <p className="text-sm font-semibold text-green-600">Total: {totalPoints} points</p>
+                <p className="text-sm font-semibold text-ember-strong">Total: {totalPoints} points</p>
               </div>
 
               <div className="space-y-3">
@@ -168,7 +195,7 @@ function CreateAssignmentContent() {
                         placeholder="e.g., Code Quality"
                         value={criterion.criterion}
                         onChange={(e) => handleRubricChange(criterion.id, "criterion", e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
@@ -179,7 +206,7 @@ function CreateAssignmentContent() {
                         placeholder="0"
                         value={criterion.points}
                         onChange={(e) => handleRubricChange(criterion.id, "points", parseInt(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
@@ -196,7 +223,7 @@ function CreateAssignmentContent() {
                 <button
                   type="button"
                   onClick={handleAddRubric}
-                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-green-500 hover:text-green-600 transition-colors flex items-center justify-center gap-2"
+                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
                 >
                   <Plus size={20} /> Add Criterion
                 </button>
@@ -207,7 +234,7 @@ function CreateAssignmentContent() {
             <div className="border-t border-gray-200 pt-8 flex gap-4">
               <button
                 type="submit"
-                className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition-colors"
+                className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember transition-colors"
               >
                 Create Assignment
               </button>

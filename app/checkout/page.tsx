@@ -3,12 +3,32 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { Check, Lock } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Check, Lock, AlertCircle } from "lucide-react";
+import { Elements } from "@stripe/react-stripe-js";
+import { Stripe } from "@stripe/stripe-js";
+import { useCart } from "@/lib/cart/useCart";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { calculateCartTotals } from "@/lib/cart/calculateTotals";
+import { getStripe } from "@/lib/stripe/getStripe";
+import { PaymentStep } from "@/components/checkout/PaymentStep";
 
 function CheckoutContent() {
   const router = useRouter();
+  const { items, clearCart } = useCart();
+  const { addNotification } = useNotifications();
+  const { enroll } = useEnrollment();
   const [step, setStep] = useState<"shipping" | "payment" | "confirmation">("shipping");
+  const [stripe, setStripe] = useState<Stripe | null>(null);
+  const [completedOrder, setCompletedOrder] = useState<{
+    orderNumber: string;
+    orderDate: string;
+    items: typeof items;
+    total: number;
+    cardBrand: string;
+    cardLast4: string;
+  } | null>(null);
   const [formData, setFormData] = useState({
     email: "student@example.com",
     firstName: "John",
@@ -17,11 +37,13 @@ function CheckoutContent() {
     city: "San Francisco",
     state: "CA",
     zip: "94105",
-    cardName: "John Doe",
-    cardNumber: "4111 1111 1111 1111",
-    expiry: "12/25",
-    cvv: "123",
   });
+
+  useEffect(() => {
+    getStripe().then(setStripe);
+  }, []);
+
+  const { subtotal, tax, total } = calculateCartTotals(items);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,16 +53,33 @@ function CheckoutContent() {
   const handleContinue = () => {
     if (step === "shipping") {
       setStep("payment");
-    } else if (step === "payment") {
-      setStep("confirmation");
     }
+  };
+
+  const handlePaymentSuccess = (paymentMethod: { card?: { brand: string; last4: string } }) => {
+    const order = {
+      orderNumber: `#ORD-${Date.now().toString()}`,
+      orderDate: new Date().toLocaleDateString(),
+      items,
+      total,
+      cardBrand: paymentMethod.card?.brand || 'Card',
+      cardLast4: paymentMethod.card?.last4 || '••••',
+    };
+    items.forEach(item => enroll(item.id));
+    setCompletedOrder(order);
+    clearCart();
+    addNotification({
+      type: 'payment',
+      icon: '💳',
+      title: 'Payment Successful',
+      message: `Your purchase of ${items.length} course${items.length > 1 ? 's' : ''} for $${total.toFixed(2)} has been completed.`,
+    });
+    setStep("confirmation");
   };
 
   const handleViewCourses = () => {
     router.push("/my-enrollments");
   };
-
-  const cartTotal = 327;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -69,8 +108,8 @@ function CheckoutContent() {
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
                     isActive
                       ? isComplete
-                        ? "bg-green-600 text-white"
-                        : "bg-green-600 text-white"
+                        ? "bg-ember-strong text-white"
+                        : "bg-ember-strong text-white"
                       : "bg-gray-200 text-gray-600"
                   }`}
                 >
@@ -103,7 +142,7 @@ function CheckoutContent() {
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
                     <div>
@@ -113,7 +152,7 @@ function CheckoutContent() {
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
                   </div>
@@ -125,7 +164,7 @@ function CheckoutContent() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     />
                   </div>
 
@@ -136,7 +175,7 @@ function CheckoutContent() {
                       name="address"
                       value={formData.address}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     />
                   </div>
 
@@ -148,7 +187,7 @@ function CheckoutContent() {
                         name="city"
                         value={formData.city}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
                     <div>
@@ -159,7 +198,7 @@ function CheckoutContent() {
                           name="state"
                           value={formData.state}
                           onChange={handleChange}
-                          className="w-12 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          className="w-12 px-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                           maxLength={2}
                         />
                         <input
@@ -167,7 +206,7 @@ function CheckoutContent() {
                           name="zip"
                           value={formData.zip}
                           onChange={handleChange}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                         />
                       </div>
                     </div>
@@ -180,77 +219,40 @@ function CheckoutContent() {
             {step === "payment" && (
               <div className="bg-white rounded-lg border border-gray-200 p-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                  <Lock size={24} className="text-green-600" /> Payment Information
+                  <Lock size={24} className="text-ember-strong" /> Payment Information
                 </h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Cardholder Name</label>
-                    <input
-                      type="text"
-                      name="cardName"
-                      value={formData.cardName}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                    />
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
-                    <input
-                      type="text"
-                      name="cardNumber"
-                      value={formData.cardNumber}
-                      onChange={handleChange}
-                      placeholder="4111 1111 1111 1111"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-mono"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
+                {!stripe ? (
+                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg flex items-start gap-3">
+                    <AlertCircle size={20} className="text-yellow-700 flex-shrink-0 mt-0.5" />
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
-                      <input
-                        type="text"
-                        name="expiry"
-                        value={formData.expiry}
-                        onChange={handleChange}
-                        placeholder="MM/YY"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">CVV</label>
-                      <input
-                        type="text"
-                        name="cvv"
-                        value={formData.cvv}
-                        onChange={handleChange}
-                        placeholder="123"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                      />
+                      <p className="text-sm font-medium text-yellow-900">Stripe is not configured</p>
+                      <p className="text-xs text-yellow-800 mt-1">
+                        Please ensure NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is set in your environment.
+                      </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-sm text-green-900">✓ Your payment information is secure and encrypted</p>
-                </div>
+                ) : (
+                  <Elements stripe={stripe}>
+                    <PaymentStep onSuccess={handlePaymentSuccess} total={total} />
+                  </Elements>
+                )}
               </div>
             )}
 
             {/* Confirmation Step */}
-            {step === "confirmation" && (
+            {step === "confirmation" && completedOrder && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="bg-white rounded-lg border border-gray-200 p-12 text-center"
               >
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                  <Check size={32} className="text-green-600" />
+                <div className="w-16 h-16 rounded-full bg-forge-soft flex items-center justify-center mx-auto mb-4">
+                  <Check size={32} className="text-ember-strong" />
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">Purchase Successful!</h2>
                 <p className="text-gray-600 mb-8">
-                  Your 3 courses have been added to your account. You can access them anytime.
+                  Your {items.length} course{items.length > 1 ? 's' : ''} have been added to your account. You can access them anytime.
                 </p>
 
                 <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left">
@@ -258,15 +260,19 @@ function CheckoutContent() {
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center justify-between">
                       <span className="text-gray-700">Order Number:</span>
-                      <span className="font-semibold text-gray-900">#ORD-2025-89234</span>
+                      <span className="font-semibold text-gray-900">{completedOrder.orderNumber}</span>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="text-gray-700">Order Date:</span>
-                      <span className="font-semibold text-gray-900">Mar 3, 2025</span>
+                      <span className="font-semibold text-gray-900">{completedOrder.orderDate}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-700">Payment Method:</span>
+                      <span className="font-semibold text-gray-900">{completedOrder.cardBrand} •••• {completedOrder.cardLast4}</span>
                     </div>
                     <div className="flex items-center justify-between pt-3 border-t border-gray-200">
                       <span className="text-gray-700">Total Paid:</span>
-                      <span className="font-bold text-green-600 text-lg">${cartTotal}</span>
+                      <span className="font-bold text-ember-strong text-lg">${completedOrder.total.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
@@ -277,26 +283,26 @@ function CheckoutContent() {
 
             {/* Action Buttons */}
             <div className="flex gap-4 mt-8">
-              {step !== "confirmation" && step !== "shipping" && (
+              {step === "payment" && (
                 <button
-                  onClick={() => setStep(step === "payment" ? "shipping" : "payment")}
+                  onClick={() => setStep("shipping")}
                   className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
                 >
                   Back
                 </button>
               )}
-              {step !== "confirmation" && (
+              {step === "shipping" && (
                 <button
                   onClick={handleContinue}
-                  className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700"
+                  className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember"
                 >
-                  {step === "payment" ? "Complete Purchase" : "Continue to Payment"}
+                  Continue to Payment
                 </button>
               )}
               {step === "confirmation" && (
                 <button
                   onClick={handleViewCourses}
-                  className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700"
+                  className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember"
                 >
                   View My Courses
                 </button>
@@ -313,34 +319,28 @@ function CheckoutContent() {
           >
             <h3 className="font-bold text-gray-900 mb-4">Order Summary</h3>
             <div className="space-y-3 mb-6 pb-6 border-b border-gray-200">
-              <div className="text-sm">
-                <p className="text-gray-600">Advanced React Patterns</p>
-                <p className="font-semibold text-gray-900">$99.00</p>
-              </div>
-              <div className="text-sm">
-                <p className="text-gray-600">Python for Data Science</p>
-                <p className="font-semibold text-gray-900">$149.00</p>
-              </div>
-              <div className="text-sm">
-                <p className="text-gray-600">UI/UX Design Masterclass</p>
-                <p className="font-semibold text-gray-900">$79.00</p>
-              </div>
+              {items.map((item) => (
+                <div key={item.id} className="text-sm">
+                  <p className="text-gray-600">{item.title}</p>
+                  <p className="font-semibold text-gray-900">${item.price.toFixed(2)}</p>
+                </div>
+              ))}
             </div>
 
             <div className="space-y-2 pb-4 border-b border-gray-200 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-gray-700">Subtotal</span>
-                <span className="font-semibold">$327.00</span>
+                <span className="font-semibold">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-700">Tax</span>
-                <span className="font-semibold">$0.00</span>
+                <span className="text-gray-700">Tax (8%)</span>
+                <span className="font-semibold">${tax.toFixed(2)}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between pt-4">
               <span className="font-bold text-gray-900">Total</span>
-              <span className="text-2xl font-bold text-green-600">${cartTotal}</span>
+              <span className="text-2xl font-bold text-ember-strong">${total.toFixed(2)}</span>
             </div>
           </motion.div>
         </div>

@@ -7,53 +7,52 @@ import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Clock, CheckCircle2, Zap, Award } from "lucide-react";
 import { useState } from "react";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { useCourses } from "@/lib/courses/useCourses";
+import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
 
 function MyLearningContent() {
   const router = useRouter();
   const { user } = useAuth();
+  const { enrollments } = useEnrollment();
+  const { getCourseById } = useCourses();
   const [activeTab, setActiveTab] = useState("in-progress");
 
-  const inProgressCourses = [
-    {
-      id: 1,
-      title: "Advanced React Patterns",
-      instructor: "Sarah Chen",
-      progress: 65,
-      currentLesson: "Lesson 8: Custom Hooks",
-      daysLeft: 12,
-      nextLesson: "Today, 2:00 PM",
-      bgGradient: "from-blue-400 via-purple-400 to-indigo-500",
-    },
-    {
-      id: 2,
-      title: "UI/UX Design Fundamentals",
-      instructor: "Mike Johnson",
-      progress: 35,
-      currentLesson: "Lesson 4: Color Theory",
-      daysLeft: 25,
-      nextLesson: "Tomorrow, 10:00 AM",
-      bgGradient: "from-pink-400 via-orange-400 to-amber-500",
-    },
-  ];
+  const inProgressCourses = enrollments
+    .map(enrollment => {
+      const course = getCourseById(enrollment.courseId);
+      if (!course) return null;
+      const progress = calculateCourseProgress(enrollment, course);
+      if (progress.percentComplete === 100) return null;
+      return {
+        id: course.id,
+        title: course.title,
+        instructor: course.instructor,
+        progress: progress.percentComplete,
+        currentLesson: `${progress.lessonsCompleted}/${progress.lessonsTotal} lessons`,
+        daysLeft: 12,
+        nextLesson: "Continue learning",
+        bgGradient: "from-blue-400 via-purple-400 to-indigo-500",
+      };
+    })
+    .filter((c): c is NonNullable<typeof c> => c !== null);
 
-  const completedCourses = [
-    {
-      id: 1,
-      title: "Web Development Fundamentals",
-      instructor: "John Smith",
-      completedDate: "Dec 15, 2024",
-      rating: 4.8,
-      certificate: true,
-    },
-    {
-      id: 2,
-      title: "JavaScript Basics",
-      instructor: "Alex Kumar",
-      completedDate: "Nov 20, 2024",
-      rating: 4.9,
-      certificate: true,
-    },
-  ];
+  const completedCourses = enrollments
+    .map(enrollment => {
+      const course = getCourseById(enrollment.courseId);
+      if (!course) return null;
+      const progress = calculateCourseProgress(enrollment, course);
+      if (progress.percentComplete !== 100) return null;
+      return {
+        id: course.id,
+        title: course.title,
+        instructor: course.instructor,
+        completedDate: new Date(enrollment.enrolledAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+        rating: course.rating,
+        certificate: true,
+      };
+    })
+    .filter((c): c is NonNullable<typeof c> => c !== null);
 
   const achievements = [
     { emoji: "🎓", title: "First Course", desc: "Completed your first course" },
@@ -86,10 +85,10 @@ function MyLearningContent() {
           className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
         >
           {[
-            { icon: BookOpen, label: "In Progress", value: "2", color: "bg-blue-100 text-blue-600" },
-            { icon: CheckCircle2, label: "Completed", value: "12", color: "bg-green-100 text-green-600" },
+            { icon: BookOpen, label: "In Progress", value: inProgressCourses.length.toString(), color: "bg-blue-100 text-blue-600" },
+            { icon: CheckCircle2, label: "Completed", value: completedCourses.length.toString(), color: "bg-forge-soft text-ember-strong" },
             { icon: Clock, label: "Learning Hours", value: "48h", color: "bg-purple-100 text-purple-600" },
-            { icon: Award, label: "Certificates", value: "8", color: "bg-yellow-100 text-yellow-600" },
+            { icon: Award, label: "Certificates", value: completedCourses.length.toString(), color: "bg-yellow-100 text-yellow-600" },
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
@@ -122,7 +121,7 @@ function MyLearningContent() {
               onClick={() => setActiveTab(tab.id)}
               className={`pb-4 px-4 font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? "border-green-600 text-green-600"
+                  ? "border-ember-strong text-ember-strong"
                   : "border-transparent text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -151,14 +150,14 @@ function MyLearningContent() {
                         <p className="text-gray-600">by {course.instructor}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-2xl font-bold text-green-600">{course.progress}%</p>
+                        <p className="text-2xl font-bold text-ember-strong">{course.progress}%</p>
                         <p className="text-xs text-gray-500">{course.daysLeft} days left</p>
                       </div>
                     </div>
 
                     <div className="mb-4">
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
+                        <div className="bg-ember-strong h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
                       </div>
                     </div>
 
@@ -167,7 +166,7 @@ function MyLearningContent() {
                     </p>
 
                     <div className="flex gap-3">
-                      <button className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors">
+                      <button className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
                         Continue Learning
                       </button>
                       <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
@@ -181,7 +180,7 @@ function MyLearningContent() {
               <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
                 <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
                 <p className="text-gray-600 text-lg mb-4">No courses in progress</p>
-                <Link href="/courses" className="text-green-600 hover:text-green-700 font-medium">
+                <Link href="/courses" className="text-ember-strong hover:text-ember font-medium">
                   Browse Courses
                 </Link>
               </div>
@@ -213,7 +212,7 @@ function MyLearningContent() {
                   </div>
                   <div className="text-right">
                     {course.certificate && (
-                      <div className="flex items-center gap-2 text-green-600 font-medium mb-3">
+                      <div className="flex items-center gap-2 text-ember-strong font-medium mb-3">
                         <Award size={18} /> Certificate
                       </div>
                     )}
@@ -250,12 +249,12 @@ function MyLearningContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
-              className="mt-12 p-8 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200"
+              className="mt-12 p-8 bg-gradient-to-r from-forge-soft to-blue-50 rounded-lg border border-brass-soft"
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Keep Learning, Earn More!</h3>
               <p className="text-gray-600 mb-6">Complete more courses and unlock new achievements. Share your progress with your network.</p>
               <div className="flex gap-4">
-                <Link href="/courses" className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors">
+                <Link href="/courses" className="px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
                   Browse More Courses
                 </Link>
                 <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-white transition-colors">

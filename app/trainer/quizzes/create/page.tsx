@@ -5,13 +5,17 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Plus, Trash2, Copy } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function CreateQuizContent() {
   const router = useRouter();
+  const { courses, addQuizToCourse } = useCourses();
+  const { addNotification } = useNotifications();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    course: "advanced-react",
+    course: courses.length > 0 ? courses[0].id : "course-1",
     timeLimit: 15,
     passingScore: 70,
     questions: [
@@ -90,6 +94,28 @@ function CreateQuizContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.title.trim()) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Quiz title is required',
+      });
+      return;
+    }
+    addQuizToCourse(formData.course, {
+      title: formData.title,
+      description: formData.description,
+      timeLimit: formData.timeLimit,
+      passingScore: formData.passingScore,
+      questions: formData.questions.map(q => ({ ...q, id: q.id.toString() })),
+    });
+    addNotification({
+      type: 'system',
+      icon: '✅',
+      title: 'Quiz Created',
+      message: `"${formData.title}" has been added to the course.`,
+    });
     router.push("/trainer/dashboard");
   };
 
@@ -123,7 +149,7 @@ function CreateQuizContent() {
                   placeholder="e.g., React Hooks Quiz"
                   value={formData.title}
                   onChange={handleBasicChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -136,7 +162,7 @@ function CreateQuizContent() {
                   rows={3}
                   value={formData.description}
                   onChange={handleBasicChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -148,10 +174,11 @@ function CreateQuizContent() {
                     name="course"
                     value={formData.course}
                     onChange={handleBasicChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   >
-                    <option value="advanced-react">Advanced React Patterns</option>
-                    <option value="web-dev">Web Development</option>
+                    {courses.map(course => (
+                      <option key={course.id} value={course.id}>{course.title}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -162,7 +189,7 @@ function CreateQuizContent() {
                     name="timeLimit"
                     value={formData.timeLimit}
                     onChange={handleBasicChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
 
@@ -175,7 +202,7 @@ function CreateQuizContent() {
                     onChange={handleBasicChange}
                     min="0"
                     max="100"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
               </div>
@@ -189,7 +216,7 @@ function CreateQuizContent() {
               <button
                 type="button"
                 onClick={handleAddQuestion}
-                className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100"
+                className="flex items-center gap-2 px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft"
               >
                 <Plus size={18} /> Add Question
               </button>
@@ -230,7 +257,7 @@ function CreateQuizContent() {
                     placeholder="Enter question text"
                     value={q.question}
                     onChange={(e) => handleQuestionChange(q.id, "question", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
 
@@ -253,7 +280,7 @@ function CreateQuizContent() {
                           placeholder={`Option ${optIdx + 1}`}
                           value={option}
                           onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
                           required
                         />
                       </div>
@@ -266,7 +293,7 @@ function CreateQuizContent() {
                     placeholder="Explanation (shown after answer)"
                     value={q.explanation}
                     onChange={(e) => handleQuestionChange(q.id, "explanation", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
                   />
                 </motion.div>
               ))}
@@ -277,7 +304,7 @@ function CreateQuizContent() {
           <div className="flex gap-4">
             <button
               type="submit"
-              className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700"
+              className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember"
             >
               Create Quiz
             </button>

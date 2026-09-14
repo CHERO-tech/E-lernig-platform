@@ -17,7 +17,7 @@ export default function CourseCard({ course }: CourseCardProps) {
       transition={{ duration: 0.3 }}
     >
       {/* Course Header */}
-      <div className="h-24 bg-gradient-to-br from-emerald-600 to-emerald-500 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-300">
+      <div className="h-24 bg-gradient-to-br from-ember-strong to-ember flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-300">
         {course.icon}
       </div>
 
@@ -31,7 +31,7 @@ export default function CourseCard({ course }: CourseCardProps) {
         <div className="flex items-center gap-2 mb-4 text-xs text-slate-600 dark:text-slate-400">
           <span>{course.duration}</span>
           <span>•</span>
-          <span className="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded text-emerald-600 dark:text-emerald-400 font-medium">
+          <span className="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded text-ember-strong dark:text-brass font-medium">
             {course.level}
           </span>
         </div>
@@ -46,13 +46,13 @@ export default function CourseCard({ course }: CourseCardProps) {
             <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
               Progress
             </span>
-            <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
+            <span className="text-sm font-bold text-ember-strong dark:text-brass">
               {course.progress}%
             </span>
           </div>
           <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400"
+              className="h-full bg-gradient-to-r from-ember to-brass"
               initial={{ width: 0 }}
               animate={{ width: `${course.progress}%` }}
               transition={{ duration: 1, ease: "easeOut" }}
@@ -68,7 +68,7 @@ export default function CourseCard({ course }: CourseCardProps) {
         )}
 
         {/* CTA Button */}
-        <button className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg font-medium hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors group/btn">
+        <button className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-forge-soft dark:bg-ember-strong/20 text-ember-strong dark:text-brass rounded-lg font-medium hover:bg-forge-soft dark:hover:bg-ember-strong/40 transition-colors group/btn">
           Continue Course
           <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
         </button>

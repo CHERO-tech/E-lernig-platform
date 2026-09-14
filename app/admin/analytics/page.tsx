@@ -2,34 +2,45 @@
 
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { usePeople } from "@/lib/people/usePeople";
+import { useCourses } from "@/lib/courses/useCourses";
 import { BarChart3, Users, BookOpen, DollarSign, TrendingUp, Activity } from "lucide-react";
 import { useState } from "react";
 
 function AdminAnalyticsContent() {
   const [timeRange, setTimeRange] = useState("30d");
+  const { people } = usePeople();
+  const { courses } = useCourses();
+
+  const totalRevenue = courses.reduce((sum, c) => sum + (c.price * c.students), 0);
+  const activeUsers = people.filter(p => p.status === 'active').length;
 
   const platformStats = [
-    { label: "Total Revenue", value: "$485,320", change: "+24%", icon: DollarSign, color: "green" },
-    { label: "Active Users", value: "12,845", change: "+18%", icon: Users, color: "blue" },
-    { label: "Enrolled Courses", value: "8,934", change: "+42%", icon: BookOpen, color: "purple" },
+    { label: "Total Revenue", value: `$${(totalRevenue / 1000).toFixed(0)}k`, change: "+24%", icon: DollarSign, color: "green" },
+    { label: "Active Users", value: activeUsers.toString(), change: "+18%", icon: Users, color: "blue" },
+    { label: "Total Courses", value: courses.length.toString(), change: "+42%", icon: BookOpen, color: "purple" },
     { label: "Platform Health", value: "99.8%", change: "+0.2%", icon: Activity, color: "yellow" },
   ];
 
-  const userDemographics = [
-    { role: "Students", count: 7850, percentage: 61 },
-    { role: "Trainers", count: 2120, percentage: 16 },
-    { role: "Companies", count: 1240, percentage: 10 },
-    { role: "Schools", count: 845, percentage: 7 },
-    { role: "Guardians", count: 790, percentage: 6 },
+  const roleBreakdown = [
+    { role: "Students", count: people.filter(p => p.role === 'student').length },
+    { role: "Trainers", count: people.filter(p => p.role === 'trainer').length },
+    { role: "Companies", count: people.filter(p => p.role === 'company').length },
+    { role: "Schools", count: people.filter(p => p.role === 'school').length },
+    { role: "Guardians", count: people.filter(p => p.role === 'guardian').length },
   ];
+  const totalRoles = roleBreakdown.reduce((sum, r) => sum + r.count, 0);
+  const userDemographics = roleBreakdown.map(r => ({
+    ...r,
+    percentage: totalRoles > 0 ? Math.round((r.count / totalRoles) * 100) : 0,
+  }));
 
-  const courseMetrics = [
-    { category: "Web Development", courses: 245, students: 3420, revenue: "$128,750" },
-    { category: "Data Science", courses: 189, students: 2810, revenue: "$105,375" },
-    { category: "Design", courses: 156, students: 2145, revenue: "$80,438" },
-    { category: "Networking", courses: 134, students: 1890, revenue: "$70,875" },
-    { category: "Mobile Dev", courses: 128, students: 1670, revenue: "$62,625" },
-  ];
+  const courseMetrics = courses.map(c => ({
+    category: c.title,
+    courses: 1,
+    students: c.students,
+    revenue: `$${(c.price * c.students).toLocaleString()}`,
+  }));
 
   const monthlyTrend = [
     { month: "Jan", users: 8200, courses: 4500, revenue: 156000 },
@@ -41,7 +52,7 @@ function AdminAnalyticsContent() {
   ];
 
   const colorMap: {[key: string]: string} = {
-    green: "text-green-600 bg-green-50",
+    green: "text-ember-strong bg-forge-soft",
     blue: "text-blue-600 bg-blue-50",
     yellow: "text-yellow-600 bg-yellow-50",
     purple: "text-purple-600 bg-purple-50",
@@ -53,13 +64,13 @@ function AdminAnalyticsContent() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BarChart3 size={32} className="text-green-600" />
+            <BarChart3 size={32} className="text-ember-strong" />
             <h1 className="text-3xl font-bold text-gray-900">Platform Analytics</h1>
           </div>
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
@@ -90,7 +101,7 @@ function AdminAnalyticsContent() {
                     <Icon size={24} />
                   </div>
                 </div>
-                <p className="text-green-600 text-sm font-medium">{stat.change} this period</p>
+                <p className="text-ember-strong text-sm font-medium">{stat.change} this period</p>
               </div>
             );
           })}
@@ -118,7 +129,7 @@ function AdminAnalyticsContent() {
                   </div>
                   <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-green-500 to-green-600"
+                      className="h-full bg-gradient-to-r from-ember-strong to-ember"
                       style={{ width: `${item.percentage}%` }}
                     ></div>
                   </div>
@@ -135,7 +146,7 @@ function AdminAnalyticsContent() {
                 <div key={i} className="pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
                   <div className="flex items-center justify-between mb-2">
                     <p className="text-sm font-medium text-gray-700">{item.month}</p>
-                    <span className="text-xs font-semibold text-green-600">${(item.revenue / 1000).toFixed(0)}K</span>
+                    <span className="text-xs font-semibold text-ember-strong">${(item.revenue / 1000).toFixed(0)}K</span>
                   </div>
                   <div className="flex gap-1">
                     <div className="flex-1 h-3 bg-blue-200 rounded-sm" style={{ width: `${(item.users / 13000) * 100}%` }}></div>
@@ -175,12 +186,12 @@ function AdminAnalyticsContent() {
                       <td className="py-4 px-4 font-medium text-gray-900">{metric.category}</td>
                       <td className="py-4 px-4 text-right text-gray-600">{metric.courses}</td>
                       <td className="py-4 px-4 text-right text-gray-600">{metric.students.toLocaleString()}</td>
-                      <td className="py-4 px-4 text-right font-semibold text-green-600">{metric.revenue}</td>
+                      <td className="py-4 px-4 text-right font-semibold text-ember-strong">{metric.revenue}</td>
                       <td className="py-4 px-4 text-right">
                         <div className="flex items-center justify-end gap-2">
                           <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-green-600"
+                              className="h-full bg-ember-strong"
                               style={{ width: `${share}%` }}
                             ></div>
                           </div>
@@ -199,10 +210,10 @@ function AdminAnalyticsContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="bg-green-50 border border-green-200 rounded-lg p-6"
+          className="bg-forge-soft border border-brass-soft rounded-lg p-6"
         >
-          <h3 className="font-bold text-green-900 mb-2">System Health Status</h3>
-          <p className="text-sm text-green-800">All systems operational • API response time: 124ms • Database load: 34% • Storage: 62% used</p>
+          <h3 className="font-bold text-ember-strong mb-2">System Health Status</h3>
+          <p className="text-sm text-ember-strong">All systems operational • API response time: 124ms • Database load: 34% • Storage: 62% used</p>
         </motion.div>
       </div>
     </div>

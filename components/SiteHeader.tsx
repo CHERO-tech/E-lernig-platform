@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import BrandMark from "./BrandMark";
 import { useAuth } from "@/lib/auth/useAuth";
+import { NotificationBell } from "./NotificationBell";
 import { LogOut, Settings, Zap } from "lucide-react";
 
 const NAV_LINKS = [
@@ -52,12 +53,14 @@ export default function SiteHeader() {
               </Link>
             </>
           ) : (
-            <div className="relative">
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-              >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white text-xs font-bold">
+            <div className="flex items-center gap-2">
+              <NotificationBell />
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white text-xs font-bold">
                   {user?.avatar}
                 </div>
                 <span className="text-sm font-medium hidden sm:inline">
@@ -112,6 +115,7 @@ export default function SiteHeader() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              </div>
             </div>
           )}
 

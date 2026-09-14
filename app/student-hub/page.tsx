@@ -68,7 +68,7 @@ export default function StudentHubDashboard() {
                   </p>
                 </div>
                 <div className="hidden md:flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-bold shadow-lg">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white font-bold shadow-lg">
                     {mockStudentProfile.avatar}
                   </div>
                 </div>

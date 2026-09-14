@@ -5,57 +5,33 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { BookOpen, Play, Download, Share2, Star } from "lucide-react";
 import { useState } from "react";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { useCourses } from "@/lib/courses/useCourses";
+import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
 
 function MyEnrollmentsContent() {
   const router = useRouter();
+  const { enrollments } = useEnrollment();
+  const { getCourseById } = useCourses();
   const [filterTab, setFilterTab] = useState<"all" | "in-progress" | "completed">("all");
 
-  const enrolledCourses = [
-    {
-      id: 1,
-      title: "Advanced React Patterns",
-      instructor: "Sarah Chen",
-      progress: 65,
-      status: "in-progress",
-      image: "bg-gradient-to-br from-blue-400 to-purple-500",
-      lessons: 42,
-      completed: 27,
-      enrolled: "Jan 15, 2025",
-    },
-    {
-      id: 2,
-      title: "Python for Data Science",
-      instructor: "Alex Kumar",
-      progress: 100,
-      status: "completed",
-      image: "bg-gradient-to-br from-orange-400 to-red-500",
-      lessons: 38,
-      completed: 38,
-      enrolled: "Nov 20, 2024",
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Masterclass",
-      instructor: "Mike Johnson",
-      progress: 40,
-      status: "in-progress",
-      image: "bg-gradient-to-br from-pink-400 to-rose-500",
-      lessons: 35,
-      completed: 14,
-      enrolled: "Feb 1, 2025",
-    },
-    {
-      id: 4,
-      title: "Web Development Fundamentals",
-      instructor: "John Smith",
-      progress: 0,
-      status: "in-progress",
-      image: "bg-gradient-to-br from-green-400 to-teal-500",
-      lessons: 50,
-      completed: 0,
-      enrolled: "Mar 1, 2025",
-    },
-  ];
+  const enrolledCourses = enrollments.map(enrollment => {
+    const course = getCourseById(enrollment.courseId);
+    if (!course) return null;
+    const progress = calculateCourseProgress(enrollment, course);
+    const status = progress.percentComplete === 100 ? 'completed' : 'in-progress';
+    return {
+      id: course.id,
+      title: course.title,
+      instructor: course.instructor,
+      progress: progress.percentComplete,
+      status,
+      image: "bg-gradient-to-br from-ember-strong to-ember",
+      lessons: progress.lessonsTotal,
+      completed: progress.lessonsCompleted,
+      enrolled: new Date(enrollment.enrolledAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+    };
+  }).filter((c): c is NonNullable<typeof c> => c !== null);
 
   const filtered = enrolledCourses.filter(course => {
     if (filterTab === "all") return true;
@@ -65,13 +41,13 @@ function MyEnrollmentsContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <BookOpen size={36} />
             <h1 className="text-4xl font-bold">My Courses</h1>
           </div>
-          <p className="text-green-100">{enrolledCourses.length} courses enrolled</p>
+          <p className="text-forge-soft">{enrolledCourses.length} courses enrolled</p>
         </div>
       </div>
 
@@ -88,7 +64,7 @@ function MyEnrollmentsContent() {
               onClick={() => setFilterTab(tab as "all" | "in-progress" | "completed")}
               className={`px-6 py-4 font-medium transition-colors capitalize ${
                 filterTab === tab
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -113,8 +89,8 @@ function MyEnrollmentsContent() {
               {/* Course Image */}
               <div className={`h-40 ${course.image} relative`}>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black/50 transition-opacity">
-                  <button className="p-3 bg-white rounded-full hover:bg-green-100">
-                    <Play size={24} className="text-green-600" />
+                  <button className="p-3 bg-white rounded-full hover:bg-forge-soft">
+                    <Play size={24} className="text-ember-strong" />
                   </button>
                 </div>
               </div>
@@ -130,11 +106,11 @@ function MyEnrollmentsContent() {
                     <p className="text-sm text-gray-600">
                       {course.completed}/{course.lessons} lessons completed
                     </p>
-                    <p className="text-sm font-semibold text-green-600">{course.progress}%</p>
+                    <p className="text-sm font-semibold text-ember-strong">{course.progress}%</p>
                   </div>
                   <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-300"
+                      className="h-full bg-gradient-to-r from-ember-strong to-ember transition-all duration-300"
                       style={{ width: `${course.progress}%` }}
                     ></div>
                   </div>
@@ -143,14 +119,14 @@ function MyEnrollmentsContent() {
                 {/* Meta Info */}
                 <div className="flex items-center justify-between text-xs text-gray-600 mb-4 pb-4 border-b border-gray-200">
                   <span>Enrolled: {course.enrolled}</span>
-                  {course.status === "completed" && <span className="px-2 py-1 bg-green-100 text-green-700 rounded font-medium">Completed</span>}
+                  {course.status === "completed" && <span className="px-2 py-1 bg-forge-soft text-ember rounded font-medium">Completed</span>}
                 </div>
 
                 {/* Actions */}
                 <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => router.push(`/courses/${course.id}/learn`)}
-                    className="px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium text-sm hover:bg-green-100 transition-colors flex items-center justify-center gap-1"
+                    className="px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium text-sm hover:bg-forge-soft transition-colors flex items-center justify-center gap-1"
                   >
                     <Play size={16} /> {course.progress === 0 ? "Start" : "Continue"}
                   </button>
@@ -192,7 +168,7 @@ function MyEnrollmentsContent() {
             <p className="text-gray-600 mb-6">Start learning by enrolling in a course today!</p>
             <button
               onClick={() => router.push("/courses")}
-              className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+              className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
             >
               Browse Courses
             </button>

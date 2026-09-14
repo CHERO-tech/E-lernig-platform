@@ -50,7 +50,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
         {/* Logo */}
         <div className="mb-8">
           <Link href="/student-hub" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white font-bold text-lg shadow-lg">
               🚀
             </div>
             <div>
@@ -80,7 +80,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
         {/* User Section */}
         <div className="border-t border-slate-700 pt-4">
           <div className="flex items-center gap-3 px-2 py-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-bold">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white font-bold">
               {studentName
                 .split(" ")
                 .map((n) => n[0])

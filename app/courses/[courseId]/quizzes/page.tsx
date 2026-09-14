@@ -4,75 +4,58 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { BookOpen, Clock, CheckCircle, Lock, Play } from "lucide-react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 
 function QuizzesContent({ params }: { params: { courseId: string } }) {
   const router = useRouter();
+  const { getCourseById } = useCourses();
+  const { enrollments } = useEnrollment();
 
-  const quizzes = [
-    {
-      id: 1,
-      title: "React Hooks Fundamentals Quiz",
-      description: "Test your knowledge of React hooks including useState, useEffect, and useContext",
-      questions: 5,
-      timeLimit: 15,
-      passingScore: 70,
-      completed: true,
-      score: 92,
-      attempts: 1,
-      status: "passed",
-    },
-    {
-      id: 2,
-      title: "Component Composition Quiz",
-      description: "Assess your understanding of component patterns and composition techniques",
-      questions: 8,
-      timeLimit: 20,
-      passingScore: 70,
-      completed: false,
-      score: null,
-      attempts: 0,
-      status: "not-started",
-    },
-    {
-      id: 3,
-      title: "Advanced Patterns Assessment",
-      description: "Comprehensive quiz covering HOCs, render props, and custom hooks",
-      questions: 10,
-      timeLimit: 25,
-      passingScore: 75,
-      completed: true,
-      score: 65,
-      attempts: 2,
-      status: "failed",
-    },
-    {
-      id: 4,
-      title: "Performance Optimization Quiz",
-      description: "Test your knowledge on React performance optimization techniques",
-      questions: 6,
-      timeLimit: 18,
-      passingScore: 70,
-      completed: false,
-      score: null,
-      attempts: 0,
-      status: "locked",
-    },
-  ];
+  const course = getCourseById(params.courseId);
+  const enrollment = enrollments.find(e => e.courseId === params.courseId);
+
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Course Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const quizzes = course.quizzes.map(quiz => {
+    const attempt = enrollment?.quizAttempts.find(a => a.quizId === quiz.id);
+    return {
+      id: quiz.id,
+      title: quiz.title,
+      description: quiz.description,
+      questions: quiz.questions.length,
+      timeLimit: quiz.timeLimit,
+      passingScore: quiz.passingScore,
+      completed: !!attempt,
+      score: attempt?.score || null,
+      attempts: enrollment?.quizAttempts.filter(a => a.quizId === quiz.id).length || 0,
+      status: !attempt ? 'not-started' : attempt.score >= quiz.passingScore ? 'passed' : 'failed',
+    };
+  });
 
   const stats = {
     total: quizzes.length,
     completed: quizzes.filter(q => q.completed).length,
     passed: quizzes.filter(q => q.status === "passed").length,
-    avgScore: Math.round(
-      quizzes
-        .filter(q => q.score)
-        .reduce((sum, q) => sum + (q.score || 0), 0) / quizzes.filter(q => q.score).length
-    ),
+    avgScore: quizzes.filter(q => q.score).length > 0
+      ? Math.round(quizzes.filter(q => q.score).reduce((sum, q) => sum + (q.score || 0), 0) / quizzes.filter(q => q.score).length)
+      : 0,
   };
 
   const getStatusBadge = (quiz: typeof quizzes[0]) => {
     if (quiz.status === "passed")
-      return { label: "Passed", color: "bg-green-100 text-green-700" };
+      return { label: "Passed", color: "bg-forge-soft text-ember" };
     if (quiz.status === "failed")
       return { label: "Failed", color: "bg-red-100 text-red-700" };
     if (quiz.status === "locked")
@@ -83,13 +66,13 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <BookOpen size={36} />
             <h1 className="text-4xl font-bold">Course Quizzes</h1>
           </div>
-          <p className="text-green-100">Advanced React Patterns</p>
+          <p className="text-forge-soft">{course.title}</p>
         </div>
       </div>
 
@@ -163,7 +146,7 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
                   <div className="text-right">
                     {quiz.completed ? (
                       <div className="mb-4">
-                        <div className="text-3xl font-bold text-green-600 mb-1">
+                        <div className="text-3xl font-bold text-ember-strong mb-1">
                           {quiz.score}%
                         </div>
                         <p className="text-xs text-gray-600">
@@ -183,7 +166,7 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
                         className={`px-6 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
                           quiz.completed
                             ? "border border-gray-300 text-gray-700 hover:bg-gray-50"
-                            : "bg-green-600 text-white hover:bg-green-700"
+                            : "bg-ember-strong text-white hover:bg-ember"
                         }`}
                       >
                         <Play size={16} />
@@ -200,7 +183,7 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
                       <div
                         className={`h-full transition-all ${
                           quiz.score >= quiz.passingScore
-                            ? "bg-green-600"
+                            ? "bg-ember-strong"
                             : "bg-red-600"
                         }`}
                         style={{ width: `${quiz.score}%` }}
@@ -222,10 +205,8 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
           <h3 className="font-bold text-blue-900 mb-2">📝 Quiz Tips</h3>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• You can retake quizzes to improve your score</li>
-            <li>• Time limit is strictly enforced</li>
-            <li>• Your highest score is recorded</li>
-            <li>• Review the material if you don't pass on first attempt</li>
-            <li>• Some quizzes are locked until prerequisites are completed</li>
+            <li>• Your highest score is recorded and displayed</li>
+            <li>• Take your time and review before submitting</li>
           </ul>
         </motion.div>
       </div>
@@ -233,7 +214,7 @@ function QuizzesContent({ params }: { params: { courseId: string } }) {
   );
 }
 
-export default function Quizzes({ params }: { params: { courseId: string } }) {
+export default function QuizzesPage({ params }: { params: { courseId: string } }) {
   return (
     <ProtectedRoute>
       <QuizzesContent params={params} />

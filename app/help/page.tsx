@@ -115,20 +115,20 @@ export default function Help() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">Help & Support</h1>
-          <p className="text-green-100 text-lg mb-8">Find answers to common questions or reach out to our team</p>
+          <p className="text-forge-soft text-lg mb-8">Find answers to common questions or reach out to our team</p>
 
           {/* Search */}
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-3 text-green-200" size={20} />
+            <Search className="absolute left-4 top-3 text-brass-soft" size={20} />
             <input
               type="text"
               placeholder="Search help articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full pl-12 pr-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-ember"
             />
           </div>
         </div>
@@ -158,10 +158,10 @@ export default function Help() {
                         <button
                           key={globalIndex}
                           onClick={() => setExpandedFaq(isExpanded ? null : globalIndex)}
-                          className="w-full text-left p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors group"
+                          className="w-full text-left p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors group"
                         >
                           <div className="flex items-start justify-between gap-4">
-                            <p className="font-semibold text-gray-900 group-hover:text-green-600 transition-colors">{item.q}</p>
+                            <p className="font-semibold text-gray-900 group-hover:text-ember-strong transition-colors">{item.q}</p>
                             <ChevronDown
                               size={20}
                               className={`text-gray-600 flex-shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`}
@@ -190,7 +190,7 @@ export default function Help() {
               <p className="text-gray-600 mb-4">No results found for "{searchTerm}"</p>
               <button
                 onClick={() => setSearchTerm("")}
-                className="text-green-600 hover:text-green-700 font-medium"
+                className="text-ember-strong hover:text-ember font-medium"
               >
                 Clear search
               </button>
@@ -203,7 +203,7 @@ export default function Help() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-green-50 border border-green-200 rounded-lg p-8 text-center"
+          className="bg-forge-soft border border-brass-soft rounded-lg p-8 text-center"
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Didn't find what you're looking for?</h2>
           <p className="text-gray-600 mb-8">Our support team is here to help. Reach out to us through any of these channels:</p>
@@ -216,8 +216,8 @@ export default function Help() {
             ].map((contact, i) => {
               const Icon = contact.icon;
               return (
-                <a key={i} href={contact.link} className="p-4 bg-white rounded-lg border border-green-200 hover:shadow-lg transition-shadow">
-                  <Icon size={24} className="text-green-600 mx-auto mb-3" />
+                <a key={i} href={contact.link} className="p-4 bg-white rounded-lg border border-brass-soft hover:shadow-lg transition-shadow">
+                  <Icon size={24} className="text-ember-strong mx-auto mb-3" />
                   <p className="font-semibold text-gray-900 mb-1">{contact.label}</p>
                   <p className="text-sm text-gray-600">{contact.desc}</p>
                 </a>
@@ -241,7 +241,7 @@ export default function Help() {
               { title: "Best Practices", desc: "Tips for getting the most out of your courses" },
               { title: "Community Forum", desc: "Connect with other learners and share experiences" },
             ].map((resource, i) => (
-              <button key={i} className="p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-left">
+              <button key={i} className="p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors text-left">
                 <h3 className="font-semibold text-gray-900 mb-2">{resource.title}</h3>
                 <p className="text-sm text-gray-600">{resource.desc}</p>
               </button>

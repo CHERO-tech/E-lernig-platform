@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Dark mode is opt-in via a `.dark` class on <html> (see lib/theme/ThemeProvider),
+   not the OS `prefers-color-scheme` media query — otherwise `dark:` classes would
+   silently kick in for any visitor with system dark mode on. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --paper: #ffffff;
   --paper-raised: #ffffff;
@@ -22,6 +27,10 @@
   --font-sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 @theme inline {

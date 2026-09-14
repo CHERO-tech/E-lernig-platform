@@ -20,18 +20,18 @@ function DashboardContent() {
     <div className="min-h-screen bg-gray-50 flex">
       <aside className="w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto fixed h-screen">
         <Link href="/" className="flex items-center gap-2 mb-8">
-          <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Forge</span>
-          <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+          <span className="text-2xl font-bold bg-gradient-to-r from-ember-strong to-ember bg-clip-text text-transparent">Forge</span>
+          <svg className="w-5 h-5 text-ember-strong" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
         </Link>
 
         <div className="mb-8">
-          <input type="text" placeholder="Search" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
+          <input type="text" placeholder="Search" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong" />
         </div>
 
         <div className="mb-8">
           <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-4">Recruitment</p>
           <nav className="space-y-2">
-            <Link href="/company/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-green-50 text-green-600 font-medium">
+            <Link href="/company/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-forge-soft text-ember-strong font-medium">
               <Briefcase size={18} />
               <span>Dashboard</span>
             </Link>
@@ -54,7 +54,7 @@ function DashboardContent() {
           </nav>
         </div>
 
-        <button className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors">
+        <button className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-ember-strong hover:bg-ember text-white rounded-lg font-medium transition-colors">
           <Plus size={18} />
           <span className="text-sm">Post Opportunity</span>
         </button>
@@ -75,7 +75,7 @@ function DashboardContent() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             {[
               { label: "Active Opportunities", value: "12", icon: Briefcase, color: "bg-blue-100 text-blue-600" },
-              { label: "Total Applications", value: "342", icon: Users, color: "bg-green-100 text-green-600" },
+              { label: "Total Applications", value: "342", icon: Users, color: "bg-forge-soft text-ember-strong" },
               { label: "Avg Rating", value: "4.7★", icon: Star, color: "bg-yellow-100 text-yellow-600" },
               { label: "Hired Candidates", value: "28", icon: TrendingUp, color: "bg-purple-100 text-purple-600" },
             ].map((stat, i) => {
@@ -102,7 +102,7 @@ function DashboardContent() {
               {[
                 { title: "Senior React Developer", applicants: "45", views: "890", status: "Active", level: "Senior", daysPosted: "5d", bgGradient: "from-blue-400 via-purple-400 to-indigo-500" },
                 { title: "Product Designer", applicants: "32", views: "650", status: "Active", level: "Mid-level", daysPosted: "3d", bgGradient: "from-orange-400 via-red-400 to-pink-500" },
-                { title: "Data Scientist", applicants: "28", views: "520", status: "Active", level: "Senior", daysPosted: "7d", bgGradient: "from-emerald-400 via-teal-400 to-cyan-500" },
+                { title: "Data Scientist", applicants: "28", views: "520", status: "Active", level: "Senior", daysPosted: "7d", bgGradient: "from-brass via-teal-400 to-cyan-500" },
               ].map((opp, i) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.1 }} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                   <div className={`h-32 bg-gradient-to-br ${opp.bgGradient}`}></div>
@@ -122,7 +122,7 @@ function DashboardContent() {
                         <span className="font-semibold text-gray-900">{opp.views}</span>
                       </div>
                     </div>
-                    <button className="w-full px-3 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm">
+                    <button className="w-full px-3 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors text-sm">
                       Review Candidates
                     </button>
                   </div>
@@ -180,7 +180,7 @@ function DashboardContent() {
                   </div>
                   <div>
                     <p className="text-sm text-gray-600 font-medium">Offers Made</p>
-                    <p className="text-3xl font-bold text-green-600 mt-1">4</p>
+                    <p className="text-3xl font-bold text-ember-strong mt-1">4</p>
                   </div>
                 </div>
               </div>
@@ -188,7 +188,7 @@ function DashboardContent() {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Quick Actions</h2>
                 <div className="space-y-3">
-                  <button className="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors text-left flex items-center gap-2 text-sm">
+                  <button className="w-full px-4 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors text-left flex items-center gap-2 text-sm">
                     <Plus size={18} />
                     Post Job
                   </button>

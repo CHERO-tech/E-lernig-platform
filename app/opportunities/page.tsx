@@ -67,14 +67,14 @@ export default function Opportunities() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80">
             <span className="text-2xl font-bold">Forge</span>
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
           </Link>
           <h1 className="text-4xl font-bold mb-4">Job Opportunities</h1>
-          <p className="text-green-100 text-lg">Find your next career opportunity with top companies</p>
+          <p className="text-forge-soft text-lg">Find your next career opportunity with top companies</p>
         </div>
       </div>
 
@@ -86,7 +86,7 @@ export default function Opportunities() {
               onClick={() => setFilterType(type)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                 filterType === type
-                  ? "bg-green-600 text-white"
+                  ? "bg-ember-strong text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -109,7 +109,7 @@ export default function Opportunities() {
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{opp.title}</h3>
                   <p className="text-gray-600">{opp.company}</p>
                 </div>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2">
+                <button className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2">
                   Apply <ArrowRight size={18} />
                 </button>
               </div>
@@ -135,13 +135,13 @@ export default function Opportunities() {
         </div>
       </div>
 
-      <div className="bg-green-50 py-16 px-6">
+      <div className="bg-forge-soft py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to land your dream job?</h2>
           <p className="text-gray-600 mb-8">Upskill with our courses and increase your chances of getting hired</p>
           <Link
             href="/courses"
-            className="inline-block px-8 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+            className="inline-block px-8 py-4 bg-ember-strong text-white font-semibold rounded-lg hover:bg-ember transition-colors"
           >
             Browse Courses
           </Link>

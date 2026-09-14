@@ -104,7 +104,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
 
           {/* Controls */}
           <div className="flex gap-3 mt-4">
-            <button className="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 flex items-center justify-center gap-2">
+            <button className="flex-1 px-4 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember flex items-center justify-center gap-2">
               <Download size={18} /> Download Slides
             </button>
             <button className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-2">
@@ -125,7 +125,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
               onClick={() => setShowParticipants(false)}
               className={`flex-1 py-3 font-medium flex items-center justify-center gap-2 transition-colors ${
                 !showParticipants
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -135,7 +135,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
               onClick={() => setShowParticipants(true)}
               className={`flex-1 py-3 font-medium flex items-center justify-center gap-2 transition-colors ${
                 showParticipants
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -155,7 +155,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
                     animate={{ opacity: 1, x: 0 }}
                     className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                       {p.avatar}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -165,7 +165,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
                       </p>
                     </div>
                     {p.online && (
-                      <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>
+                      <span className="w-2 h-2 rounded-full bg-ember-strong flex-shrink-0"></span>
                     )}
                   </motion.div>
                 ))}
@@ -201,11 +201,11 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
                 />
                 <button
                   onClick={handleSendMessage}
-                  className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                  className="p-2 bg-ember-strong text-white rounded-lg hover:bg-ember"
                 >
                   <Send size={18} />
                 </button>
@@ -221,7 +221,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
           <div>
             <span className="font-semibold">{session.title}</span> • {session.duration}
           </div>
-          <button className="text-green-600 hover:text-green-700 font-medium">Leave Session</button>
+          <button className="text-ember-strong hover:text-ember font-medium">Leave Session</button>
         </div>
       </div>
     </div>

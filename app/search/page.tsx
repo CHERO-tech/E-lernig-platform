@@ -4,22 +4,25 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, Filter, Star, Users, Clock, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLevel, setFilterLevel] = useState("all");
   const [sortBy, setSortBy] = useState("relevance");
+  const { courses } = useCourses();
 
-  const allResults = [
-    { id: 1, type: "course", title: "Web Development Fundamentals", instructor: "John Smith", level: "Beginner", rating: 4.8, students: 1240, duration: "40 hours", price: "$49" },
-    { id: 2, type: "course", title: "Advanced React Patterns", instructor: "Sarah Chen", level: "Advanced", rating: 4.9, students: 890, duration: "35 hours", price: "$79" },
-    { id: 3, type: "course", title: "UI/UX Design Masterclass", instructor: "Mike Johnson", level: "Intermediate", rating: 4.7, students: 650, duration: "45 hours", price: "$59" },
-    { id: 4, type: "course", title: "Python for Data Science", instructor: "Alex Kumar", level: "Intermediate", rating: 4.8, students: 920, duration: "50 hours", price: "$69" },
-    { id: 5, type: "course", title: "Mobile Development with Flutter", instructor: "Emma Davis", level: "Beginner", rating: 4.6, students: 540, duration: "42 hours", price: "$49" },
-    { id: 6, type: "course", title: "Cloud Architecture on AWS", instructor: "Tom Wilson", level: "Advanced", rating: 4.9, students: 780, duration: "38 hours", price: "$99" },
-    { id: 7, type: "course", title: "TypeScript Mastery", instructor: "James Brown", level: "Intermediate", rating: 4.8, students: 620, duration: "36 hours", price: "$69" },
-    { id: 8, type: "course", title: "Machine Learning Basics", instructor: "Lisa Chen", level: "Intermediate", rating: 4.7, students: 450, duration: "48 hours", price: "$79" },
-  ];
+  const allResults = courses.map(c => ({
+    id: c.id,
+    type: "course",
+    title: c.title,
+    instructor: c.instructor,
+    level: c.level,
+    rating: c.rating,
+    students: c.students,
+    duration: `${c.durationHours} hours`,
+    price: c.price,
+  }));
 
   const filteredResults = allResults
     .filter(item =>
@@ -30,8 +33,8 @@ export default function SearchPage() {
     .sort((a, b) => {
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "popular") return b.students - a.students;
-      if (sortBy === "price-low") return parseFloat(a.price) - parseFloat(b.price);
-      if (sortBy === "price-high") return parseFloat(b.price) - parseFloat(a.price);
+      if (sortBy === "price-low") return a.price - b.price;
+      if (sortBy === "price-high") return b.price - a.price;
       return 0;
     });
 
@@ -48,7 +51,7 @@ export default function SearchPage() {
                 placeholder="Search courses, instructors, topics..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
               />
             </div>
             <button className="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
@@ -63,7 +66,7 @@ export default function SearchPage() {
               <select
                 value={filterLevel}
                 onChange={(e) => setFilterLevel(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
               >
                 <option value="all">All Levels</option>
                 <option value="Beginner">Beginner</option>
@@ -77,7 +80,7 @@ export default function SearchPage() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
               >
                 <option value="relevance">Relevance</option>
                 <option value="rating">Highest Rated</option>
@@ -110,7 +113,7 @@ export default function SearchPage() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="h-40 bg-gradient-to-br from-green-400 to-emerald-500"></div>
+                <div className="h-40 bg-gradient-to-br from-ember-strong to-ember"></div>
 
                 <div className="p-6">
                   <h3 className="font-bold text-gray-900 mb-2 line-clamp-2">{result.title}</h3>
@@ -120,7 +123,7 @@ export default function SearchPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-600">Level</span>
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        result.level === "Beginner" ? "bg-green-100 text-green-700" :
+                        result.level === "Beginner" ? "bg-forge-soft text-ember" :
                         result.level === "Intermediate" ? "bg-yellow-100 text-yellow-700" :
                         "bg-red-100 text-red-700"
                       }`}>
@@ -143,10 +146,10 @@ export default function SearchPage() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-green-600">{result.price}</span>
+                    <span className="text-lg font-bold text-ember-strong">${result.price}</span>
                     <Link
                       href={`/courses/${result.id}`}
-                      className="px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm flex items-center gap-2"
+                      className="px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors text-sm flex items-center gap-2"
                     >
                       <span>View</span>
                       <ArrowRight size={16} />
@@ -171,7 +174,7 @@ export default function SearchPage() {
                 setFilterLevel("all");
                 setSortBy("relevance");
               }}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+              className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
             >
               Clear Filters
             </button>
@@ -184,11 +187,11 @@ export default function SearchPage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="mt-16 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg p-12 text-center"
+            className="mt-16 bg-gradient-to-r from-ember-strong to-ember text-white rounded-lg p-12 text-center"
           >
             <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Career?</h2>
-            <p className="text-green-100 mb-8 text-lg">Join thousands of learners already advancing with Forge</p>
-            <Link href={`/courses/${filteredResults[0].id}`} className="inline-block px-8 py-3 bg-white text-green-600 rounded-lg font-medium hover:bg-green-50 transition-colors">
+            <p className="text-forge-soft mb-8 text-lg">Join thousands of learners already advancing with Forge</p>
+            <Link href={`/courses/${filteredResults[0].id}`} className="inline-block px-8 py-3 bg-white text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors">
               Explore Top Course
             </Link>
           </motion.div>

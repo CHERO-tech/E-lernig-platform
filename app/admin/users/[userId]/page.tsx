@@ -3,38 +3,42 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { usePeople } from "@/lib/people/usePeople";
+import { UserRole } from "@/lib/auth/types";
 import Link from "next/link";
 import { ArrowLeft, Mail, Phone, MapPin, Calendar, Shield, Trash2, Lock, Unlock, AlertCircle } from "lucide-react";
 import { useState } from "react";
 
 function UserDetailsContent({ params }: { params: { userId: string } }) {
   const router = useRouter();
+  const { getPersonById, updatePersonStatus, updatePersonRole, deletePerson } = usePeople();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showRoleModal, setShowRoleModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
 
-  const user = {
-    id: params.userId,
-    name: "Alex Johnson",
-    email: "alex@example.com",
-    phone: "+1 (555) 123-4567",
-    role: "student",
-    status: "active",
-    joined: "2024-07-15",
-    location: "San Francisco, CA",
-    avatar: "AJ",
-    courses: [
-      { id: 1, title: "Web Development Fundamentals", progress: 75 },
-      { id: 2, title: "Advanced React Patterns", progress: 50 },
-      { id: 3, title: "UI/UX Design Masterclass", progress: 90 },
-    ],
-    activity: [
-      { type: "Course Completed", desc: "Finished Web Development Fundamentals", date: "2 days ago" },
-      { type: "Assignment Submitted", desc: "Submitted final project for UI/UX course", date: "5 days ago" },
-      { type: "Course Enrolled", desc: "Enrolled in Advanced React Patterns", date: "1 week ago" },
-    ],
-    signups: 145,
-    enrollments: 3,
-    certificates: 1,
-    lastActive: "Today, 2:30 PM",
+  const user = getPersonById(params.userId);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">User Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const formatDate = (epoch: number) => new Date(epoch).toLocaleDateString();
+
+  const handleRoleSave = () => {
+    if (selectedRole) {
+      updatePersonRole(user.id, selectedRole);
+      setShowRoleModal(false);
+      setSelectedRole(null);
+    }
   };
 
   return (
@@ -64,7 +68,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex gap-6">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl font-bold">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white text-2xl font-bold">
                     {user.avatar}
                   </div>
                   <div>
@@ -73,11 +77,11 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                       <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 capitalize">
                         {user.role}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700 capitalize">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-forge-soft text-ember capitalize">
                         {user.status}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">Last active: {user.lastActive}</p>
+                    <p className="text-sm text-gray-600">Last active: {formatDate(user.lastActiveAt)}</p>
                   </div>
                 </div>
               </div>
@@ -108,7 +112,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                   <Calendar size={20} className="text-gray-600" />
                   <div>
                     <p className="text-xs text-gray-600">Joined</p>
-                    <p className="font-medium text-gray-900">{user.joined}</p>
+                    <p className="font-medium text-gray-900">{formatDate(user.joinedAt)}</p>
                   </div>
                 </div>
               </div>
@@ -127,7 +131,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                   <div key={i} className="pb-4 border-b border-gray-200 last:border-0">
                     <p className="font-semibold text-gray-900">{act.type}</p>
                     <p className="text-sm text-gray-600 mt-1">{act.desc}</p>
-                    <p className="text-xs text-gray-500 mt-2">{act.date}</p>
+                    <p className="text-xs text-gray-500 mt-2">{formatDate(act.date)}</p>
                   </div>
                 ))}
               </div>
@@ -146,7 +150,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                   <div key={course.id} className="pb-4 border-b border-gray-200 last:border-0">
                     <p className="font-medium text-gray-900 mb-2">{course.title}</p>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className="bg-green-600 h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
+                      <div className="bg-ember-strong h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
                     </div>
                     <p className="text-xs text-gray-600 mt-2">{course.progress}% complete</p>
                   </div>
@@ -166,16 +170,16 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               <h3 className="text-lg font-bold text-gray-900 mb-6">Statistics</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Total Signups</p>
-                  <p className="text-3xl font-bold text-gray-900">{user.signups}</p>
-                </div>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="text-sm text-gray-600 mb-1">Enrolled Courses</p>
+                  <p className="text-sm text-gray-600 mb-1">Enrollments</p>
                   <p className="text-3xl font-bold text-gray-900">{user.enrollments}</p>
                 </div>
                 <div className="border-t border-gray-200 pt-4">
+                  <p className="text-sm text-gray-600 mb-1">Courses</p>
+                  <p className="text-3xl font-bold text-gray-900">{user.courseCount}</p>
+                </div>
+                <div className="border-t border-gray-200 pt-4">
                   <p className="text-sm text-gray-600 mb-1">Certificates Earned</p>
-                  <p className="text-3xl font-bold text-green-600">{user.certificates}</p>
+                  <p className="text-3xl font-bold text-ember-strong">{user.certificates}</p>
                 </div>
               </div>
             </motion.div>
@@ -190,18 +194,33 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               <h3 className="text-lg font-bold text-gray-900 mb-6">Admin Actions</h3>
               <div className="space-y-3">
                 {user.status === "active" ? (
-                  <button className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center gap-2">
+                  <button
+                    onClick={() => updatePersonStatus(user.id, 'suspended')}
+                    className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center gap-2"
+                  >
                     <Lock size={18} /> Suspend User
                   </button>
                 ) : (
-                  <button className="w-full px-4 py-3 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors flex items-center gap-2">
+                  <button
+                    onClick={() => updatePersonStatus(user.id, 'active')}
+                    className="w-full px-4 py-3 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors flex items-center gap-2"
+                  >
                     <Unlock size={18} /> Unsuspend User
                   </button>
                 )}
-                <button className="w-full px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedRole(user.role);
+                    setShowRoleModal(true);
+                  }}
+                  className="w-full px-4 py-3 bg-blue-50 text-blue-600 rounded-lg font-medium hover:bg-blue-100 transition-colors flex items-center gap-2"
+                >
                   <Shield size={18} /> Change Role
                 </button>
-                <button onClick={() => setShowDeleteModal(true)} className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center gap-2">
+                <button
+                  onClick={() => setShowDeleteModal(true)}
+                  className="w-full px-4 py-3 bg-red-50 text-red-600 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center gap-2"
+                >
                   <Trash2 size={18} /> Delete User
                 </button>
               </div>
@@ -221,6 +240,46 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
         </div>
       </div>
 
+      {/* Role Change Modal */}
+      {showRoleModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-white rounded-lg p-8 max-w-sm mx-4"
+          >
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Change User Role</h3>
+            <select
+              value={selectedRole || ''}
+              onChange={(e) => setSelectedRole(e.target.value as UserRole)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-ember-strong"
+            >
+              <option value="">Select a role</option>
+              <option value="student">Student</option>
+              <option value="trainer">Trainer</option>
+              <option value="company">Company</option>
+              <option value="guardian">Guardian</option>
+              <option value="school">School</option>
+              <option value="admin">Admin</option>
+            </select>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowRoleModal(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleRoleSave}
+                className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
+              >
+                Save
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
       {/* Delete Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -238,7 +297,13 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               >
                 Cancel
               </button>
-              <button className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700">
+              <button
+                onClick={() => {
+                  deletePerson(user.id);
+                  router.push('/admin/users');
+                }}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700"
+              >
                 Delete
               </button>
             </div>

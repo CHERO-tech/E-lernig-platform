@@ -4,88 +4,21 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { formatRelativeTime } from "@/lib/notifications/formatRelativeTime";
 import { Bell, Check, CheckCheck, Trash2, Filter } from "lucide-react";
 import { useState } from "react";
 
 function NotificationsContent() {
   const { user } = useAuth();
   const [filter, setFilter] = useState("all");
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      type: "course",
-      icon: "📚",
-      title: "New Assignment Available",
-      message: "Your instructor posted a new assignment in 'Advanced React Patterns'",
-      timestamp: "2 hours ago",
-      read: false,
-    },
-    {
-      id: 2,
-      type: "achievement",
-      icon: "🏆",
-      title: "Achievement Unlocked",
-      message: "Congratulations! You earned the '7 Day Learning Streak' badge",
-      timestamp: "1 day ago",
-      read: false,
-    },
-    {
-      id: 3,
-      type: "system",
-      icon: "⚙️",
-      title: "System Update",
-      message: "We've improved the platform with new features and bug fixes",
-      timestamp: "2 days ago",
-      read: true,
-    },
-    {
-      id: 4,
-      type: "course",
-      icon: "🎓",
-      title: "Course Recommendation",
-      message: "Based on your interests, we recommend 'UI/UX Design Masterclass'",
-      timestamp: "3 days ago",
-      read: true,
-    },
-    {
-      id: 5,
-      type: "social",
-      icon: "👥",
-      title: "Someone enrolled in your course",
-      message: "John Doe just enrolled in your 'Web Development Fundamentals' course",
-      timestamp: "1 week ago",
-      read: true,
-    },
-    {
-      id: 6,
-      type: "payment",
-      icon: "💳",
-      title: "Payment Successful",
-      message: "Your payment of $79 for Professional plan was processed successfully",
-      timestamp: "2 weeks ago",
-      read: true,
-    },
-  ]);
+  const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
 
   const filteredNotifications = notifications.filter((notif) => {
     if (filter === "unread") return !notif.read;
-    if (filter === "archived") return false; // In a real app, would filter by archived status
+    if (filter === "archived") return false;
     return true;
   });
-
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
-  const markAsRead = (id: number) => {
-    setNotifications(notifications.map((n) => (n.id === id ? { ...n, read: true } : n)));
-  };
-
-  const markAllAsRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
-  };
-
-  const deleteNotification = (id: number) => {
-    setNotifications(notifications.filter((n) => n.id !== id));
-  };
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, { bg: string; text: string }> = {
@@ -93,7 +26,7 @@ function NotificationsContent() {
       achievement: { bg: "bg-yellow-50", text: "text-yellow-600" },
       system: { bg: "bg-gray-50", text: "text-gray-600" },
       social: { bg: "bg-purple-50", text: "text-purple-600" },
-      payment: { bg: "bg-green-50", text: "text-green-600" },
+      payment: { bg: "bg-forge-soft", text: "text-ember-strong" },
     };
     return colors[type] || colors.system;
   };
@@ -104,7 +37,7 @@ function NotificationsContent() {
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Bell size={24} className="text-green-600" />
+            <Bell size={24} className="text-ember-strong" />
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
               {unreadCount > 0 && (
@@ -116,7 +49,7 @@ function NotificationsContent() {
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="px-4 py-2 text-sm font-medium text-green-600 hover:bg-green-50 rounded-lg transition-colors flex items-center gap-2"
+                className="px-4 py-2 text-sm font-medium text-ember-strong hover:bg-forge-soft rounded-lg transition-colors flex items-center gap-2"
               >
                 <CheckCheck size={16} /> Mark all as read
               </button>
@@ -140,7 +73,7 @@ function NotificationsContent() {
               onClick={() => setFilter(tab.id)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 filter === tab.id
-                  ? "bg-green-600 text-white"
+                  ? "bg-ember-strong text-white"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
@@ -184,7 +117,7 @@ function NotificationsContent() {
                         <div className="w-2 h-2 rounded-full bg-blue-600 flex-shrink-0 mt-2" />
                       )}
                     </div>
-                    <p className="text-xs text-gray-500 mt-3">{notif.timestamp}</p>
+                    <p className="text-xs text-gray-500 mt-3">{formatRelativeTime(notif.createdAt)}</p>
                   </div>
 
                   {/* Actions */}
@@ -192,7 +125,7 @@ function NotificationsContent() {
                     {!notif.read && (
                       <button
                         onClick={() => markAsRead(notif.id)}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-green-600"
+                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-ember-strong"
                         title="Mark as read"
                       >
                         <Check size={18} />

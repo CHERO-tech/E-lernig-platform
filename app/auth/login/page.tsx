@@ -15,6 +15,11 @@ export default function LoginPage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({ email: "", password: "" });
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -22,6 +27,19 @@ export default function LoginPage() {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    if (name === "email" && value) {
+      setFieldErrors(prev => ({
+        ...prev,
+        email: validateEmail(value) ? "" : "Invalid email format"
+      }));
+    }
+    if (name === "password" && value) {
+      setFieldErrors(prev => ({
+        ...prev,
+        password: value.length < 6 ? "Password must be at least 6 characters" : ""
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,6 +49,18 @@ export default function LoginPage() {
 
     if (!formData.email || !formData.password) {
       setError("Email and password are required");
+      setLoading(false);
+      return;
+    }
+
+    if (!validateEmail(formData.email)) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters");
       setLoading(false);
       return;
     }
@@ -55,7 +85,7 @@ export default function LoginPage() {
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-slate-200 dark:border-slate-700">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-bold text-lg shadow-lg">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white font-bold text-lg shadow-lg">
                 🚀
               </div>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -80,9 +110,16 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="alex@skillhub.com"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className={`w-full pl-10 pr-4 py-2.5 border rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-colors ${
+                    fieldErrors.email
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-slate-200 dark:border-slate-600 focus:ring-ember"
+                  }`}
                 />
               </div>
+              {fieldErrors.email && (
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.email}</p>
+              )}
             </div>
 
             <div>
@@ -91,8 +128,8 @@ export default function LoginPage() {
                   Password
                 </label>
                 <Link
-                  href="/auth/forgot-password"
-                  className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
+                  href="/forgot-password"
+                  className="text-xs text-ember-strong dark:text-brass hover:underline"
                 >
                   Forgot?
                 </Link>
@@ -105,9 +142,16 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className={`w-full pl-10 pr-4 py-2.5 border rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 transition-colors ${
+                    fieldErrors.password
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-slate-200 dark:border-slate-600 focus:ring-ember"
+                  }`}
                 />
               </div>
+              {fieldErrors.password && (
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{fieldErrors.password}</p>
+              )}
             </div>
 
             <div className="flex items-center">
@@ -116,7 +160,7 @@ export default function LoginPage() {
                 name="rememberMe"
                 checked={formData.rememberMe}
                 onChange={handleChange}
-                className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                className="w-4 h-4 rounded border-slate-300 text-ember-strong focus:ring-ember cursor-pointer"
               />
               <label className="ml-2 text-sm text-slate-600 dark:text-slate-400 cursor-pointer">
                 Remember me
@@ -136,7 +180,7 @@ export default function LoginPage() {
             <motion.button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 px-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-semibold rounded-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
+              className="w-full py-2.5 px-4 bg-gradient-to-r from-ember to-ember-strong hover:from-ember-strong hover:to-ember-strong text-white font-semibold rounded-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-6"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -155,7 +199,7 @@ export default function LoginPage() {
             Don't have an account?{" "}
             <Link
               href="/auth/signup"
-              className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
+              className="text-ember-strong dark:text-brass font-semibold hover:underline"
             >
               Sign up
             </Link>

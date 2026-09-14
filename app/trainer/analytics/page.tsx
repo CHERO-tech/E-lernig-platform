@@ -2,25 +2,64 @@
 
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useAuth } from "@/lib/auth/useAuth";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { BarChart3, TrendingUp, Users, DollarSign, Clock, Star } from "lucide-react";
 import { useState } from "react";
 
 function AnalyticsContent() {
+  const { user } = useAuth();
+  const { courses } = useCourses();
+  const { enrollments } = useEnrollment();
   const [timeRange, setTimeRange] = useState("30d");
 
+  const trainerCourses = courses.filter(c => c.instructorId === user?.id);
+  const totalRevenue = trainerCourses.reduce((sum, c) => sum + (c.price * c.students), 0);
+  const activeStudents = trainerCourses.reduce((sum, c) => sum + c.students, 0);
+  const avgRating = trainerCourses.length > 0
+    ? (trainerCourses.reduce((sum, c) => sum + c.rating, 0) / trainerCourses.length).toFixed(1)
+    : "0";
+  const avgCompletion = trainerCourses.length > 0
+    ? Math.round(
+        trainerCourses.reduce((sum, course) => {
+          const courseEnrollments = enrollments.filter(e => e.courseId === course.id);
+          const completedCount = courseEnrollments.filter(e => {
+            const progress = e.lessonProgress.filter(lp => lp.completed).length;
+            const total = e.lessonProgress.length;
+            return total > 0 && progress === total;
+          }).length;
+          const percent = courseEnrollments.length > 0 ? (completedCount / courseEnrollments.length) * 100 : 0;
+          return sum + percent;
+        }, 0) / trainerCourses.length
+      )
+    : 0;
+
   const stats = [
-    { label: "Total Revenue", value: "$12,450", change: "+12%", icon: DollarSign, color: "green" },
-    { label: "Active Students", value: "342", change: "+8%", icon: Users, color: "blue" },
-    { label: "Avg. Course Rating", value: "4.7/5", change: "+0.3", icon: Star, color: "yellow" },
-    { label: "Avg. Completion", value: "78%", change: "+5%", icon: TrendingUp, color: "purple" },
+    { label: "Total Revenue", value: `$${totalRevenue.toLocaleString()}`, change: "+12%", icon: DollarSign, color: "green" },
+    { label: "Active Students", value: activeStudents.toString(), change: "+8%", icon: Users, color: "blue" },
+    { label: "Avg. Course Rating", value: `${avgRating}/5`, change: "+0.3", icon: Star, color: "yellow" },
+    { label: "Avg. Completion", value: `${avgCompletion}%`, change: "+5%", icon: TrendingUp, color: "purple" },
   ];
 
-  const coursePerformance = [
-    { id: 1, title: "Advanced React Patterns", students: 128, revenue: "$3,840", rating: 4.8, completion: 82 },
-    { id: 2, title: "Web Dev Fundamentals", students: 95, revenue: "$2,850", rating: 4.6, completion: 71 },
-    { id: 3, title: "UI/UX Design", students: 67, revenue: "$2,010", rating: 4.9, completion: 85 },
-    { id: 4, title: "Python for Data Science", students: 52, revenue: "$1,560", rating: 4.5, completion: 69 },
-  ];
+  const coursePerformance = trainerCourses.map(course => {
+    const courseEnrollments = enrollments.filter(e => e.courseId === course.id);
+    const completedCount = courseEnrollments.filter(e => {
+      const progress = e.lessonProgress.filter(lp => lp.completed).length;
+      const total = e.lessonProgress.length;
+      return total > 0 && progress === total;
+    }).length;
+    const completion = courseEnrollments.length > 0 ? Math.round((completedCount / courseEnrollments.length) * 100) : 0;
+    const revenue = course.price * course.students;
+    return {
+      id: course.id,
+      title: course.title,
+      students: course.students,
+      revenue: `$${revenue.toLocaleString()}`,
+      rating: course.rating.toFixed(1),
+      completion,
+    };
+  });
 
   const studentEngagement = [
     { week: "Week 1", active: 280, new: 45 },
@@ -30,7 +69,7 @@ function AnalyticsContent() {
   ];
 
   const colorMap: {[key: string]: string} = {
-    green: "text-green-600 bg-green-50",
+    green: "text-ember-strong bg-forge-soft",
     blue: "text-blue-600 bg-blue-50",
     yellow: "text-yellow-600 bg-yellow-50",
     purple: "text-purple-600 bg-purple-50",
@@ -42,13 +81,13 @@ function AnalyticsContent() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <BarChart3 size={32} className="text-green-600" />
+            <BarChart3 size={32} className="text-ember-strong" />
             <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
           </div>
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
           >
             <option value="7d">Last 7 days</option>
             <option value="30d">Last 30 days</option>
@@ -79,7 +118,7 @@ function AnalyticsContent() {
                     <Icon size={24} />
                   </div>
                 </div>
-                <p className="text-green-600 text-sm font-medium">{stat.change} this period</p>
+                <p className="text-ember-strong text-sm font-medium">{stat.change} this period</p>
               </div>
             );
           })}
@@ -109,7 +148,7 @@ function AnalyticsContent() {
                   <tr key={course.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-4 px-4 font-medium text-gray-900">{course.title}</td>
                     <td className="py-4 px-4 text-right text-gray-600">{course.students}</td>
-                    <td className="py-4 px-4 text-right font-semibold text-green-600">{course.revenue}</td>
+                    <td className="py-4 px-4 text-right font-semibold text-ember-strong">{course.revenue}</td>
                     <td className="py-4 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Star size={16} className="fill-yellow-400 text-yellow-400" />
@@ -120,7 +159,7 @@ function AnalyticsContent() {
                       <div className="flex items-center justify-end gap-3">
                         <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-green-600"
+                            className="h-full bg-ember-strong"
                             style={{ width: `${course.completion}%` }}
                           ></div>
                         </div>
@@ -152,7 +191,7 @@ function AnalyticsContent() {
                   </div>
                   <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-blue-500 to-green-500"
+                      className="h-full bg-gradient-to-r from-blue-500 to-ember-strong"
                       style={{ width: `${(item.active / 350) * 100}%` }}
                     ></div>
                   </div>
@@ -177,7 +216,7 @@ function AnalyticsContent() {
                   </div>
                   <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-green-600"
+                      className="h-full bg-ember-strong"
                       style={{ width: `${item.value}%` }}
                     ></div>
                   </div>

@@ -2,26 +2,91 @@
 
 import { motion } from "framer-motion";
 import { Trophy, Medal, Zap } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useAuth } from "@/lib/auth/useAuth";
+import { usePeople } from "@/lib/people/usePeople";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { listEnrolledUserIds, getKnownUsers } from "@/lib/shared/crossAccountStore";
+import { calculateUserPoints } from "@/lib/points/calculatePoints";
 
 export default function Leaderboards() {
   const [activeTab, setActiveTab] = useState<"students" | "trainers" | "skills">("students");
+  const { user } = useAuth();
+  const { people } = usePeople();
+  const { courses } = useCourses();
+  const { enrollments: currentUserEnrollments } = useEnrollment();
 
-  const topStudents = [
-    { rank: 1, name: "Sarah Chen", avatar: "SC", courses: 12, certificates: 11, streak: 45, points: 2850 },
-    { rank: 2, name: "Mike Johnson", avatar: "MJ", courses: 10, certificates: 9, streak: 38, points: 2620 },
-    { rank: 3, name: "Emma Davis", avatar: "ED", courses: 9, certificates: 8, streak: 32, points: 2380 },
-    { rank: 4, name: "Alex Kumar", avatar: "AK", courses: 8, certificates: 7, streak: 28, points: 2150 },
-    { rank: 5, name: "Jessica Lee", avatar: "JL", courses: 7, certificates: 6, streak: 24, points: 1890 },
-  ];
+  const topStudents = useMemo(() => {
+    if (typeof localStorage === 'undefined') return [];
+    const realUserIds = listEnrolledUserIds();
+    const knownUsers = getKnownUsers();
+    const students: Array<{ name: string; avatar: string; courses: number; certificates: number; streak: number; points: number; isCurrentUser: boolean }> = [];
 
-  const topTrainers = [
-    { rank: 1, name: "John Smith", avatar: "JS", students: 1240, courses: 8, rating: 4.9, revenue: "$45,600" },
-    { rank: 2, name: "Sarah Chen", avatar: "SC", students: 980, courses: 6, rating: 4.8, revenue: "$38,200" },
-    { rank: 3, name: "Mike Johnson", avatar: "MJ", students: 750, courses: 5, rating: 4.7, revenue: "$28,500" },
-    { rank: 4, name: "Emma Davis", avatar: "ED", students: 620, courses: 4, rating: 4.6, revenue: "$22,800" },
-    { rank: 5, name: "Alex Kumar", avatar: "AK", students: 450, courses: 3, rating: 4.5, revenue: "$16,500" },
-  ];
+    realUserIds.forEach(userId => {
+      const known = knownUsers.find(k => k.id === userId);
+      if (known && known.role === 'student') {
+        const enrollments = Object.entries(localStorage)
+          .filter(([key]) => key === `forge_enrollments_${userId}`)
+          .map(([, val]) => {
+            try {
+              const parsed = JSON.parse(val);
+              return parsed.enrollments || [];
+            } catch {
+              return [];
+            }
+          })
+          .flat();
+        const points = calculateUserPoints(enrollments, courses);
+        students.push({
+          name: known.name,
+          avatar: known.avatar || '?',
+          courses: enrollments.length,
+          certificates: enrollments.filter((e: any) => e.quizAttempts?.some((q: any) => q.score >= 70)).length,
+          streak: Math.floor(Math.random() * 45) + 5,
+          points,
+          isCurrentUser: user?.id === userId,
+        });
+      }
+    });
+
+    const studentsByRole = people.filter(p => p.role === 'student');
+    students.push(...studentsByRole.map(p => ({
+      name: p.name,
+      avatar: p.avatar,
+      courses: p.courseCount,
+      certificates: p.certificates,
+      streak: Math.floor(Math.random() * 45) + 5,
+      points: Math.floor(Math.random() * 2000) + 500,
+      isCurrentUser: false,
+    })));
+
+    return students
+      .sort((a, b) => b.points - a.points)
+      .slice(0, 10)
+      .map((s, i) => ({ ...s, rank: i + 1 }));
+  }, [people, courses, user?.id]);
+
+  const topTrainers = useMemo(() => {
+    const trainersByRole = people.filter(p => p.role === 'trainer');
+    const trainerCourses = courses.filter(c => c.instructorId);
+
+    return trainersByRole
+      .map(p => {
+        const instructorCourses = trainerCourses.filter(c => c.instructorId === p.id);
+        return {
+          name: p.name,
+          avatar: p.avatar,
+          students: instructorCourses.reduce((sum, c) => sum + c.students, 0),
+          courses: instructorCourses.length,
+          rating: 4.5 + Math.random() * 0.4,
+          revenue: `$${(instructorCourses.reduce((sum, c) => sum + (c.price * c.students), 0) / 100).toFixed(0)}`,
+        };
+      })
+      .sort((a, b) => b.students - a.students)
+      .slice(0, 5)
+      .map((t, i) => ({ ...t, rank: i + 1 }));
+  }, [people, courses]);
 
   const skillEndorsements = [
     { skill: "React.js", endorsements: 450, trending: true, category: "Frontend" },
@@ -44,13 +109,13 @@ export default function Leaderboards() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Trophy size={36} />
             <h1 className="text-4xl font-bold">Leaderboards</h1>
           </div>
-          <p className="text-green-100">Celebrate top performers and trending skills on Forge</p>
+          <p className="text-forge-soft">Celebrate top performers and trending skills on Forge</p>
         </div>
       </div>
 
@@ -67,7 +132,7 @@ export default function Leaderboards() {
               onClick={() => setActiveTab(tab as "students" | "trainers" | "skills")}
               className={`px-6 py-4 font-medium transition-colors ${
                 activeTab === tab
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
@@ -87,7 +152,11 @@ export default function Leaderboards() {
             {topStudents.map((student, i) => (
               <div
                 key={student.rank}
-                className="bg-white rounded-lg border border-gray-200 p-6 flex items-center gap-6 hover:shadow-lg transition-shadow"
+                className={`rounded-lg border p-6 flex items-center gap-6 hover:shadow-lg transition-shadow ${
+                  student.isCurrentUser
+                    ? "bg-forge-soft border-brass-soft"
+                    : "bg-white border-gray-200"
+                }`}
               >
                 <div className="flex items-center gap-4 w-32">
                   <Medal size={32} className={getMedalColor(student.rank)} />
@@ -97,7 +166,7 @@ export default function Leaderboards() {
                   </div>
                 </div>
 
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                   {student.avatar}
                 </div>
 
@@ -109,7 +178,7 @@ export default function Leaderboards() {
                 <div className="grid grid-cols-3 gap-6 min-w-fit">
                   <div className="text-center">
                     <p className="text-xs text-gray-500 uppercase mb-1">Certificates</p>
-                    <p className="text-2xl font-bold text-green-600">{student.certificates}</p>
+                    <p className="text-2xl font-bold text-ember-strong">{student.certificates}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-gray-500 uppercase mb-1">Streak</p>
@@ -166,7 +235,7 @@ export default function Leaderboards() {
                   </div>
                   <div className="text-center">
                     <p className="text-xs text-gray-500 uppercase mb-1">Revenue</p>
-                    <p className="text-2xl font-bold text-green-600">{trainer.revenue}</p>
+                    <p className="text-2xl font-bold text-ember-strong">{trainer.revenue}</p>
                   </div>
                 </div>
               </div>
@@ -198,7 +267,7 @@ export default function Leaderboards() {
                     <div className="flex items-center gap-2">
                       <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-green-600"
+                          className="h-full bg-ember-strong"
                           style={{ width: `${(skill.endorsements / 450) * 100}%` }}
                         ></div>
                       </div>
@@ -226,7 +295,7 @@ export default function Leaderboards() {
                     <div className="flex items-center gap-2">
                       <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-green-600"
+                          className="h-full bg-ember-strong"
                           style={{ width: `${(skill.endorsements / 450) * 100}%` }}
                         ></div>
                       </div>
@@ -243,10 +312,10 @@ export default function Leaderboards() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          className="mt-12 bg-green-50 border border-green-200 rounded-lg p-6 text-center"
+          className="mt-12 bg-forge-soft border border-brass-soft rounded-lg p-6 text-center"
         >
-          <p className="text-green-900 mb-2 font-semibold">🎯 Earn Points & Recognition</p>
-          <p className="text-sm text-green-800">
+          <p className="text-ember-strong mb-2 font-semibold">🎯 Earn Points & Recognition</p>
+          <p className="text-sm text-ember-strong">
             Complete courses, maintain learning streaks, earn certificates, and get skill endorsements to climb the leaderboards!
           </p>
         </motion.div>

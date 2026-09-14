@@ -52,13 +52,13 @@ function SkillEndorsementsContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Award size={36} />
             <h1 className="text-4xl font-bold">Skill Endorsements</h1>
           </div>
-          <p className="text-green-100">Showcase your skills and get recognized by the community</p>
+          <p className="text-forge-soft">Showcase your skills and get recognized by the community</p>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ function SkillEndorsementsContent() {
               <h2 className="text-2xl font-bold text-gray-900">My Skills</h2>
               <button
                 onClick={() => setShowAddSkill(!showAddSkill)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors"
               >
                 <Plus size={18} /> Add Skill
               </button>
@@ -93,11 +93,11 @@ function SkillEndorsementsContent() {
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                   <button
                     onClick={handleAddSkill}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+                    className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
                   >
                     Add
                   </button>
@@ -121,11 +121,11 @@ function SkillEndorsementsContent() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
-                  className="p-4 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg border border-green-200"
+                  className="p-4 bg-gradient-to-br from-forge-soft to-blue-50 rounded-lg border border-brass-soft"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <p className="font-semibold text-gray-900">{skill}</p>
-                    <span className="px-3 py-1 bg-green-600 text-white rounded-full text-sm font-bold">{count}</span>
+                    <span className="px-3 py-1 bg-ember-strong text-white rounded-full text-sm font-bold">{count}</span>
                   </div>
                   <p className="text-xs text-gray-600">people endorsed this skill</p>
                 </motion.div>
@@ -157,7 +157,7 @@ function SkillEndorsementsContent() {
                     </div>
                     <button
                       onClick={() => handleAcceptEndorsement(endorsement.id)}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
+                      className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2"
                     >
                       <ThumbsUp size={16} /> Accept
                     </button>
@@ -187,7 +187,7 @@ function SkillEndorsementsContent() {
                 <p className="font-semibold text-gray-900">{person.name}</p>
                 <div className="flex flex-wrap gap-1 justify-center mt-2">
                   {person.skills.map((skill) => (
-                    <span key={skill} className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                    <span key={skill} className="px-2 py-1 bg-forge-soft text-ember text-xs rounded-full">
                       {skill}
                     </span>
                   ))}

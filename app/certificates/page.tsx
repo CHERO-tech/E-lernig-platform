@@ -3,12 +3,15 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
-import { Download, Share2, Award, Calendar } from "lucide-react";
-import { useState } from "react";
+import { Download, Share2, Award, Calendar, Check, Loader2 } from "lucide-react";
+import { useState, useRef } from "react";
+import { generateCertificatePdf } from "@/lib/certificates/generateCertificatePdf";
 
 function CertificatesContent() {
   const { user } = useAuth();
-  const [filterCourse, setFilterCourse] = useState("all");
+  const [downloadingId, setDownloadingId] = useState<number | null>(null);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+  const certificateRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   const certificates = [
     {
@@ -45,16 +48,85 @@ function CertificatesContent() {
     },
   ];
 
+  const handleDownload = async (cert: typeof certificates[0]) => {
+    if (downloadingId !== null) return;
+    setDownloadingId(cert.id);
+    try {
+      const node = certificateRefs.current[cert.id];
+      if (node) {
+        await generateCertificatePdf(node, `certificate-${cert.credentialId}.pdf`);
+      }
+    } catch (error) {
+      console.error('Failed to generate PDF:', error);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
+  const handleShare = async (cert: typeof certificates[0]) => {
+    const shareText = `I earned a certificate in "${cert.course}" from Forge! Credential ID: ${cert.credentialId}`;
+    const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/certificates`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${cert.course} - Certificate`,
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (error: any) {
+        if (error.name !== 'AbortError') {
+          console.error('Share failed:', error);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareText);
+        setCopiedId(cert.id);
+        setTimeout(() => setCopiedId(null), 2000);
+      } catch (error) {
+        console.error('Clipboard copy failed:', error);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Off-screen certificate templates for PDF capture */}
+      {certificates.map((cert) => (
+        <div
+          key={`template-${cert.id}`}
+          ref={(el) => {
+            if (el) certificateRefs.current[cert.id] = el;
+          }}
+          className="fixed -left-[9999px] w-[1000px] bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 p-12 flex flex-col items-center justify-center"
+          style={{ height: '700px' }}
+        >
+          <div className="text-center w-full">
+            <div className="text-6xl mb-4">🏆</div>
+            <p className="text-2xl font-bold text-yellow-900 mb-8">CERTIFICATE OF COMPLETION</p>
+            <p className="text-4xl font-bold text-yellow-900 mb-4">{cert.course}</p>
+            <p className="text-xl text-yellow-800 mb-8">This is to certify that</p>
+            <p className="text-3xl font-bold text-yellow-900 mb-8">{user?.name || 'Student'}</p>
+            <p className="text-lg text-yellow-800 mb-6">has successfully completed the course with a score of</p>
+            <p className="text-3xl font-bold text-ember-strong mb-8">{cert.score}%</p>
+            <div className="border-t-2 border-yellow-900 pt-6 mt-8">
+              <p className="text-yellow-800 mb-2">Instructor: {cert.instructor}</p>
+              <p className="text-yellow-800 mb-2">Date: {new Date(cert.issued).toLocaleDateString()}</p>
+              <p className="text-sm font-mono text-yellow-700">Credential ID: {cert.credentialId}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Award size={32} />
             <h1 className="text-4xl font-bold">My Certificates</h1>
           </div>
-          <p className="text-green-100">You've earned {certificates.length} certificates</p>
+          <p className="text-forge-soft">You've earned {certificates.length} certificates</p>
         </div>
       </div>
 
@@ -78,7 +150,7 @@ function CertificatesContent() {
                     <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
                     <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
                   </div>
-                  <Icon size={32} className="text-green-600 opacity-50" />
+                  <Icon size={32} className="text-ember-strong opacity-50" />
                 </div>
               </div>
             );
@@ -121,7 +193,7 @@ function CertificatesContent() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-600 uppercase tracking-wide">Score</p>
-                      <p className="font-semibold text-green-600">{cert.score}%</p>
+                      <p className="font-semibold text-ember-strong">{cert.score}%</p>
                     </div>
                   </div>
 
@@ -133,11 +205,34 @@ function CertificatesContent() {
 
                 {/* Actions */}
                 <div className="flex gap-3">
-                  <button className="flex-1 px-4 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors flex items-center justify-center gap-2">
-                    <Download size={18} /> Download
+                  <button
+                    onClick={() => handleDownload(cert)}
+                    disabled={downloadingId !== null}
+                    className="flex-1 px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {downloadingId === cert.id ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" /> Generating...
+                      </>
+                    ) : (
+                      <>
+                        <Download size={18} /> Download
+                      </>
+                    )}
                   </button>
-                  <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
-                    <Share2 size={18} /> Share
+                  <button
+                    onClick={() => handleShare(cert)}
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                  >
+                    {copiedId === cert.id ? (
+                      <>
+                        <Check size={18} /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Share2 size={18} /> Share
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

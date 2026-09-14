@@ -28,7 +28,7 @@ function ProfileContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white">
         <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between">
           <button onClick={() => router.back()} className="p-2 hover:bg-white/20 rounded-lg transition-colors">
             <ArrowLeft size={20} />
@@ -50,7 +50,7 @@ function ProfileContent() {
         >
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
             {/* Avatar */}
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-green-600 to-green-400 flex items-center justify-center text-white text-5xl font-bold flex-shrink-0">
+            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-ember-strong to-ember flex items-center justify-center text-white text-5xl font-bold flex-shrink-0">
               {user?.avatar}
             </div>
 
@@ -71,7 +71,7 @@ function ProfileContent() {
 
               {/* Action Buttons */}
               <div className="flex gap-3 mt-6">
-                <button className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2">
+                <button className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2">
                   <Share2 size={16} /> Share Profile
                 </button>
                 <Link href="/settings" className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
@@ -93,7 +93,7 @@ function ProfileContent() {
             const Icon = stat.icon;
             return (
               <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 text-center">
-                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-forge-soft text-ember-strong rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Icon size={24} />
                 </div>
                 <p className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
@@ -113,7 +113,7 @@ function ProfileContent() {
           <h3 className="text-2xl font-bold text-gray-900 mb-6">Skills & Expertise</h3>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill, i) => (
-              <div key={i} className="px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-medium border border-green-200 hover:border-green-400 transition-colors cursor-pointer">
+              <div key={i} className="px-4 py-2 bg-forge-soft text-ember rounded-full text-sm font-medium border border-brass-soft hover:border-ember transition-colors cursor-pointer">
                 {skill}
               </div>
             ))}
@@ -129,7 +129,7 @@ function ProfileContent() {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl font-bold text-gray-900">Completed Courses</h3>
-            <Link href="/student/dashboard" className="text-green-600 hover:text-green-700 font-medium">View all</Link>
+            <Link href="/student/dashboard" className="text-ember-strong hover:text-ember font-medium">View all</Link>
           </div>
 
           <div className="space-y-4">
@@ -155,14 +155,14 @@ function ProfileContent() {
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
-                  <Award size={16} className="text-green-600" />
-                  <span className="text-sm text-green-600 font-medium">Certificate earned</span>
+                  <Award size={16} className="text-ember-strong" />
+                  <span className="text-sm text-ember-strong font-medium">Certificate earned</span>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <button className="w-full mt-6 px-4 py-3 border border-green-600 text-green-600 font-medium rounded-lg hover:bg-green-50 transition-colors">
+          <button className="w-full mt-6 px-4 py-3 border border-ember-strong text-ember-strong font-medium rounded-lg hover:bg-forge-soft transition-colors">
             View All Certificates
           </button>
         </motion.div>
@@ -182,7 +182,7 @@ function ProfileContent() {
               { emoji: "⭐", title: "Quick Learner", desc: "Completed course in 1 week" },
               { emoji: "🏆", title: "Top Performer", desc: "Scored 95% or higher" },
             ].map((achievement, i) => (
-              <div key={i} className="text-center p-4 rounded-lg bg-gray-50 hover:bg-green-50 transition-colors cursor-pointer">
+              <div key={i} className="text-center p-4 rounded-lg bg-gray-50 hover:bg-forge-soft transition-colors cursor-pointer">
                 <div className="text-4xl mb-2">{achievement.emoji}</div>
                 <p className="font-semibold text-gray-900 text-sm mb-1">{achievement.title}</p>
                 <p className="text-xs text-gray-600">{achievement.desc}</p>

@@ -5,19 +5,34 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Upload, AlertCircle, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function SubmitAssignmentContent({ params }: { params: { courseId: string; assignmentId: string } }) {
   const router = useRouter();
+  const { getCourseById } = useCourses();
+  const { submitAssignment } = useEnrollment();
+  const { addNotification } = useNotifications();
   const [files, setFiles] = useState<string[]>([]);
   const [submissionText, setSubmissionText] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const assignment = {
-    title: "Build a React Todo App",
-    dueDate: "2025-03-20",
-    maxScore: 100,
-    instructions: "Create a functional todo application using React with the following features: add/delete todos, mark as complete, local storage persistence.",
-  };
+  const course = getCourseById(params.courseId);
+  const assignment = course?.assignments.find(a => a.id === params.assignmentId);
+
+  if (!course || !assignment) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Assignment Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const today = new Date();
   const dueDate = new Date(assignment.dueDate);
@@ -37,6 +52,23 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (files.length === 0) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Please upload at least one file',
+      });
+      return;
+    }
+    const fileName = files[files.length - 1];
+    submitAssignment(params.courseId, params.assignmentId, fileName);
+    addNotification({
+      type: 'system',
+      icon: '✅',
+      title: 'Assignment Submitted',
+      message: `Your assignment has been submitted successfully.`,
+    });
     setIsSubmitted(true);
   };
 
@@ -66,20 +98,20 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
                   ? "bg-red-50 border-red-200"
                   : daysLeft < 3
                     ? "bg-yellow-50 border-yellow-200"
-                    : "bg-green-50 border-green-200"
+                    : "bg-forge-soft border-brass-soft"
               }`}
             >
               <AlertCircle
                 size={20}
                 className={
-                  isOverdue ? "text-red-600" : daysLeft < 3 ? "text-yellow-600" : "text-green-600"
+                  isOverdue ? "text-red-600" : daysLeft < 3 ? "text-yellow-600" : "text-ember-strong"
                 }
               />
               <div>
-                <p className={`font-semibold ${isOverdue ? "text-red-900" : daysLeft < 3 ? "text-yellow-900" : "text-green-900"}`}>
+                <p className={`font-semibold ${isOverdue ? "text-red-900" : daysLeft < 3 ? "text-yellow-900" : "text-ember-strong"}`}>
                   Due: {new Date(assignment.dueDate).toLocaleDateString()}
                 </p>
-                <p className={`text-sm ${isOverdue ? "text-red-800" : daysLeft < 3 ? "text-yellow-800" : "text-green-800"}`}>
+                <p className={`text-sm ${isOverdue ? "text-red-800" : daysLeft < 3 ? "text-yellow-800" : "text-ember-strong"}`}>
                   {isOverdue ? `⚠️ ${Math.abs(daysLeft)} days overdue` : `${daysLeft} days remaining`}
                 </p>
               </div>
@@ -109,14 +141,14 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
                     rows={4}
                     value={submissionText}
                     onChange={(e) => setSubmissionText(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
 
                 {/* File Upload */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Upload Files</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-green-500 transition-colors">
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-ember-strong transition-colors">
                     <Upload size={32} className="mx-auto text-gray-400 mb-3" />
                     <p className="text-gray-600 mb-2">Drag and drop files or click to upload</p>
                     <p className="text-xs text-gray-500 mb-4">Supported: ZIP, PDF, code files, images</p>
@@ -129,7 +161,7 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
                     />
                     <label
                       htmlFor="file-upload"
-                      className="inline-block px-6 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 cursor-pointer transition-colors"
+                      className="inline-block px-6 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft cursor-pointer transition-colors"
                     >
                       Choose Files
                     </label>
@@ -164,7 +196,7 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
                 <div className="flex gap-3 pt-4">
                   <button
                     type="submit"
-                    className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition-colors"
+                    className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember transition-colors"
                   >
                     Submit Assignment
                   </button>
@@ -185,8 +217,8 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
             animate={{ opacity: 1, scale: 1 }}
             className="bg-white rounded-lg border border-gray-200 p-12 text-center"
           >
-            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-              <CheckCircle size={32} className="text-green-600" />
+            <div className="w-16 h-16 rounded-full bg-forge-soft flex items-center justify-center mx-auto mb-4">
+              <CheckCircle size={32} className="text-ember-strong" />
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Submitted Successfully!</h2>
             <p className="text-gray-600 mb-2">Your assignment has been submitted and is now pending review.</p>
@@ -215,7 +247,7 @@ function SubmitAssignmentContent({ params }: { params: { courseId: string; assig
             <div className="flex gap-3">
               <button
                 onClick={() => router.push(`/courses/${params.courseId}`)}
-                className="flex-1 px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+                className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
               >
                 Back to Course
               </button>

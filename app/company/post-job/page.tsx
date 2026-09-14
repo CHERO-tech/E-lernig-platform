@@ -60,7 +60,7 @@ function PostJobContent() {
                     placeholder="e.g., Senior React Developer"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -74,7 +74,7 @@ function PostJobContent() {
                       placeholder="Engineering"
                       value={formData.department}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -86,7 +86,7 @@ function PostJobContent() {
                       placeholder="San Francisco, CA"
                       value={formData.location}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -99,7 +99,7 @@ function PostJobContent() {
                       name="type"
                       value={formData.type}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       <option value="full-time">Full-time</option>
@@ -116,7 +116,7 @@ function PostJobContent() {
                       placeholder="$120k - $160k"
                       value={formData.salary}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -136,7 +136,7 @@ function PostJobContent() {
                     rows={5}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -149,7 +149,7 @@ function PostJobContent() {
                     rows={4}
                     value={formData.requirements}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -162,7 +162,7 @@ function PostJobContent() {
                     rows={3}
                     value={formData.skills}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
               </div>
@@ -172,7 +172,7 @@ function PostJobContent() {
             <div className="border-t border-gray-200 pt-6 flex gap-4">
               <button
                 type="submit"
-                className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+                className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
               >
                 Post Job
               </button>

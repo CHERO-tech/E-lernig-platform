@@ -11,12 +11,12 @@ interface MotivationalQuoteCardProps {
 export default function MotivationalQuoteCard({ quote }: MotivationalQuoteCardProps) {
   return (
     <motion.div
-      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-500 p-8 md:p-12 shadow-xl"
+      className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-ember-strong to-ember p-8 md:p-12 shadow-xl"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       {/* Decorative Quote Mark */}
-      <div className="absolute top-4 left-6 text-emerald-300 text-7xl opacity-20 font-serif">
+      <div className="absolute top-4 left-6 text-brass-soft text-7xl opacity-20 font-serif">
         "
       </div>
 
@@ -24,7 +24,7 @@ export default function MotivationalQuoteCard({ quote }: MotivationalQuoteCardPr
         <p className="text-2xl md:text-3xl font-bold text-white mb-4 leading-relaxed">
           {quote.text}
         </p>
-        <p className="text-emerald-100 text-lg font-medium">— {quote.author}</p>
+        <p className="text-forge-soft text-lg font-medium">— {quote.author}</p>
       </div>
 
       {/* Gradient Overlay */}

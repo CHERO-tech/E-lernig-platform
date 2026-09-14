@@ -3,23 +3,47 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
+import { useMessaging } from "@/lib/messaging/useMessaging";
+import { usePeople } from "@/lib/people/usePeople";
 import Link from "next/link";
 import { Search, Send, MoreHorizontal, Pin, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 function MessagesContent() {
   const { user } = useAuth();
+  const { conversations } = useMessaging();
+  const { people } = usePeople();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const conversations = [
-    { id: 1, name: "Sarah Chen", avatar: "SC", lastMessage: "That sounds great! When can we discuss?", time: "2 min ago", unread: 2, online: true },
-    { id: 2, name: "Mike Johnson", avatar: "MJ", lastMessage: "The course materials are ready for review", time: "1 hour ago", unread: 0, online: false },
-    { id: 3, name: "Emma Davis", avatar: "ED", lastMessage: "Thanks for the feedback on my project", time: "3 hours ago", unread: 1, online: true },
-    { id: 4, name: "Alex Kumar", avatar: "AK", lastMessage: "I have some questions about the assignment", time: "Yesterday", unread: 0, online: false },
-    { id: 5, name: "Jessica Lee", avatar: "JL", lastMessage: "Looking forward to the webinar tomorrow", time: "2 days ago", unread: 0, online: false },
-  ];
+  const formatTime = (epoch: number) => {
+    const date = new Date(epoch);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
 
-  const filtered = conversations.filter(c =>
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString();
+  };
+
+  const conversationList = conversations.map(conv => {
+    const person = people.find(p => p.id === conv.participantId);
+    const lastMsg = conv.messages[conv.messages.length - 1];
+    return {
+      ...conv,
+      person,
+      lastMessage: lastMsg?.text || '(no messages)',
+      time: lastMsg ? formatTime(lastMsg.sentAt) : '',
+      name: person?.name || 'Unknown',
+      avatar: person?.avatar || '?',
+      online: person?.online || false,
+    };
+  });
+
+  const filtered = conversationList.filter(c =>
     c.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -36,7 +60,7 @@ function MessagesContent() {
               placeholder="Search conversations..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
             />
           </div>
         </div>
@@ -52,15 +76,15 @@ function MessagesContent() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <Link href={`/messages/${conv.id}`}>
-                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-all cursor-pointer hover:border-green-500 group">
+                <Link href={`/messages/${conv.participantId}`}>
+                  <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-lg transition-all cursor-pointer hover:border-ember-strong group">
                     <div className="flex items-start gap-4">
                       <div className="relative">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold flex-shrink-0">
                           {conv.avatar}
                         </div>
                         {conv.online && (
-                          <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
+                          <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-ember-strong border-2 border-white"></div>
                         )}
                       </div>
 
@@ -74,7 +98,7 @@ function MessagesContent() {
 
                       {conv.unread > 0 && (
                         <div className="flex items-center gap-3">
-                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-600 text-white text-xs font-bold flex-shrink-0">
+                          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-ember-strong text-white text-xs font-bold flex-shrink-0">
                             {conv.unread}
                           </span>
                         </div>

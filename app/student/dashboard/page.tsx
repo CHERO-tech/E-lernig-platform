@@ -5,11 +5,13 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
-import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck, Zap, Target, TrendingUp } from "lucide-react";
+import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck, Zap, Target, TrendingUp, X } from "lucide-react";
+import { useState } from "react";
 
 function DashboardContent() {
   const router = useRouter();
   const { user, logout } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     await logout();
@@ -18,21 +20,41 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Mobile Hamburger */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="fixed top-4 left-4 md:hidden z-40 p-2 hover:bg-gray-100 rounded-lg"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto fixed h-screen">
-        <Link href="/" className="flex items-center gap-2 mb-8">
-          <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Forge</span>
-          <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        </Link>
+      <aside className={`w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto fixed h-screen z-30 transition-transform ${
+        sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      } md:static md:translate-x-0`}>
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-2xl font-bold bg-gradient-to-r from-ember-strong to-ember bg-clip-text text-transparent">Forge</span>
+            <svg className="w-5 h-5 text-ember-strong" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </Link>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
         {/* Search */}
         <div className="mb-8">
           <input
             type="text"
             placeholder="Search"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
           />
         </div>
 
@@ -40,7 +62,7 @@ function DashboardContent() {
         <div className="mb-8">
           <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-4">General</p>
           <nav className="space-y-2">
-            <Link href="/student/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-green-50 text-green-600 font-medium">
+            <Link href="/student/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-forge-soft text-ember-strong font-medium">
               <BookOpen size={18} />
               <span>Dashboard</span>
             </Link>
@@ -80,14 +102,22 @@ function DashboardContent() {
         </div>
 
         {/* Add New */}
-        <button className="w-full flex items-center justify-center gap-2 px-3 py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-green-500 hover:text-green-600 transition-colors">
-          <Plus size={18} />
-          <span className="text-sm font-medium">Add New</span>
+        <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-brass-soft rounded-lg text-ember-strong hover:border-ember-strong hover:bg-forge-soft transition-all font-medium">
+          <Plus size={20} />
+          <span>Add New Course</span>
         </button>
       </aside>
 
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 md:hidden z-20"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
+      <main className="ml-0 md:ml-64 flex-1 p-4 md:p-8 pt-16 md:pt-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
           {/* Header */}
           <div className="mb-8 flex justify-between items-center">
@@ -115,7 +145,7 @@ function DashboardContent() {
                   title: "React is for Beginners", 
                   desc: "Learn the basics of React", 
                   progress: 75,
-                  bgGradient: "from-emerald-400 via-teal-400 to-cyan-500"
+                  bgGradient: "from-brass via-teal-400 to-cyan-500"
                 },
                 { 
                   title: "Digital Marketing", 
@@ -162,7 +192,7 @@ function DashboardContent() {
                         <span className="font-semibold text-gray-900">{course.progress}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-green-600 h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
+                        <div className="bg-ember-strong h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
                       </div>
                     </div>
                   </div>
@@ -178,7 +208,7 @@ function DashboardContent() {
               {[
                 { label: "Learning Streak", value: "7 days", icon: Zap, color: "bg-orange-100 text-orange-600", desc: "Keep it going!" },
                 { label: "Study Time", value: "24.5 hours", icon: BarChart3, color: "bg-blue-100 text-blue-600", desc: "This month" },
-                { label: "Courses Completed", value: "12", icon: Target, color: "bg-green-100 text-green-600", desc: "Great progress" },
+                { label: "Courses Completed", value: "12", icon: Target, color: "bg-forge-soft text-ember-strong", desc: "Great progress" },
               ].map((insight, i) => {
                 const Icon = insight.icon;
                 return (
@@ -252,8 +282,8 @@ function DashboardContent() {
                         <span>⭐ {course.rating}</span>
                       </div>
                     </div>
-                    <p className="text-xs text-green-600 font-medium mb-4">{course.reason}</p>
-                    <button className="w-full px-3 py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm">
+                    <p className="text-xs text-ember-strong font-medium mb-4">{course.reason}</p>
+                    <button className="w-full px-3 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors text-sm">
                       Explore
                     </button>
                   </div>
@@ -273,8 +303,8 @@ function DashboardContent() {
                   <p className="font-medium text-gray-900 mt-1">3D Animation Spline Workshop</p>
                   <p className="text-xs text-gray-600 mt-1">Today, 02:00 PM - 04:00 PM</p>
                 </div>
-                <div className="p-4 bg-green-50 rounded-lg">
-                  <p className="text-xs font-semibold text-green-700 uppercase">DEVELOPMENT</p>
+                <div className="p-4 bg-forge-soft rounded-lg">
+                  <p className="text-xs font-semibold text-ember uppercase">DEVELOPMENT</p>
                   <p className="font-medium text-gray-900 mt-1">Accessibility with Tools Framer</p>
                   <p className="text-xs text-gray-600 mt-1">Tomorrow, 01:00 PM - 03:00 PM</p>
                 </div>

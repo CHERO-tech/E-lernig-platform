@@ -1,4 +1,4 @@
-import { User, UserRole, AuthSession } from './types';
+import { User, UserRole, ProfileUpdate } from './types';
 
 // In-memory mock user store
 const mockUsers = new Map<string, { user: User; password: string }>();
@@ -84,5 +84,55 @@ export const mockAuthService = {
   async getCurrentUser(email: string): Promise<User | null> {
     const userEntry = mockUsers.get(email);
     return userEntry?.user || null;
+  },
+
+  async changePassword(
+    email: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    const userEntry = mockUsers.get(email);
+    if (!userEntry || userEntry.password !== currentPassword) {
+      throw new Error('Current password is incorrect');
+    }
+
+    userEntry.password = newPassword;
+  },
+
+  async deleteAccount(email: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    mockUsers.delete(email);
+  },
+
+  async updateProfile(currentEmail: string, updates: ProfileUpdate): Promise<User> {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    const entry = mockUsers.get(currentEmail);
+    if (!entry) {
+      throw new Error('User not found');
+    }
+
+    const nextEmail = updates.email?.trim();
+    if (nextEmail && nextEmail !== currentEmail) {
+      if (mockUsers.has(nextEmail)) {
+        throw new Error('Email already in use');
+      }
+      mockUsers.delete(currentEmail);
+      entry.user = { ...entry.user, ...updates, email: nextEmail };
+      mockUsers.set(nextEmail, entry);
+    } else {
+      entry.user = { ...entry.user, ...updates };
+    }
+
+    return entry.user;
+  },
+
+  async requestPasswordReset(email: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    // Mock: always resolves so the UI can show a "check your email" state,
+    // regardless of whether the address is registered (avoids leaking
+    // which emails have accounts).
   },
 };

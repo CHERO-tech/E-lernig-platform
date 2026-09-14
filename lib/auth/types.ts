@@ -7,7 +7,12 @@ export interface User {
   role: UserRole;
   avatar?: string;
   createdAt: Date;
+  phone?: string;
+  location?: string;
+  bio?: string;
 }
+
+export type ProfileUpdate = Partial<Pick<User, 'name' | 'email' | 'phone' | 'location' | 'bio'>>;
 
 export interface AuthContextType {
   user: User | null;
@@ -15,6 +20,10 @@ export interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string, role: UserRole) => Promise<void>;
   logout: () => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  deleteAccount: () => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<void>;
+  updateProfile: (updates: ProfileUpdate) => Promise<void>;
   isAuthenticated: boolean;
 }
 

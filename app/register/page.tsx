@@ -125,11 +125,11 @@ export default function RegisterPage() {
                 <motion.button
                   key={role.value}
                   onClick={() => handleRoleSelect(role.value)}
-                  className="w-full p-3 border border-gray-300 rounded hover:border-green-600 hover:bg-green-50 transition-all text-left group"
+                  className="w-full p-3 border border-gray-300 rounded hover:border-ember-strong hover:bg-forge-soft transition-all text-left group"
                   whileHover={{ scale: 1.01 }}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                    <div className="flex-shrink-0 w-10 h-10 bg-forge-soft rounded-lg flex items-center justify-center text-ember-strong">
                       {role.icon}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -151,7 +151,7 @@ export default function RegisterPage() {
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
@@ -164,7 +164,7 @@ export default function RegisterPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
@@ -177,7 +177,7 @@ export default function RegisterPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
@@ -190,7 +190,7 @@ export default function RegisterPage() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="••••••••"
-                  className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                  className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
                 />
               </div>
 
@@ -218,7 +218,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-md hover:shadow-lg"
+                  className="flex-1 py-3 px-4 bg-ember-strong hover:bg-ember text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-md hover:shadow-lg"
                 >
                   {loading ? "Creating..." : "Register"}
                 </button>
@@ -229,7 +229,7 @@ export default function RegisterPage() {
           {step === "role" && (
             <p className="text-center text-gray-600 text-sm mt-6">
               Already have an account?{" "}
-              <Link href="/login" className="text-green-600 font-semibold hover:text-green-700">
+              <Link href="/login" className="text-ember-strong font-semibold hover:text-ember">
                 Login here
               </Link>
             </p>
@@ -238,9 +238,9 @@ export default function RegisterPage() {
       </div>
 
       {/* Right Column - Illustration & Content */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-12 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-b from-forge-soft to-brass-soft flex-col justify-center items-center p-12 relative overflow-hidden">
         {/* Decorative Circles */}
-        <div className="absolute top-8 right-12 w-24 h-24 rounded-full bg-green-300 opacity-15"></div>
+        <div className="absolute top-8 right-12 w-24 h-24 rounded-full bg-brass-soft opacity-15"></div>
         <div className="absolute bottom-16 left-8 w-40 h-40 rounded-full bg-orange-300 opacity-10"></div>
         <div className="absolute top-1/3 right-1/4 w-20 h-20 rounded-full bg-pink-300 opacity-10"></div>
         <div className="absolute top-1/4 left-1/4 w-16 h-16 rounded-full bg-yellow-300 opacity-10"></div>
@@ -269,8 +269,8 @@ export default function RegisterPage() {
           {/* Forge Branding */}
           <div className="mb-6">
             <div className="flex items-center justify-center gap-2 mb-2">
-              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Forge</span>
-              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <span className="text-2xl font-bold bg-gradient-to-r from-ember-strong to-ember bg-clip-text text-transparent">Forge</span>
+              <svg className="w-6 h-6 text-ember-strong" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>

@@ -7,10 +7,10 @@ export default function Privacy() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-2">Privacy Policy</h1>
-          <p className="text-green-100">Last updated: September 3, 2026</p>
+          <p className="text-forge-soft">Last updated: September 3, 2026</p>
         </div>
       </div>
 
@@ -128,22 +128,22 @@ export default function Privacy() {
             </section>
           </div>
 
-          <div className="mt-12 p-6 bg-green-50 rounded-lg">
+          <div className="mt-12 p-6 bg-forge-soft rounded-lg">
             <p className="text-gray-700">
               This Privacy Policy is effective as of September 3, 2026, and will remain in effect except with respect to any changes in its provisions in the future, which will be in effect immediately upon posting.
             </p>
           </div>
 
           <div className="mt-8 flex gap-4 justify-center flex-wrap">
-            <Link href="/terms" className="text-green-600 hover:text-green-700 font-medium">
+            <Link href="/terms" className="text-ember-strong hover:text-ember font-medium">
               Terms of Service
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/contact" className="text-green-600 hover:text-green-700 font-medium">
+            <Link href="/contact" className="text-ember-strong hover:text-ember font-medium">
               Contact Us
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/help" className="text-green-600 hover:text-green-700 font-medium">
+            <Link href="/help" className="text-ember-strong hover:text-ember font-medium">
               Help Center
             </Link>
           </div>

@@ -39,9 +39,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-white flex">
       {/* Left Column - Decorative Design */}
-      <div className="hidden lg:flex lg:w-1/4 bg-gradient-to-b from-emerald-50 via-green-50 to-white flex-col justify-center items-center p-8 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/4 bg-gradient-to-b from-forge-soft via-brass-soft to-white flex-col justify-center items-center p-8 relative overflow-hidden">
         {/* Decorative circles */}
-        <div className="absolute top-16 left-8 w-20 h-20 rounded-full bg-emerald-200 opacity-20"></div>
+        <div className="absolute top-16 left-8 w-20 h-20 rounded-full bg-brass-soft opacity-20"></div>
         <div className="absolute bottom-24 right-4 w-28 h-28 rounded-full bg-yellow-300 opacity-12"></div>
         <div className="absolute top-1/3 right-6 w-16 h-16 rounded-full bg-orange-300 opacity-15"></div>
 
@@ -97,7 +97,7 @@ export default function LoginPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
               />
             </div>
 
@@ -111,17 +111,17 @@ export default function LoginPage() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border-2 border-green-500 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-0 text-sm transition-all"
+                className="w-full px-4 py-3 border-2 border-ember-strong rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-ember-strong focus:ring-offset-0 text-sm transition-all"
               />
             </div>
 
             {/* Checkbox & Forgot Password */}
             <div className="flex items-center justify-between pt-2">
               <label className="flex items-center cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 border-gray-400 rounded cursor-pointer accent-green-600" />
+                <input type="checkbox" className="w-4 h-4 border-gray-400 rounded cursor-pointer accent-ember-strong" />
                 <span className="ml-2 text-sm text-gray-700 font-medium">Remember me</span>
               </label>
-              <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors">
+              <Link href="/forgot-password" className="text-sm text-ember-strong hover:text-ember font-semibold transition-colors">
                 Forgot password?
               </Link>
             </div>
@@ -141,7 +141,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-8 shadow-md hover:shadow-lg"
+              className="w-full py-3 px-4 bg-ember-strong hover:bg-ember text-white font-semibold rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-8 shadow-md hover:shadow-lg"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
@@ -151,7 +151,7 @@ export default function LoginPage() {
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-700">
               Don't have an account?{" "}
-              <Link href="/register" className="text-green-600 font-bold hover:text-green-700 transition-colors">
+              <Link href="/register" className="text-ember-strong font-bold hover:text-ember transition-colors">
                 Register here
               </Link>
             </p>
@@ -160,9 +160,9 @@ export default function LoginPage() {
       </div>
 
       {/* Right Column - Illustration & Content */}
-      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-green-50 to-green-100 flex-col justify-center items-center p-6 relative overflow-hidden">
+      <div className="hidden md:flex md:w-1/3 lg:w-1/4 bg-gradient-to-b from-forge-soft to-brass-soft flex-col justify-center items-center p-6 relative overflow-hidden">
         {/* Decorative Circles */}
-        <div className="absolute top-8 right-8 w-24 h-24 rounded-full bg-green-300 opacity-20"></div>
+        <div className="absolute top-8 right-8 w-24 h-24 rounded-full bg-brass-soft opacity-20"></div>
         <div className="absolute bottom-16 left-4 w-36 h-36 rounded-full bg-orange-300 opacity-12"></div>
         <div className="absolute top-1/2 right-1/3 w-20 h-20 rounded-full bg-pink-300 opacity-15"></div>
 
@@ -190,8 +190,8 @@ export default function LoginPage() {
           {/* Forge Branding */}
           <div className="px-2">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="text-2xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent">Forge</span>
-              <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <span className="text-2xl font-bold bg-gradient-to-r from-ember-strong to-ember bg-clip-text text-transparent">Forge</span>
+              <svg className="w-6 h-6 text-ember-strong" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>

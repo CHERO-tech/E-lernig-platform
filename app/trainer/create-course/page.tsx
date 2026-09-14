@@ -5,14 +5,20 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useAuth } from "@/lib/auth/useAuth";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function CreateCourseContent() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { addCourse } = useCourses();
+  const { addNotification } = useNotifications();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     category: "web-development",
-    level: "beginner",
+    level: "Beginner" as const,
     price: "",
     duration: "",
     sections: [{ id: 1, title: "Section 1", lessons: 3 }],
@@ -25,6 +31,35 @@ function CreateCourseContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.title.trim()) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Please enter a course title',
+      });
+      return;
+    }
+    const newCourse = addCourse({
+      title: formData.title,
+      description: formData.description,
+      whatYoullLearn: [],
+      category: formData.category,
+      level: formData.level as any,
+      price: parseInt(formData.price) || 0,
+      durationHours: parseInt(formData.duration) || 0,
+      instructor: user?.name || 'Unknown',
+      instructorId: user?.id,
+      sections: [],
+      quizzes: [],
+      assignments: [],
+    });
+    addNotification({
+      type: 'system',
+      icon: '✅',
+      title: 'Course Created',
+      message: `"${formData.title}" has been created successfully.`,
+    });
     router.push("/trainer/dashboard");
   };
 
@@ -59,7 +94,7 @@ function CreateCourseContent() {
                     placeholder="Enter course title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -72,7 +107,7 @@ function CreateCourseContent() {
                     rows={4}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -84,7 +119,7 @@ function CreateCourseContent() {
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       <option value="web-development">Web Development</option>
@@ -100,12 +135,12 @@ function CreateCourseContent() {
                       name="level"
                       value={formData.level}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
-                      <option value="beginner">Beginner</option>
-                      <option value="intermediate">Intermediate</option>
-                      <option value="advanced">Advanced</option>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Advanced">Advanced</option>
                     </select>
                   </div>
                 </div>
@@ -119,7 +154,7 @@ function CreateCourseContent() {
                       placeholder="99"
                       value={formData.price}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -132,7 +167,7 @@ function CreateCourseContent() {
                       placeholder="40"
                       value={formData.duration}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -158,7 +193,7 @@ function CreateCourseContent() {
 
                 <button
                   type="button"
-                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-green-500 hover:text-green-600 transition-colors flex items-center justify-center gap-2"
+                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
                 >
                   <Plus size={20} /> Add Section
                 </button>
@@ -169,7 +204,7 @@ function CreateCourseContent() {
             <div className="border-t border-gray-200 pt-6 flex gap-4">
               <button
                 type="submit"
-                className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+                className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
               >
                 Create Course
               </button>

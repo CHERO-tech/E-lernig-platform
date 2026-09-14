@@ -40,10 +40,10 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-green-100 text-lg">Have questions? We're here to help!</p>
+          <p className="text-forge-soft text-lg">Have questions? We're here to help!</p>
         </div>
       </div>
 
@@ -67,11 +67,11 @@ export default function Contact() {
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   className="bg-white rounded-lg border border-gray-200 p-6 text-center hover:shadow-lg transition-shadow"
                 >
-                  <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-forge-soft text-ember-strong rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Icon size={24} />
                   </div>
                   <h3 className="font-bold text-gray-900 mb-1">{method.title}</h3>
-                  <p className="text-green-600 font-medium text-sm mb-2">{method.value}</p>
+                  <p className="text-ember-strong font-medium text-sm mb-2">{method.value}</p>
                   <p className="text-gray-600 text-xs">{method.desc}</p>
                 </motion.div>
               );
@@ -98,7 +98,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -111,7 +111,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -124,7 +124,7 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="How can we help?"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -137,14 +137,14 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Tell us more..."
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                className="w-full px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center justify-center gap-2"
               >
                 <Send size={18} /> Send Message
               </button>
@@ -171,7 +171,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg p-6 border border-green-200">
+            <div className="bg-forge-soft rounded-lg p-6 border border-brass-soft">
               <h3 className="font-semibold text-gray-900 mb-3">Common Inquiries</h3>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li>✓ Course recommendations</li>
@@ -213,11 +213,11 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-gradient-to-r from-green-600 to-green-500 text-white rounded-lg p-12 text-center"
+          className="bg-gradient-to-r from-ember-strong to-ember text-white rounded-lg p-12 text-center"
         >
           <h2 className="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
-          <p className="text-green-100 mb-8 text-lg">Join thousands of students transforming their careers on Forge</p>
-          <Link href="/courses" className="inline-block px-8 py-3 bg-white text-green-600 rounded-lg font-medium hover:bg-green-50 transition-colors">
+          <p className="text-forge-soft mb-8 text-lg">Join thousands of students transforming their careers on Forge</p>
+          <Link href="/courses" className="inline-block px-8 py-3 bg-white text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors">
             Explore Courses
           </Link>
         </motion.div>

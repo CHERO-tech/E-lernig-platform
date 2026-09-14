@@ -3,31 +3,50 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useMessaging } from "@/lib/messaging/useMessaging";
+import { usePeople } from "@/lib/people/usePeople";
+import { useEffect } from "react";
 import { ArrowLeft, Send, MoreHorizontal } from "lucide-react";
 import { useState } from "react";
 
 function ChatContent({ params }: { params: { userId: string } }) {
   const router = useRouter();
+  const { sendMessage, markConversationRead, getConversationByParticipant } = useMessaging();
+  const { getPersonById } = usePeople();
   const [message, setMessage] = useState("");
 
-  const recipient = {
-    name: "Sarah Chen",
-    avatar: "SC",
-    online: true,
-    status: "Active now",
+  const recipient = getPersonById(params.userId);
+  const conversation = getConversationByParticipant(params.userId);
+
+  useEffect(() => {
+    if (recipient) {
+      markConversationRead(params.userId);
+    }
+  }, [params.userId, markConversationRead, recipient]);
+
+  if (!recipient) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">User Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const formatTime = (epoch: number) => {
+    const date = new Date(epoch);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const messages = [
-    { id: 1, sender: "Sarah", text: "Hey! How are you doing?", time: "10:30 AM", own: false },
-    { id: 2, sender: "You", text: "Hi Sarah! Doing great, thanks for asking! How about you?", time: "10:31 AM", own: true },
-    { id: 3, sender: "Sarah", text: "I'm good! I wanted to discuss the course materials", time: "10:32 AM", own: false },
-    { id: 4, sender: "Sarah", text: "Do you have time this week?", time: "10:33 AM", own: false },
-    { id: 5, sender: "You", text: "Of course! I'm free on Wednesday afternoon", time: "10:35 AM", own: true },
-    { id: 6, sender: "Sarah", text: "That sounds great! When can we discuss?", time: "10:36 AM", own: false },
-  ];
+  const messages = conversation?.messages || [];
 
   const handleSend = () => {
     if (message.trim()) {
+      sendMessage(params.userId, message);
       setMessage("");
     }
   };
@@ -43,16 +62,16 @@ function ChatContent({ params }: { params: { userId: string } }) {
             </button>
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold text-sm">
                   {recipient.avatar}
                 </div>
                 {recipient.online && (
-                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-white"></div>
+                  <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-ember-strong border-2 border-white"></div>
                 )}
               </div>
               <div>
                 <p className="font-semibold text-gray-900">{recipient.name}</p>
-                <p className="text-xs text-gray-500">{recipient.status}</p>
+                <p className="text-xs text-gray-500">{recipient.online ? 'Active now' : 'Offline'}</p>
               </div>
             </div>
           </div>
@@ -70,25 +89,25 @@ function ChatContent({ params }: { params: { userId: string } }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className={`flex ${msg.own ? "justify-end" : "justify-start"}`}
+            className={`flex ${msg.senderId === 'me' ? "justify-end" : "justify-start"}`}
           >
-            <div className={`flex gap-2 max-w-xs ${msg.own ? "flex-row-reverse" : ""}`}>
-              {!msg.own && (
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                  SC
+            <div className={`flex gap-2 max-w-xs ${msg.senderId === 'me' ? "flex-row-reverse" : ""}`}>
+              {msg.senderId !== 'me' && (
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {recipient.avatar}
                 </div>
               )}
-              <div className={`${msg.own ? "items-end" : "items-start"} flex flex-col gap-1`}>
+              <div className={`${msg.senderId === 'me' ? "items-end" : "items-start"} flex flex-col gap-1`}>
                 <div
                   className={`px-4 py-2 rounded-lg ${
-                    msg.own
-                      ? "bg-green-600 text-white rounded-br-none"
+                    msg.senderId === 'me'
+                      ? "bg-ember-strong text-white rounded-br-none"
                       : "bg-gray-200 text-gray-900 rounded-bl-none"
                   }`}
                 >
                   <p className="text-sm">{msg.text}</p>
                 </div>
-                <p className="text-xs text-gray-500">{msg.time}</p>
+                <p className="text-xs text-gray-500">{formatTime(msg.sentAt)}</p>
               </div>
             </div>
           </motion.div>
@@ -105,11 +124,11 @@ function ChatContent({ params }: { params: { userId: string } }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleSend()}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
             />
             <button
               onClick={handleSend}
-              className="px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center gap-2"
+              className="px-4 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2"
             >
               <Send size={18} />
             </button>

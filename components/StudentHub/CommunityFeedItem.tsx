@@ -29,7 +29,7 @@ export default function CommunityFeedItem({ post }: CommunityFeedItemProps) {
       <div className="flex items-start gap-4">
         {/* Avatar */}
         <div className="flex-shrink-0">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-400 flex items-center justify-center text-white font-bold text-sm shadow-md">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember to-brass flex items-center justify-center text-white font-bold text-sm shadow-md">
             {post.userInitials}
           </div>
         </div>
@@ -53,7 +53,7 @@ export default function CommunityFeedItem({ post }: CommunityFeedItemProps) {
           {/* Like Button */}
           <motion.button
             onClick={handleLike}
-            className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+            className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-ember-strong dark:hover:text-brass transition-colors"
             whileTap={{ scale: 0.95 }}
           >
             <motion.div
@@ -62,10 +62,10 @@ export default function CommunityFeedItem({ post }: CommunityFeedItemProps) {
             >
               <Heart
                 size={16}
-                className={liked ? "fill-emerald-600 text-emerald-600" : ""}
+                className={liked ? "fill-ember-strong text-ember-strong" : ""}
               />
             </motion.div>
-            <span className={liked ? "text-emerald-600 dark:text-emerald-400 font-medium" : ""}>
+            <span className={liked ? "text-ember-strong dark:text-brass font-medium" : ""}>
               {likeCount} {likeCount === 1 ? "like" : "likes"}
             </span>
           </motion.button>

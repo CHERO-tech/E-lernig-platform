@@ -3,45 +3,58 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Code, Wifi, Palette, ArrowRight } from "lucide-react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useMemo } from "react";
 
 export default function LearningPaths() {
-  const paths = [
-    {
-      icon: Code,
-      title: "Software Development",
-      desc: "Master web and app development",
-      courses: 12,
-      students: "5.2k",
-      bgGradient: "from-blue-400 via-purple-400 to-indigo-500",
-    },
-    {
-      icon: Wifi,
-      title: "Networking",
-      desc: "Learn network administration",
-      courses: 8,
-      students: "2.1k",
-      bgGradient: "from-emerald-400 via-teal-400 to-cyan-500",
-    },
-    {
-      icon: Palette,
-      title: "Multimedia & Design",
-      desc: "Creative design skills",
-      courses: 10,
-      students: "3.8k",
-      bgGradient: "from-orange-400 via-red-400 to-pink-500",
-    },
-  ];
+  const { courses } = useCourses();
+
+  const paths = useMemo(() => {
+    const devCourses = courses.filter(c => c.category === 'Software Development').length;
+    const netCourses = courses.filter(c => c.category === 'Networking').length;
+    const mmCourses = courses.filter(c => c.category === 'Multimedia & Design').length;
+    const devStudents = courses.filter(c => c.category === 'Software Development').reduce((sum, c) => sum + c.students, 0);
+    const netStudents = courses.filter(c => c.category === 'Networking').reduce((sum, c) => sum + c.students, 0);
+    const mmStudents = courses.filter(c => c.category === 'Multimedia & Design').reduce((sum, c) => sum + c.students, 0);
+
+    return [
+      {
+        icon: Code,
+        title: "Software Development",
+        desc: "Master web and app development",
+        courses: devCourses || 12,
+        students: devStudents > 0 ? `${(devStudents / 1000).toFixed(1)}k` : "5.2k",
+        bgGradient: "from-blue-400 via-purple-400 to-indigo-500",
+      },
+      {
+        icon: Wifi,
+        title: "Networking",
+        desc: "Learn network administration",
+        courses: netCourses || 8,
+        students: netStudents > 0 ? `${(netStudents / 1000).toFixed(1)}k` : "2.1k",
+        bgGradient: "from-brass via-teal-400 to-cyan-500",
+      },
+      {
+        icon: Palette,
+        title: "Multimedia & Design",
+        desc: "Creative design skills",
+        courses: mmCourses || 10,
+        students: mmStudents > 0 ? `${(mmStudents / 1000).toFixed(1)}k` : "3.8k",
+        bgGradient: "from-orange-400 via-red-400 to-pink-500",
+      },
+    ];
+  }, [courses]);
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-16 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80">
             <span className="text-2xl font-bold">Forge</span>
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
           </Link>
           <h1 className="text-4xl font-bold mb-4">Learning Paths</h1>
-          <p className="text-green-100 text-lg">Choose your learning journey and develop valuable skills</p>
+          <p className="text-forge-soft text-lg">Choose your learning journey and develop valuable skills</p>
         </div>
       </div>
 
@@ -70,7 +83,7 @@ export default function LearningPaths() {
                   </div>
                   <Link
                     href="/courses"
-                    className="inline-flex items-center gap-2 text-green-600 font-semibold hover:text-green-700"
+                    className="inline-flex items-center gap-2 text-ember-strong font-semibold hover:text-ember"
                   >
                     Explore <ArrowRight size={18} />
                   </Link>
@@ -81,13 +94,13 @@ export default function LearningPaths() {
         </div>
       </div>
 
-      <div className="bg-green-50 py-16 px-6">
+      <div className="bg-forge-soft py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to start learning?</h2>
           <p className="text-gray-600 mb-8">Choose a path and begin your journey today</p>
           <Link
             href="/register"
-            className="inline-block px-8 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors"
+            className="inline-block px-8 py-4 bg-ember-strong text-white font-semibold rounded-lg hover:bg-ember transition-colors"
           >
             Get Started
           </Link>

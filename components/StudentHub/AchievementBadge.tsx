@@ -27,7 +27,7 @@ export default function AchievementBadge({ achievement }: AchievementBadgeProps)
           ${
             achievement.locked
               ? "bg-slate-100 dark:bg-slate-700 border-slate-300 dark:border-slate-600 opacity-50"
-              : "bg-white dark:bg-slate-800 border-emerald-400 dark:border-emerald-600 shadow-sm hover:shadow-md"
+              : "bg-white dark:bg-slate-800 border-brass dark:border-ember-strong shadow-sm hover:shadow-md"
           }
         `}
         whileHover={!achievement.locked ? { scale: 1.05, y: -4 } : {}}
@@ -49,7 +49,7 @@ export default function AchievementBadge({ achievement }: AchievementBadgeProps)
 
         {/* Unlocked Date */}
         {achievement.unlockedAt && (
-          <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium mt-1">
+          <p className="text-xs text-ember-strong dark:text-brass font-medium mt-1">
             ✓ Unlocked
           </p>
         )}

@@ -5,75 +5,56 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { MessageSquare, ThumbsUp, Reply, Flag, Search } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useAuth } from "@/lib/auth/useAuth";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function DiscussionsContent({ params }: { params: { courseId: string } }) {
   const router = useRouter();
+  const { user } = useAuth();
+  const { getCourseById, postDiscussionQuestion } = useCourses();
+  const { addNotification } = useNotifications();
   const [filterTab, setFilterTab] = useState<"all" | "unanswered" | "popular">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewQuestion, setShowNewQuestion] = useState(false);
-  const [newQuestion, setNewQuestion] = useState("");
+  const [newQuestion, setNewQuestion] = useState({ title: "", content: "" });
 
-  const discussions = [
-    {
-      id: 1,
-      author: "Sarah Chen",
-      avatar: "SC",
-      title: "How do I use React hooks in class components?",
-      content: "I'm trying to use the useState hook in my class component but it doesn't work. Can anyone help?",
-      date: "2 days ago",
-      answers: 3,
-      views: 156,
-      helpful: 12,
-      isAnswered: true,
-      isPinned: true,
-    },
-    {
-      id: 2,
-      author: "Mike Johnson",
-      avatar: "MJ",
-      title: "Can you explain the useContext hook?",
-      content: "I'm struggling to understand how useContext works. Could someone provide a clear explanation?",
-      date: "1 day ago",
-      answers: 5,
-      views: 234,
-      helpful: 18,
-      isAnswered: true,
-      isPinned: false,
-    },
-    {
-      id: 3,
-      author: "Emma Davis",
-      avatar: "ED",
-      title: "Best practices for component composition",
-      content: "What are the best practices when composing React components? Should I use HOCs or render props?",
-      date: "12 hours ago",
-      answers: 0,
-      views: 45,
-      helpful: 3,
-      isAnswered: false,
-      isPinned: false,
-    },
-    {
-      id: 4,
-      author: "Alex Kumar",
-      avatar: "AK",
-      title: "Performance optimization tips",
-      content: "Any tips on optimizing React component performance? I'm experiencing slow renders.",
-      date: "6 hours ago",
-      answers: 2,
-      views: 78,
-      helpful: 8,
-      isAnswered: true,
-      isPinned: false,
-    },
-  ];
+  const course = getCourseById(params.courseId);
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Course Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const discussions = course.discussions;
+
+  const formatDate = (epoch: number) => {
+    const date = new Date(epoch);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString();
+  };
 
   const filtered = discussions.filter(d => {
     const matchesSearch = d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          d.content.toLowerCase().includes(searchQuery.toLowerCase());
 
     if (!matchesSearch) return false;
-    if (filterTab === "unanswered") return !d.isAnswered;
+    if (filterTab === "unanswered") return d.answers === 0;
     if (filterTab === "popular") return d.views > 100;
     return true;
   });
@@ -85,12 +66,12 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
         <div className="max-w-4xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <MessageSquare size={32} className="text-green-600" />
+              <MessageSquare size={32} className="text-ember-strong" />
               <h1 className="text-3xl font-bold text-gray-900">Course Discussions</h1>
             </div>
             <button
               onClick={() => setShowNewQuestion(!showNewQuestion)}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+              className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
             >
               Ask Question
             </button>
@@ -104,7 +85,7 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
               placeholder="Search discussions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
             />
           </div>
         </div>
@@ -125,9 +106,9 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                 <input
                   type="text"
                   placeholder="What's your question?"
-                  value={newQuestion}
-                  onChange={(e) => setNewQuestion(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  value={newQuestion.title}
+                  onChange={(e) => setNewQuestion({ ...newQuestion, title: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                 />
               </div>
 
@@ -136,24 +117,43 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                 <textarea
                   placeholder="Provide more details about your question..."
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  value={newQuestion.content}
+                  onChange={(e) => setNewQuestion({ ...newQuestion, content: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                 />
               </div>
 
               <div className="flex gap-3">
                 <button
                   onClick={() => {
+                    if (!newQuestion.title.trim()) {
+                      addNotification({
+                        type: 'system',
+                        icon: '⚠️',
+                        title: 'Error',
+                        message: 'Please enter a question title',
+                      });
+                      return;
+                    }
+                    const avatar = user?.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U';
+                    postDiscussionQuestion(params.courseId, newQuestion.title, newQuestion.content, user?.name || 'Anonymous', avatar);
+                    addNotification({
+                      type: 'system',
+                      icon: '✅',
+                      title: 'Question Posted',
+                      message: 'Your question has been posted to the discussion board.',
+                    });
                     setShowNewQuestion(false);
-                    setNewQuestion("");
+                    setNewQuestion({ title: "", content: "" });
                   }}
-                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+                  className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
                 >
                   Post Question
                 </button>
                 <button
                   onClick={() => {
                     setShowNewQuestion(false);
-                    setNewQuestion("");
+                    setNewQuestion({ title: "", content: "" });
                   }}
                   className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
                 >
@@ -176,12 +176,12 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
               onClick={() => setFilterTab(tab as "all" | "unanswered" | "popular")}
               className={`px-6 py-4 font-medium transition-colors capitalize ${
                 filterTab === tab
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              {tab} ({filtered.filter(d => {
-                if (tab === "unanswered") return !d.isAnswered;
+              {tab} ({discussions.filter(d => {
+                if (tab === "unanswered") return d.answers === 0;
                 if (tab === "popular") return d.views > 100;
                 return true;
               }).length})
@@ -197,12 +197,11 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => router.push(`/courses/${params.courseId}/discussions/${thread.id}`)}
+              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
             >
               {/* Thread Header */}
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                   {thread.avatar}
                 </div>
 
@@ -210,20 +209,15 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        {thread.isPinned && (
-                          <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded">
-                            📌 Pinned
-                          </span>
-                        )}
-                        {thread.isAnswered && (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded">
+                        {thread.answers > 0 && (
+                          <span className="px-2 py-1 bg-forge-soft text-ember text-xs font-semibold rounded">
                             ✓ Answered
                           </span>
                         )}
                       </div>
                       <h3 className="font-bold text-gray-900 text-lg mb-1">{thread.title}</h3>
                       <p className="text-sm text-gray-600">
-                        by {thread.author} • {thread.date}
+                        by {thread.author} • {formatDate(thread.createdAt)}
                       </p>
                     </div>
                   </div>
@@ -244,13 +238,11 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
 
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex items-center gap-1 text-gray-600 hover:text-green-600 transition-colors"
+                    className="flex items-center gap-1 text-gray-600 hover:text-ember-strong transition-colors"
                   >
                     <ThumbsUp size={16} /> {thread.helpful}
                   </button>
                   <button
-                    onClick={(e) => e.stopPropagation()}
                     className="p-2 text-gray-400 hover:text-red-600 transition-colors"
                   >
                     <Flag size={16} />
@@ -276,7 +268,7 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
             {!searchQuery && (
               <button
                 onClick={() => setShowNewQuestion(true)}
-                className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+                className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
               >
                 Ask a Question
               </button>

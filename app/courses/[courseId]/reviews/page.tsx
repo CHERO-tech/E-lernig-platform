@@ -5,77 +5,37 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Star, ThumbsUp, Filter } from "lucide-react";
 import { useState } from "react";
+import { useCourses } from "@/lib/courses/useCourses";
+import { calculateReviewStats } from "@/lib/courses/calculateReviewStats";
+import { useAuth } from "@/lib/auth/useAuth";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 export default function CourseReviews({ params }: { params: { courseId: string } }) {
   const router = useRouter();
+  const { user } = useAuth();
+  const { getCourseById, submitReview } = useCourses();
+  const { addNotification } = useNotifications();
   const [sortBy, setSortBy] = useState("helpful");
   const [filterRating, setFilterRating] = useState("all");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [formData, setFormData] = useState({ rating: 5, title: "", text: "" });
 
-  const reviews = [
-    {
-      id: 1,
-      author: "Sarah Chen",
-      avatar: "SC",
-      rating: 5,
-      title: "Excellent course, highly recommended!",
-      text: "This course exceeded my expectations. The instructor explains concepts clearly and provides practical examples. The projects were challenging and helped me apply what I learned.",
-      date: "2 weeks ago",
-      helpful: 124,
-      verified: true,
-    },
-    {
-      id: 2,
-      author: "Mike Johnson",
-      avatar: "MJ",
-      rating: 4,
-      title: "Great content with some room for improvement",
-      text: "Very informative course with good structure. The only drawback is that some advanced topics could use more depth. Overall, I'm satisfied with my purchase.",
-      date: "1 month ago",
-      helpful: 89,
-      verified: true,
-    },
-    {
-      id: 3,
-      author: "Emma Davis",
-      avatar: "ED",
-      rating: 5,
-      title: "Life-changing learning experience",
-      text: "I completed this course and immediately landed a job using the skills I learned. The instructor is responsive and the community is supportive. Worth every penny!",
-      date: "1 month ago",
-      helpful: 156,
-      verified: true,
-    },
-    {
-      id: 4,
-      author: "Alex Kumar",
-      avatar: "AK",
-      rating: 3,
-      title: "Good but not great",
-      text: "The course covers the basics well, but I felt like it was a bit slow-paced. Some materials could be updated. Still useful if you're a beginner.",
-      date: "2 months ago",
-      helpful: 45,
-      verified: true,
-    },
-    {
-      id: 5,
-      author: "Jessica Lee",
-      avatar: "JL",
-      rating: 5,
-      title: "Perfect for career transition",
-      text: "I was switching careers and this course helped me get up to speed quickly. The hands-on projects were exactly what employers are looking for.",
-      date: "3 months ago",
-      helpful: 98,
-      verified: true,
-    },
-  ];
+  const course = getCourseById(params.courseId);
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Course Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+            Back
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-  const stats = {
-    average: 4.4,
-    total: 246,
-    breakdown: { 5: 142, 4: 68, 3: 24, 2: 8, 1: 4 },
-  };
+  const reviews = course.reviews;
+  const stats = calculateReviewStats(reviews);
 
   const filtered = reviews
     .filter(r => filterRating === "all" || r.rating === parseInt(filterRating))
@@ -86,8 +46,39 @@ export default function CourseReviews({ params }: { params: { courseId: string }
       return a.rating - b.rating;
     });
 
+  const formatDate = (epoch: number) => {
+    const date = new Date(epoch);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffDays = Math.floor(diffMs / 86400000);
+    const diffWeeks = Math.floor(diffDays / 7);
+    const diffMonths = Math.floor(diffDays / 30);
+
+    if (diffDays < 7 && diffDays > 0) return `${diffDays}d ago`;
+    if (diffWeeks < 4 && diffWeeks > 0) return `${diffWeeks}w ago`;
+    if (diffMonths > 0) return `${diffMonths}mo ago`;
+    return date.toLocaleDateString();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.title.trim()) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Please enter a review title',
+      });
+      return;
+    }
+    const avatar = user?.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U';
+    submitReview(params.courseId, formData.rating, formData.title, formData.text, user?.name || 'Anonymous', avatar);
+    addNotification({
+      type: 'system',
+      icon: '✅',
+      title: 'Review Submitted',
+      message: 'Thank you for your review!',
+    });
     setShowReviewForm(false);
     setFormData({ rating: 5, title: "", text: "" });
   };
@@ -102,7 +93,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
           </button>
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Course Reviews</h1>
-            <p className="text-gray-600">Advanced React Patterns</p>
+            <p className="text-gray-600">{course.title}</p>
           </div>
         </div>
       </div>
@@ -134,7 +125,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
                 <div key={rating} className="flex items-center gap-2">
                   <button
                     onClick={() => setFilterRating(rating.toString())}
-                    className="flex-1 text-left hover:text-green-600 transition-colors"
+                    className="flex-1 text-left hover:text-ember-strong transition-colors"
                   >
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-600 w-6">{rating}★</span>
@@ -153,7 +144,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
 
             <button
               onClick={() => setShowReviewForm(!showReviewForm)}
-              className="w-full mt-6 px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors"
+              className="w-full mt-6 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
             >
               Write a Review
             </button>
@@ -205,7 +196,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
                       placeholder="Sum up your experience"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -217,7 +208,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
                       value={formData.text}
                       onChange={(e) => setFormData({ ...formData, text: e.target.value })}
                       rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -225,7 +216,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
                   <div className="flex gap-3">
                     <button
                       type="submit"
-                      className="px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700"
+                      className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
                     >
                       Submit Review
                     </button>
@@ -247,7 +238,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
               >
                 <option value="helpful">Most Helpful</option>
                 <option value="newest">Newest</option>
@@ -267,16 +258,16 @@ export default function CourseReviews({ params }: { params: { courseId: string }
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
                       {review.avatar}
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">{review.author}</p>
-                      <p className="text-xs text-gray-500">{review.date}</p>
+                      <p className="text-xs text-gray-500">{formatDate(review.createdAt)}</p>
                     </div>
                   </div>
                   {review.verified && (
-                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">
+                    <span className="px-2 py-1 bg-forge-soft text-ember text-xs font-medium rounded">
                       Verified
                     </span>
                   )}
@@ -295,7 +286,7 @@ export default function CourseReviews({ params }: { params: { courseId: string }
                 <h4 className="font-bold text-gray-900 mb-2">{review.title}</h4>
                 <p className="text-gray-600 mb-4">{review.text}</p>
 
-                <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-green-600 transition-colors">
+                <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-ember-strong transition-colors">
                   <ThumbsUp size={16} /> Helpful ({review.helpful})
                 </button>
               </motion.div>

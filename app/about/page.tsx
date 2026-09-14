@@ -29,10 +29,10 @@ export default function About() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-20 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold mb-6">About Forge</h1>
-          <p className="text-xl text-green-100">Transforming careers through practical, industry-relevant education</p>
+          <p className="text-xl text-forge-soft">Transforming careers through practical, industry-relevant education</p>
         </div>
       </div>
 
@@ -53,11 +53,11 @@ export default function About() {
               <p className="text-lg text-gray-600 mb-6">
                 By combining hands-on projects, expert mentorship, and real-world feedback, we're creating a new generation of skilled professionals ready to make an impact.
               </p>
-              <Link href="/courses" className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold">
+              <Link href="/courses" className="inline-flex items-center gap-2 text-ember-strong hover:text-ember font-semibold">
                 Explore Courses <ArrowRight size={20} />
               </Link>
             </div>
-            <div className="h-96 bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg"></div>
+            <div className="h-96 bg-gradient-to-br from-ember-strong to-ember rounded-lg"></div>
           </div>
         </motion.section>
 
@@ -75,9 +75,9 @@ export default function About() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-green-50 rounded-lg p-8 text-center"
+                className="bg-forge-soft rounded-lg p-8 text-center"
               >
-                <p className="text-4xl font-bold text-green-600 mb-2">{stat.number}</p>
+                <p className="text-4xl font-bold text-ember-strong mb-2">{stat.number}</p>
                 <p className="text-gray-700 font-medium">{stat.label}</p>
               </motion.div>
             ))}
@@ -103,7 +103,7 @@ export default function About() {
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   className="bg-white rounded-lg border border-gray-200 p-8 text-center hover:shadow-lg transition-shadow"
                 >
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center text-green-600 mx-auto mb-4">
+                  <div className="w-16 h-16 bg-forge-soft rounded-full flex items-center justify-center text-ember-strong mx-auto mb-4">
                     <Icon size={32} />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{value.title}</h3>
@@ -131,11 +131,11 @@ export default function About() {
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 className="bg-white rounded-lg border border-gray-200 p-6 text-center hover:shadow-lg transition-shadow"
               >
-                <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-24 h-24 bg-gradient-to-br from-ember to-ember-strong rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
                   {member.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
-                <p className="text-green-600 font-medium mb-2">{member.role}</p>
+                <p className="text-ember-strong font-medium mb-2">{member.role}</p>
                 <p className="text-gray-600 text-sm">{member.desc}</p>
               </motion.div>
             ))}
@@ -147,17 +147,17 @@ export default function About() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-green-50 rounded-lg p-12 mb-20 text-center"
+          className="bg-forge-soft rounded-lg p-12 mb-20 text-center"
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
           <p className="text-gray-600 text-lg mb-8 max-w-3xl mx-auto">
             Over the past 3 years, we've helped thousands of learners transition into fulfilling tech careers, with an average salary increase of 45% after completing a Forge course. We're proud to have partnered with 500+ companies to create job opportunities for our graduates.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="px-8 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors">
+            <button className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
               Read Success Stories
             </button>
-            <Link href="/courses" className="px-8 py-3 border border-green-600 text-green-600 rounded-lg font-medium hover:bg-green-50 transition-colors">
+            <Link href="/courses" className="px-8 py-3 border border-ember-strong text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors">
               Get Started Today
             </Link>
           </div>

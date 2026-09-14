@@ -32,7 +32,7 @@ function LiveSessionsContent() {
       startTime: "2025-03-03T14:00:00",
       duration: 90,
       participants: 0,
-      thumbnail: "bg-gradient-to-br from-green-400 to-teal-500",
+      thumbnail: "bg-gradient-to-br from-ember-strong to-teal-500",
       description: "Learn best practices for structuring scalable React applications.",
     },
     {
@@ -79,13 +79,13 @@ function LiveSessionsContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-500 text-white py-12 px-6">
+      <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <Video size={36} />
             <h1 className="text-4xl font-bold">Live Sessions</h1>
           </div>
-          <p className="text-green-100">Join interactive webinars and live classes</p>
+          <p className="text-forge-soft">Join interactive webinars and live classes</p>
         </div>
       </div>
 
@@ -102,7 +102,7 @@ function LiveSessionsContent() {
               onClick={() => setFilterTab(tab as "upcoming" | "ongoing" | "recorded")}
               className={`px-6 py-4 font-medium transition-colors capitalize ${
                 filterTab === tab
-                  ? "text-green-600 border-b-2 border-green-600"
+                  ? "text-ember-strong border-b-2 border-ember-strong"
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >

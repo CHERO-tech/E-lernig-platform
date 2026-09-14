@@ -91,6 +91,7 @@ export default function CompanyPortal() {
     setActiveKey(key);
     if (key === "profile") window.location.href = "/settings?role=company&roleLabel=Company&userName=TechRwanda+Ltd&userInitials=TR";
     if (key === "internships") window.location.href = "/internships";
+    if (key === "opportunities") window.location.href = "/opportunities";
   };
   const [trackFilter, setTrackFilter] = useState("All Tracks");
   const [levelFilter, setLevelFilter] = useState("All Levels");

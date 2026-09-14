@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const questions = [
+export const questions = [
   {
     id: 1,
     text: "Which HTML element is used to define the structure of a webpage?",

@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
 import SiteLayout from "../components/SiteLayout";
 import { Card, Button, Badge } from "../components/ui";
@@ -6,7 +7,7 @@ interface LearningPath {
   id: string;
   title: string;
   description: string;
-  icon: JSX.Element;
+  icon: ReactElement;
   courses: number;
   duration: string;
   level: string;

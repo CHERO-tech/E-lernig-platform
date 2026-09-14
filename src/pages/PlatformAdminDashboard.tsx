@@ -151,7 +151,7 @@ export default function PlatformAdminDashboard() {
                 <ResponsiveContainer width="100%" height={80}>
                   <LineChart data={growthData.slice(-4)}>
                     <Line type="monotone" dataKey="revenue" stroke="#35C47A" strokeWidth={2} dot={false} />
-                    <Tooltip contentStyle={{ background: "#071C12", border: "1px solid rgba(53,196,122,0.2)", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 11 }} formatter={(v: number) => [`RWF ${(v/1000000).toFixed(1)}M`, "Revenue"]} />
+                    <Tooltip contentStyle={{ background: "#071C12", border: "1px solid rgba(53,196,122,0.2)", borderRadius: 8, fontFamily: "JetBrains Mono", fontSize: 11 }} formatter={(v) => [`RWF ${(Number(v)/1000000).toFixed(1)}M`, "Revenue"]} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>

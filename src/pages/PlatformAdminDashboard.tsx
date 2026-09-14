@@ -58,6 +58,7 @@ export default function PlatformAdminDashboard() {
     if (key === "settings") window.location.href = "/settings?role=admin&roleLabel=Platform+Admin&userName=Platform+Admin&userInitials=PA";
     if (key === "certificates") window.location.href = "/certificates?role=admin&userName=Platform+Admin&userInitials=PA";
     if (key === "users") window.location.href = "/people?type=all&role=admin&userName=Platform+Admin&userInitials=PA";
+    if (key === "courses") window.location.href = "/manage-courses?role=admin&userName=Platform+Admin&userInitials=PA";
   };
 
   return (

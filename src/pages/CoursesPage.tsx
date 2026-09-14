@@ -12,7 +12,7 @@ import dbImg from "../images.jpeg";
 import mobileImg from "../mobile dev.jpeg";
 import videoImg from "../videoedit.jpeg";
 
-interface Course {
+export interface Course {
   id: string;
   title: string;
   track: string;
@@ -29,7 +29,7 @@ interface Course {
   lessons: number;
 }
 
-const allCourses: Course[] = [
+export const allCourses: Course[] = [
   {
     id: "web-dev",
     title: "Web Development",

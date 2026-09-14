@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
-import { Card, Badge, StatCard, Input } from "../components/ui";
+import { Card, Badge, Button, StatCard, Input, Select } from "../components/ui";
 import { navItems } from "./PlatformAdminDashboard";
 
 interface Institution {
@@ -13,6 +13,28 @@ interface Institution {
   completionRate: number;
   status: "Active" | "Pending";
 }
+
+const statusOptions = ["Active", "Pending"] as const;
+
+type InstitutionForm = {
+  name: string;
+  location: string;
+  students: string;
+  trainers: string;
+  courses: string;
+  completionRate: string;
+  status: (typeof statusOptions)[number];
+};
+
+const emptyInstitutionForm: InstitutionForm = {
+  name: "",
+  location: "",
+  students: "0",
+  trainers: "0",
+  courses: "0",
+  completionRate: "0",
+  status: "Pending",
+};
 
 const institutions: Institution[] = [
   { name: "INES-Ruhengeri", location: "Ruhengeri, Northern Province", students: 126, trainers: 8, courses: 12, completionRate: 53, status: "Active" },
@@ -30,19 +52,79 @@ export default function InstitutionsPage() {
   const [activeKey, setActiveKey] = useState("institutions");
   const [search, setSearch] = useState("");
 
+  const [institutionsList, setInstitutionsList] = useState<Institution[]>(institutions);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingName, setEditingName] = useState<string | null>(null);
+  const [form, setForm] = useState<InstitutionForm>(emptyInstitutionForm);
+  const [deleteName, setDeleteName] = useState<string | null>(null);
+
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "dashboard") window.location.href = "/admin";
   };
 
-  const filtered = institutions.filter(
+  const openAddForm = () => {
+    setEditingName(null);
+    setForm(emptyInstitutionForm);
+    setFormOpen(true);
+  };
+
+  const openEditForm = (inst: Institution) => {
+    setEditingName(inst.name);
+    setForm({
+      name: inst.name,
+      location: inst.location,
+      students: String(inst.students),
+      trainers: String(inst.trainers),
+      courses: String(inst.courses),
+      completionRate: String(inst.completionRate),
+      status: inst.status,
+    });
+    setFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setFormOpen(false);
+    setEditingName(null);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.location.trim()) return;
+
+    const newInst: Institution = {
+      name: form.name,
+      location: form.location,
+      students: Number(form.students) || 0,
+      trainers: Number(form.trainers) || 0,
+      courses: Number(form.courses) || 0,
+      completionRate: Number(form.completionRate) || 0,
+      status: form.status,
+    };
+
+    if (editingName) {
+      setInstitutionsList((prev) => prev.map((i) => (i.name === editingName ? newInst : i)));
+    } else {
+      setInstitutionsList((prev) => [newInst, ...prev]);
+    }
+    closeForm();
+  };
+
+  const handleDelete = (name: string) => {
+    setInstitutionsList((prev) => prev.filter((i) => i.name !== name));
+    setDeleteName(null);
+  };
+
+  const filtered = institutionsList.filter(
     (i) => i.name.toLowerCase().includes(search.toLowerCase()) || i.location.toLowerCase().includes(search.toLowerCase())
   );
 
-  const activeInstitutions = institutions.filter((i) => i.status === "Active");
-  const totalStudents = institutions.reduce((sum, i) => sum + i.students, 0);
-  const totalTrainers = institutions.reduce((sum, i) => sum + i.trainers, 0);
-  const avgCompletion = Math.round(activeInstitutions.reduce((sum, i) => sum + i.completionRate, 0) / activeInstitutions.length);
+  const activeInstitutions = institutionsList.filter((i) => i.status === "Active");
+  const totalStudents = institutionsList.reduce((sum, i) => sum + i.students, 0);
+  const totalTrainers = institutionsList.reduce((sum, i) => sum + i.trainers, 0);
+  const avgCompletion = activeInstitutions.length
+    ? Math.round(activeInstitutions.reduce((sum, i) => sum + i.completionRate, 0) / activeInstitutions.length)
+    : 0;
 
   return (
     <DashboardLayout
@@ -62,15 +144,43 @@ export default function InstitutionsPage() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Institutions" value={institutions.length} />
+          <StatCard label="Institutions" value={institutionsList.length} />
           <StatCard label="Total Students" value={totalStudents.toLocaleString()} />
           <StatCard label="Total Trainers" value={totalTrainers} />
           <StatCard label="Avg Completion Rate" value={`${avgCompletion}%`} />
         </div>
 
-        <div className="mb-6 max-w-sm">
-          <Input placeholder="Search by name or location..." value={search} onChange={(e) => setSearch(e.target.value)} />
+        <div className="flex flex-wrap gap-3 mb-6 items-start">
+          <div className="flex-1 min-w-[220px] max-w-sm">
+            <Input placeholder="Search by name or location..." value={search} onChange={(e) => setSearch(e.target.value)} />
+          </div>
+          <Button variant="primary" onClick={openAddForm}>+ Add Institution</Button>
         </div>
+
+        {formOpen && (
+          <Card variant="terminal" padding="lg" title={editingName ? "Edit Institution" : "Add Institution"} className="mb-6">
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                <Input label="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+                <Input label="Location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} required />
+                <Select
+                  label="Status"
+                  options={statusOptions.map((s) => ({ value: s, label: s }))}
+                  value={form.status}
+                  onChange={(e) => setForm({ ...form, status: e.target.value as InstitutionForm["status"] })}
+                />
+                <Input label="Students" type="number" min="0" value={form.students} onChange={(e) => setForm({ ...form, students: e.target.value })} />
+                <Input label="Trainers" type="number" min="0" value={form.trainers} onChange={(e) => setForm({ ...form, trainers: e.target.value })} />
+                <Input label="Courses" type="number" min="0" value={form.courses} onChange={(e) => setForm({ ...form, courses: e.target.value })} />
+                <Input label="Completion Rate (%)" type="number" min="0" max="100" value={form.completionRate} onChange={(e) => setForm({ ...form, completionRate: e.target.value })} />
+              </div>
+              <div className="flex gap-3 mt-2">
+                <Button type="submit" variant="primary">{editingName ? "Save Changes" : "Add Institution"}</Button>
+                <Button type="button" variant="outline" onClick={closeForm}>Cancel</Button>
+              </div>
+            </form>
+          </Card>
+        )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {filtered.map((inst) => (
@@ -104,6 +214,23 @@ export default function InstitutionsPage() {
                   </p>
                   <p className="font-mono text-xs" style={{ color: "#606C66" }}>Completion</p>
                 </div>
+              </div>
+
+              <div className="pt-3 mt-3 border-t border-border">
+                {deleteName === inst.name ? (
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs" style={{ color: "#C92C2C" }}>Delete {inst.name}?</span>
+                    <div className="flex items-center gap-3">
+                      <button onClick={() => handleDelete(inst.name)} className="font-mono text-xs font-semibold" style={{ color: "#C92C2C" }}>Yes</button>
+                      <button onClick={() => setDeleteName(null)} className="font-mono text-xs" style={{ color: "#606C66" }}>No</button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    <button onClick={() => openEditForm(inst)} className="font-mono text-xs" style={{ color: "#1F7A4B" }}>Edit</button>
+                    <button onClick={() => setDeleteName(inst.name)} className="font-mono text-xs" style={{ color: "#C92C2C" }}>Delete</button>
+                  </div>
+                )}
               </div>
             </Card>
           ))}

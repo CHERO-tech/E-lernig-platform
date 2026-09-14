@@ -22,7 +22,13 @@
      for backgrounds, borders, icon fills, chart marks, and text on dark
      surfaces (header/footer/hero bands), where it already reads fine. */
   --color-pg2: #1F7A4B;
-  --color-lg: #8BE0B0;
+  /* Named "mint," not "lg" — a color token named lg collided with
+     Tailwind's own lg step (text-lg, rounded-lg, shadow-lg, ring-lg, ...),
+     so bg-lg/text-lg/etc. could never actually reach this color; every
+     use of it had to fall back to inline styles or non-colliding
+     utilities like ring-lg (safe only because Tailwind has no core
+     ring-width step called "lg"). Renamed rather than left as a landmine. */
+  --color-mint: #8BE0B0;
   --color-ow: #F5F7F5;
   --color-dt: #102019;
   --color-mg: #606C66;

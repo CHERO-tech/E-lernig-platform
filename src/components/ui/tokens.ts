@@ -5,7 +5,7 @@ export const colors = {
   dg2: "#0B291A",
   pg: "#35C47A",
   pg2: "#1F7A4B",
-  lg: "#8BE0B0",
+  mint: "#8BE0B0",
   ow: "#F5F7F5",
   dt: "#102019",
   mg: "#606C66",

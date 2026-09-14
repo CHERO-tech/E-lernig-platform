@@ -31,7 +31,7 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
       >
         <Link
           to="/"
-          className="flex items-center gap-2.5 rounded outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
+          className="flex items-center gap-2.5 rounded outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
         >
           <div
             className="w-6 h-6 rounded flex items-center justify-center"
@@ -55,7 +55,7 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
             <Link
               key={item.href}
               to={item.href}
-              className="text-sm transition-colors rounded outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
+              className="text-sm transition-colors rounded outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
               style={{ color: "#606C66" }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "#FFFFFF";
@@ -72,14 +72,14 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
         <div className="flex items-center gap-3">
           <Link
             to="/login"
-            className="px-4 py-2 rounded text-sm font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
+            className="px-4 py-2 rounded text-sm font-medium transition-all outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
             style={{ color: "#FFFFFF", border: "1px solid rgba(255,255,255,0.2)" }}
           >
             Log In
           </Link>
           <Link
             to="/login"
-            className="px-4 py-2 rounded text-sm font-semibold transition-all hover:shadow-lg hover:brightness-110 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
+            className="px-4 py-2 rounded text-sm font-semibold transition-all hover:shadow-lg hover:brightness-110 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-dg"
             style={{ background: "#35C47A", color: "#071C12" }}
           >
             Get started

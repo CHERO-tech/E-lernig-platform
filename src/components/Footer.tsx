@@ -79,7 +79,7 @@ export default function Footer() {
                 <li key={item.label}>
                   <Link
                     to={item.href}
-                    className="text-sm transition-colors hover:text-pg rounded outline-none focus-visible:ring-2 focus-visible:ring-lg focus-visible:ring-offset-2 focus-visible:ring-offset-dg2"
+                    className="text-sm transition-colors hover:text-pg rounded outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-dg2"
                     style={{ color: "#606C66" }}
                   >
                     {item.label}

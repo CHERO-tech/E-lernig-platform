@@ -36,6 +36,7 @@ import LearningPathsPage from "./pages/LearningPathsPage";
 import CertificateRecordsPage from "./pages/CertificateRecordsPage";
 import PeopleDirectoryPage from "./pages/PeopleDirectoryPage";
 import CourseManagementPage from "./pages/CourseManagementPage";
+import ReportsPage from "./pages/ReportsPage";
 
 export default function App() {
   return (
@@ -88,6 +89,7 @@ export default function App() {
         <Route path="/certificates" element={<CertificateRecordsPage />} />
         <Route path="/people" element={<PeopleDirectoryPage />} />
         <Route path="/manage-courses" element={<CourseManagementPage />} />
+        <Route path="/reports" element={<ReportsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

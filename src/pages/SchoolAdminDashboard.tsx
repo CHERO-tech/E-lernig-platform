@@ -55,6 +55,7 @@ export default function SchoolAdminDashboard() {
     if (key === "students") window.location.href = "/people?type=student&institution=INES-Ruhengeri&role=school-admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
     if (key === "trainers") window.location.href = "/people?type=trainer&institution=INES-Ruhengeri&role=school-admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
     if (key === "courses") window.location.href = "/manage-courses?role=school-admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
+    if (key === "reports") window.location.href = "/reports?role=school-admin&userName=Immacul%C3%A9e+Nyiransengimana&userInitials=IN";
   };
 
   return (

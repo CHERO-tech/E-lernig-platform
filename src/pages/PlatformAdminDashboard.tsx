@@ -17,7 +17,7 @@ export const navItems = [
   { key: "settings", label: "System Settings", icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="3" /><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m4.24 4.24l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m4.24-4.24l4.24-4.24" /></svg> },
 ];
 
-const growthData = [
+export const growthData = [
   { month: "Jan", students: 420, revenue: 3200000 },
   { month: "Feb", students: 580, revenue: 4100000 },
   { month: "Mar", students: 740, revenue: 5300000 },
@@ -29,7 +29,7 @@ const growthData = [
   { month: "Sep", students: 2060, revenue: 15400000 },
 ];
 
-const certData = [
+export const certData = [
   { month: "Jun", certs: 42 },
   { month: "Jul", certs: 68 },
   { month: "Aug", certs: 91 },
@@ -59,6 +59,7 @@ export default function PlatformAdminDashboard() {
     if (key === "certificates") window.location.href = "/certificates?role=admin&userName=Platform+Admin&userInitials=PA";
     if (key === "users") window.location.href = "/people?type=all&role=admin&userName=Platform+Admin&userInitials=PA";
     if (key === "courses") window.location.href = "/manage-courses?role=admin&userName=Platform+Admin&userInitials=PA";
+    if (key === "reports") window.location.href = "/reports?role=admin&userName=Platform+Admin&userInitials=PA";
   };
 
   return (

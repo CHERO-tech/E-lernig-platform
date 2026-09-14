@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
-import { Card, Badge, StatCard, Input, Select, EmptyState } from "../components/ui";
+import { Card, Badge, Button, StatCard, Input, Select, EmptyState } from "../components/ui";
 import { navItems as trainerNavItems } from "./TrainerDashboard";
 import { navItems as schoolAdminNavItems } from "./SchoolAdminDashboard";
 import { navItems as platformAdminNavItems } from "./PlatformAdminDashboard";
@@ -17,6 +17,39 @@ interface Person {
   stats: { label: string; value: string | number }[];
   level?: string;
 }
+
+const trackFormOptions = ["Software Development", "Networking", "Multimedia"];
+const levelOptions = ["Beginner", "Intermediate", "Advanced"];
+
+type PersonForm = {
+  name: string;
+  role: PersonRole;
+  track: string;
+  institution: string;
+  level: string;
+  skills: string;
+  projects: string;
+  certs: string;
+  score: string;
+  experience: string;
+  studentsCount: string;
+  rating: string;
+};
+
+const emptyPersonForm = (role: PersonRole): PersonForm => ({
+  name: "",
+  role,
+  track: trackFormOptions[0],
+  institution: "",
+  level: levelOptions[0],
+  skills: "",
+  projects: "0",
+  certs: "0",
+  score: "0%",
+  experience: "0 yrs",
+  studentsCount: "0",
+  rating: "0.0 ⭐",
+});
 
 const people: Person[] = [
   {
@@ -90,12 +123,91 @@ export default function PeopleDirectoryPage() {
   const [search, setSearch] = useState("");
   const [trackFilter, setTrackFilter] = useState("All Tracks");
 
+  const [peopleList, setPeopleList] = useState<Person[]>(people);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingName, setEditingName] = useState<string | null>(null);
+  const [form, setForm] = useState<PersonForm>(emptyPersonForm(type === "trainer" ? "trainer" : "student"));
+  const [deleteName, setDeleteName] = useState<string | null>(null);
+
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "dashboard") window.location.href = config.dashboardHref;
   };
 
-  const scoped = people
+  const openAddForm = () => {
+    setEditingName(null);
+    setForm(emptyPersonForm(type === "trainer" ? "trainer" : "student"));
+    setFormOpen(true);
+  };
+
+  const openEditForm = (person: Person) => {
+    setEditingName(person.name);
+    const statVal = (label: string) => person.stats.find((s) => s.label === label)?.value;
+    setForm({
+      name: person.name,
+      role: person.role,
+      track: person.track,
+      institution: person.institution,
+      level: person.level ?? levelOptions[0],
+      skills: person.skills.join(", "),
+      projects: String(statVal("Projects") ?? "0"),
+      certs: String(statVal("Certs") ?? "0"),
+      score: String(statVal("Score") ?? "0%"),
+      experience: String(statVal("Experience") ?? "0 yrs"),
+      studentsCount: String(statVal("Students") ?? "0"),
+      rating: String(statVal("Rating") ?? "0.0 ⭐"),
+    });
+    setFormOpen(true);
+  };
+
+  const closeForm = () => {
+    setFormOpen(false);
+    setEditingName(null);
+  };
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim()) return;
+
+    const stats =
+      form.role === "student"
+        ? [
+            { label: "Projects", value: Number(form.projects) || 0 },
+            { label: "Certs", value: Number(form.certs) || 0 },
+            { label: "Score", value: form.score },
+          ]
+        : [
+            { label: "Experience", value: form.experience },
+            { label: "Students", value: Number(form.studentsCount) || 0 },
+            { label: "Rating", value: form.rating },
+          ];
+
+    const skills = form.skills.split(",").map((s) => s.trim()).filter(Boolean);
+
+    const newPerson: Person = {
+      name: form.name,
+      role: form.role,
+      track: form.track,
+      institution: form.institution,
+      skills,
+      stats,
+      ...(form.role === "student" ? { level: form.level } : {}),
+    };
+
+    if (editingName) {
+      setPeopleList((prev) => prev.map((p) => (p.name === editingName ? newPerson : p)));
+    } else {
+      setPeopleList((prev) => [newPerson, ...prev]);
+    }
+    closeForm();
+  };
+
+  const handleDelete = (name: string) => {
+    setPeopleList((prev) => prev.filter((p) => p.name !== name));
+    setDeleteName(null);
+  };
+
+  const scoped = peopleList
     .filter((p) => (type === "all" ? true : p.role === type))
     .filter((p) => (institution ? p.institution === institution : true));
 
@@ -140,7 +252,7 @@ export default function PeopleDirectoryPage() {
           <StatCard label="Institutions" value={new Set(scoped.map((p) => p.institution)).size} />
         </div>
 
-        <div className="flex flex-wrap gap-3 mb-6">
+        <div className="flex flex-wrap gap-3 mb-6 items-start">
           <div className="flex-1 min-w-[220px]">
             <Input placeholder="Search by name or skill..." value={search} onChange={(e) => setSearch(e.target.value)} />
           </div>
@@ -151,7 +263,68 @@ export default function PeopleDirectoryPage() {
               onChange={(e) => setTrackFilter(e.target.value)}
             />
           </div>
+          <Button variant="primary" onClick={openAddForm}>
+            + Add {type === "trainer" ? "Trainer" : type === "student" ? "Student" : "Person"}
+          </Button>
         </div>
+
+        {formOpen && (
+          <Card variant="terminal" padding="lg" title={editingName ? "Edit Person" : "Add Person"} className="mb-6">
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                <Input label="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+                <Input label="Institution" value={form.institution} onChange={(e) => setForm({ ...form, institution: e.target.value })} required />
+                {type === "all" && (
+                  <Select
+                    label="Type"
+                    options={[{ value: "student", label: "Student" }, { value: "trainer", label: "Trainer" }]}
+                    value={form.role}
+                    onChange={(e) => setForm({ ...form, role: e.target.value as PersonRole })}
+                  />
+                )}
+                <Select
+                  label="Track"
+                  options={trackFormOptions.map((t) => ({ value: t, label: t }))}
+                  value={form.track}
+                  onChange={(e) => setForm({ ...form, track: e.target.value })}
+                />
+                {form.role === "student" && (
+                  <Select
+                    label="Level"
+                    options={levelOptions.map((l) => ({ value: l, label: l }))}
+                    value={form.level}
+                    onChange={(e) => setForm({ ...form, level: e.target.value })}
+                  />
+                )}
+                <div className="md:col-span-2">
+                  <Input
+                    label="Skills (comma-separated)"
+                    value={form.skills}
+                    onChange={(e) => setForm({ ...form, skills: e.target.value })}
+                    placeholder="React, Node.js, PostgreSQL"
+                  />
+                </div>
+                {form.role === "student" ? (
+                  <>
+                    <Input label="Projects" type="number" min="0" value={form.projects} onChange={(e) => setForm({ ...form, projects: e.target.value })} />
+                    <Input label="Certificates" type="number" min="0" value={form.certs} onChange={(e) => setForm({ ...form, certs: e.target.value })} />
+                    <Input label="Score" value={form.score} onChange={(e) => setForm({ ...form, score: e.target.value })} placeholder="e.g. 90%" />
+                  </>
+                ) : (
+                  <>
+                    <Input label="Experience" value={form.experience} onChange={(e) => setForm({ ...form, experience: e.target.value })} placeholder="e.g. 8 yrs" />
+                    <Input label="Students" type="number" min="0" value={form.studentsCount} onChange={(e) => setForm({ ...form, studentsCount: e.target.value })} />
+                    <Input label="Rating" value={form.rating} onChange={(e) => setForm({ ...form, rating: e.target.value })} placeholder="e.g. 4.9 ⭐" />
+                  </>
+                )}
+              </div>
+              <div className="flex gap-3 mt-2">
+                <Button type="submit" variant="primary">{editingName ? "Save Changes" : "Add Person"}</Button>
+                <Button type="button" variant="outline" onClick={closeForm}>Cancel</Button>
+              </div>
+            </form>
+          </Card>
+        )}
 
         {filtered.length === 0 ? (
           <EmptyState title="No one found" description="Try a different name, skill, or track." />
@@ -187,13 +360,30 @@ export default function PeopleDirectoryPage() {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 pt-3 border-t border-border">
+                <div className="grid grid-cols-3 gap-2 pt-3 pb-3 border-t border-border">
                   {p.stats.map((s) => (
                     <div key={s.label} className="text-center">
                       <p className="font-mono text-sm font-bold" style={{ color: "#1F7A4B" }}>{s.value}</p>
                       <p className="font-mono text-xs" style={{ color: "#606C66" }}>{s.label}</p>
                     </div>
                   ))}
+                </div>
+
+                <div className="pt-3 border-t border-border">
+                  {deleteName === p.name ? (
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs" style={{ color: "#C92C2C" }}>Delete {p.name}?</span>
+                      <div className="flex items-center gap-3">
+                        <button onClick={() => handleDelete(p.name)} className="font-mono text-xs font-semibold" style={{ color: "#C92C2C" }}>Yes</button>
+                        <button onClick={() => setDeleteName(null)} className="font-mono text-xs" style={{ color: "#606C66" }}>No</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-4">
+                      <button onClick={() => openEditForm(p)} className="font-mono text-xs" style={{ color: "#1F7A4B" }}>Edit</button>
+                      <button onClick={() => setDeleteName(p.name)} className="font-mono text-xs" style={{ color: "#C92C2C" }}>Delete</button>
+                    </div>
+                  )}
                 </div>
               </Card>
             ))}

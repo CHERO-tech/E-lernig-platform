@@ -26,7 +26,7 @@ const records: CertRecord[] = [
   { student: "Nzeyimana Patrick", institution: "INES-Ruhengeri", course: "Network Security", date: "2026-04-17", certId: "CERT-2026-0512", status: "Revoked" },
   { student: "Amahoro Jean de Dieu", institution: "INES-Ruhengeri", course: "UI/UX Design", date: "2026-09-05", certId: "CERT-2026-0855", status: "Issued" },
   { student: "Amahoro Jean de Dieu", institution: "INES-Ruhengeri", course: "Networking Fundamentals", date: "2026-06-30", certId: "CERT-2026-0731", status: "Issued" },
-  { student: "Munyakazi Lisa", institution: "UR-CST", course: "Web Development", date: "2026-07-15", certId: "CERT-2026-0768", status: "Issued" },
+  { student: "Munyakazi Lisa", institution: "IPRC Huye", course: "Web Development", date: "2026-07-15", certId: "CERT-2026-0768", status: "Issued" },
 ];
 
 const roleConfig: Record<

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const modules = [
+export const modules = [
   {
     id: 1,
     title: "Module 01 — Introduction to Web Development",

@@ -43,6 +43,7 @@ import PaymentsPage from "./pages/PaymentsPage";
 import InternshipsPage from "./pages/InternshipsPage";
 import OpportunitiesPage from "./pages/OpportunitiesPage";
 import FeedbackPage from "./pages/FeedbackPage";
+import LessonsPage from "./pages/LessonsPage";
 
 export default function App() {
   return (
@@ -102,6 +103,7 @@ export default function App() {
         <Route path="/internships" element={<InternshipsPage />} />
         <Route path="/opportunities" element={<OpportunitiesPage />} />
         <Route path="/feedback" element={<FeedbackPage />} />
+        <Route path="/lessons" element={<LessonsPage />} />
 
         {/* ── FALLBACK ── */}
         <Route path="*" element={<NotFoundPage />} />

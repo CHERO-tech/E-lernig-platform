@@ -63,6 +63,7 @@ export default function TrainerDashboard() {
     if (key === "certificates") window.location.href = "/certificates?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "students") window.location.href = "/people?type=student&institution=INES-Ruhengeri&role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
     if (key === "analytics") window.location.href = "/reports?role=trainer&userName=Emmanuel+Nkurunziza&userInitials=EN";
+    if (key === "lessons") window.location.href = "/lessons";
   };
 
   return (

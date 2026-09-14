@@ -73,6 +73,7 @@ export default function CourseManagementPage() {
   const userName = params.get("userName") ?? identity.userName;
   const userInitials = params.get("userInitials") ?? identity.userInitials;
   const config = roleConfig[role] ?? roleConfig.admin;
+  const isTrainer = role === "trainer";
 
   const [activeKey, setActiveKey] = useState("courses");
   const [search, setSearch] = useState("");
@@ -84,6 +85,8 @@ export default function CourseManagementPage() {
   const [form, setForm] = useState<CourseForm>(emptyForm);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
+  const scopedCourses = isTrainer ? courses.filter((c) => c.instructor === userName) : courses;
+
   const handleNav = (key: string) => {
     setActiveKey(key);
     if (key === "dashboard") window.location.href = config.dashboardHref;
@@ -91,7 +94,7 @@ export default function CourseManagementPage() {
 
   const openAddForm = () => {
     setEditingId(null);
-    setForm(emptyForm);
+    setForm(isTrainer ? { ...emptyForm, instructor: userName } : emptyForm);
     setFormOpen(true);
   };
 
@@ -163,15 +166,15 @@ export default function CourseManagementPage() {
     setDeleteId(null);
   };
 
-  const filtered = courses.filter((c) => {
+  const filtered = scopedCourses.filter((c) => {
     if (search && !c.title.toLowerCase().includes(search.toLowerCase()) && !c.instructor.toLowerCase().includes(search.toLowerCase())) return false;
     if (trackFilter !== "All Tracks" && c.track !== trackFilter) return false;
     return true;
   });
 
-  const totalEnrolled = courses.reduce((sum, c) => sum + c.enrolled, 0);
-  const avgRating = courses.length ? (courses.reduce((sum, c) => sum + c.rating, 0) / courses.length).toFixed(1) : "0.0";
-  const trackCount = new Set(courses.map((c) => c.track)).size;
+  const totalEnrolled = scopedCourses.reduce((sum, c) => sum + c.enrolled, 0);
+  const avgRating = scopedCourses.length ? (scopedCourses.reduce((sum, c) => sum + c.rating, 0) / scopedCourses.length).toFixed(1) : "0.0";
+  const trackCount = new Set(scopedCourses.map((c) => c.track)).size;
 
   return (
     <DashboardLayout
@@ -191,7 +194,7 @@ export default function CourseManagementPage() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Total Courses" value={courses.length} />
+          <StatCard label="Total Courses" value={scopedCourses.length} />
           <StatCard label="Total Enrolled" value={totalEnrolled.toLocaleString()} />
           <StatCard label="Avg Rating" value={`${avgRating} ⭐`} />
           <StatCard label="Tracks" value={trackCount} />
@@ -225,6 +228,8 @@ export default function CourseManagementPage() {
                   label="Instructor"
                   value={form.instructor}
                   onChange={(e) => setForm({ ...form, instructor: e.target.value })}
+                  disabled={isTrainer}
+                  hint={isTrainer ? "Courses you add are attributed to you" : undefined}
                   required
                 />
                 <Select

@@ -20,25 +20,25 @@ const STEPS = [
 
 export default function HowItWorksSection() {
   return (
-    <section
-      id="how"
-      style={{
-        background: "var(--paper-raised)",
-        borderTop: "1px solid var(--line)",
-        borderBottom: "1px solid var(--line)",
-      }}
-    >
-      <div className="wrap">
-        <Reveal className="section-head">
-          <span className="eyebrow">The path</span>
-          <h2>From first login to a certificate that opens doors.</h2>
+    <section id="how" className="py-24 px-6 md:px-8 bg-dg">
+      <div className="max-w-7xl mx-auto">
+        <Reveal className="mb-14 max-w-xl">
+          <p className="font-mono text-xs mb-3 text-pg">$ cat ./how-it-works.md</p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white tracking-tight">
+            From first login to a certificate that opens doors.
+          </h2>
         </Reveal>
-        <div className="steps">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {STEPS.map((step, i) => (
-            <Reveal key={step.num} className="step" delay={i * 110}>
-              <div className="step-num">{step.num}</div>
-              <h3>{step.title}</h3>
-              <p>{step.desc}</p>
+            <Reveal
+              key={step.num}
+              delay={i * 110}
+              className="p-6 rounded-xl bg-dg2 border border-pg/[0.12] transition-all"
+            >
+              <div className="font-mono text-3xl font-bold mb-4 text-pg/25">{step.num}</div>
+              <h3 className="font-semibold text-lg mb-3 text-white">{step.title}</h3>
+              <p className="text-sm leading-relaxed text-mg">{step.desc}</p>
+              <div className="mt-4 w-8 h-0.5 bg-pg" />
             </Reveal>
           ))}
         </div>

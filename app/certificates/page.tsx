@@ -249,7 +249,7 @@ function CertificatesContent() {
           <p className="text-blue-900 mb-4">
             Certificates are issued upon course completion with a passing score. They can be verified using the Credential ID.
           </p>
-          <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
+          <a href="/help" className="text-blue-600 hover:text-blue-700 font-medium">
             Learn about certificate verification
           </a>
         </motion.div>

@@ -180,7 +180,7 @@ function MyLearningContent() {
               <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
                 <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
                 <p className="text-gray-600 text-lg mb-4">No courses in progress</p>
-                <Link href="/courses" className="text-ember-strong hover:text-ember font-medium">
+                <Link href="/courses" className="text-ember-strong hover:text-ember2 font-medium">
                   Browse Courses
                 </Link>
               </div>

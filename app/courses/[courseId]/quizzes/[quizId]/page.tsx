@@ -1,15 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Clock, CheckCircle, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 
-function QuizContent({ params }: { params: { courseId: string; quizId: string } }) {
+function QuizContent({ courseId, quizId }: { courseId: string; quizId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
   const { recordQuizAttempt } = useEnrollment();
@@ -19,15 +18,15 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const course = getCourseById(params.courseId);
-  const quiz = course?.quizzes.find(q => q.id === params.quizId);
+  const course = getCourseById(courseId);
+  const quiz = course?.quizzes.find((q) => q.id === quizId);
 
   if (!course || !quiz) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-ow flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz Not Found</h1>
-          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+          <h1 className="text-3xl font-bold mb-4 text-dt">Quiz Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110">
             Back
           </button>
         </div>
@@ -39,38 +38,29 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
   const selectedAnswer = answers[currentQuestion];
 
   const handleAnswerSelect = (optionIndex: number) => {
-    setAnswers(prev => ({
-      ...prev,
-      [currentQuestion]: optionIndex.toString(),
-    }));
+    setAnswers((prev) => ({ ...prev, [currentQuestion]: optionIndex.toString() }));
   };
 
   const handleNext = () => {
-    if (currentQuestion < quiz.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    }
+    if (currentQuestion < quiz.questions.length - 1) setCurrentQuestion(currentQuestion + 1);
   };
 
   const handlePrev = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
+    if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
   };
 
   const handleSubmit = () => {
     let correctCount = 0;
     quiz.questions.forEach((q, idx) => {
-      if (parseInt(answers[idx]) === q.correct) {
-        correctCount++;
-      }
+      if (parseInt(answers[idx]) === q.correct) correctCount++;
     });
     const finalScore = Math.round((correctCount / quiz.questions.length) * 100);
     setScore(finalScore);
-    recordQuizAttempt(params.courseId, params.quizId, finalScore);
+    recordQuizAttempt(courseId, quizId, finalScore);
     addNotification({
-      type: 'system',
-      icon: '📝',
-      title: 'Quiz Submitted',
+      type: "system",
+      icon: "📝",
+      title: "Quiz Submitted",
       message: `You scored ${finalScore}% on ${quiz.title}.`,
     });
     setSubmitted(true);
@@ -80,60 +70,56 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-white border-b border-gray-200">
+      <div className="min-h-screen bg-ow">
+        <div className="bg-white border-b border-border">
           <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-            <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
-              <ArrowLeft size={20} className="text-gray-600" />
+            <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+              <ArrowLeft size={20} className="text-mg" />
             </button>
-            <h1 className="text-3xl font-bold text-gray-900">Quiz Results</h1>
+            <h1 className="text-3xl font-bold text-dt">Quiz Results</h1>
           </div>
         </div>
 
         <div className="max-w-4xl mx-auto px-6 py-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-lg border border-gray-200 p-12 text-center"
-          >
+          <div className="rounded-xl p-12 text-center bg-white border border-border">
             <div
               className={`w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6 ${
-                isPassing ? "bg-forge-soft" : "bg-red-100"
+                isPassing ? "bg-pg/10" : "bg-err/10"
               }`}
             >
               {isPassing ? (
-                <CheckCircle size={64} className="text-ember-strong" />
+                <CheckCircle size={64} className="text-pg2" />
               ) : (
-                <AlertCircle size={64} className="text-red-600" />
+                <AlertCircle size={64} className="text-err" />
               )}
             </div>
 
-            <h2 className={`text-4xl font-bold mb-2 ${isPassing ? "text-ember-strong" : "text-red-600"}`}>
-              {score}%
-            </h2>
-            <p className="text-xl text-gray-600 mb-8">
+            <h2 className={`text-4xl font-bold mb-2 ${isPassing ? "text-pg2" : "text-err"}`}>{score}%</h2>
+            <p className="text-xl mb-8 text-mg">
               {isPassing ? "🎉 Congratulations! You passed!" : "Keep practicing and try again!"}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-gray-50 rounded-lg p-6">
-                <p className="text-gray-600 text-sm mb-2">Questions Answered</p>
-                <p className="text-3xl font-bold text-gray-900">{Object.keys(answers).length}/{quiz.questions.length}</p>
+              <div className="rounded-lg p-6 bg-ow">
+                <p className="text-sm mb-2 text-mg">Questions Answered</p>
+                <p className="text-3xl font-bold text-dt">
+                  {Object.keys(answers).length}/{quiz.questions.length}
+                </p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-6">
-                <p className="text-gray-600 text-sm mb-2">Passing Score</p>
-                <p className="text-3xl font-bold text-gray-900">{quiz.passingScore}%</p>
+              <div className="rounded-lg p-6 bg-ow">
+                <p className="text-sm mb-2 text-mg">Passing Score</p>
+                <p className="text-3xl font-bold text-dt">{quiz.passingScore}%</p>
               </div>
-              <div className="bg-gray-50 rounded-lg p-6">
-                <p className="text-gray-600 text-sm mb-2">Time Limit</p>
-                <p className="text-3xl font-bold text-gray-900">{quiz.timeLimit}m</p>
+              <div className="rounded-lg p-6 bg-ow">
+                <p className="text-sm mb-2 text-mg">Time Limit</p>
+                <p className="text-3xl font-bold text-dt">{quiz.timeLimit}m</p>
               </div>
             </div>
 
             <div className="space-y-3">
               <button
-                onClick={() => router.push(`/courses/${params.courseId}/quizzes`)}
-                className="w-full px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
+                onClick={() => router.push(`/courses/${courseId}/quizzes`)}
+                className="w-full px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
               >
                 Back to Quizzes
               </button>
@@ -144,40 +130,42 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
                   setAnswers({});
                   setScore(0);
                 }}
-                className="w-full px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="w-full px-6 py-3 rounded-lg font-medium bg-white border border-border text-dt hover:bg-ow"
               >
                 Retake Quiz
               </button>
             </div>
 
-            {/* Answer Review */}
-            <div className="mt-12 text-left border-t border-gray-200 pt-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Answer Review</h3>
+            <div className="mt-12 text-left border-t border-border pt-8">
+              <h3 className="text-xl font-bold mb-6 text-dt">Answer Review</h3>
               <div className="space-y-4">
                 {quiz.questions.map((q, idx) => {
                   const isCorrect = parseInt(answers[idx] || "-1") === q.correct;
                   const answered = idx in answers;
                   return (
-                    <div key={q.id} className="border border-gray-200 rounded-lg p-4">
+                    <div key={q.id} className="rounded-lg p-4 border border-border">
                       <div className="flex items-start gap-4">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white font-bold ${
-                          !answered ? "bg-gray-300" : isCorrect ? "bg-ember-strong" : "bg-red-600"
-                        }`}>
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 font-bold ${
+                            !answered ? "bg-mg/20 text-mg" : isCorrect ? "bg-pg text-dg" : "bg-err text-white"
+                          }`}
+                        >
                           {!answered ? "—" : isCorrect ? "✓" : "✗"}
                         </div>
                         <div className="flex-1">
-                          <p className="font-medium text-gray-900 mb-2">{q.question}</p>
+                          <p className="font-medium mb-2 text-dt">{q.question}</p>
                           {answered && (
-                            <p className="text-sm text-gray-600 mb-2">
-                              Your answer: <span className="font-medium">{q.options[parseInt(answers[idx])]}</span>
+                            <p className="text-sm mb-2 text-mg">
+                              Your answer:{" "}
+                              <span className="font-medium text-dt">{q.options[parseInt(answers[idx])]}</span>
                             </p>
                           )}
                           {answered && !isCorrect && (
-                            <p className="text-sm text-ember-strong mb-2">
+                            <p className="text-sm mb-2 text-pg2">
                               Correct answer: <span className="font-medium">{q.options[q.correct]}</span>
                             </p>
                           )}
-                          <p className="text-sm text-gray-600">{q.explanation}</p>
+                          <p className="text-sm text-mg">{q.explanation}</p>
                         </div>
                       </div>
                     </div>
@@ -185,59 +173,52 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
                 })}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     );
   }
 
-  if (!currentQ) {
-    return null;
-  }
+  if (!currentQ) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <div className="min-h-screen bg-ow">
+      <div className="bg-white border-b border-border sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div className="flex-1 mx-4">
-            <h1 className="text-2xl font-bold text-gray-900">{quiz.title}</h1>
-            <p className="text-gray-600 text-sm">{course.title}</p>
+            <h1 className="text-2xl font-bold text-dt">{quiz.title}</h1>
+            <p className="text-sm text-mg">{course.title}</p>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-mg">
             <Clock size={20} />
-            <span className="font-medium">{quiz.timeLimit}m</span>
+            <span className="font-medium font-mono">{quiz.timeLimit}m</span>
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="bg-gray-100">
+        <div className="bg-ow">
           <div className="max-w-4xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
-              <span>Question {currentQuestion + 1} of {quiz.questions.length}</span>
+            <div className="flex items-center justify-between text-sm mb-2 text-mg">
+              <span>
+                Question {currentQuestion + 1} of {quiz.questions.length}
+              </span>
               <span>{Math.round(((currentQuestion + 1) / quiz.questions.length) * 100)}%</span>
             </div>
-            <div className="w-full h-2 bg-gray-300 rounded-full overflow-hidden">
+            <div className="w-full h-2 rounded-full overflow-hidden bg-border">
               <div
-                className="h-full bg-ember-strong transition-all"
+                className="h-full bg-pg transition-all"
                 style={{ width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%` }}
-              ></div>
+              />
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8">
-        <motion.div
-          key={currentQuestion}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg border border-gray-200 p-8 mb-8"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">{currentQ.question}</h2>
+        <div key={currentQuestion} className="rounded-xl p-8 mb-8 bg-white border border-border">
+          <h2 className="text-2xl font-bold mb-8 text-dt">{currentQ.question}</h2>
 
           <div className="space-y-3 mb-8">
             {currentQ.options.map((option, idx) => (
@@ -245,29 +226,26 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
                 key={idx}
                 onClick={() => handleAnswerSelect(idx)}
                 className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                  selectedAnswer === idx.toString()
-                    ? "border-ember-strong bg-forge-soft"
-                    : "border-gray-200 hover:border-gray-300"
+                  selectedAnswer === idx.toString() ? "border-pg bg-pg/[0.06]" : "border-border hover:border-mg"
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-5 h-5 rounded-full border-2 ${
-                    selectedAnswer === idx.toString()
-                      ? "border-ember-strong bg-ember-strong"
-                      : "border-gray-300"
-                  }`} />
-                  <span className="font-medium text-gray-900">{option}</span>
+                  <div
+                    className={`w-5 h-5 rounded-full border-2 ${
+                      selectedAnswer === idx.toString() ? "border-pg bg-pg" : "border-border"
+                    }`}
+                  />
+                  <span className="font-medium text-dt">{option}</span>
                 </div>
               </button>
             ))}
           </div>
 
-          {/* Navigation */}
           <div className="flex gap-4">
             <button
               onClick={handlePrev}
               disabled={currentQuestion === 0}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-3 rounded-lg font-medium bg-white border border-border text-dt hover:bg-ow disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
@@ -276,24 +254,23 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
               <button
                 onClick={handleSubmit}
                 disabled={!selectedAnswer}
-                className="flex-1 px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Submit Quiz
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="flex-1 px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
+                className="flex-1 px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
               >
                 Next
               </button>
             )}
           </div>
-        </motion.div>
+        </div>
 
-        {/* Question Overview */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h3 className="font-bold text-gray-900 mb-4">Question Overview</h3>
+        <div className="rounded-xl p-6 bg-white border border-border">
+          <h3 className="font-bold mb-4 text-dt">Question Overview</h3>
           <div className="grid grid-cols-6 gap-2">
             {quiz.questions.map((_, idx) => (
               <button
@@ -301,10 +278,10 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
                 onClick={() => setCurrentQuestion(idx)}
                 className={`aspect-square rounded-lg font-medium text-sm transition-all ${
                   idx === currentQuestion
-                    ? "bg-ember-strong text-white"
+                    ? "bg-pg text-dg"
                     : idx in answers
-                      ? "bg-forge-soft text-ember"
-                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                      ? "bg-pg/10 text-pg2"
+                      : "bg-ow text-mg hover:bg-border"
                 }`}
               >
                 {idx + 1}
@@ -317,10 +294,11 @@ function QuizContent({ params }: { params: { courseId: string; quizId: string } 
   );
 }
 
-export default function QuizPage({ params }: { params: { courseId: string; quizId: string } }) {
+export default function QuizPage({ params }: { params: Promise<{ courseId: string; quizId: string }> }) {
+  const { courseId, quizId } = use(params);
   return (
     <ProtectedRoute>
-      <QuizContent params={params} />
+      <QuizContent courseId={courseId} quizId={quizId} />
     </ProtectedRoute>
   );
 }

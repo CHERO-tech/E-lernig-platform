@@ -187,7 +187,7 @@ function SkillEndorsementsContent() {
                 <p className="font-semibold text-gray-900">{person.name}</p>
                 <div className="flex flex-wrap gap-1 justify-center mt-2">
                   {person.skills.map((skill) => (
-                    <span key={skill} className="px-2 py-1 bg-forge-soft text-ember text-xs rounded-full">
+                    <span key={skill} className="px-2 py-1 bg-forge-soft text-ember2 text-xs rounded-full">
                       {skill}
                     </span>
                   ))}

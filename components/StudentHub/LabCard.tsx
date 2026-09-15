@@ -15,7 +15,7 @@ export default function LabCard({ lab }: LabCardProps) {
 
   return (
     <motion.div
-      className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-shadow"
+      className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow"
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3 }}
     >
@@ -30,12 +30,12 @@ export default function LabCard({ lab }: LabCardProps) {
       </div>
 
       {/* Title */}
-      <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
         {lab.title}
       </h3>
 
       {/* Details */}
-      <div className="space-y-3 mb-4 text-sm text-slate-600 dark:text-slate-400">
+      <div className="space-y-3 mb-4 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-3">
           <Calendar size={16} className="text-ember-strong dark:text-brass flex-shrink-0" />
           <span>{lab.date}</span>
@@ -51,11 +51,11 @@ export default function LabCard({ lab }: LabCardProps) {
       </div>
 
       {/* Capacity Bar */}
-      <div className="mb-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+      <div className="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-2 text-xs">
             <Users size={14} className="text-ember-strong dark:text-brass" />
-            <span className="text-slate-600 dark:text-slate-400">
+            <span className="text-gray-600 dark:text-gray-400">
               {lab.enrolled} of {lab.capacity} enrolled
             </span>
           </div>
@@ -63,7 +63,7 @@ export default function LabCard({ lab }: LabCardProps) {
             {spotsAvailable} spots left
           </span>
         </div>
-        <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-ember to-brass"
             initial={{ width: 0 }}
@@ -75,14 +75,14 @@ export default function LabCard({ lab }: LabCardProps) {
 
       {/* Skills */}
       <div className="mb-4">
-        <p className="text-xs font-medium text-slate-700 dark:text-slate-300 mb-2">
+        <p className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
           Skills Covered:
         </p>
         <div className="flex flex-wrap gap-2">
           {lab.skills.map((skill) => (
             <span
               key={skill}
-              className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded font-medium"
+              className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded font-medium"
             >
               {skill}
             </span>
@@ -95,7 +95,7 @@ export default function LabCard({ lab }: LabCardProps) {
         disabled={lab.status === "completed"}
         className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
           lab.status === "completed"
-            ? "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed"
+            ? "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
             : "bg-ember-strong hover:bg-ember-strong text-white"
         }`}
       >

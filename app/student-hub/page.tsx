@@ -43,7 +43,7 @@ export default function StudentHubDashboard() {
   const quote = useMemo(() => getQuoteByIndex(0), []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-0">
         {/* Sidebar */}
         <StudentHubSidebar studentName={mockStudentProfile.name} />
@@ -60,10 +60,10 @@ export default function StudentHubDashboard() {
             <motion.div variants={itemVariants} className="mb-8">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     Welcome back, {mockStudentProfile.name.split(" ")[0]}! 👋
                   </h1>
-                  <p className="text-slate-600 dark:text-slate-400">
+                  <p className="text-gray-600 dark:text-gray-400">
                     Keep pushing—every lesson gets you closer to your goals
                   </p>
                 </div>
@@ -89,7 +89,7 @@ export default function StudentHubDashboard() {
             <motion.div variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">📖</span>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Currently Learning
                 </h2>
               </div>
@@ -104,7 +104,7 @@ export default function StudentHubDashboard() {
             <motion.div variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">🔬</span>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Upcoming Lab Sessions
                 </h2>
               </div>
@@ -119,7 +119,7 @@ export default function StudentHubDashboard() {
             <motion.div variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">🏆</span>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Achievements
                 </h2>
               </div>
@@ -134,11 +134,11 @@ export default function StudentHubDashboard() {
             <motion.div variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">👥</span>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                   Community Highlights
                 </h2>
               </div>
-              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <div className="space-y-6">
                   {mockCommunityFeed.map((post) => (
                     <CommunityFeedItem key={post.id} post={post} />

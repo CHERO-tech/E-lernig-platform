@@ -123,7 +123,7 @@ export default function SearchPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-600">Level</span>
                       <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        result.level === "Beginner" ? "bg-forge-soft text-ember" :
+                        result.level === "Beginner" ? "bg-forge-soft text-ember2" :
                         result.level === "Intermediate" ? "bg-yellow-100 text-yellow-700" :
                         "bg-red-100 text-red-700"
                       }`}>

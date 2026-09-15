@@ -224,7 +224,7 @@ function SettingsContent() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Profile Picture</p>
-                      <button className="text-ember-strong hover:text-ember font-medium text-sm mt-1">Change Avatar</button>
+                      <button className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1">Change Avatar</button>
                     </div>
                   </div>
 

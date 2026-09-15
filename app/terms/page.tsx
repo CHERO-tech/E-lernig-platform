@@ -126,11 +126,11 @@ export default function Terms() {
           </div>
 
           <div className="mt-8 flex gap-4 justify-center">
-            <Link href="/privacy" className="text-ember-strong hover:text-ember font-medium">
+            <Link href="/privacy" className="text-ember-strong hover:text-ember2 font-medium">
               Privacy Policy
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/contact" className="text-ember-strong hover:text-ember font-medium">
+            <Link href="/contact" className="text-ember-strong hover:text-ember2 font-medium">
               Contact Us
             </Link>
           </div>

@@ -135,15 +135,15 @@ export default function Privacy() {
           </div>
 
           <div className="mt-8 flex gap-4 justify-center flex-wrap">
-            <Link href="/terms" className="text-ember-strong hover:text-ember font-medium">
+            <Link href="/terms" className="text-ember-strong hover:text-ember2 font-medium">
               Terms of Service
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/contact" className="text-ember-strong hover:text-ember font-medium">
+            <Link href="/contact" className="text-ember-strong hover:text-ember2 font-medium">
               Contact Us
             </Link>
             <span className="text-gray-300">|</span>
-            <Link href="/help" className="text-ember-strong hover:text-ember font-medium">
+            <Link href="/help" className="text-ember-strong hover:text-ember2 font-medium">
               Help Center
             </Link>
           </div>

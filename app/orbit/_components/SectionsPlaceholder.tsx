@@ -384,17 +384,21 @@ export function OrbitFooter() {
             <h4 style={{ margin: "0 0 1rem 0", fontSize: "0.95rem" }}>Company</h4>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
               <li style={{ marginBottom: "0.5rem" }}>
-                <a href="#" style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem" }}>
+                <a href="/about" style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem" }}>
                   About
                 </a>
               </li>
               <li style={{ marginBottom: "0.5rem" }}>
-                <a href="#" style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem" }}>
+                <span
+                  aria-disabled="true"
+                  style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem", opacity: 0.5, cursor: "not-allowed" }}
+                  title="Coming soon"
+                >
                   Blog
-                </a>
+                </span>
               </li>
               <li>
-                <a href="#" style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem" }}>
+                <a href="/contact" style={{ color: "var(--ob-text-secondary)", fontSize: "0.9rem" }}>
                   Contact
                 </a>
               </li>

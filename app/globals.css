@@ -6,25 +6,79 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* Brand palette, adopted from the "TVET Digital Skills Academy" design
+     (Revise UI Color Scheme/) and re-synced to that source's later,
+     WCAG-validated iteration (its earlier port here had drifted: mg/warn/
+     info/err were still ad hoc Tailwind defaults, and lg/mint, pg2, mg2,
+     surface, warn2/err2 and the chart palette didn't exist yet).
+     Named tokens (dg/dg2/pg/mint/ow/dt/mg/border) match that source
+     exactly; the ember/forge/brass aliases below point at the same values
+     so every existing bg-ember/text-ember-strong/etc. class across the
+     app inherits this palette automatically. */
+  --dg: #071C12;
+  --dg2: #0B291A;
+  --pg: #35C47A;
+  /* Text-safe variant: pg measures only 2.09:1 as text on ow/white (fails
+     WCAG AA), though it's fine (7.88:1) as text on dg/dg2. Use pg2 for
+     pg-colored text sitting on a light surface; keep pg itself for
+     backgrounds, borders, icon fills, chart marks, and text on dark
+     surfaces, where it already reads fine. */
+  --pg2: #1F7A4B;
+  /* Named "mint," not "lg" — a color token named lg would collide with
+     Tailwind's own lg step (text-lg, rounded-lg, shadow-lg, ring-lg, ...),
+     so bg-mint/text-mint/etc. can actually reach this color instead of
+     silently no-oping. */
+  --mint: #8BE0B0;
+  --ow: #F5F7F5;
+  --dt: #102019;
+  --mg: #606C66;
+  --mg2: #789183;
+  --border-color: #E2E8E4;
+  --surface: #EBEFED;
+  --warn: #C17F33;
+  --info: #336AC1;
+  --err: #D64545;
+  /* Darker text-safe variants: warn/err fail WCAG AA (4.5:1) as small text
+     on ow/white — use these for text, keep the base tone for
+     backgrounds/borders/dots. info already passes as-is. */
+  --warn2: #915F27;
+  --err2: #C92C2C;
+
+  /* Categorical chart/identity palette — for genuine multi-series charts
+     and recurring named entities, never as decorative "more colors" on a
+     single-metric chart. Fixed order, never cycled or reordered. chart1
+     reuses pg2 so the brand color stays slot one. */
+  --chart1: #1F7A4B;
+  --chart2: #BB811B;
+  --chart3: #1B7DA7;
+  --chart4: #6C38A8;
+
   --paper: #ffffff;
   --paper-raised: #ffffff;
-  --page-bg: #ffffff;
-  --ink: #1a1a1a;
-  --ink-soft: #666666;
-  --ember: #27AE60;
-  --ember-strong: #1E8449;
-  --forge: #27AE60;
-  --forge-soft: #D5F4E6;
-  --brass: #52B788;
-  --brass-soft: #D8F3DC;
-  --wire: #999999;
-  --line: rgba(0, 0, 0, 0.08);
+  --page-bg: var(--ow);
+  --ink: var(--dt);
+  --ink-soft: var(--mg);
+  --ember: var(--pg);
+  /* Text-safe: ember/forge resolve to pg, which fails WCAG AA as text on
+     light surfaces (see --pg2 above). Use ember2/forge2 for text sitting
+     on paper/page-bg/surface; keep ember/forge for backgrounds, borders,
+     icon fills, and text on dark surfaces (header/hero), where the plain
+     value already reads fine. */
+  --ember2: var(--pg2);
+  --ember-strong: var(--dg2);
+  --forge: var(--pg);
+  --forge2: var(--pg2);
+  --forge-soft: #E8F5EC;
+  --brass: var(--mint);
+  --brass-soft: #DFF3E8;
+  --wire: var(--mg);
+  --line: var(--border-color);
   --shadow: rgba(0, 0, 0, 0.1);
-  --surface-dark: #0e2818;
+  --surface-dark: var(--dg2);
 
-  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", "Cascadia Code", "Consolas", "Roboto Mono", monospace;
   --font-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
-  --font-sans: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-inter), -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   color-scheme: light;
 }
@@ -34,14 +88,38 @@
 }
 
 @theme inline {
+  --color-dg: var(--dg);
+  --color-dg2: var(--dg2);
+  --color-pg: var(--pg);
+  --color-pg2: var(--pg2);
+  --color-mint: var(--mint);
+  --color-ow: var(--ow);
+  --color-dt: var(--dt);
+  --color-mg: var(--mg);
+  --color-mg2: var(--mg2);
+  --color-border: var(--border-color);
+  --color-surface: var(--surface);
+  --color-warn: var(--warn);
+  --color-warn2: var(--warn2);
+  --color-info: var(--info);
+  --color-err: var(--err);
+  --color-err2: var(--err2);
+
+  --color-chart1: var(--chart1);
+  --color-chart2: var(--chart2);
+  --color-chart3: var(--chart3);
+  --color-chart4: var(--chart4);
+
   --color-paper: var(--paper);
   --color-paper-raised: var(--paper-raised);
   --color-page-bg: var(--page-bg);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ember: var(--ember);
+  --color-ember2: var(--ember2);
   --color-ember-strong: var(--ember-strong);
   --color-forge: var(--forge);
+  --color-forge2: var(--forge2);
   --color-forge-soft: var(--forge-soft);
   --color-brass: var(--brass);
   --color-brass-soft: var(--brass-soft);
@@ -53,6 +131,34 @@
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
+}
+
+/* Type scale: named, reusable pairings of size/line-height/weight/tracking
+   for roles that recur across the app, adopted from the same source. Not
+   var()-backed (no theming indirection needed for literal sizes), so this
+   lives in its own plain @theme block rather than @theme inline above. */
+@theme {
+  --tracking-tight: -0.02em;
+
+  --text-page-title: 1.875rem;
+  --text-page-title--line-height: 1.2;
+  --text-page-title--letter-spacing: -0.02em;
+  --text-page-title--font-weight: 700;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.05em;
+  --text-label--font-weight: 600;
+
+  --text-section-title: 2.25rem;
+  --text-section-title--letter-spacing: -0.02em;
+  --text-section-title--font-weight: 700;
+
+  --text-card-title: 1.125rem;
+  --text-card-title--font-weight: 700;
+
+  --text-subsection-title: 1.5rem;
+  --text-subsection-title--font-weight: 700;
 }
 
 * {
@@ -80,14 +186,66 @@ body {
 
 #tracks,
 #how,
-#difference,
-#employers {
+#featured {
   scroll-margin-top: 88px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* ---------- TVET-derived hero/terminal accents ---------- */
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--pg);
+  animation: termBlink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes termBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(53, 196, 122, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 196, 122, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.5s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-cursor {
+    animation: none;
+  }
+  .fade-up {
+    animation: none;
   }
 }
 
@@ -139,7 +297,7 @@ a {
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 700;
   letter-spacing: -0.01em;
   text-wrap: balance;
@@ -154,15 +312,15 @@ p {
    other section stays on the light tokens defined in :root above. */
 header.site,
 .hero {
-  --paper: #0d2015;
-  --ink: #e7ece3;
-  --ink-soft: #a9b6a9;
-  --ember: #3fbe7c;
-  --ember-strong: #55d390;
-  --forge: #7fa98f;
-  --brass: #8fc7a0;
-  --wire: #5c7768;
-  --line: rgba(231, 236, 227, 0.14);
+  --paper: var(--dg);
+  --ink: #ffffff;
+  --ink-soft: var(--mg);
+  --ember: var(--pg);
+  --ember-strong: var(--mint);
+  --forge: var(--pg);
+  --brass: var(--mint);
+  --wire: var(--mg);
+  --line: rgba(53, 196, 122, 0.1);
   --shadow: rgba(0, 0, 0, 0.5);
   color: var(--ink);
   color-scheme: dark;

@@ -175,7 +175,7 @@ function GradingDashboardContent() {
                     <div className="text-right">
                       <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         sub.status === 'graded'
-                          ? 'bg-forge-soft text-ember'
+                          ? 'bg-forge-soft text-ember2'
                           : 'bg-yellow-100 text-yellow-700'
                       }`}>
                         {sub.status === 'graded' ? `${sub.score}%` : 'Pending'}

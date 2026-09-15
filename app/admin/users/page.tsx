@@ -40,7 +40,7 @@ function UsersContent() {
   const getRoleColor = (role: string) => {
     const colors: Record<string, string> = {
       student: "bg-blue-100 text-blue-700",
-      trainer: "bg-forge-soft text-ember",
+      trainer: "bg-forge-soft text-ember2",
       company: "bg-purple-100 text-purple-700",
       guardian: "bg-orange-100 text-orange-700",
       admin: "bg-red-100 text-red-700",
@@ -50,7 +50,7 @@ function UsersContent() {
 
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
-      active: "bg-forge-soft text-ember border-brass-soft",
+      active: "bg-forge-soft text-ember2 border-brass-soft",
       inactive: "bg-gray-50 text-gray-700 border-gray-200",
       suspended: "bg-red-50 text-red-700 border-red-200",
     };

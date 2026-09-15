@@ -221,7 +221,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
           <div>
             <span className="font-semibold">{session.title}</span> • {session.duration}
           </div>
-          <button className="text-ember-strong hover:text-ember font-medium">Leave Session</button>
+          <button className="text-ember-strong hover:text-ember2 font-medium">Leave Session</button>
         </div>
       </div>
     </div>

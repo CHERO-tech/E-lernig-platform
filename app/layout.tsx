@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { NotificationProvider } from "@/lib/notifications/NotificationProvider";
@@ -9,6 +10,18 @@ import { PeopleProvider } from "@/lib/people/PeopleProvider";
 import { MessagingProvider } from "@/lib/messaging/MessagingProvider";
 import "./globals.css";
 
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Forge — Skills you can put to work",
   description:
@@ -17,7 +30,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <script
           // Runs before paint so the correct theme is applied immediately,

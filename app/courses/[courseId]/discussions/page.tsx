@@ -1,15 +1,15 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { MessageSquare, ThumbsUp, Reply, Flag, Search } from "lucide-react";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { EmptyState } from "@/components/ui";
 
-function DiscussionsContent({ params }: { params: { courseId: string } }) {
+function DiscussionsContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { user } = useAuth();
   const { getCourseById, postDiscussionQuestion } = useCourses();
@@ -19,13 +19,13 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
   const [showNewQuestion, setShowNewQuestion] = useState(false);
   const [newQuestion, setNewQuestion] = useState({ title: "", content: "" });
 
-  const course = getCourseById(params.courseId);
+  const course = getCourseById(courseId);
   if (!course) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-ow flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Course Not Found</h1>
-          <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
+          <h1 className="text-3xl font-bold mb-4 text-dt">Course Not Found</h1>
+          <button onClick={() => router.back()} className="px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110">
             Back
           </button>
         </div>
@@ -49,9 +49,10 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
     return date.toLocaleDateString();
   };
 
-  const filtered = discussions.filter(d => {
-    const matchesSearch = d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         d.content.toLowerCase().includes(searchQuery.toLowerCase());
+  const filtered = discussions.filter((d) => {
+    const matchesSearch =
+      d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      d.content.toLowerCase().includes(searchQuery.toLowerCase());
 
     if (!matchesSearch) return false;
     if (filterTab === "unanswered") return d.answers === 0;
@@ -60,66 +61,59 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+    <div className="min-h-screen bg-ow">
+      <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
             <div className="flex items-center gap-3">
-              <MessageSquare size={32} className="text-ember-strong" />
-              <h1 className="text-3xl font-bold text-gray-900">Course Discussions</h1>
+              <MessageSquare size={32} className="text-pg2" />
+              <h1 className="text-3xl font-bold text-dt">Course Discussions</h1>
             </div>
             <button
               onClick={() => setShowNewQuestion(!showNewQuestion)}
-              className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
+              className="px-6 py-2 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
             >
               Ask Question
             </button>
           </div>
 
-          {/* Search */}
           <div className="relative">
-            <Search size={20} className="absolute left-3 top-3 text-gray-400" />
+            <Search size={20} className="absolute left-3 top-1/2 -translate-y-1/2 text-mg" />
             <input
               type="text"
               placeholder="Search discussions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+              className="w-full pl-10 pr-4 py-2 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
             />
           </div>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8">
-        {/* New Question Form */}
         {showNewQuestion && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-6 mb-8"
-          >
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Ask a Question</h2>
+          <div className="rounded-xl p-6 mb-8 bg-white border border-border">
+            <h2 className="text-xl font-bold mb-4 text-dt">Ask a Question</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Question Title</label>
+                <label className="block text-sm font-medium mb-2 text-dt">Question Title</label>
                 <input
                   type="text"
                   placeholder="What's your question?"
                   value={newQuestion.title}
                   onChange={(e) => setNewQuestion({ ...newQuestion, title: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Details</label>
+                <label className="block text-sm font-medium mb-2 text-dt">Details</label>
                 <textarea
                   placeholder="Provide more details about your question..."
                   rows={4}
                   value={newQuestion.content}
                   onChange={(e) => setNewQuestion({ ...newQuestion, content: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
                 />
               </div>
 
@@ -128,25 +122,30 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                   onClick={() => {
                     if (!newQuestion.title.trim()) {
                       addNotification({
-                        type: 'system',
-                        icon: '⚠️',
-                        title: 'Error',
-                        message: 'Please enter a question title',
+                        type: "system",
+                        icon: "⚠️",
+                        title: "Error",
+                        message: "Please enter a question title",
                       });
                       return;
                     }
-                    const avatar = user?.name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'U';
-                    postDiscussionQuestion(params.courseId, newQuestion.title, newQuestion.content, user?.name || 'Anonymous', avatar);
+                    const avatar =
+                      user?.name
+                        ?.split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase() || "U";
+                    postDiscussionQuestion(courseId, newQuestion.title, newQuestion.content, user?.name || "Anonymous", avatar);
                     addNotification({
-                      type: 'system',
-                      icon: '✅',
-                      title: 'Question Posted',
-                      message: 'Your question has been posted to the discussion board.',
+                      type: "system",
+                      icon: "✅",
+                      title: "Question Posted",
+                      message: "Your question has been posted to the discussion board.",
                     });
                     setShowNewQuestion(false);
                     setNewQuestion({ title: "", content: "" });
                   }}
-                  className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
+                  className="flex-1 px-4 py-2 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
                 >
                   Post Question
                 </button>
@@ -155,79 +154,65 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                     setShowNewQuestion(false);
                     setNewQuestion({ title: "", content: "" });
                   }}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                  className="px-6 py-2 rounded-lg font-medium bg-white border border-border text-dt hover:bg-ow"
                 >
                   Cancel
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
-        {/* Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4 mb-8 border-b border-gray-200"
-        >
-          {["all", "unanswered", "popular"].map((tab) => (
+        <div className="flex gap-4 mb-8 border-b border-border">
+          {(["all", "unanswered", "popular"] as const).map((tab) => (
             <button
               key={tab}
-              onClick={() => setFilterTab(tab as "all" | "unanswered" | "popular")}
+              onClick={() => setFilterTab(tab)}
               className={`px-6 py-4 font-medium transition-colors capitalize ${
-                filterTab === tab
-                  ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                filterTab === tab ? "text-pg2 border-b-2 border-pg" : "text-mg hover:text-dt"
               }`}
             >
-              {tab} ({discussions.filter(d => {
-                if (tab === "unanswered") return d.answers === 0;
-                if (tab === "popular") return d.views > 100;
-                return true;
-              }).length})
+              {tab} (
+              {
+                discussions.filter((d) => {
+                  if (tab === "unanswered") return d.answers === 0;
+                  if (tab === "popular") return d.views > 100;
+                  return true;
+                }).length
+              }
+              )
             </button>
           ))}
-        </motion.div>
+        </div>
 
-        {/* Discussion Threads */}
         <div className="space-y-4">
-          {filtered.map((thread, i) => (
-            <motion.div
-              key={thread.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
-            >
-              {/* Thread Header */}
+          {filtered.map((thread) => (
+            <div key={thread.id} className="rounded-xl p-6 bg-white border border-border hover:shadow-md transition-shadow">
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 bg-pg text-dg">
                   {thread.avatar}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        {thread.answers > 0 && (
-                          <span className="px-2 py-1 bg-forge-soft text-ember text-xs font-semibold rounded">
-                            ✓ Answered
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="font-bold text-gray-900 text-lg mb-1">{thread.title}</h3>
-                      <p className="text-sm text-gray-600">
-                        by {thread.author} • {formatDate(thread.createdAt)}
+                      {thread.answers > 0 && (
+                        <span className="inline-block mb-1 px-2 py-1 text-xs font-semibold rounded bg-pg/10 text-pg2">
+                          ✓ Answered
+                        </span>
+                      )}
+                      <h3 className="font-bold text-lg mb-1 text-dt">{thread.title}</h3>
+                      <p className="text-sm text-mg">
+                        by {thread.author} · {formatDate(thread.createdAt)}
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-700 line-clamp-2">{thread.content}</p>
+                  <p className="line-clamp-2 text-mg">{thread.content}</p>
                 </div>
               </div>
 
-              {/* Thread Stats */}
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <div className="flex items-center gap-6 text-sm text-gray-600">
+              <div className="flex items-center justify-between pt-4 border-t border-border flex-wrap gap-3">
+                <div className="flex items-center gap-6 text-sm text-mg">
                   <span className="flex items-center gap-1">
                     <Reply size={16} /> {thread.answers} answers
                   </span>
@@ -237,69 +222,55 @@ function DiscussionsContent({ params }: { params: { courseId: string } }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <button
-                    className="flex items-center gap-1 text-gray-600 hover:text-ember-strong transition-colors"
-                  >
+                  <button className="flex items-center gap-1 transition-colors text-mg hover:text-pg2">
                     <ThumbsUp size={16} /> {thread.helpful}
                   </button>
-                  <button
-                    className="p-2 text-gray-400 hover:text-red-600 transition-colors"
-                  >
+                  <button className="p-2 transition-colors text-mg hover:text-err">
                     <Flag size={16} />
                   </button>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Empty State */}
         {filtered.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-12 text-center"
-          >
-            <MessageSquare size={48} className="mx-auto text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No discussions found</h2>
-            <p className="text-gray-600 mb-6">
-              {searchQuery ? "Try adjusting your search" : "Be the first to start a discussion!"}
-            </p>
-            {!searchQuery && (
-              <button
-                onClick={() => setShowNewQuestion(true)}
-                className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"
-              >
-                Ask a Question
-              </button>
-            )}
-          </motion.div>
+          <EmptyState
+            title="No discussions found"
+            description={searchQuery ? "Try adjusting your search" : "Be the first to start a discussion!"}
+            action={
+              !searchQuery && (
+                <button
+                  onClick={() => setShowNewQuestion(true)}
+                  className="px-8 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
+                >
+                  Ask a Question
+                </button>
+              )
+            }
+          />
         )}
 
-        {/* Info Box */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6"
-        >
-          <h3 className="font-bold text-blue-900 mb-2">💡 Community Guidelines</h3>
-          <ul className="text-sm text-blue-800 space-y-1">
+        <div className="mt-12 rounded-xl p-6 bg-info/5 border border-info/20">
+          <h3 className="font-bold mb-2 text-dt">💡 Community Guidelines</h3>
+          <ul className="text-sm space-y-1 text-mg">
             <li>• Be respectful and constructive in your responses</li>
             <li>• Search for existing answers before posting duplicate questions</li>
             <li>• Use clear, descriptive titles for your questions</li>
             <li>• Include relevant code snippets and error messages</li>
             <li>• Mark helpful answers as helpful to help other students</li>
           </ul>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default function Discussions({ params }: { params: { courseId: string } }) {
+export default function Discussions({ params }: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = use(params);
   return (
     <ProtectedRoute>
-      <DiscussionsContent params={params} />
+      <DiscussionsContent courseId={courseId} />
     </ProtectedRoute>
   );
 }

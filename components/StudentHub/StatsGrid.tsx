@@ -21,7 +21,7 @@ export default function StatsGrid({ stats }: StatsGridProps) {
       {statItems.map((item, index) => (
         <motion.div
           key={item.key}
-          className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow"
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow"
           whileHover={{ y: -4 }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -31,7 +31,7 @@ export default function StatsGrid({ stats }: StatsGridProps) {
           <p className="text-2xl md:text-3xl font-bold text-ember-strong dark:text-brass mb-1">
             {stats[item.key as keyof StudentStats]}
           </p>
-          <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
             {item.label}
           </p>
         </motion.div>

@@ -113,7 +113,7 @@ function ProfileContent() {
           <h3 className="text-2xl font-bold text-gray-900 mb-6">Skills & Expertise</h3>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill, i) => (
-              <div key={i} className="px-4 py-2 bg-forge-soft text-ember rounded-full text-sm font-medium border border-brass-soft hover:border-ember transition-colors cursor-pointer">
+              <div key={i} className="px-4 py-2 bg-forge-soft text-ember2 rounded-full text-sm font-medium border border-brass-soft hover:border-ember transition-colors cursor-pointer">
                 {skill}
               </div>
             ))}
@@ -129,7 +129,7 @@ function ProfileContent() {
         >
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-2xl font-bold text-gray-900">Completed Courses</h3>
-            <Link href="/student/dashboard" className="text-ember-strong hover:text-ember font-medium">View all</Link>
+            <Link href="/student/dashboard" className="text-ember-strong hover:text-ember2 font-medium">View all</Link>
           </div>
 
           <div className="space-y-4">

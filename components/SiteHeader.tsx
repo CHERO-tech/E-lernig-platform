@@ -12,8 +12,8 @@ import { LogOut, Settings, Zap } from "lucide-react";
 const NAV_LINKS = [
   { href: "#tracks", label: "Tracks" },
   { href: "#how", label: "How it works" },
-  { href: "#difference", label: "Why Forge" },
-  { href: "#employers", label: "For employers" },
+  { href: "#featured", label: "Featured" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function SiteHeader() {
@@ -58,7 +58,7 @@ export default function SiteHeader() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white text-xs font-bold">
                   {user?.avatar}
@@ -76,13 +76,13 @@ export default function SiteHeader() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-50 overflow-hidden"
+                    className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 overflow-hidden"
                   >
-                    <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                    <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">
                         {user?.name}
                       </p>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 capitalize">
+                      <p className="text-xs text-gray-600 dark:text-gray-400 capitalize">
                         {user?.role}
                       </p>
                     </div>
@@ -90,7 +90,7 @@ export default function SiteHeader() {
                     <div className="py-2">
                       <Link
                         href={`/${user?.role}/dashboard`}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         <Zap size={16} />
@@ -98,7 +98,7 @@ export default function SiteHeader() {
                       </Link>
                       <Link
                         href="/settings"
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         onClick={() => setUserMenuOpen(false)}
                       >
                         <Settings size={16} />
@@ -106,7 +106,7 @@ export default function SiteHeader() {
                       </Link>
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors border-t border-slate-200 dark:border-slate-700"
+                        className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors border-t border-gray-200 dark:border-gray-700"
                       >
                         <LogOut size={16} />
                         Logout

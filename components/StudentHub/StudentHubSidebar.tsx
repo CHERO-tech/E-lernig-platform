@@ -27,7 +27,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded-lg bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700"
+          className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -36,12 +36,12 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
       {/* Sidebar */}
       <motion.aside
         className={`
-          fixed lg:static lg:translate-x-0 top-0 left-0 h-screen
-          w-[280px] bg-gradient-to-b from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900
-          border-r border-slate-700 p-6 z-40
+          fixed lg:static lg:trangray-x-0 top-0 left-0 h-screen
+          w-[280px] bg-gradient-to-b from-gray-900 to-gray-800 dark:from-gray-950 dark:to-gray-900
+          border-r border-gray-700 p-6 z-40
           flex flex-col
           transition-transform duration-300 ease-in-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          ${isOpen ? "trangray-x-0" : "-trangray-x-full"}
         `}
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -55,7 +55,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">SkillHub</h1>
-              <p className="text-xs text-slate-400">Learning Platform</p>
+              <p className="text-xs text-gray-400">Learning Platform</p>
             </div>
           </Link>
         </div>
@@ -67,7 +67,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
               key={item.id}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="group flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-slate-700 hover:bg-opacity-50 text-slate-300 hover:text-white"
+              className="group flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:bg-gray-700 hover:bg-opacity-50 text-gray-300 hover:text-white"
             >
               <span className="text-lg group-hover:scale-110 transition-transform">
                 {item.icon}
@@ -78,7 +78,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
         </nav>
 
         {/* User Section */}
-        <div className="border-t border-slate-700 pt-4">
+        <div className="border-t border-gray-700 pt-4">
           <div className="flex items-center gap-3 px-2 py-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white font-bold">
               {studentName
@@ -88,7 +88,7 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">{studentName}</p>
-              <p className="text-xs text-slate-400">Active Learner</p>
+              <p className="text-xs text-gray-400">Active Learner</p>
             </div>
           </div>
         </div>

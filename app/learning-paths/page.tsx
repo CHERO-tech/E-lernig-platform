@@ -83,7 +83,7 @@ export default function LearningPaths() {
                   </div>
                   <Link
                     href="/courses"
-                    className="inline-flex items-center gap-2 text-ember-strong font-semibold hover:text-ember"
+                    className="inline-flex items-center gap-2 text-ember-strong font-semibold hover:text-ember2"
                   >
                     Explore <ArrowRight size={18} />
                   </Link>

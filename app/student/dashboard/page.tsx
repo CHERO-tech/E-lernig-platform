@@ -1,342 +1,163 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
-import Link from "next/link";
-import { LogOut, BookOpen, BarChart3, FileText, Settings, Plus, MoreHorizontal, File, Video, HelpCircle, FileCheck, Zap, Target, TrendingUp, X } from "lucide-react";
-import { useState } from "react";
+import DashboardShell, { DashboardNavItem } from "@/components/DashboardShell";
+import { NotificationBell } from "@/components/NotificationBell";
+import { StatCard, EmptyState } from "@/components/ui";
+import { useCourses } from "@/lib/courses/useCourses";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import {
+  LayoutDashboard,
+  BookOpen,
+  GraduationCap,
+  Award,
+  MessageSquare,
+  Settings,
+  FileCheck2,
+  Award as AwardIcon,
+} from "lucide-react";
+
+const NAV_ITEMS: DashboardNavItem[] = [
+  { href: "/student/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
+  { href: "/my-learning", label: "My Learning", icon: <BookOpen size={18} /> },
+  { href: "/my-grades", label: "My Grades", icon: <GraduationCap size={18} /> },
+  { href: "/certificates", label: "Certificates", icon: <Award size={18} /> },
+  { href: "/messages", label: "Messages", icon: <MessageSquare size={18} /> },
+  { href: "/settings", label: "Settings", icon: <Settings size={18} /> },
+];
 
 function DashboardContent() {
-  const router = useRouter();
-  const { user, logout } = useAuth();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useAuth();
+  const { getCourseById } = useCourses();
+  const { enrollments } = useEnrollment();
 
-  const handleLogout = async () => {
-    await logout();
-    router.push("/");
-  };
+  const enrolled = enrollments
+    .map((enrollment) => {
+      const course = getCourseById(enrollment.courseId);
+      if (!course) return null;
+      const progress = calculateCourseProgress(enrollment, course);
+      const nextLesson = course.sections
+        .flatMap((s) => s.lessons)
+        .find((lesson) => !enrollment.lessonProgress.find((p) => p.lessonId === lesson.id && p.completed));
+      return { enrollment, course, progress, nextLesson };
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null);
+
+  const coursesCompleted = enrolled.filter((e) => e.progress.percentComplete === 100).length;
+  const lessonsCompleted = enrolled.reduce((sum, e) => sum + e.progress.lessonsCompleted, 0);
+  const submissions = enrolled.reduce((sum, e) => sum + e.progress.assignmentsSubmitted, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Mobile Hamburger */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 md:hidden z-40 p-2 hover:bg-gray-100 rounded-lg"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-
-      {/* Sidebar */}
-      <aside className={`w-64 bg-white border-r border-gray-200 p-6 overflow-y-auto fixed h-screen z-30 transition-transform ${
-        sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-      } md:static md:translate-x-0`}>
-        <div className="flex items-center justify-between mb-8">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold bg-gradient-to-r from-ember-strong to-ember bg-clip-text text-transparent">Forge</span>
-            <svg className="w-5 h-5 text-ember-strong" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </Link>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="md:hidden p-2 hover:bg-gray-100 rounded-lg"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        {/* Search */}
-        <div className="mb-8">
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
-          />
-        </div>
-
-        {/* General Section */}
-        <div className="mb-8">
-          <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-4">General</p>
-          <nav className="space-y-2">
-            <Link href="/student/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-forge-soft text-ember-strong font-medium">
-              <BookOpen size={18} />
-              <span>Dashboard</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
-              <BarChart3 size={18} />
-              <span>My Progress</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
-              <FileText size={18} />
-              <span>Assessment</span>
-            </Link>
-            <Link href="#" className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
-              <Settings size={18} />
-              <span>Settings</span>
-            </Link>
-          </nav>
-        </div>
-
-        {/* Learning Assets */}
-        <div className="mb-8">
-          <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-4">Learning Assets</p>
-          <nav className="space-y-1 text-sm">
-            <Link href="#" className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Module</Link>
-            <Link href="#" className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">Community</Link>
-          </nav>
-        </div>
-
-        {/* Active Courses */}
-        <div className="mb-8">
-          <p className="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-4">Active Courses</p>
-          <nav className="space-y-1 text-sm">
-            <div className="px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
-              <p className="font-medium">UI/UX Design</p>
-              <p className="text-xs text-gray-600 mt-1">Advanced Design</p>
-            </div>
-          </nav>
-        </div>
-
-        {/* Add New */}
-        <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-brass-soft rounded-lg text-ember-strong hover:border-ember-strong hover:bg-forge-soft transition-all font-medium">
-          <Plus size={20} />
-          <span>Add New Course</span>
-        </button>
-      </aside>
-
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 md:hidden z-20"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Main Content */}
-      <main className="ml-0 md:ml-64 flex-1 p-4 md:p-8 pt-16 md:pt-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          {/* Header */}
-          <div className="mb-8 flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name?.split(" ")[0]}.</h1>
-              <p className="text-gray-600">You have 2 assignments due this week. Keep up the good work!</p>
-            </div>
-            <button onClick={handleLogout} className="p-3 hover:bg-red-50 rounded-lg transition-colors text-gray-600 hover:text-red-600">
-              <LogOut size={24} />
-            </button>
+    <DashboardShell roleLabel="Student" navItems={NAV_ITEMS}>
+      <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-6xl mx-auto">
+        <div className="flex items-start justify-between mb-8">
+          <div>
+            <p className="font-mono text-xs mb-2 text-pg2">$ whoami — student</p>
+            <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">
+              Welcome back, {user?.name?.split(" ")[0]}.
+            </h1>
+            <p className="text-mg">Continue building your skills.</p>
           </div>
+          <NotificationBell />
+        </div>
 
-          {/* Active Courses */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Active Course</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { 
-                  title: "UI Design", 
-                  desc: "Advanced Design Principles", 
-                  progress: 75,
-                  bgGradient: "from-blue-400 via-purple-400 to-indigo-500"
-                },
-                { 
-                  title: "React is for Beginners", 
-                  desc: "Learn the basics of React", 
-                  progress: 75,
-                  bgGradient: "from-brass via-teal-400 to-cyan-500"
-                },
-                { 
-                  title: "Digital Marketing", 
-                  desc: "Understand SEO and Analytics", 
-                  progress: 0,
-                  bgGradient: "from-orange-400 via-red-400 to-pink-500"
-                },
-              ].map((course, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  {/* Photo Background */}
-                  <div className={`h-40 bg-gradient-to-br ${course.bgGradient} relative overflow-hidden`}>
-                    {/* Decorative pattern overlay */}
-                    <div className="absolute inset-0 opacity-10">
-                      <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="20" cy="20" r="15" fill="white"/>
-                        <circle cx="80" cy="30" r="20" fill="white"/>
-                        <rect x="60" y="60" width="30" height="30" fill="white"/>
-                        <path d="M 10 80 Q 25 70 40 80" stroke="white" strokeWidth="2" fill="none"/>
-                      </svg>
-                    </div>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="font-bold text-gray-900 mb-1 text-lg">{course.title}</h3>
-                        <p className="text-sm text-gray-600">{course.desc}</p>
-                      </div>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <MoreHorizontal size={18} />
-                      </button>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-600">Progress</span>
-                        <span className="font-semibold text-gray-900">{course.progress}%</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-ember-strong h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <StatCard label="Courses Enrolled" value={enrolled.length} />
+          <StatCard label="Courses Completed" value={coursesCompleted} />
+          <StatCard label="Lessons Completed" value={lessonsCompleted} />
+          <StatCard label="Assignments Submitted" value={submissions} />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Continue Learning */}
+          <div className="lg:col-span-2 rounded-xl overflow-hidden bg-white border border-border">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+              <h2 className="font-semibold text-dt">Continue Learning</h2>
+              <Link href="/courses" className="font-mono text-xs text-pg2">
+                View all →
+              </Link>
             </div>
-          </div>
 
-          {/* Learning Insights */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Your Learning Insights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { label: "Learning Streak", value: "7 days", icon: Zap, color: "bg-orange-100 text-orange-600", desc: "Keep it going!" },
-                { label: "Study Time", value: "24.5 hours", icon: BarChart3, color: "bg-blue-100 text-blue-600", desc: "This month" },
-                { label: "Courses Completed", value: "12", icon: Target, color: "bg-forge-soft text-ember-strong", desc: "Great progress" },
-              ].map((insight, i) => {
-                const Icon = insight.icon;
-                return (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="bg-white rounded-lg border border-gray-200 p-6"
+            {enrolled.length === 0 ? (
+              <EmptyState
+                title="No courses yet"
+                description="Browse the catalog and enroll in a track to get started."
+                action={
+                  <Link
+                    href="/courses"
+                    className="inline-flex px-4 py-2 rounded-lg font-semibold text-sm bg-pg text-dg hover:brightness-110"
                   >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-gray-600 text-sm font-medium">{insight.label}</p>
-                        <p className="text-3xl font-bold text-gray-900 mt-2">{insight.value}</p>
-                        <p className="text-xs text-gray-500 mt-2">{insight.desc}</p>
-                      </div>
-                      <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${insight.color}`}>
-                        <Icon size={24} />
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Recommended For You */}
-          <div className="mb-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Recommended For You</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                {
-                  title: "Advanced CSS Techniques",
-                  instructor: "Emma Wilson",
-                  level: "Intermediate",
-                  rating: 4.9,
-                  reason: "Based on your Web Development interest",
-                  bgGradient: "from-cyan-400 via-blue-400 to-indigo-500",
-                },
-                {
-                  title: "Mobile App Design",
-                  instructor: "David Chen",
-                  level: "Intermediate",
-                  rating: 4.8,
-                  reason: "Popular with designers like you",
-                  bgGradient: "from-pink-400 via-purple-400 to-blue-500",
-                },
-                {
-                  title: "TypeScript Mastery",
-                  instructor: "James Smith",
-                  level: "Advanced",
-                  rating: 4.7,
-                  reason: "Next step in your journey",
-                  bgGradient: "from-amber-400 via-orange-400 to-red-500",
-                },
-              ].map((course, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
-                >
-                  <div className={`h-32 bg-gradient-to-br ${course.bgGradient}`}></div>
-                  <div className="p-6">
-                    <h3 className="font-bold text-gray-900 mb-1">{course.title}</h3>
-                    <p className="text-sm text-gray-600 mb-3">by {course.instructor}</p>
-                    <div className="flex items-center justify-between mb-3 text-sm">
-                      <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded">{course.level}</span>
-                      <div className="flex items-center gap-1">
-                        <span>⭐ {course.rating}</span>
+                    Browse Courses
+                  </Link>
+                }
+              />
+            ) : (
+              <div className="divide-y divide-border">
+                {enrolled.map(({ course, progress, nextLesson }) => (
+                  <Link
+                    key={course.id}
+                    href={`/courses/${course.id}/learn`}
+                    className="block hover:bg-ow transition-colors"
+                  >
+                    <div className="p-5">
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 bg-pg/10 text-pg2">
+                          {course.title[0]}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1 gap-2">
+                            <p className="font-semibold text-sm text-dt truncate">{course.title}</p>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="#35C47A">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                              </svg>
+                              <span className="font-mono text-xs text-pg2">{course.rating}</span>
+                            </div>
+                          </div>
+                          <p className="text-xs mb-3 text-mg">by {course.instructor}</p>
+                          <p className="font-mono text-xs mb-3 text-mg">
+                            {nextLesson ? `Next: ${nextLesson.title}` : "All lessons complete"} ·{" "}
+                            {progress.lessonsCompleted}/{progress.lessonsTotal} lessons
+                          </p>
+                          <div className="h-1.5 rounded-full mb-2 bg-border">
+                            <div
+                              className="h-full rounded-full transition-all bg-pg"
+                              style={{ width: `${progress.percentComplete}%` }}
+                            />
+                          </div>
+                          <p className="font-mono text-xs text-pg2">{progress.percentComplete}% complete</p>
+                        </div>
                       </div>
                     </div>
-                    <p className="text-xs text-ember-strong font-medium mb-4">{course.reason}</p>
-                    <button className="w-full px-3 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors text-sm">
-                      Explore
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Main Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Schedule */}
-            <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Schedule</h2>
-              <div className="space-y-4 border-t border-gray-200 pt-4">
-                <div className="p-4 bg-purple-50 rounded-lg">
-                  <p className="text-xs font-semibold text-purple-700 uppercase">UI DESIGN</p>
-                  <p className="font-medium text-gray-900 mt-1">3D Animation Spline Workshop</p>
-                  <p className="text-xs text-gray-600 mt-1">Today, 02:00 PM - 04:00 PM</p>
-                </div>
-                <div className="p-4 bg-forge-soft rounded-lg">
-                  <p className="text-xs font-semibold text-ember uppercase">DEVELOPMENT</p>
-                  <p className="font-medium text-gray-900 mt-1">Accessibility with Tools Framer</p>
-                  <p className="text-xs text-gray-600 mt-1">Tomorrow, 01:00 PM - 03:00 PM</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Recently Accessed */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Recently Accessed</h2>
-              <div className="space-y-1">
-                {[
-                  { Icon: File, title: "Typography Cheatsheet.pdf", desc: "Advanced Design Principles" },
-                  { Icon: Video, title: "Introduction to Hooks", desc: "React is for Beginners" },
-                  { Icon: HelpCircle, title: "SEO Fundamentals Quiz", desc: "Digital Marketing 101" },
-                  { Icon: FileCheck, title: "Project Guidelines", desc: "Advanced Design Principles" },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors items-center">
-                    <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-600 flex-shrink-0">
-                      <item.Icon size={20} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 text-sm">{item.title}</p>
-                      <p className="text-xs text-gray-600">{item.desc}</p>
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
-            </div>
+            )}
           </div>
-        </motion.div>
-      </main>
-    </div>
+
+          {/* Quick links */}
+          <div className="space-y-3">
+            {[
+              { label: "My Grades", icon: <FileCheck2 size={22} className="text-pg2" />, href: "/my-grades" },
+              { label: "Certificates", icon: <AwardIcon size={22} className="text-pg2" />, href: "/certificates" },
+              { label: "Messages", icon: <MessageSquare size={22} className="text-pg2" />, href: "/messages" },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="flex items-center gap-3 p-4 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg bg-white border border-border"
+              >
+                {item.icon}
+                <p className="text-sm font-semibold text-dt">{item.label}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </DashboardShell>
   );
 }
 

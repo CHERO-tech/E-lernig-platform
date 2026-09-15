@@ -123,7 +123,7 @@ function MyGradesContent() {
                       <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         grade.type === 'quiz'
                           ? 'bg-blue-100 text-blue-700'
-                          : 'bg-forge-soft text-ember'
+                          : 'bg-forge-soft text-ember2'
                       }`}>
                         {grade.type === 'quiz' ? 'Quiz' : 'Assignment'}
                       </div>

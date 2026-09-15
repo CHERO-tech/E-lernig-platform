@@ -13,9 +13,9 @@ const elementOptions = {
   style: {
     base: {
       fontSize: "16px",
-      color: "#1f2937",
+      color: "#102019",
       "::placeholder": {
-        color: "#d1d5db",
+        color: "#718078",
       },
     },
     invalid: {
@@ -74,13 +74,13 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-800 text-sm">{error}</p>
+        <div className="p-4 bg-err/5 border border-err/20 rounded-lg">
+          <p className="text-err text-sm">{error}</p>
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium mb-2 text-dt">
           Name on Card
         </label>
         <input
@@ -88,33 +88,33 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
           value={cardholderName}
           onChange={(e) => setCardholderName(e.target.value)}
           placeholder="John Doe"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ember focus:border-transparent outline-none transition"
+          className="w-full px-4 py-3 rounded-lg outline-none transition bg-ow border border-border text-dt focus:border-pg"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label className="block text-sm font-medium mb-2 text-dt">
           Card Number
         </label>
-        <div className="border border-gray-300 rounded-lg p-4">
+        <div className="rounded-lg p-4 bg-ow border border-border">
           <CardNumberElement options={elementOptions} />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
+          <label className="block text-sm font-medium mb-2 text-dt">
             Expiration Date
           </label>
-          <div className="border border-gray-300 rounded-lg p-4">
+          <div className="rounded-lg p-4 bg-ow border border-border">
             <CardExpiryElement options={elementOptions} />
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
+          <label className="block text-sm font-medium mb-2 text-dt">
             CVC
           </label>
-          <div className="border border-gray-300 rounded-lg p-4">
+          <div className="rounded-lg p-4 bg-ow border border-border">
             <CardCvcElement options={elementOptions} />
           </div>
         </div>
@@ -123,7 +123,7 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
       <button
         type="submit"
         disabled={!stripe || !elements || loading}
-        className="w-full px-6 py-3 bg-ember text-white rounded-lg font-semibold hover:bg-ember transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full px-6 py-3 bg-pg text-dg rounded-lg font-semibold hover:brightness-110 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {loading ? (
           <>
@@ -135,7 +135,7 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
         )}
       </button>
 
-      <p className="text-xs text-gray-600 text-center">
+      <p className="text-xs text-center text-mg">
         This is a test payment using Stripe's test card `4242 4242 4242 4242`. Use any future date and any CVC.
       </p>
     </form>

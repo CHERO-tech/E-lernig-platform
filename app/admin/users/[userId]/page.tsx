@@ -77,7 +77,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                       <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 capitalize">
                         {user.role}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-forge-soft text-ember capitalize">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium bg-forge-soft text-ember2 capitalize">
                         {user.status}
                       </span>
                     </div>

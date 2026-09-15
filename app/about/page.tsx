@@ -53,7 +53,7 @@ export default function About() {
               <p className="text-lg text-gray-600 mb-6">
                 By combining hands-on projects, expert mentorship, and real-world feedback, we're creating a new generation of skilled professionals ready to make an impact.
               </p>
-              <Link href="/courses" className="inline-flex items-center gap-2 text-ember-strong hover:text-ember font-semibold">
+              <Link href="/courses" className="inline-flex items-center gap-2 text-ember-strong hover:text-ember2 font-semibold">
                 Explore Courses <ArrowRight size={20} />
               </Link>
             </div>

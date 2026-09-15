@@ -12,7 +12,7 @@ interface CourseCardProps {
 export default function CourseCard({ course }: CourseCardProps) {
   return (
     <motion.div
-      className="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-shadow"
+      className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-shadow"
       whileHover={{ y: -8 }}
       transition={{ duration: 0.3 }}
     >
@@ -23,34 +23,34 @@ export default function CourseCard({ course }: CourseCardProps) {
 
       {/* Course Content */}
       <div className="p-6">
-        <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2 line-clamp-2">
+        <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
           {course.title}
         </h3>
 
         {/* Meta Info */}
-        <div className="flex items-center gap-2 mb-4 text-xs text-slate-600 dark:text-slate-400">
+        <div className="flex items-center gap-2 mb-4 text-xs text-gray-600 dark:text-gray-400">
           <span>{course.duration}</span>
           <span>•</span>
-          <span className="inline-block px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded text-ember-strong dark:text-brass font-medium">
+          <span className="inline-block px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-ember-strong dark:text-brass font-medium">
             {course.level}
           </span>
         </div>
 
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-          Instructor: <span className="font-medium text-slate-900 dark:text-white">{course.instructor}</span>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          Instructor: <span className="font-medium text-gray-900 dark:text-white">{course.instructor}</span>
         </p>
 
         {/* Progress Bar */}
         <div className="mb-2">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-400">
+            <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
               Progress
             </span>
             <span className="text-sm font-bold text-ember-strong dark:text-brass">
               {course.progress}%
             </span>
           </div>
-          <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+          <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-ember to-brass"
               initial={{ width: 0 }}
@@ -62,15 +62,15 @@ export default function CourseCard({ course }: CourseCardProps) {
 
         {/* Next Lesson */}
         {course.nextLesson && (
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
-            Next: <span className="font-medium text-slate-900 dark:text-white">{course.nextLesson}</span>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+            Next: <span className="font-medium text-gray-900 dark:text-white">{course.nextLesson}</span>
           </p>
         )}
 
         {/* CTA Button */}
         <button className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-forge-soft dark:bg-ember-strong/20 text-ember-strong dark:text-brass rounded-lg font-medium hover:bg-forge-soft dark:hover:bg-ember-strong/40 transition-colors group/btn">
           Continue Course
-          <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+          <ChevronRight size={16} className="group-hover/btn:trangray-x-1 transition-transform" />
         </button>
       </div>
     </motion.div>

@@ -190,7 +190,7 @@ export default function Help() {
               <p className="text-gray-600 mb-4">No results found for "{searchTerm}"</p>
               <button
                 onClick={() => setSearchTerm("")}
-                className="text-ember-strong hover:text-ember font-medium"
+                className="text-ember-strong hover:text-ember2 font-medium"
               >
                 Clear search
               </button>

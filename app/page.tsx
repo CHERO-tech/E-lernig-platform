@@ -2,9 +2,9 @@ import SiteHeader from "@/components/SiteHeader";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import TracksSection from "@/components/TracksSection";
+import FeaturedCoursesSection from "@/components/FeaturedCoursesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import DifferenceSection from "@/components/DifferenceSection";
-import TestimonialSection from "@/components/TestimonialSection";
+import PricingSection from "@/components/PricingSection";
 import CTABand from "@/components/CTABand";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -16,9 +16,9 @@ export default function Home() {
         <HeroSection />
         <StatsSection />
         <TracksSection />
+        <FeaturedCoursesSection />
         <HowItWorksSection />
-        <DifferenceSection />
-        <TestimonialSection />
+        <PricingSection />
         <CTABand />
       </main>
       <SiteFooter />

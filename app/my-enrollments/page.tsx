@@ -119,7 +119,7 @@ function MyEnrollmentsContent() {
                 {/* Meta Info */}
                 <div className="flex items-center justify-between text-xs text-gray-600 mb-4 pb-4 border-b border-gray-200">
                   <span>Enrolled: {course.enrolled}</span>
-                  {course.status === "completed" && <span className="px-2 py-1 bg-forge-soft text-ember rounded font-medium">Completed</span>}
+                  {course.status === "completed" && <span className="px-2 py-1 bg-forge-soft text-ember2 rounded font-medium">Completed</span>}
                 </div>
 
                 {/* Actions */}

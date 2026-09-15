@@ -85,7 +85,7 @@ function ModerationContent() {
     const colors: Record<string, string> = {
       High: "bg-red-100 text-red-700",
       Medium: "bg-yellow-100 text-yellow-700",
-      Low: "bg-forge-soft text-ember",
+      Low: "bg-forge-soft text-ember2",
     };
     return colors[risk] || colors.Low;
   };
@@ -94,7 +94,7 @@ function ModerationContent() {
     const colors: Record<string, string> = {
       pending: "bg-yellow-50 text-yellow-700 border-yellow-200",
       reviewing: "bg-blue-50 text-blue-700 border-blue-200",
-      resolved: "bg-forge-soft text-ember border-brass-soft",
+      resolved: "bg-forge-soft text-ember2 border-brass-soft",
     };
     return colors[status] || colors.pending;
   };

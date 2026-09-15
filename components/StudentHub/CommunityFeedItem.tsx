@@ -20,7 +20,7 @@ export default function CommunityFeedItem({ post }: CommunityFeedItemProps) {
 
   return (
     <motion.div
-      className="pb-6 border-b border-slate-200 dark:border-slate-700 last:border-b-0 last:pb-0"
+      className="pb-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0 last:pb-0"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
@@ -37,23 +37,23 @@ export default function CommunityFeedItem({ post }: CommunityFeedItemProps) {
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <p className="font-semibold text-slate-900 dark:text-white text-sm">
+            <p className="font-semibold text-gray-900 dark:text-white text-sm">
               {post.userName}
             </p>
-            <span className="text-xs text-slate-500 dark:text-slate-400">
+            <span className="text-xs text-gray-500 dark:text-gray-400">
               {post.timeAgo}
             </span>
           </div>
 
           {/* Action Text */}
-          <p className="text-sm text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 leading-relaxed">
             {post.action}
           </p>
 
           {/* Like Button */}
           <motion.button
             onClick={handleLike}
-            className="mt-3 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-ember-strong dark:hover:text-brass transition-colors"
+            className="mt-3 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-ember-strong dark:hover:text-brass transition-colors"
             whileTap={{ scale: 0.95 }}
           >
             <motion.div

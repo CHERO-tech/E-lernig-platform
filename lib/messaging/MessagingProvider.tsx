@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useEffect, useState } from 'react';
-import { Conversation, Message, MessagingContextType, UserMessages } from './types';
+import { Conversation, MessagingContextType, UserMessages } from './types';
 import { useAuth } from '@/lib/auth/useAuth';
 
 const STORAGE_KEY_PREFIX = 'forge_messages_';

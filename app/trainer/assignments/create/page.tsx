@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Plus, Trash2, Calendar } from "lucide-react";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useNotifications } from "@/lib/notifications/useNotifications";

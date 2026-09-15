@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } else {
             localStorage.removeItem(SESSION_STORAGE_KEY);
           }
-        } catch (error) {
+        } catch {
           localStorage.removeItem(SESSION_STORAGE_KEY);
         }
       }

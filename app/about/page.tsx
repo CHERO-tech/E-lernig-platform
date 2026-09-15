@@ -53,7 +53,7 @@ export default function About() {
                 Forge exists to democratize access to world-class education and career opportunities. We believe that talent and ambition, not background or geography, should determine success.
               </p>
               <p className="text-lg text-gray-600 mb-6">
-                By combining hands-on projects, expert mentorship, and real-world feedback, we're creating a new generation of skilled professionals ready to make an impact.
+                By combining hands-on projects, expert mentorship, and real-world feedback, we&apos;re creating a new generation of skilled professionals ready to make an impact.
               </p>
               <Link href="/courses" className="inline-flex items-center gap-2 text-ember-strong hover:text-ember2 font-semibold">
                 Explore Courses <ArrowRight size={20} />
@@ -153,7 +153,7 @@ export default function About() {
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
           <p className="text-gray-600 text-lg mb-8 max-w-3xl mx-auto">
-            Over the past 3 years, we've helped thousands of learners transition into fulfilling tech careers, with an average salary increase of 45% after completing a Forge course. We're proud to have partnered with 500+ companies to create job opportunities for our graduates.
+            Over the past 3 years, we&apos;ve helped thousands of learners transition into fulfilling tech careers, with an average salary increase of 45% after completing a Forge course. We&apos;re proud to have partnered with 500+ companies to create job opportunities for our graduates.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <button

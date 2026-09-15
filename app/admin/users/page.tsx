@@ -3,15 +3,13 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { useAuth } from "@/lib/auth/useAuth";
 import { usePeople } from "@/lib/people/usePeople";
 import Link from "next/link";
-import { ArrowLeft, Search, MoreHorizontal, Shield, Trash2, Lock, Mail } from "lucide-react";
+import { ArrowLeft, Search, Shield, Trash2, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 
 function UsersContent() {
   const router = useRouter();
-  const { user } = useAuth();
   const { people, updatePersonStatus, deletePerson } = usePeople();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("all");

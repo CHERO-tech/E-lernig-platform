@@ -25,7 +25,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Introduction</h2>
               <p className="text-gray-600 mb-4">
-                Forge ("Company," "we," "us," or "our") operates the Platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+                Forge (&quot;Company,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) operates the Platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
               </p>
             </section>
 
@@ -96,7 +96,7 @@ export default function Privacy() {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Cookies</h2>
               <p className="text-gray-600 mb-4">
-                Our Platform uses cookies to enhance your experience. You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browsers are a bit different, look at your browser's Help Menu to learn the correct way to modify your cookies.
+                Our Platform uses cookies to enhance your experience. You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browsers are a bit different, look at your browser&apos;s Help Menu to learn the correct way to modify your cookies.
               </p>
             </section>
 

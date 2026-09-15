@@ -5,7 +5,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
-import { BarChart3, TrendingUp, Users, DollarSign, Clock, Star } from "lucide-react";
+import { BarChart3, TrendingUp, Users, DollarSign, Star } from "lucide-react";
 import { useState } from "react";
 
 function AnalyticsContent() {

@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useTheme } from "@/lib/theme/ThemeProvider";
-import Link from "next/link";
-import { ArrowLeft, Bell, Lock, Palette, LogOut, User, Mail, Phone, MapPin, Save, ShieldCheck, AlertTriangle } from "lucide-react";
+import { ArrowLeft, Bell, Lock, Palette, LogOut, User, Phone, MapPin, Save, ShieldCheck, AlertTriangle } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Preferences {
@@ -468,7 +467,7 @@ function SettingsContent() {
 
                     <div className="p-4 border border-gray-200 rounded-lg">
                       <h3 className="font-semibold text-gray-900 mb-2">Active Sessions</h3>
-                      <p className="text-sm text-gray-600 mb-4">Sign out everywhere you're currently logged in</p>
+                      <p className="text-sm text-gray-600 mb-4">Sign out everywhere you&apos;re currently logged in</p>
                       <button
                         onClick={handleLogout}
                         className="px-4 py-2 border border-red-300 text-red-600 rounded-lg font-medium hover:bg-red-50 transition-colors"

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { copyShareLink } from "@/lib/utils/share";
 
-function LiveSessionContent({ params }: { params: { sessionId: string } }) {
+function LiveSessionContent() {
   const router = useRouter();
   const { addNotification } = useNotifications();
 
@@ -269,10 +269,10 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
   );
 }
 
-export default function LiveSession({ params }: { params: { sessionId: string } }) {
+export default function LiveSession() {
   return (
     <ProtectedRoute>
-      <LiveSessionContent params={params} />
+      <LiveSessionContent />
     </ProtectedRoute>
   );
 }

@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Clock, CheckCircle2, Zap, Award } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, CheckCircle2, Award } from "lucide-react";
 import { useState } from "react";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useCourses } from "@/lib/courses/useCourses";
@@ -15,7 +14,6 @@ import { copyShareLink } from "@/lib/utils/share";
 
 function MyLearningContent() {
   const router = useRouter();
-  const { user } = useAuth();
   const { enrollments } = useEnrollment();
   const { getCourseById } = useCourses();
   const { addNotification } = useNotifications();

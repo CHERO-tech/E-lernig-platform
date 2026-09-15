@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronDown, Search, MessageCircle, Mail, Phone } from "lucide-react";
 import { useState } from "react";
@@ -189,7 +188,7 @@ export default function Help() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">No results found for "{searchTerm}"</p>
+              <p className="text-gray-600 mb-4">No results found for &quot;{searchTerm}&quot;</p>
               <button
                 onClick={() => setSearchTerm("")}
                 className="text-ember-strong hover:text-ember2 font-medium"
@@ -207,7 +206,7 @@ export default function Help() {
           transition={{ duration: 0.4 }}
           className="bg-forge-soft border border-brass-soft rounded-lg p-8 text-center"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Didn't find what you're looking for?</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Didn&apos;t find what you&apos;re looking for?</h2>
           <p className="text-gray-600 mb-8">Our support team is here to help. Reach out to us through any of these channels:</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

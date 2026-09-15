@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { formatRelativeTime } from "@/lib/notifications/formatRelativeTime";
 import { Bell, Check, CheckCheck, Trash2, Filter } from "lucide-react";
 import { useState } from "react";
 
 function NotificationsContent() {
-  const { user } = useAuth();
   const [filter, setFilter] = useState("all");
   const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
 
@@ -19,17 +17,6 @@ function NotificationsContent() {
     if (filter === "archived") return false;
     return true;
   });
-
-  const getTypeColor = (type: string) => {
-    const colors: Record<string, { bg: string; text: string }> = {
-      course: { bg: "bg-blue-50", text: "text-blue-600" },
-      achievement: { bg: "bg-yellow-50", text: "text-yellow-600" },
-      system: { bg: "bg-gray-50", text: "text-gray-600" },
-      social: { bg: "bg-purple-50", text: "text-purple-600" },
-      payment: { bg: "bg-forge-soft", text: "text-ember-strong" },
-    };
-    return colors[type] || colors.system;
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -151,14 +138,14 @@ function NotificationsContent() {
           >
             <Bell size={48} className="mx-auto text-gray-300 mb-4" />
             <p className="text-gray-600 mb-4 text-lg">No notifications yet</p>
-            <p className="text-gray-500">When something important happens, you'll see it here</p>
+            <p className="text-gray-500">When something important happens, you&apos;ll see it here</p>
           </motion.div>
         )}
 
         {/* Empty State Message */}
         {unreadCount === 0 && notifications.length > 0 && filter === "unread" && (
           <div className="text-center py-12">
-            <p className="text-gray-600">You're all caught up! 🎉</p>
+            <p className="text-gray-600">You&apos;re all caught up! 🎉</p>
           </div>
         )}
       </div>

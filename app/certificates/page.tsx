@@ -126,7 +126,7 @@ function CertificatesContent() {
             <Award size={32} />
             <h1 className="text-4xl font-bold">My Certificates</h1>
           </div>
-          <p className="text-forge-soft">You've earned {certificates.length} certificates</p>
+          <p className="text-forge-soft">You&apos;ve earned {certificates.length} certificates</p>
         </div>
       </div>
 

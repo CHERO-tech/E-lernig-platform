@@ -137,7 +137,7 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
       </button>
 
       <p className="text-xs text-center text-mg">
-        This is a test payment using Stripe's test card `4242 4242 4242 4242`. Use any future date and any CVC.
+        This is a test payment using Stripe&apos;s test card `4242 4242 4242 4242`. Use any future date and any CVC.
       </p>
     </form>
   );

@@ -8,6 +8,7 @@ import { usePeople } from "@/lib/people/usePeople";
 import { useCourses } from "@/lib/courses/useCourses";
 import { listEnrolledUserIds, getKnownUsers } from "@/lib/shared/crossAccountStore";
 import { calculateUserPoints } from "@/lib/points/calculatePoints";
+import { Enrollment } from "@/lib/enrollment/types";
 
 export default function Leaderboards() {
   const [activeTab, setActiveTab] = useState<"students" | "trainers" | "skills">("students");
@@ -24,12 +25,12 @@ export default function Leaderboards() {
     realUserIds.forEach(userId => {
       const known = knownUsers.find(k => k.id === userId);
       if (known && known.role === 'student') {
-        const enrollments = Object.entries(localStorage)
+        const enrollments: Enrollment[] = Object.entries(localStorage)
           .filter(([key]) => key === `forge_enrollments_${userId}`)
           .map(([, val]) => {
             try {
               const parsed = JSON.parse(val);
-              return parsed.enrollments || [];
+              return (parsed.enrollments || []) as Enrollment[];
             } catch {
               return [];
             }
@@ -40,7 +41,7 @@ export default function Leaderboards() {
           name: known.name,
           avatar: known.avatar || '?',
           courses: enrollments.length,
-          certificates: enrollments.filter((e: any) => e.quizAttempts?.some((q: any) => q.score >= 70)).length,
+          certificates: enrollments.filter((e) => e.quizAttempts?.some((q) => q.score >= 70)).length,
           streak: Math.floor(Math.random() * 45) + 5,
           points,
           isCurrentUser: user?.id === userId,

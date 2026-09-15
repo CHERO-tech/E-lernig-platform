@@ -10,6 +10,17 @@ import { listEnrolledUserIds, getKnownUsers } from "@/lib/shared/crossAccountSto
 import { calculateUserPoints } from "@/lib/points/calculatePoints";
 import { Enrollment } from "@/lib/enrollment/types";
 
+// Deterministic placeholder stats (no backend yet): derives a stable
+// pseudo-random value from an id so it doesn't reshuffle on every render.
+function seededRandom(seed: string): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  return (Math.abs(hash) % 1000) / 1000;
+}
+
 export default function Leaderboards() {
   const [activeTab, setActiveTab] = useState<"students" | "trainers" | "skills">("students");
   const { user } = useAuth();
@@ -42,7 +53,7 @@ export default function Leaderboards() {
           avatar: known.avatar || '?',
           courses: enrollments.length,
           certificates: enrollments.filter((e) => e.quizAttempts?.some((q) => q.score >= 70)).length,
-          streak: Math.floor(Math.random() * 45) + 5,
+          streak: Math.floor(seededRandom(`${userId}-streak`) * 45) + 5,
           points,
           isCurrentUser: user?.id === userId,
         });
@@ -55,8 +66,8 @@ export default function Leaderboards() {
       avatar: p.avatar,
       courses: p.courseCount,
       certificates: p.certificates,
-      streak: Math.floor(Math.random() * 45) + 5,
-      points: Math.floor(Math.random() * 2000) + 500,
+      streak: Math.floor(seededRandom(`${p.id}-streak`) * 45) + 5,
+      points: Math.floor(seededRandom(`${p.id}-points`) * 2000) + 500,
       isCurrentUser: false,
     })));
 
@@ -78,7 +89,7 @@ export default function Leaderboards() {
           avatar: p.avatar,
           students: instructorCourses.reduce((sum, c) => sum + c.students, 0),
           courses: instructorCourses.length,
-          rating: 4.5 + Math.random() * 0.4,
+          rating: 4.5 + seededRandom(`${p.id}-rating`) * 0.4,
           revenue: `$${(instructorCourses.reduce((sum, c) => sum + (c.price * c.students), 0) / 100).toFixed(0)}`,
         };
       })

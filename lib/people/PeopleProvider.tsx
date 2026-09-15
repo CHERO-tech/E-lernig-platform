@@ -191,10 +191,13 @@ export const PeopleContext = createContext<PeopleContextType | undefined>(undefi
 export function PeopleProvider({ children }: { children: React.ReactNode }) {
   const [people, setPeople] = useState<Person[]>([]);
 
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available (see app/layout.tsx).
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setPeople(JSON.parse(stored));
       } catch {
         localStorage.removeItem(STORAGE_KEY);

@@ -63,6 +63,9 @@ function SettingsContent() {
     if (!stored) return;
     try {
       const saved = JSON.parse(stored);
+      // SSR-safe hydration: state starts at the default and is patched here
+      // after mount, once localStorage is available.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved.preferences) setPreferences((prev) => ({ ...prev, ...saved.preferences }));
     } catch {
       // ignore malformed local storage data

@@ -67,14 +67,18 @@ const DEFAULT_NOTIFICATIONS: Notification[] = [
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { user, loading: authLoading } = useAuth();
+  const userId = user?.id;
 
-  // Initialize notifications from localStorage
+  // Initialize notifications from localStorage.
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available (see app/layout.tsx).
   useEffect(() => {
-    if (!authLoading && user?.id) {
-      const storageKey = `${STORAGE_KEY_PREFIX}${user.id}`;
+    if (!authLoading && userId) {
+      const storageKey = `${STORAGE_KEY_PREFIX}${userId}`;
       const stored = localStorage.getItem(storageKey);
       if (stored) {
         try {
+          // eslint-disable-next-line react-hooks/set-state-in-effect
           setNotifications(JSON.parse(stored));
         } catch {
           localStorage.removeItem(storageKey);
@@ -84,15 +88,15 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
         setNotifications(DEFAULT_NOTIFICATIONS);
       }
     }
-  }, [user?.id, authLoading]);
+  }, [userId, authLoading]);
 
   // Persist notifications whenever they change
   const persistNotifications = useCallback((notifs: Notification[]) => {
-    if (user?.id) {
-      const storageKey = `${STORAGE_KEY_PREFIX}${user.id}`;
+    if (userId) {
+      const storageKey = `${STORAGE_KEY_PREFIX}${userId}`;
       localStorage.setItem(storageKey, JSON.stringify(notifs));
     }
-  }, [user?.id]);
+  }, [userId]);
 
   const markAsRead = useCallback((id: string) => {
     setNotifications(prev => {
@@ -134,11 +138,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
   const clearAll = useCallback(() => {
     setNotifications([]);
-    if (user?.id) {
-      const storageKey = `${STORAGE_KEY_PREFIX}${user.id}`;
+    if (userId) {
+      const storageKey = `${STORAGE_KEY_PREFIX}${userId}`;
       localStorage.removeItem(storageKey);
     }
-  }, [user?.id]);
+  }, [userId]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 

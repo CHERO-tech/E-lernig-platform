@@ -129,6 +129,7 @@ export const mockAuthService = {
     return entry.user;
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept to match the AuthService interface
   async requestPasswordReset(_email: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 800));
     // Mock: always resolves so the UI can show a "check your email" state,

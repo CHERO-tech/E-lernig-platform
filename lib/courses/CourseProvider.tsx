@@ -386,10 +386,13 @@ const DEFAULT_COURSES: Course[] = [
 export function CourseProvider({ children }: { children: React.ReactNode }) {
   const [courses, setCourses] = useState<Course[]>([]);
 
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available (see app/layout.tsx).
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setCourses(JSON.parse(stored));
       } catch {
         localStorage.removeItem(STORAGE_KEY);

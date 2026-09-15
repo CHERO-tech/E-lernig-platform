@@ -16,6 +16,7 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
   const [files, setFiles] = useState<string[]>([]);
   const [submissionText, setSubmissionText] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submissionId, setSubmissionId] = useState("");
 
   const course = getCourseById(courseId);
   const assignment = course?.assignments.find((a) => a.id === assignmentId);
@@ -73,6 +74,7 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
       title: "Assignment Submitted",
       message: "Your assignment has been submitted successfully.",
     });
+    setSubmissionId(Math.random().toString().slice(2, 8));
     setIsSubmitted(true);
   };
 
@@ -185,7 +187,7 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
             <h2 className="text-3xl font-bold mb-2 text-dt">Submitted Successfully!</h2>
             <p className="mb-2 text-mg">Your assignment has been submitted and is now pending review.</p>
             <p className="text-sm mb-8 text-mg">
-              Submission ID: #SUB-2025-{Math.random().toString().slice(2, 8)}
+              Submission ID: #SUB-2025-{submissionId}
             </p>
 
             <div className="rounded-lg p-6 mb-8 text-left bg-ow">

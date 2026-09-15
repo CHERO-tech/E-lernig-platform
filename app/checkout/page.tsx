@@ -57,6 +57,8 @@ function CheckoutContent() {
 
   const handlePaymentSuccess = (paymentMethod: { card?: { brand: string; last4: string } }) => {
     const order = {
+      // Runs only inside this click-triggered handler, never during render.
+      // eslint-disable-next-line react-hooks/purity
       orderNumber: `#ORD-${Date.now().toString()}`,
       orderDate: new Date().toLocaleDateString(),
       items,

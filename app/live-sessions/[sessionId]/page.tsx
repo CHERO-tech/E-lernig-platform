@@ -5,9 +5,37 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Send, Users, MessageCircle, Share2, Download, Play } from "lucide-react";
 import { useState } from "react";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { copyShareLink } from "@/lib/utils/share";
 
 function LiveSessionContent({ params }: { params: { sessionId: string } }) {
   const router = useRouter();
+  const { addNotification } = useNotifications();
+
+  const handleShareSession = async () => {
+    const copied = await copyShareLink();
+    addNotification({
+      type: "system",
+      icon: "🔗",
+      title: copied ? "Link Copied" : "Copy Failed",
+      message: copied
+        ? "Session link has been copied to the clipboard."
+        : "Could not copy the link. Please copy it from your browser's address bar.",
+    });
+  };
+
+  const handleDownloadSlides = () => {
+    addNotification({
+      type: "system",
+      icon: "📎",
+      title: "No Slides Yet",
+      message: "The instructor hasn't uploaded slides for this session.",
+    });
+  };
+
+  const handleLeaveSession = () => {
+    router.push("/live-sessions");
+  };
   const [chatMessages, setChatMessages] = useState([
     { id: 1, author: "Sarah Chen", message: "Great session so far! Very informative.", time: "10:05" },
     { id: 2, author: "Mike Johnson", message: "Can you explain the useContext again?", time: "10:08" },
@@ -66,7 +94,7 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
             <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-bold flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> LIVE
             </span>
-            <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+            <button onClick={handleShareSession} className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg">
               <Share2 size={20} />
             </button>
           </div>
@@ -104,10 +132,16 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
 
           {/* Controls */}
           <div className="flex gap-3 mt-4">
-            <button className="flex-1 px-4 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember flex items-center justify-center gap-2">
+            <button
+              onClick={handleDownloadSlides}
+              className="flex-1 px-4 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember flex items-center justify-center gap-2"
+            >
               <Download size={18} /> Download Slides
             </button>
-            <button className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-2">
+            <button
+              onClick={handleShareSession}
+              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-2"
+            >
               <Share2 size={18} /> Share Session
             </button>
           </div>
@@ -221,7 +255,9 @@ function LiveSessionContent({ params }: { params: { sessionId: string } }) {
           <div>
             <span className="font-semibold">{session.title}</span> • {session.duration}
           </div>
-          <button className="text-ember-strong hover:text-ember2 font-medium">Leave Session</button>
+          <button onClick={handleLeaveSession} className="text-ember-strong hover:text-ember2 font-medium">
+            Leave Session
+          </button>
         </div>
       </div>
     </div>

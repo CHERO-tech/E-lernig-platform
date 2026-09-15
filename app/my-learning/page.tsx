@@ -10,13 +10,28 @@ import { useState } from "react";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useCourses } from "@/lib/courses/useCourses";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { copyShareLink } from "@/lib/utils/share";
 
 function MyLearningContent() {
   const router = useRouter();
   const { user } = useAuth();
   const { enrollments } = useEnrollment();
   const { getCourseById } = useCourses();
+  const { addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState("in-progress");
+
+  const handleShareAchievements = async () => {
+    const copied = await copyShareLink();
+    addNotification({
+      type: "system",
+      icon: "🔗",
+      title: copied ? "Link Copied" : "Copy Failed",
+      message: copied
+        ? "Your achievements link has been copied to the clipboard."
+        : "Could not copy the link. Please copy it from your browser's address bar.",
+    });
+  };
 
   const inProgressCourses = enrollments
     .map(enrollment => {
@@ -166,10 +181,16 @@ function MyLearningContent() {
                     </p>
 
                     <div className="flex gap-3">
-                      <button className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
+                      <button
+                        onClick={() => router.push(`/courses/${course.id}/learn`)}
+                        className="flex-1 px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
+                      >
                         Continue Learning
                       </button>
-                      <button className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                      <button
+                        onClick={() => router.push(`/courses/${course.id}`)}
+                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                      >
                         View Course
                       </button>
                     </div>
@@ -216,7 +237,10 @@ function MyLearningContent() {
                         <Award size={18} /> Certificate
                       </div>
                     )}
-                    <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+                    <button
+                      onClick={() => router.push(`/courses/${course.id}`)}
+                      className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                    >
                       View Details
                     </button>
                   </div>
@@ -257,7 +281,10 @@ function MyLearningContent() {
                 <Link href="/courses" className="px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
                   Browse More Courses
                 </Link>
-                <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-white transition-colors">
+                <button
+                  onClick={handleShareAchievements}
+                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-white transition-colors"
+                >
                   Share Achievements
                 </button>
               </div>

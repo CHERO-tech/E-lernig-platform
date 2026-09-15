@@ -7,11 +7,33 @@ import Link from "next/link";
 import { Search, MoreHorizontal, Pin } from "lucide-react";
 import { useState } from "react";
 import { EmptyState } from "@/components/ui";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function MessagesContent() {
   const { conversations } = useMessaging();
   const { people } = usePeople();
+  const { addNotification } = useNotifications();
   const [searchTerm, setSearchTerm] = useState("");
+  const [pinnedIds, setPinnedIds] = useState<string[]>([]);
+
+  const togglePin = (e: React.MouseEvent, convId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setPinnedIds((prev) =>
+      prev.includes(convId) ? prev.filter((id) => id !== convId) : [...prev, convId]
+    );
+  };
+
+  const handleMore = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addNotification({
+      type: "system",
+      icon: "⚙️",
+      title: "More Options",
+      message: "Archive, mute, and delete options are coming soon.",
+    });
+  };
 
   const formatTime = (epoch: number) => {
     const date = new Date(epoch);
@@ -92,10 +114,14 @@ function MessagesContent() {
                     )}
 
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-2 rounded-lg text-mg hover:bg-ow" title="Pin">
-                        <Pin size={18} />
+                      <button
+                        onClick={(e) => togglePin(e, conv.id)}
+                        className={`p-2 rounded-lg hover:bg-ow ${pinnedIds.includes(conv.id) ? "text-pg2" : "text-mg"}`}
+                        title={pinnedIds.includes(conv.id) ? "Unpin" : "Pin"}
+                      >
+                        <Pin size={18} fill={pinnedIds.includes(conv.id) ? "currentColor" : "none"} />
                       </button>
-                      <button className="p-2 rounded-lg text-mg hover:bg-ow" title="More">
+                      <button onClick={handleMore} className="p-2 rounded-lg text-mg hover:bg-ow" title="More">
                         <MoreHorizontal size={18} />
                       </button>
                     </div>

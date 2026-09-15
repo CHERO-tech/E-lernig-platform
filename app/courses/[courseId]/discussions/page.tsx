@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/ui";
 function DiscussionsContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { user } = useAuth();
-  const { getCourseById, postDiscussionQuestion } = useCourses();
+  const { getCourseById, postDiscussionQuestion, markDiscussionHelpful } = useCourses();
   const { addNotification } = useNotifications();
   const [filterTab, setFilterTab] = useState<"all" | "unanswered" | "popular">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -222,10 +222,24 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-1 transition-colors text-mg hover:text-pg2">
+                  <button
+                    onClick={() => markDiscussionHelpful(courseId, thread.id)}
+                    className="flex items-center gap-1 transition-colors text-mg hover:text-pg2"
+                  >
                     <ThumbsUp size={16} /> {thread.helpful}
                   </button>
-                  <button className="p-2 transition-colors text-mg hover:text-err">
+                  <button
+                    onClick={() =>
+                      addNotification({
+                        type: "system",
+                        icon: "🚩",
+                        title: "Thread Reported",
+                        message: "Thanks — our moderators will review this post.",
+                      })
+                    }
+                    className="p-2 transition-colors text-mg hover:text-err"
+                    aria-label="Report thread"
+                  >
                     <Flag size={16} />
                   </button>
                 </div>

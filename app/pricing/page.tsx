@@ -62,15 +62,16 @@ export default function Pricing() {
               <p className="text-gray-600 text-sm mb-4">{plan.desc}</p>
               <p className="text-4xl font-bold text-gray-900 mb-6">{plan.price}</p>
 
-              <button
-                className={`w-full py-3 px-6 rounded-lg font-semibold mb-8 transition-colors ${
+              <Link
+                href="/register"
+                className={`block text-center w-full py-3 px-6 rounded-lg font-semibold mb-8 transition-colors ${
                   plan.highlighted
                     ? "bg-ember-strong text-white hover:bg-ember"
                     : "border border-ember-strong text-ember-strong hover:bg-forge-soft"
                 }`}
               >
                 {plan.cta}
-              </button>
+              </Link>
 
               <ul className="space-y-4">
                 {plan.features.map((feature, j) => (

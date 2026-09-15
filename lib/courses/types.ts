@@ -98,5 +98,7 @@ export interface CourseContextType {
   addQuizToCourse: (courseId: string, quiz: Omit<CourseQuiz, 'id'>) => void;
   addAssignmentToCourse: (courseId: string, assignment: Omit<CourseAssignment, 'id'>) => void;
   postDiscussionQuestion: (courseId: string, title: string, content: string, author: string, avatar: string) => void;
+  markDiscussionHelpful: (courseId: string, threadId: string) => void;
   submitReview: (courseId: string, rating: number, title: string, text: string, author: string, avatar: string) => void;
+  markReviewHelpful: (courseId: string, reviewId: string) => void;
 }

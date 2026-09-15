@@ -6,10 +6,25 @@ import { useAuth } from "@/lib/auth/useAuth";
 import Link from "next/link";
 import { Mail, MapPin, Award, BookOpen, Star, Edit, Share2, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { copyShareLink } from "@/lib/utils/share";
 
 function ProfileContent() {
   const router = useRouter();
   const { user } = useAuth();
+  const { addNotification } = useNotifications();
+
+  const handleShareProfile = async () => {
+    const copied = await copyShareLink();
+    addNotification({
+      type: "system",
+      icon: "🔗",
+      title: copied ? "Link Copied" : "Copy Failed",
+      message: copied
+        ? "Your profile link has been copied to the clipboard."
+        : "Could not copy the link. Please copy it from your browser's address bar.",
+    });
+  };
 
   const stats = [
     { label: "Courses Completed", value: "12", icon: BookOpen },
@@ -71,7 +86,10 @@ function ProfileContent() {
 
               {/* Action Buttons */}
               <div className="flex gap-3 mt-6">
-                <button className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2">
+                <button
+                  onClick={handleShareProfile}
+                  className="px-6 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2"
+                >
                   <Share2 size={16} /> Share Profile
                 </button>
                 <Link href="/settings" className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
@@ -162,7 +180,10 @@ function ProfileContent() {
             ))}
           </div>
 
-          <button className="w-full mt-6 px-4 py-3 border border-ember-strong text-ember-strong font-medium rounded-lg hover:bg-forge-soft transition-colors">
+          <button
+            onClick={() => router.push("/certificates")}
+            className="w-full mt-6 px-4 py-3 border border-ember-strong text-ember-strong font-medium rounded-lg hover:bg-forge-soft transition-colors"
+          >
             View All Certificates
           </button>
         </motion.div>

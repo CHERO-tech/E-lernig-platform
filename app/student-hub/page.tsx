@@ -86,7 +86,7 @@ export default function StudentHubDashboard() {
             </motion.div>
 
             {/* Currently Learning Section */}
-            <motion.div variants={itemVariants} className="mb-12">
+            <motion.div id="courses" variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">📖</span>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -101,7 +101,7 @@ export default function StudentHubDashboard() {
             </motion.div>
 
             {/* Upcoming Lab Sessions */}
-            <motion.div variants={itemVariants} className="mb-12">
+            <motion.div id="labs" variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">🔬</span>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -116,7 +116,7 @@ export default function StudentHubDashboard() {
             </motion.div>
 
             {/* Achievements Section */}
-            <motion.div variants={itemVariants} className="mb-12">
+            <motion.div id="achievements" variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">🏆</span>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -131,7 +131,7 @@ export default function StudentHubDashboard() {
             </motion.div>
 
             {/* Community Feed Section */}
-            <motion.div variants={itemVariants} className="mb-12">
+            <motion.div id="community" variants={itemVariants} className="mb-12">
               <div className="flex items-center gap-2 mb-6">
                 <span className="text-2xl">👥</span>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">

@@ -18,11 +18,13 @@ import {
   Star,
   DollarSign,
   BookOpen,
+  ClipboardList,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/trainer/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
   { href: "/trainer/create-course", label: "Create Course", icon: <PlusCircle size={18} /> },
+  { href: "/trainer/assignments/create", label: "Create Assignment", icon: <ClipboardList size={18} /> },
   { href: "/trainer/grading", label: "Grading", icon: <FileCheck2 size={18} /> },
   { href: "/trainer/analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
   { href: "/messages", label: "Messages", icon: <MessageSquare size={18} /> },

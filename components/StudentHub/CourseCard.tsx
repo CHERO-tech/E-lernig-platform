@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Course } from "@/lib/studentHubData";
 import { ChevronRight } from "lucide-react";
@@ -68,10 +69,13 @@ export default function CourseCard({ course }: CourseCardProps) {
         )}
 
         {/* CTA Button */}
-        <button className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-forge-soft dark:bg-ember-strong/20 text-ember-strong dark:text-brass rounded-lg font-medium hover:bg-forge-soft dark:hover:bg-ember-strong/40 transition-colors group/btn">
+        <Link
+          href="/my-learning"
+          className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-4 bg-forge-soft dark:bg-ember-strong/20 text-ember-strong dark:text-brass rounded-lg font-medium hover:bg-forge-soft dark:hover:bg-ember-strong/40 transition-colors group/btn"
+        >
           Continue Course
           <ChevronRight size={16} className="group-hover/btn:trangray-x-1 transition-transform" />
-        </button>
+        </Link>
       </div>
     </motion.div>
   );

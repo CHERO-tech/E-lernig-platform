@@ -11,7 +11,7 @@ import { useNotifications } from "@/lib/notifications/useNotifications";
 function CourseReviewsContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { user } = useAuth();
-  const { getCourseById, submitReview } = useCourses();
+  const { getCourseById, submitReview, markReviewHelpful } = useCourses();
   const { addNotification } = useNotifications();
   const [sortBy, setSortBy] = useState("helpful");
   const [filterRating, setFilterRating] = useState("all");
@@ -243,7 +243,10 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
                 <h4 className="font-bold mb-2 text-dt">{review.title}</h4>
                 <p className="mb-4 text-mg">{review.text}</p>
 
-                <button className="flex items-center gap-2 text-sm transition-colors text-mg hover:text-pg2">
+                <button
+                  onClick={() => markReviewHelpful(courseId, review.id)}
+                  className="flex items-center gap-2 text-sm transition-colors text-mg hover:text-pg2"
+                >
                   <ThumbsUp size={16} /> Helpful ({review.helpful})
                 </button>
               </div>

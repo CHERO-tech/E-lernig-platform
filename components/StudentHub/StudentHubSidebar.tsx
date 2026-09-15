@@ -11,11 +11,11 @@ interface StudentHubSidebarProps {
 
 const navItems = [
   { id: "dashboard", label: "Dashboard", icon: "📊", href: "/student-hub" },
-  { id: "courses", label: "Courses", icon: "📚", href: "/student-hub/courses" },
-  { id: "labs", label: "Lab Sessions", icon: "🔬", href: "/student-hub/labs" },
-  { id: "achievements", label: "Achievements", icon: "🏆", href: "/student-hub/achievements" },
-  { id: "community", label: "Community", icon: "👥", href: "/student-hub/community" },
-  { id: "settings", label: "Settings", icon: "⚙️", href: "/student-hub/settings" },
+  { id: "courses", label: "Courses", icon: "📚", href: "/student-hub#courses" },
+  { id: "labs", label: "Lab Sessions", icon: "🔬", href: "/student-hub#labs" },
+  { id: "achievements", label: "Achievements", icon: "🏆", href: "/student-hub#achievements" },
+  { id: "community", label: "Community", icon: "👥", href: "/student-hub#community" },
+  { id: "settings", label: "Settings", icon: "⚙️", href: "/settings" },
 ];
 
 export default function StudentHubSidebar({ studentName }: StudentHubSidebarProps) {

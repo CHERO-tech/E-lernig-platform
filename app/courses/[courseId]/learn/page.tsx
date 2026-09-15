@@ -7,11 +7,13 @@ import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function CourseLearnContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
   const { enrollments, markLessonComplete } = useEnrollment();
+  const { addNotification } = useNotifications();
   const [activeLesson, setActiveLesson] = useState("lesson-1");
   const [expandedSection, setExpandedSection] = useState(0);
 
@@ -112,7 +114,17 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
                 "Mark as Complete"
               )}
             </button>
-            <button className="px-6 py-3 rounded-lg font-medium flex items-center gap-2 bg-white border border-border text-dt hover:bg-ow">
+            <button
+              onClick={() =>
+                addNotification({
+                  type: "system",
+                  icon: "📎",
+                  title: "No Materials Yet",
+                  message: "This lesson doesn't have downloadable materials attached.",
+                })
+              }
+              className="px-6 py-3 rounded-lg font-medium flex items-center gap-2 bg-white border border-border text-dt hover:bg-ow"
+            >
               <Download size={20} /> Download Materials
             </button>
           </div>

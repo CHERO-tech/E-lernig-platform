@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import BrandMark from "./BrandMark";
 import { useAuth } from "@/lib/auth/useAuth";
 import { NotificationBell } from "./NotificationBell";
-import { LogOut, Settings, Zap } from "lucide-react";
+import { LogOut, Settings, User, Zap } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "#tracks", label: "Tracks" },
@@ -97,6 +97,14 @@ export default function SiteHeader() {
                         My Dashboard
                       </Link>
                       <Link
+                        href="/profile"
+                        className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <User size={16} />
+                        My Profile
+                      </Link>
+                      <Link
                         href="/settings"
                         className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                         onClick={() => setUserMenuOpen(false)}
@@ -163,6 +171,9 @@ export default function SiteHeader() {
                   className="mobile-btn"
                 >
                   My Dashboard
+                </Link>
+                <Link href="/profile" onClick={() => setOpen(false)} className="mobile-btn">
+                  My Profile
                 </Link>
                 <Link href="/settings" onClick={() => setOpen(false)} className="mobile-btn">
                   Settings

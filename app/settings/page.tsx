@@ -93,6 +93,19 @@ function SettingsContent() {
     }
   };
 
+  const handleChangeAvatar = async () => {
+    const initials = window.prompt("Enter 1-2 letters for your new avatar:", user?.avatar || "")?.trim().slice(0, 2).toUpperCase();
+    if (!initials) return;
+    setProfileError("");
+    try {
+      await updateProfile({ avatar: initials });
+      setProfileSuccess(true);
+      setTimeout(() => setProfileSuccess(false), 2000);
+    } catch (err) {
+      setProfileError(err instanceof Error ? err.message : "Failed to update avatar");
+    }
+  };
+
   const handleCancelProfile = () => {
     setFormData({
       name: user?.name || "",
@@ -224,7 +237,9 @@ function SettingsContent() {
                     </div>
                     <div>
                       <p className="text-sm text-gray-600">Profile Picture</p>
-                      <button className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1">Change Avatar</button>
+                      <button onClick={handleChangeAvatar} className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1">
+                        Change Avatar
+                      </button>
                     </div>
                   </div>
 

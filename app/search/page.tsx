@@ -10,6 +10,7 @@ export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLevel, setFilterLevel] = useState("all");
   const [sortBy, setSortBy] = useState("relevance");
+  const [showFilters, setShowFilters] = useState(false);
   const { courses } = useCourses();
 
   const allResults = courses.map(c => ({
@@ -54,13 +55,20 @@ export default function SearchPage() {
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
               />
             </div>
-            <button className="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+            <button
+              onClick={() => setShowFilters((prev) => !prev)}
+              aria-expanded={showFilters}
+              className={`px-4 py-3 rounded-lg transition-colors flex items-center gap-2 ${
+                showFilters ? "bg-ember-strong text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
               <Filter size={20} /> Filter
             </button>
           </div>
 
           {/* Filters */}
-          <div className="flex gap-4 mt-4 flex-wrap">
+          {showFilters && (
+          <div className="flex gap-4 mt-4 flex-wrap" role="group" aria-label="Search filters">
             <div>
               <label className="text-sm font-medium text-gray-700 mb-2 block">Level</label>
               <select
@@ -90,6 +98,7 @@ export default function SearchPage() {
               </select>
             </div>
           </div>
+          )}
         </div>
       </div>
 

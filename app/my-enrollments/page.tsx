@@ -8,12 +8,45 @@ import { useState } from "react";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useCourses } from "@/lib/courses/useCourses";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { useNotifications } from "@/lib/notifications/useNotifications";
+import { copyShareLink } from "@/lib/utils/share";
 
 function MyEnrollmentsContent() {
   const router = useRouter();
   const { enrollments } = useEnrollment();
   const { getCourseById } = useCourses();
+  const { addNotification } = useNotifications();
   const [filterTab, setFilterTab] = useState<"all" | "in-progress" | "completed">("all");
+
+  const handleDownload = () => {
+    addNotification({
+      type: "system",
+      icon: "📎",
+      title: "No Materials Yet",
+      message: "This course doesn't have downloadable materials attached.",
+    });
+  };
+
+  const handleShare = async (courseTitle: string) => {
+    const copied = await copyShareLink();
+    addNotification({
+      type: "system",
+      icon: "🔗",
+      title: copied ? "Link Copied" : "Copy Failed",
+      message: copied
+        ? `A link to "${courseTitle}" has been copied to the clipboard.`
+        : "Could not copy the link. Please copy it from your browser's address bar.",
+    });
+  };
+
+  const handleRate = (courseTitle: string, stars: number) => {
+    addNotification({
+      type: "system",
+      icon: "⭐",
+      title: "Thanks for Rating",
+      message: `You rated "${courseTitle}" ${stars} star${stars === 1 ? "" : "s"}.`,
+    });
+  };
 
   const enrolledCourses = enrollments.map(enrollment => {
     const course = getCourseById(enrollment.courseId);
@@ -89,7 +122,10 @@ function MyEnrollmentsContent() {
               {/* Course Image */}
               <div className={`h-40 ${course.image} relative`}>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black/50 transition-opacity">
-                  <button className="p-3 bg-white rounded-full hover:bg-forge-soft">
+                  <button
+                    onClick={() => router.push(`/courses/${course.id}/learn`)}
+                    className="p-3 bg-white rounded-full hover:bg-forge-soft"
+                  >
                     <Play size={24} className="text-ember-strong" />
                   </button>
                 </div>
@@ -130,10 +166,16 @@ function MyEnrollmentsContent() {
                   >
                     <Play size={16} /> {course.progress === 0 ? "Start" : "Continue"}
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1">
+                  <button
+                    onClick={handleDownload}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                  >
                     <Download size={16} />
                   </button>
-                  <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1">
+                  <button
+                    onClick={() => handleShare(course.title)}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                  >
                     <Share2 size={16} />
                   </button>
                 </div>
@@ -144,7 +186,12 @@ function MyEnrollmentsContent() {
                     <p className="text-xs text-gray-600 mb-2">Leave a review</p>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <button key={star} className="p-1 hover:scale-110 transition-transform">
+                        <button
+                          key={star}
+                          onClick={() => handleRate(course.title, star)}
+                          className="p-1 hover:scale-110 transition-transform"
+                          aria-label={`Rate ${star} star${star === 1 ? "" : "s"}`}
+                        >
                           <Star size={16} className="text-yellow-400 fill-yellow-400" />
                         </button>
                       ))}

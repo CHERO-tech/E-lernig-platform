@@ -4,10 +4,12 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronDown, Search, MessageCircle, Mail, Phone } from "lucide-react";
 import { useState } from "react";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 export default function Help() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const { addNotification } = useNotifications();
 
   const faqs = [
     {
@@ -241,7 +243,18 @@ export default function Help() {
               { title: "Best Practices", desc: "Tips for getting the most out of your courses" },
               { title: "Community Forum", desc: "Connect with other learners and share experiences" },
             ].map((resource, i) => (
-              <button key={i} className="p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors text-left">
+              <button
+                key={i}
+                onClick={() =>
+                  addNotification({
+                    type: "system",
+                    icon: "📚",
+                    title: "Coming Soon",
+                    message: `"${resource.title}" is being written and will be available soon.`,
+                  })
+                }
+                className="p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors text-left"
+              >
                 <h3 className="font-semibold text-gray-900 mb-2">{resource.title}</h3>
                 <p className="text-sm text-gray-600">{resource.desc}</p>
               </button>

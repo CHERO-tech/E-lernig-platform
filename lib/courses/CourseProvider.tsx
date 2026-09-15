@@ -505,6 +505,26 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
     [persistCourses]
   );
 
+  const markDiscussionHelpful = useCallback(
+    (courseId: string, threadId: string) => {
+      setCourses(prev => {
+        const updated = prev.map(c =>
+          c.id === courseId
+            ? {
+                ...c,
+                discussions: c.discussions.map(d =>
+                  d.id === threadId ? { ...d, helpful: d.helpful + 1 } : d
+                ),
+              }
+            : c
+        );
+        persistCourses(updated);
+        return updated;
+      });
+    },
+    [persistCourses]
+  );
+
   const submitReview = useCallback(
     (courseId: string, rating: number, title: string, text: string, author: string, avatar: string) => {
       setCourses(prev => {
@@ -536,6 +556,26 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
     [persistCourses]
   );
 
+  const markReviewHelpful = useCallback(
+    (courseId: string, reviewId: string) => {
+      setCourses(prev => {
+        const updated = prev.map(c =>
+          c.id === courseId
+            ? {
+                ...c,
+                reviews: c.reviews.map(r =>
+                  r.id === reviewId ? { ...r, helpful: r.helpful + 1 } : r
+                ),
+              }
+            : c
+        );
+        persistCourses(updated);
+        return updated;
+      });
+    },
+    [persistCourses]
+  );
+
   const value: CourseContextType = {
     courses,
     getCourseById,
@@ -544,7 +584,9 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
     addQuizToCourse,
     addAssignmentToCourse,
     postDiscussionQuestion,
+    markDiscussionHelpful,
     submitReview,
+    markReviewHelpful,
   };
 
   return <CourseContext.Provider value={value}>{children}</CourseContext.Provider>;

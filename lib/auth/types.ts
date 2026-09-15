@@ -12,7 +12,7 @@ export interface User {
   bio?: string;
 }
 
-export type ProfileUpdate = Partial<Pick<User, 'name' | 'email' | 'phone' | 'location' | 'bio'>>;
+export type ProfileUpdate = Partial<Pick<User, 'name' | 'email' | 'phone' | 'location' | 'bio' | 'avatar'>>;
 
 export interface AuthContextType {
   user: User | null;

@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Users, Zap, Target, Award, ArrowRight } from "lucide-react";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 export default function About() {
+  const { addNotification } = useNotifications();
   const values = [
     { icon: Zap, title: "Accessibility", desc: "Quality education should be available to everyone, anywhere" },
     { icon: Target, title: "Practicality", desc: "Focus on real-world skills that employers actually value" },
@@ -154,7 +156,17 @@ export default function About() {
             Over the past 3 years, we've helped thousands of learners transition into fulfilling tech careers, with an average salary increase of 45% after completing a Forge course. We're proud to have partnered with 500+ companies to create job opportunities for our graduates.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
+            <button
+              onClick={() =>
+                addNotification({
+                  type: "system",
+                  icon: "📖",
+                  title: "Coming Soon",
+                  message: "A dedicated success stories page is on the way.",
+                })
+              }
+              className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
+            >
               Read Success Stories
             </button>
             <Link href="/courses" className="px-8 py-3 border border-ember-strong text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors">

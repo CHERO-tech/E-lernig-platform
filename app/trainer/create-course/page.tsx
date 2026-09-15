@@ -29,6 +29,23 @@ function CreateCourseContent() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleAddSection = () => {
+    setFormData(prev => ({
+      ...prev,
+      sections: [
+        ...prev.sections,
+        { id: Date.now(), title: `Section ${prev.sections.length + 1}`, lessons: 0 },
+      ],
+    }));
+  };
+
+  const handleRemoveSection = (id: number) => {
+    setFormData(prev => ({
+      ...prev,
+      sections: prev.sections.filter(section => section.id !== id),
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim()) {
@@ -185,7 +202,12 @@ function CreateCourseContent() {
                       <p className="font-semibold text-gray-900">{section.title}</p>
                       <p className="text-sm text-gray-600">{section.lessons} lessons</p>
                     </div>
-                    <button type="button" className="p-2 hover:bg-red-100 rounded-lg text-red-600">
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveSection(section.id)}
+                      className="p-2 hover:bg-red-100 rounded-lg text-red-600"
+                      aria-label={`Remove ${section.title}`}
+                    >
                       <Trash2 size={18} />
                     </button>
                   </div>
@@ -193,6 +215,7 @@ function CreateCourseContent() {
 
                 <button
                   type="button"
+                  onClick={handleAddSection}
                   className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
                 >
                   <Plus size={20} /> Add Section

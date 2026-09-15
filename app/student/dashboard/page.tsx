@@ -18,6 +18,8 @@ import {
   Settings,
   FileCheck2,
   Award as AwardIcon,
+  ThumbsUp,
+  Video,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -25,6 +27,8 @@ const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/my-learning", label: "My Learning", icon: <BookOpen size={18} /> },
   { href: "/my-grades", label: "My Grades", icon: <GraduationCap size={18} /> },
   { href: "/certificates", label: "Certificates", icon: <Award size={18} /> },
+  { href: "/live-sessions", label: "Live Sessions", icon: <Video size={18} /> },
+  { href: "/skill-endorsements", label: "Skill Endorsements", icon: <ThumbsUp size={18} /> },
   { href: "/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/settings", label: "Settings", icon: <Settings size={18} /> },
 ];

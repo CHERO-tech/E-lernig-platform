@@ -6,11 +6,13 @@ import { useMessaging } from "@/lib/messaging/useMessaging";
 import { usePeople } from "@/lib/people/usePeople";
 import { use, useEffect, useState } from "react";
 import { ArrowLeft, Send, MoreHorizontal } from "lucide-react";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 function ChatContent({ userId }: { userId: string }) {
   const router = useRouter();
   const { sendMessage, markConversationRead, getConversationByParticipant } = useMessaging();
   const { getPersonById } = usePeople();
+  const { addNotification } = useNotifications();
   const [message, setMessage] = useState("");
 
   const recipient = getPersonById(userId);
@@ -72,7 +74,17 @@ function ChatContent({ userId }: { userId: string }) {
               </div>
             </div>
           </div>
-          <button className="p-2 rounded-lg text-mg hover:bg-ow">
+          <button
+            onClick={() =>
+              addNotification({
+                type: "system",
+                icon: "⚙️",
+                title: "More Options",
+                message: "Block, mute, and delete conversation options are coming soon.",
+              })
+            }
+            className="p-2 rounded-lg text-mg hover:bg-ow"
+          >
             <MoreHorizontal size={20} />
           </button>
         </div>

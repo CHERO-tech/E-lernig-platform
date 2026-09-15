@@ -2,11 +2,25 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MapPin, Briefcase, DollarSign, ArrowRight } from "lucide-react";
+import { MapPin, Briefcase, DollarSign, ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 
 export default function Opportunities() {
   const [filterType, setFilterType] = useState("all");
+  const [appliedIds, setAppliedIds] = useState<number[]>([]);
+  const { addNotification } = useNotifications();
+
+  const handleApply = (id: number, title: string) => {
+    if (appliedIds.includes(id)) return;
+    setAppliedIds(prev => [...prev, id]);
+    addNotification({
+      type: "system",
+      icon: "✅",
+      title: "Application Submitted",
+      message: `Your application for "${title}" has been submitted.`,
+    });
+  };
 
   const opportunities = [
     {
@@ -109,8 +123,20 @@ export default function Opportunities() {
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{opp.title}</h3>
                   <p className="text-gray-600">{opp.company}</p>
                 </div>
-                <button className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2">
-                  Apply <ArrowRight size={18} />
+                <button
+                  onClick={() => handleApply(opp.id, opp.title)}
+                  disabled={appliedIds.includes(opp.id)}
+                  className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-ember-strong"
+                >
+                  {appliedIds.includes(opp.id) ? (
+                    <>
+                      Applied <Check size={18} />
+                    </>
+                  ) : (
+                    <>
+                      Apply <ArrowRight size={18} />
+                    </>
+                  )}
                 </button>
               </div>
 

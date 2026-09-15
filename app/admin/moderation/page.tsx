@@ -44,6 +44,10 @@ function ModerationContent() {
     setSelectedItems(prev => prev.filter(i => i !== id));
   };
 
+  const markReviewing = (id: number) => {
+    setReports(prev => prev.map(r => r.id === id ? { ...r, status: 'reviewing' as const } : r));
+  };
+
   const removeReport = (id: number) => {
     setReports(prev => prev.filter(r => r.id !== id));
     setSelectedItems(prev => prev.filter(i => i !== id));
@@ -177,7 +181,11 @@ function ModerationContent() {
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 hover:bg-blue-100 rounded-lg text-blue-600" title="Review">
+                    <button
+                      onClick={() => markReviewing(report.id)}
+                      className="p-2 hover:bg-blue-100 rounded-lg text-blue-600"
+                      title="Review"
+                    >
                       <Eye size={18} />
                     </button>
                     <button

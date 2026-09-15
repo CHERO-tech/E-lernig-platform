@@ -28,8 +28,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Pick up whatever the blocking inline script (see app/layout.tsx) already
   // applied, so React's state matches the DOM instead of re-flashing it.
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available.
   useEffect(() => {
     const stored = (localStorage.getItem(STORAGE_KEY) as Theme | null) || "system";
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(stored);
     setResolvedTheme(document.documentElement.classList.contains("dark") ? "dark" : "light");
   }, []);

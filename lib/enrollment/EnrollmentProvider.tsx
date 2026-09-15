@@ -39,6 +39,8 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
   const { incrementStudentCount } = useCourses();
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
 
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available (see app/layout.tsx).
   useEffect(() => {
     if (loading || !user?.id) return;
 
@@ -48,6 +50,7 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     if (stored) {
       try {
         const data = JSON.parse(stored);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setEnrollments(data.enrollments || []);
       } catch {
         localStorage.removeItem(storageKey);

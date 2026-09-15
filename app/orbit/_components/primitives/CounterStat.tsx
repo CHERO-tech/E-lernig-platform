@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 interface CounterStatProps {
@@ -18,7 +18,7 @@ export function CounterStat({ value, label }: CounterStatProps) {
 
     const match = value.match(/^(\d+)/);
     if (!match) {
-      setDisplayValue(value);
+      requestAnimationFrame(() => setDisplayValue(value));
       return;
     }
 

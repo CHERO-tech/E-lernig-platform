@@ -5,13 +5,11 @@ import { FEATURED_COURSES } from "../_lib/courses";
 import { CATEGORIES } from "../_lib/categories";
 import { INSTRUCTORS } from "../_lib/instructors";
 import { TESTIMONIALS } from "../_lib/testimonials";
-import { PLATFORM_STATS } from "../_lib/stats";
 import {
   BookOpen,
   Code,
   Zap,
   Trophy,
-  Grid3x3,
   TrendingUp,
   Users,
   MessageSquare,

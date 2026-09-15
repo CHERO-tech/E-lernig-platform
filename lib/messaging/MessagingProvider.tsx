@@ -39,6 +39,8 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
+  // SSR-safe hydration: state starts at the default and is patched here
+  // after mount, once localStorage is available (see app/layout.tsx).
   useEffect(() => {
     if (loading || !user?.id) return;
 
@@ -47,6 +49,7 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       try {
         const data = JSON.parse(stored) as UserMessages;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setConversations(data.conversations);
       } catch {
         localStorage.removeItem(storageKey);
@@ -57,14 +60,15 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user?.id, loading]);
 
+  const userId = user?.id;
   const persistConversations = useCallback(
     (newConversations: Conversation[]) => {
-      if (!user?.id) return;
-      const storageKey = `${STORAGE_KEY_PREFIX}${user.id}`;
+      if (!userId) return;
+      const storageKey = `${STORAGE_KEY_PREFIX}${userId}`;
       const data: UserMessages = { conversations: newConversations };
       localStorage.setItem(storageKey, JSON.stringify(data));
     },
-    [user?.id]
+    [userId]
   );
 
   const sendMessage = useCallback(

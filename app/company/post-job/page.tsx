@@ -34,7 +34,7 @@ function PostJobContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Post a Job Opportunity</h1>
@@ -53,8 +53,8 @@ function PostJobContent() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Job Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Job Title *</label>
+                  <input id="title"
                     type="text"
                     name="title"
                     placeholder="e.g., Senior React Developer"
@@ -67,8 +67,8 @@ function PostJobContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="department">Department *</label>
+                    <input id="department"
                       type="text"
                       name="department"
                       placeholder="Engineering"
@@ -79,8 +79,8 @@ function PostJobContent() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Location *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="location">Location *</label>
+                    <input id="location"
                       type="text"
                       name="location"
                       placeholder="San Francisco, CA"
@@ -94,8 +94,8 @@ function PostJobContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Employment Type *</label>
-                    <select
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="type">Employment Type *</label>
+                    <select id="type"
                       name="type"
                       value={formData.type}
                       onChange={handleChange}
@@ -109,8 +109,8 @@ function PostJobContent() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Salary Range *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="salary">Salary Range *</label>
+                    <input id="salary"
                       type="text"
                       name="salary"
                       placeholder="$120k - $160k"
@@ -129,8 +129,8 @@ function PostJobContent() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Job Description</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Job Description *</label>
+                  <textarea id="description"
                     name="description"
                     placeholder="Describe the role, responsibilities, and what we're looking for..."
                     rows={5}
@@ -142,8 +142,8 @@ function PostJobContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Requirements *</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="requirements">Requirements *</label>
+                  <textarea id="requirements"
                     name="requirements"
                     placeholder="List required qualifications and experience..."
                     rows={4}
@@ -155,8 +155,8 @@ function PostJobContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="skills">Required Skills</label>
+                  <textarea id="skills"
                     name="skills"
                     placeholder="React, TypeScript, Node.js, etc. (comma-separated)"
                     rows={3}

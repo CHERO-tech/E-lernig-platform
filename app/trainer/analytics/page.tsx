@@ -87,6 +87,7 @@ function AnalyticsContent() {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
+            aria-label="Time range"
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
           >
             <option value="7d">Last 7 days</option>

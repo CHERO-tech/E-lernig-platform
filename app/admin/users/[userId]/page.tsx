@@ -46,7 +46,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <div>
@@ -252,6 +252,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             <select
               value={selectedRole || ''}
               onChange={(e) => setSelectedRole(e.target.value as UserRole)}
+              aria-label="Select a role"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-ember-strong"
             >
               <option value="">Select a role</option>

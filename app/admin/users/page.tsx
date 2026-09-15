@@ -62,7 +62,7 @@ function UsersContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <div>
@@ -87,7 +87,7 @@ function UsersContent() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
-            />
+             aria-label="Search users by name or email"/>
           </div>
 
           <div className="flex gap-4 flex-wrap">

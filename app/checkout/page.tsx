@@ -119,8 +119,8 @@ function CheckoutContent() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2 text-dt">First Name</label>
-                      <input
+                      <label className="block text-sm font-medium mb-2 text-dt" htmlFor="firstName">First Name</label>
+                      <input id="firstName"
                         type="text"
                         name="firstName"
                         value={formData.firstName}
@@ -129,8 +129,8 @@ function CheckoutContent() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2 text-dt">Last Name</label>
-                      <input
+                      <label className="block text-sm font-medium mb-2 text-dt" htmlFor="lastName">Last Name</label>
+                      <input id="lastName"
                         type="text"
                         name="lastName"
                         value={formData.lastName}
@@ -141,8 +141,8 @@ function CheckoutContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-dt">Email</label>
-                    <input
+                    <label className="block text-sm font-medium mb-2 text-dt" htmlFor="email">Email</label>
+                    <input id="email"
                       type="email"
                       name="email"
                       value={formData.email}
@@ -152,8 +152,8 @@ function CheckoutContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-dt">Address</label>
-                    <input
+                    <label className="block text-sm font-medium mb-2 text-dt" htmlFor="address">Address</label>
+                    <input id="address"
                       type="text"
                       name="address"
                       value={formData.address}
@@ -164,8 +164,8 @@ function CheckoutContent() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2 text-dt">City</label>
-                      <input
+                      <label className="block text-sm font-medium mb-2 text-dt" htmlFor="city">City</label>
+                      <input id="city"
                         type="text"
                         name="city"
                         value={formData.city}
@@ -174,9 +174,9 @@ function CheckoutContent() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-2 text-dt">State/ZIP</label>
+                      <label className="block text-sm font-medium mb-2 text-dt" htmlFor="state">State/ZIP</label>
                       <div className="flex gap-2">
-                        <input
+                        <input id="state"
                           type="text"
                           name="state"
                           value={formData.state}
@@ -187,6 +187,7 @@ function CheckoutContent() {
                         <input
                           type="text"
                           name="zip"
+                          aria-label="ZIP code"
                           value={formData.zip}
                           onChange={handleChange}
                           className="flex-1 px-4 py-2 rounded-lg outline-none bg-ow border border-border text-dt focus:border-pg"

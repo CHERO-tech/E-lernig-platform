@@ -81,7 +81,7 @@ function MyLearningContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <div>

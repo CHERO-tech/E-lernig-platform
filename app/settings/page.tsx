@@ -183,7 +183,7 @@ function SettingsContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <div>
@@ -245,8 +245,8 @@ function SettingsContent() {
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                      <input
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Full Name</label>
+                      <input id="name"
                         type="text"
                         name="name"
                         value={formData.name}
@@ -256,8 +256,8 @@ function SettingsContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                      <input
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email Address</label>
+                      <input id="email"
                         type="email"
                         name="email"
                         value={formData.email}
@@ -268,10 +268,10 @@ function SettingsContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2" htmlFor="phone">
                           <Phone size={16} /> Phone Number
                         </label>
-                        <input
+                        <input id="phone"
                           type="tel"
                           name="phone"
                           value={formData.phone}
@@ -280,10 +280,10 @@ function SettingsContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2" htmlFor="location">
                           <MapPin size={16} /> Location
                         </label>
-                        <input
+                        <input id="location"
                           type="text"
                           name="location"
                           value={formData.location}
@@ -294,8 +294,8 @@ function SettingsContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
-                      <textarea
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="bio">Bio</label>
+                      <textarea id="bio"
                         name="bio"
                         value={formData.bio}
                         onChange={handleInputChange}
@@ -394,6 +394,7 @@ function SettingsContent() {
                           <input
                             type="password"
                             placeholder="Current password"
+                            aria-label="Current password"
                             value={passwordFields.current}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, current: e.target.value }))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
@@ -402,6 +403,7 @@ function SettingsContent() {
                           <input
                             type="password"
                             placeholder="New password"
+                            aria-label="New password"
                             value={passwordFields.next}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, next: e.target.value }))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
@@ -410,6 +412,7 @@ function SettingsContent() {
                           <input
                             type="password"
                             placeholder="Confirm new password"
+                            aria-label="Confirm new password"
                             value={passwordFields.confirm}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, confirm: e.target.value }))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"

@@ -169,12 +169,14 @@ function MyEnrollmentsContent() {
                   <button
                     onClick={handleDownload}
                     className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                    aria-label={`Download materials for ${course.title}`}
                   >
                     <Download size={16} />
                   </button>
                   <button
                     onClick={() => handleShare(course.title)}
                     className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                    aria-label={`Share ${course.title}`}
                   >
                     <Share2 size={16} />
                   </button>

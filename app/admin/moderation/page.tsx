@@ -108,7 +108,7 @@ function ModerationContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <div>
@@ -161,6 +161,7 @@ function ModerationContent() {
                     checked={selectedItems.includes(report.id)}
                     onChange={() => toggleSelect(report.id)}
                     className="mt-1 w-5 h-5 accent-ember-strong"
+                    aria-label={`Select report: ${report.type}`}
                   />
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-2">

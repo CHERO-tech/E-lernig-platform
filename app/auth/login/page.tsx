@@ -99,12 +99,13 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">
                 Email Address
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
+                  id="email"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -124,7 +125,7 @@ export default function LoginPage() {
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="password">
                   Password
                 </label>
                 <Link
@@ -137,6 +138,7 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
+                  id="password"
                   type="password"
                   name="password"
                   value={formData.password}
@@ -156,13 +158,14 @@ export default function LoginPage() {
 
             <div className="flex items-center">
               <input
+                id="rememberMe"
                 type="checkbox"
                 name="rememberMe"
                 checked={formData.rememberMe}
                 onChange={handleChange}
                 className="w-4 h-4 rounded border-gray-300 text-ember-strong focus:ring-ember cursor-pointer"
               />
-              <label className="ml-2 text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
+              <label htmlFor="rememberMe" className="ml-2 text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
                 Remember me
               </label>
             </div>

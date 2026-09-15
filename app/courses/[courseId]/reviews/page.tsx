@@ -90,7 +90,7 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
     <div className="min-h-screen bg-ow">
       <div className="bg-white border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow" aria-label="Go back">
             <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
@@ -164,8 +164,9 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-dt">Title</label>
+                    <label className="block text-sm font-medium mb-2 text-dt" htmlFor="review-title">Title</label>
                     <input
+                      id="review-title"
                       type="text"
                       placeholder="Sum up your experience"
                       value={formData.title}
@@ -176,8 +177,9 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-dt">Review</label>
+                    <label className="block text-sm font-medium mb-2 text-dt" htmlFor="review-text">Review</label>
                     <textarea
+                      id="review-text"
                       placeholder="Tell us what you think..."
                       value={formData.text}
                       onChange={(e) => setFormData({ ...formData, text: e.target.value })}
@@ -208,6 +210,7 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
+                aria-label="Sort reviews by"
                 className="px-3 py-2 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
               >
                 <option value="helpful">Most Helpful</option>

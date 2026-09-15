@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -27,17 +27,21 @@ export function Input({
   error,
   icon,
   className = "",
+  id,
   ...props
 }: InputProps) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5 text-dt">
+        <label htmlFor={inputId} className="block text-xs font-semibold mb-1.5 text-dt">
           {label}
         </label>
       )}
       <div className="relative">
         <input
+          id={inputId}
           className={`w-full px-4 py-3 rounded-lg text-sm outline-none transition-all bg-ow border border-border text-dt focus:border-pg ${className}`}
           {...props}
         />
@@ -56,16 +60,20 @@ export function Textarea({
   hint,
   error,
   className = "",
+  id,
   ...props
 }: TextareaProps) {
+  const generatedId = useId();
+  const textareaId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5 text-dt">
+        <label htmlFor={textareaId} className="block text-xs font-semibold mb-1.5 text-dt">
           {label}
         </label>
       )}
       <textarea
+        id={textareaId}
         className={`w-full px-4 py-3 rounded-lg text-sm outline-none transition-all resize-none bg-ow border border-border text-dt focus:border-pg ${className}`}
         {...props}
       />
@@ -81,16 +89,20 @@ export function Select({
   hint,
   error,
   className = "",
+  id,
   ...props
 }: SelectProps) {
+  const generatedId = useId();
+  const selectId = id ?? generatedId;
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-xs font-semibold mb-1.5 text-dt">
+        <label htmlFor={selectId} className="block text-xs font-semibold mb-1.5 text-dt">
           {label}
         </label>
       )}
       <select
+        id={selectId}
         className={`w-full px-4 py-3 pr-9 rounded-lg text-sm outline-none transition-all appearance-none bg-ow border border-border text-dt focus:border-pg ${className}`}
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23718078' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,

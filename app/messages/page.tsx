@@ -78,7 +78,7 @@ function MessagesContent() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
-            />
+             aria-label="Search conversations"/>
           </div>
         </div>
       </div>

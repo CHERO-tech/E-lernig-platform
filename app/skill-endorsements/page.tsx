@@ -94,7 +94,7 @@ function SkillEndorsementsContent() {
                     onChange={(e) => setNewSkill(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
-                  />
+                   aria-label="Enter skill name"/>
                   <button
                     onClick={handleAddSkill}
                     className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"

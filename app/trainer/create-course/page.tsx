@@ -85,7 +85,7 @@ function CreateCourseContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Create New Course</h1>
@@ -104,8 +104,8 @@ function CreateCourseContent() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Information</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Course Title *</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Course Title *</label>
+                  <input id="title"
                     type="text"
                     name="title"
                     placeholder="Enter course title"
@@ -117,8 +117,8 @@ function CreateCourseContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                  <textarea id="description"
                     name="description"
                     placeholder="Describe your course..."
                     rows={4}
@@ -131,8 +131,8 @@ function CreateCourseContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Category *</label>
-                    <select
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="category">Category *</label>
+                    <select id="category"
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
@@ -147,8 +147,8 @@ function CreateCourseContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Level *</label>
-                    <select
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="level">Level *</label>
+                    <select id="level"
                       name="level"
                       value={formData.level}
                       onChange={handleChange}
@@ -164,8 +164,8 @@ function CreateCourseContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Price ($) *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="price">Price ($) *</label>
+                    <input id="price"
                       type="number"
                       name="price"
                       placeholder="99"
@@ -177,8 +177,8 @@ function CreateCourseContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Duration (hours) *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="duration">Duration (hours) *</label>
+                    <input id="duration"
                       type="number"
                       name="duration"
                       placeholder="40"

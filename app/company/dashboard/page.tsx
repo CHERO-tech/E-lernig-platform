@@ -58,6 +58,7 @@ function DashboardContent() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name or location..."
+                aria-label="Search by name or location"
                 className="w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
               />
             </div>

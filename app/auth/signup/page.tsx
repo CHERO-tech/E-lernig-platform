@@ -73,12 +73,12 @@ export default function SignupPage() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="fullName">
                 Full Name
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-3 text-gray-400" size={20} />
-                <input
+                <input id="fullName"
                   type="text"
                   name="fullName"
                   value={formData.fullName}
@@ -90,12 +90,12 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="email">
                 Email Address
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
-                <input
+                <input id="email"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -107,12 +107,12 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="password">
                 Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
-                <input
+                <input id="password"
                   type="password"
                   name="password"
                   value={formData.password}
@@ -124,12 +124,13 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" htmlFor="confirmPassword">
                 Confirm Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
                 <input
+                  id="confirmPassword"
                   type="password"
                   name="confirmPassword"
                   value={formData.confirmPassword}

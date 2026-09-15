@@ -28,6 +28,8 @@ export default function StudentHubSidebar({ studentName }: StudentHubSidebarProp
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

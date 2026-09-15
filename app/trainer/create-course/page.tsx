@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
+import { CourseLevel } from "@/lib/courses/types";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 
@@ -62,7 +63,7 @@ function CreateCourseContent() {
       description: formData.description,
       whatYoullLearn: [],
       category: formData.category,
-      level: formData.level as any,
+      level: formData.level as CourseLevel,
       price: parseInt(formData.price) || 0,
       durationHours: parseInt(formData.duration) || 0,
       instructor: user?.name || 'Unknown',

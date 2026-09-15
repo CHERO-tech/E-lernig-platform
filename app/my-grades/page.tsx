@@ -140,7 +140,7 @@ function MyGradesContent() {
                 {expandedId === grade.id && grade.type === 'assignment' && 'feedback' in grade && grade.feedback && (
                   <div className="border-t border-gray-200 p-6 bg-gray-50">
                     <p className="font-semibold text-gray-900 mb-2">Feedback</p>
-                    <p className="text-gray-700">{(grade as any).feedback}</p>
+                    <p className="text-gray-700">{grade.feedback}</p>
                   </div>
                 )}
               </motion.div>

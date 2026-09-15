@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
+import type { PaymentMethod } from "@stripe/stripe-js";
 import { Loader2 } from "lucide-react";
 
 interface PaymentStepProps {
-  onSuccess: (paymentMethod: any) => void;
+  onSuccess: (paymentMethod: PaymentMethod) => void;
   total: number;
 }
 
@@ -65,8 +66,8 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
       }
 
       onSuccess(paymentMethod.paymentMethod);
-    } catch (err: any) {
-      setError(err.message || "An error occurred during payment");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred during payment");
       setLoading(false);
     }
   };

@@ -74,8 +74,8 @@ function CertificatesContent() {
           text: shareText,
           url: shareUrl,
         });
-      } catch (error: any) {
-        if (error.name !== 'AbortError') {
+      } catch (error) {
+        if (error instanceof Error && error.name !== 'AbortError') {
           console.error('Share failed:', error);
         }
       }

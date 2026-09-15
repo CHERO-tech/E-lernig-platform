@@ -17,7 +17,7 @@ export default function MotivationalQuoteCard({ quote }: MotivationalQuoteCardPr
     >
       {/* Decorative Quote Mark */}
       <div className="absolute top-4 left-6 text-brass-soft text-7xl opacity-20 font-serif">
-        "
+        &quot;
       </div>
 
       <div className="relative z-10">

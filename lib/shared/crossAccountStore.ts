@@ -1,4 +1,4 @@
-import { Enrollment, UserEnrollments } from '@/lib/enrollment/types';
+import { UserEnrollments } from '@/lib/enrollment/types';
 
 const KNOWN_USERS_KEY = 'forge_known_users';
 

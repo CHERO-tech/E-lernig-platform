@@ -3,8 +3,7 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import Link from "next/link";
-import { ArrowLeft, AlertCircle, CheckCircle, XCircle, Eye, Trash2, Flag } from "lucide-react";
+import { ArrowLeft, CheckCircle, XCircle, Eye, Flag } from "lucide-react";
 import { useState } from "react";
 
 function ModerationContent() {

@@ -43,7 +43,7 @@ export default function Contact() {
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
-          <p className="text-forge-soft text-lg">Have questions? We're here to help!</p>
+          <p className="text-forge-soft text-lg">Have questions? We&apos;re here to help!</p>
         </div>
       </div>
 

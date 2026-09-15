@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { usePeople } from "@/lib/people/usePeople";
 import { UserRole } from "@/lib/auth/types";
-import Link from "next/link";
 import { ArrowLeft, Mail, Phone, MapPin, Calendar, Shield, Trash2, Lock, Unlock, AlertCircle } from "lucide-react";
 import { useState } from "react";
 

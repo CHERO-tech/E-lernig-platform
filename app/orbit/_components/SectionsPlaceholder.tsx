@@ -293,7 +293,7 @@ export function TestimonialsSection() {
               >
                 <MessageSquare size={20} style={{ color: "var(--ob-accent)", marginBottom: "1rem" }} />
                 <p style={{ color: "var(--ob-text-secondary)", fontStyle: "italic", margin: "0 0 1rem 0", lineHeight: 1.8 }}>
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                   <div

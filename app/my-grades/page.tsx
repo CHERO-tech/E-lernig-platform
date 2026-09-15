@@ -2,14 +2,12 @@
 
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { useAuth } from "@/lib/auth/useAuth";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { Award, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
 function MyGradesContent() {
-  const { user } = useAuth();
   const { courses } = useCourses();
   const { enrollments } = useEnrollment();
   const [expandedId, setExpandedId] = useState<string | null>(null);

@@ -129,7 +129,7 @@ export const mockAuthService = {
     return entry.user;
   },
 
-  async requestPasswordReset(email: string): Promise<void> {
+  async requestPasswordReset(_email: string): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 800));
     // Mock: always resolves so the UI can show a "check your email" state,
     // regardless of whether the address is registered (avoids leaking

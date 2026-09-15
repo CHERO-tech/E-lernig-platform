@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { Video, Calendar, Users, Play, Clock, MapPin } from "lucide-react";
+import { Video, Calendar, Users, Play, Clock } from "lucide-react";
 import { useState } from "react";
 
 function LiveSessionsContent() {
@@ -230,7 +230,7 @@ function LiveSessionsContent() {
             <li>• Arrive 5 minutes early to test your setup</li>
             <li>• Use the chat to ask questions and interact</li>
             <li>• All sessions are recorded and available later</li>
-            <li>• Mute your microphone if there's background noise</li>
+            <li>• Mute your microphone if there&apos;s background noise</li>
             <li>• Get a certificate if you attend the full session</li>
           </ul>
         </motion.div>

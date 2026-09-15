@@ -57,7 +57,7 @@ function CreateCourseContent() {
       });
       return;
     }
-    const newCourse = addCourse({
+    addCourse({
       title: formData.title,
       description: formData.description,
       whatYoullLearn: [],

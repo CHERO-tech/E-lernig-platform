@@ -6,7 +6,6 @@ import { useState, useMemo } from "react";
 import { useAuth } from "@/lib/auth/useAuth";
 import { usePeople } from "@/lib/people/usePeople";
 import { useCourses } from "@/lib/courses/useCourses";
-import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { listEnrolledUserIds, getKnownUsers } from "@/lib/shared/crossAccountStore";
 import { calculateUserPoints } from "@/lib/points/calculatePoints";
 
@@ -15,7 +14,6 @@ export default function Leaderboards() {
   const { user } = useAuth();
   const { people } = usePeople();
   const { courses } = useCourses();
-  const { enrollments: currentUserEnrollments } = useEnrollment();
 
   const topStudents = useMemo(() => {
     if (typeof localStorage === 'undefined') return [];
@@ -149,7 +147,7 @@ export default function Leaderboards() {
             className="space-y-4"
           >
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Students</h2>
-            {topStudents.map((student, i) => (
+            {topStudents.map((student) => (
               <div
                 key={student.rank}
                 className={`rounded-lg border p-6 flex items-center gap-6 hover:shadow-lg transition-shadow ${

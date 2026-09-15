@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { usePeople } from "@/lib/people/usePeople";
 import { useCourses } from "@/lib/courses/useCourses";
-import { BarChart3, Users, BookOpen, DollarSign, TrendingUp, Activity } from "lucide-react";
+import { BarChart3, Users, BookOpen, DollarSign, Activity } from "lucide-react";
 import { useState } from "react";
 
 function AdminAnalyticsContent() {

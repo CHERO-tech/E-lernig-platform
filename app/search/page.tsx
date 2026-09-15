@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Filter, Star, Users, Clock, ArrowRight } from "lucide-react";
+import { Search, Filter, Star, Clock, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 

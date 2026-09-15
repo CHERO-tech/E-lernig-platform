@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, MotionProps } from "framer-motion";
+import { ElementType } from "react";
 import { MOTION } from "../../_lib/motion";
 
 interface RevealProps extends MotionProps {
@@ -17,7 +18,7 @@ export function Reveal({
   as = "div",
   ...props
 }: RevealProps) {
-  const Component = motion[as as keyof typeof motion] as any;
+  const Component = motion[as] as ElementType;
 
   return (
     <Component

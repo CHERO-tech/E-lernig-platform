@@ -131,7 +131,7 @@ export default function Help() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 pr-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-ember"
-            />
+             aria-label="Search help articles"/>
           </div>
         </div>
       </div>

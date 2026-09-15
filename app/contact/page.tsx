@@ -91,8 +91,8 @@ export default function Contact() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                <input
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Name</label>
+                <input id="name"
                   type="text"
                   name="name"
                   value={formData.name}
@@ -104,8 +104,8 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email</label>
+                <input id="email"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -117,8 +117,8 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                <input
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="subject">Subject</label>
+                <input id="subject"
                   type="text"
                   name="subject"
                   value={formData.subject}
@@ -130,8 +130,8 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Message</label>
-                <textarea
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="message">Message</label>
+                <textarea id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}

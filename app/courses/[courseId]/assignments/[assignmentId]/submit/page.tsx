@@ -80,7 +80,7 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
     <div className="min-h-screen bg-ow">
       <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow" aria-label="Go back">
             <ArrowLeft size={20} className="text-mg" />
           </button>
           <h1 className="text-3xl font-bold text-dt">{assignment.title}</h1>
@@ -115,8 +115,9 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-dt">Submission Notes (Optional)</label>
+                  <label className="block text-sm font-medium mb-2 text-dt" htmlFor="submission-notes">Submission Notes (Optional)</label>
                   <textarea
+                    id="submission-notes"
                     placeholder="Add any notes or explanations about your submission..."
                     rows={4}
                     value={submissionText}

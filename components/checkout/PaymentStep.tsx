@@ -80,10 +80,11 @@ export function PaymentStep({ onSuccess, total }: PaymentStepProps) {
       )}
 
       <div>
-        <label className="block text-sm font-medium mb-2 text-dt">
+        <label className="block text-sm font-medium mb-2 text-dt" htmlFor="cardholder-name">
           Name on Card
         </label>
         <input
+          id="cardholder-name"
           type="text"
           value={cardholderName}
           onChange={(e) => setCardholderName(e.target.value)}

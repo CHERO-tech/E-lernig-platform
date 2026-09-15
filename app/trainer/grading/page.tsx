@@ -215,8 +215,9 @@ function GradingDashboardContent() {
           {/* Grading Form */}
           <div className="space-y-4 border-t border-gray-200 pt-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Score</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="grading-score">Score</label>
               <input
+                id="grading-score"
                 type="number"
                 min="0"
                 max="100"
@@ -233,8 +234,9 @@ function GradingDashboardContent() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Feedback</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="grading-feedback">Feedback</label>
               <textarea
+                id="grading-feedback"
                 rows={4}
                 value={gradingState[selected.id]?.feedback ?? ''}
                 onChange={(e) =>

@@ -45,7 +45,7 @@ function ProfileContent() {
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white">
         <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between">
-          <button onClick={() => router.back()} className="p-2 hover:bg-white/20 rounded-lg transition-colors">
+          <button onClick={() => router.back()} className="p-2 hover:bg-white/20 rounded-lg transition-colors" aria-label="Go back">
             <ArrowLeft size={20} />
           </button>
           <h1 className="text-3xl font-bold">Profile</h1>

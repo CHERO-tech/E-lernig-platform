@@ -52,7 +52,7 @@ export default function Courses() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
-            />
+             aria-label="Search courses"/>
           </div>
         </div>
 

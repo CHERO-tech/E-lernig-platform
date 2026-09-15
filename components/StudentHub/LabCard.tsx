@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { LabSession } from "@/lib/studentHubData";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
@@ -91,16 +92,21 @@ export default function LabCard({ lab }: LabCardProps) {
       </div>
 
       {/* CTA Button */}
-      <button
-        disabled={lab.status === "completed"}
-        className={`w-full py-2 px-4 rounded-lg font-medium transition-colors ${
-          lab.status === "completed"
-            ? "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-            : "bg-ember-strong hover:bg-ember-strong text-white"
-        }`}
-      >
-        {lab.status === "completed" ? "Completed" : "Book Session"}
-      </button>
+      {lab.status === "completed" ? (
+        <button
+          disabled
+          className="w-full py-2 px-4 rounded-lg font-medium transition-colors bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+        >
+          Completed
+        </button>
+      ) : (
+        <Link
+          href="/live-sessions"
+          className="block w-full text-center py-2 px-4 rounded-lg font-medium transition-colors bg-ember-strong hover:bg-ember-strong text-white"
+        >
+          Book Session
+        </Link>
+      )}
     </motion.div>
   );
 }

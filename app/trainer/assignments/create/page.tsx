@@ -90,7 +90,7 @@ function CreateAssignmentContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Create Assignment</h1>
@@ -109,8 +109,8 @@ function CreateAssignmentContent() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Assignment Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Assignment Title *</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Assignment Title *</label>
+                  <input id="title"
                     type="text"
                     name="title"
                     placeholder="e.g., Build a React Todo App"
@@ -122,8 +122,8 @@ function CreateAssignmentContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                  <textarea id="description"
                     name="description"
                     placeholder="Brief description of the assignment..."
                     rows={3}
@@ -136,8 +136,8 @@ function CreateAssignmentContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Course *</label>
-                    <select
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course">Course *</label>
+                    <select id="course"
                       name="course"
                       value={formData.course}
                       onChange={handleChange}
@@ -151,8 +151,8 @@ function CreateAssignmentContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Due Date *</label>
-                    <input
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="dueDate">Due Date *</label>
+                    <input id="dueDate"
                       type="date"
                       name="dueDate"
                       value={formData.dueDate}
@@ -164,8 +164,8 @@ function CreateAssignmentContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Instructions *</label>
-                  <textarea
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="instructions">Instructions *</label>
+                  <textarea id="instructions"
                     name="instructions"
                     placeholder="Detailed instructions for students..."
                     rows={4}
@@ -189,8 +189,9 @@ function CreateAssignmentContent() {
                 {formData.rubric.map((criterion) => (
                   <div key={criterion.id} className="flex gap-4 items-end p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="flex-1">
-                      <label className="block text-xs text-gray-600 uppercase mb-1">Criterion</label>
+                      <label className="block text-xs text-gray-600 uppercase mb-1" htmlFor={`criterion-${criterion.id}`}>Criterion</label>
                       <input
+                        id={`criterion-${criterion.id}`}
                         type="text"
                         placeholder="e.g., Code Quality"
                         value={criterion.criterion}
@@ -200,8 +201,9 @@ function CreateAssignmentContent() {
                     </div>
 
                     <div className="w-24">
-                      <label className="block text-xs text-gray-600 uppercase mb-1">Points</label>
+                      <label className="block text-xs text-gray-600 uppercase mb-1" htmlFor={`points-${criterion.id}`}>Points</label>
                       <input
+                        id={`points-${criterion.id}`}
                         type="number"
                         placeholder="0"
                         value={criterion.points}

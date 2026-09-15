@@ -56,7 +56,7 @@ function ChatContent({ userId }: { userId: string }) {
       <div className="bg-white border-b border-border sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+            <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow" aria-label="Go back">
               <ArrowLeft size={20} className="text-mg" />
             </button>
             <div className="flex items-center gap-3">
@@ -124,10 +124,11 @@ function ChatContent({ userId }: { userId: string }) {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               className="flex-1 px-4 py-3 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
-            />
+             aria-label="Type a message"/>
             <button
               onClick={handleSend}
               className="px-4 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110 transition-colors flex items-center gap-2"
+              aria-label="Send message"
             >
               <Send size={18} />
             </button>

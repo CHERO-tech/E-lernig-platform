@@ -85,7 +85,7 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
-            />
+             aria-label="Search discussions"/>
           </div>
         </div>
       </div>
@@ -96,8 +96,9 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
             <h2 className="text-xl font-bold mb-4 text-dt">Ask a Question</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-dt">Question Title</label>
+                <label className="block text-sm font-medium mb-2 text-dt" htmlFor="question-title">Question Title</label>
                 <input
+                  id="question-title"
                   type="text"
                   placeholder="What's your question?"
                   value={newQuestion.title}
@@ -107,8 +108,9 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 text-dt">Details</label>
+                <label className="block text-sm font-medium mb-2 text-dt" htmlFor="question-details">Details</label>
                 <textarea
+                  id="question-details"
                   placeholder="Provide more details about your question..."
                   rows={4}
                   value={newQuestion.content}

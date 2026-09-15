@@ -124,7 +124,7 @@ function CreateQuizContent() {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg">
+          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
             <ArrowLeft size={20} className="text-gray-600" />
           </button>
           <h1 className="text-3xl font-bold text-gray-900">Create Quiz</h1>
@@ -142,8 +142,8 @@ function CreateQuizContent() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Quiz Settings</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Quiz Title *</label>
-                <input
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Quiz Title *</label>
+                <input id="title"
                   type="text"
                   name="title"
                   placeholder="e.g., React Hooks Quiz"
@@ -155,8 +155,8 @@ function CreateQuizContent() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
-                <textarea
+                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                <textarea id="description"
                   name="description"
                   placeholder="What is this quiz about?"
                   rows={3}
@@ -169,8 +169,8 @@ function CreateQuizContent() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Course</label>
-                  <select
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course">Course</label>
+                  <select id="course"
                     name="course"
                     value={formData.course}
                     onChange={handleBasicChange}
@@ -183,8 +183,8 @@ function CreateQuizContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Time Limit (min)</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="timeLimit">Time Limit (min)</label>
+                  <input id="timeLimit"
                     type="number"
                     name="timeLimit"
                     value={formData.timeLimit}
@@ -194,8 +194,8 @@ function CreateQuizContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Passing Score (%)</label>
-                  <input
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="passingScore">Passing Score (%)</label>
+                  <input id="passingScore"
                     type="number"
                     name="passingScore"
                     value={formData.passingScore}
@@ -259,7 +259,7 @@ function CreateQuizContent() {
                     onChange={(e) => handleQuestionChange(q.id, "question", e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
-                  />
+                   aria-label="Enter question text"/>
 
                   {/* Options */}
                   <div className="space-y-3 mb-4">
@@ -278,6 +278,7 @@ function CreateQuizContent() {
                         <input
                           type="text"
                           placeholder={`Option ${optIdx + 1}`}
+                          aria-label={`Option ${optIdx + 1}`}
                           value={option}
                           onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
                           className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
@@ -294,7 +295,7 @@ function CreateQuizContent() {
                     value={q.explanation}
                     onChange={(e) => handleQuestionChange(q.id, "explanation", e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
-                  />
+                   aria-label="Explanation (shown after answer)"/>
                 </motion.div>
               ))}
             </div>

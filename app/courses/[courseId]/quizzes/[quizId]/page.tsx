@@ -73,7 +73,7 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
       <div className="min-h-screen bg-ow">
         <div className="bg-white border-b border-border">
           <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-            <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+            <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow" aria-label="Go back">
               <ArrowLeft size={20} className="text-mg" />
             </button>
             <h1 className="text-3xl font-bold text-dt">Quiz Results</h1>
@@ -185,7 +185,7 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
     <div className="min-h-screen bg-ow">
       <div className="bg-white border-b border-border sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
-          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow">
+          <button onClick={() => router.back()} className="p-2 rounded-lg hover:bg-ow" aria-label="Go back">
             <ArrowLeft size={20} className="text-mg" />
           </button>
           <div className="flex-1 mx-4">

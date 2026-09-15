@@ -1,0 +1,441 @@
+/* Orbit Landing Page — Combined Design System
+ * Forge's dark green + white aesthetic with Orbit's 9-section structure
+ */
+
+.ob-root {
+  /* Use Forge's established color palette */
+  --ob-bg-canvas: #0d2015;
+  --ob-bg-surface: #0f2817;
+  --ob-bg-surface-raised: #122d1f;
+  --ob-bg-overlay: rgba(13, 32, 21, 0.88);
+
+  /* Text - light cream/white */
+  --ob-text-primary: #e7ece3;
+  --ob-text-secondary: #a8b8a0;
+  --ob-text-tertiary: #7a8a73;
+  --ob-text-inverse: #0d2015;
+
+  /* Forge's signature green accent */
+  --ob-border-subtle: rgba(231, 236, 227, 0.12);
+  --ob-border-strong: rgba(231, 236, 227, 0.24);
+
+  /* Shadow / glow */
+  --ob-shadow-sm: rgba(0, 0, 0, 0.24);
+  --ob-shadow-md: rgba(0, 0, 0, 0.38);
+  --ob-shadow-lg: rgba(0, 0, 0, 0.52);
+  --ob-glow: rgba(51, 166, 106, 0.16);
+
+  /* Forge's signature green */
+  --ob-accent: #33a66a;
+  --ob-accent-soft: rgba(51, 166, 106, 0.16);
+  --ob-accent-strong: #1f7a4d;
+
+  /* Typography */
+  --ob-font-display: var(--font-bricolage, sans-serif);
+  --ob-font-body: var(--font-inter, sans-serif);
+  --ob-font-mono: var(--font-plex-mono, monospace);
+
+  /* Rhythm */
+  --ob-radius-sm: 6px;
+  --ob-radius-md: 14px;
+  --ob-radius-lg: 28px;
+  --ob-container-max: 1320px;
+  --ob-section-pad: clamp(4.5rem, 9vw, 8rem);
+  --ob-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  background: var(--ob-bg-canvas);
+  color: var(--ob-text-primary);
+  font-family: var(--ob-font-body);
+}
+
+/* Base resets */
+
+.ob-root h1,
+.ob-root h2,
+.ob-root h3 {
+  font-family: var(--ob-font-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+  color: var(--ob-text-primary);
+}
+
+.ob-root p {
+  text-wrap: pretty;
+  color: var(--ob-text-primary);
+  margin: 0;
+}
+
+.ob-root section {
+  padding: 0;
+  margin: 0;
+  color: var(--ob-text-primary);
+}
+
+.ob-root a {
+  color: var(--ob-accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.ob-root a:hover {
+  opacity: 0.8;
+}
+
+.ob-root ::selection {
+  background: var(--ob-accent);
+  color: var(--ob-text-inverse);
+}
+
+.ob-root :focus-visible {
+  outline: 2px solid var(--ob-accent);
+  outline-offset: 3px;
+}
+
+/* Container & section rhythm */
+
+.ob-container {
+  max-width: var(--ob-container-max);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.ob-section {
+  padding: var(--ob-section-pad) 0;
+}
+
+.ob-section--full {
+  padding: 0;
+}
+
+.ob-section--alt {
+  background: rgba(15, 40, 23, 0.5);
+  border-top: 1px solid var(--ob-border-subtle);
+  border-bottom: 1px solid var(--ob-border-subtle);
+}
+
+/* Typography utility classes */
+
+.ob-h1 {
+  font-size: clamp(2rem, 8vw, 4rem);
+  line-height: 1.1;
+}
+
+.ob-h2 {
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  line-height: 1.2;
+}
+
+.ob-h3 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  line-height: 1.3;
+}
+
+.ob-eyebrow {
+  font-family: var(--ob-font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ob-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.ob-eyebrow::before {
+  content: "";
+  width: 1.4em;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Interactive states */
+
+.ob-root button,
+.ob-root [role="button"] {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ob-root button:focus-visible,
+.ob-root [role="button"]:focus-visible {
+  outline: 2px solid var(--ob-accent);
+  outline-offset: 3px;
+}
+
+/* Animation keyframes */
+
+@keyframes ob-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ob-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ob-idle-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes ob-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Reduced motion fallbacks */
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-root * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Utility classes for layout */
+
+.ob-flex {
+  display: flex;
+}
+
+.ob-grid {
+  display: grid;
+}
+
+.ob-gap-sm {
+  gap: 1rem;
+}
+
+.ob-gap-md {
+  gap: 2rem;
+}
+
+.ob-gap-lg {
+  gap: 3rem;
+}
+
+.ob-mt-sm {
+  margin-top: 0.75rem;
+}
+
+.ob-mt-md {
+  margin-top: 1.5rem;
+}
+
+.ob-mt-lg {
+  margin-top: 3rem;
+}
+
+/* Hero Section */
+
+.ob-hero {
+  background: linear-gradient(135deg, #0d2015 0%, #0f2817 100%);
+  position: relative;
+}
+
+.ob-float-obj {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ob-float-1 {
+  top: 5%;
+  left: 10%;
+  width: 200px;
+  height: auto;
+}
+
+.ob-float-2 {
+  top: 50%;
+  right: 15%;
+  width: 180px;
+  height: auto;
+}
+
+.ob-float-3 {
+  bottom: 10%;
+  left: 20%;
+  width: 160px;
+  height: auto;
+}
+
+/* Button Styles */
+
+.ob-btn {
+  transition: all 0.2s ease;
+  font-weight: 600;
+  border-radius: var(--ob-radius-md);
+  padding: 1rem 2rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.ob-btn-primary {
+  background: var(--ob-accent);
+  color: var(--ob-text-inverse);
+}
+
+.ob-btn-primary:hover {
+  background: var(--ob-accent-strong);
+  box-shadow: 0 8px 16px rgba(51, 166, 106, 0.3);
+}
+
+.ob-btn-secondary {
+  background: transparent;
+  color: var(--ob-text-primary);
+  border: 1px solid var(--ob-border-strong);
+}
+
+.ob-btn-secondary:hover {
+  background: rgba(51, 166, 106, 0.1);
+  border-color: var(--ob-accent);
+}
+
+.ob-btn:focus-visible {
+  outline: 2px solid var(--ob-accent);
+  outline-offset: 3px;
+}
+
+/* Navigation Styles */
+
+.ob-nav {
+  will-change: background-color, border-color;
+}
+
+.ob-nav--scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Desktop navigation visibility */
+
+.ob-nav-desktop {
+  display: none;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .ob-nav-desktop {
+    display: flex;
+  }
+}
+
+/* Horizontal scroll track styling */
+
+.ob-h-scroll-track {
+  display: flex;
+  gap: 1.5rem;
+  width: fit-content;
+  will-change: transform;
+}
+
+.ob-h-scroll-track > * {
+  flex-shrink: 0;
+  width: clamp(300px, 80vw, 500px);
+}
+
+/* Stat styling */
+
+.ob-stat {
+  text-align: center;
+}
+
+.ob-stat-value {
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  font-weight: 700;
+  font-family: var(--ob-font-display);
+  color: var(--ob-accent);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.ob-stat-label {
+  font-size: 0.875rem;
+  color: var(--ob-text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Layered section positioning */
+
+.ob-layered-section {
+  position: relative;
+  height: 600px;
+  margin: 4rem 0;
+}
+
+.ob-layer {
+  width: 100%;
+}
+
+/* Card styling */
+
+.ob-card {
+  padding: 1.5rem;
+  background: var(--ob-bg-surface);
+  border-radius: var(--ob-radius-md);
+  border: 1px solid var(--ob-border-subtle);
+  transition: all 0.3s;
+}
+
+.ob-card:hover {
+  background: var(--ob-bg-surface-raised);
+  border-color: var(--ob-border-strong);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon styling */
+
+.ob-icon {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  vertical-align: -0.125em;
+  color: var(--ob-accent);
+}
+
+/* Responsive adjustments */
+
+@media (max-width: 768px) {
+  .ob-h1 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+
+  .ob-hero {
+    padding: 2rem 1rem;
+  }
+
+  .ob-float-obj {
+    display: none;
+  }
+}

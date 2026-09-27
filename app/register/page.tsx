@@ -99,7 +99,7 @@ export default function RegisterPage() {
 
   return (
     <AuthShell>
-      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-4">
+      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-brass hover:text-white transition-colors mb-4">
         <ArrowLeft size={16} />
         Back to Home
       </Link>
@@ -211,7 +211,7 @@ export default function RegisterPage() {
                     setStep("role");
                     setError("");
                   }}
-                  className="flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all bg-white text-dt border border-border hover:bg-gray-50"
+                  className="flex-1 py-3 px-4 rounded-lg font-semibold text-sm transition-all bg-white text-dt border border-border hover:bg-ow"
                 >
                   Back
                 </button>

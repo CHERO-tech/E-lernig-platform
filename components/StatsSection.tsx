@@ -12,7 +12,7 @@ export default function StatsSection() {
         {stats.map((s) => (
           <div key={s.label} className="text-center">
             <div className="font-mono text-3xl sm:text-4xl font-bold mb-2 text-pg">{s.value}</div>
-            <div className="text-sm text-mg">{s.label}</div>
+            <div className="text-sm text-brass">{s.label}</div>
           </div>
         ))}
       </div>

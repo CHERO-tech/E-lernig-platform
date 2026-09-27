@@ -112,13 +112,13 @@ export default function Leaderboards() {
 
   const getMedalColor = (rank: number) => {
     if (rank === 1) return "text-yellow-500";
-    if (rank === 2) return "text-gray-400";
+    if (rank === 2) return "text-mg";
     if (rank === 3) return "text-orange-600";
-    return "text-gray-600";
+    return "text-mg";
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
@@ -139,7 +139,7 @@ export default function Leaderboards() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4 mb-8 border-b border-gray-200"
+          className="flex gap-4 mb-8 border-b border-border"
         >
           {["students", "trainers", "skills"].map((tab) => (
             <button
@@ -148,7 +148,7 @@ export default function Leaderboards() {
               className={`px-6 py-4 font-medium transition-colors ${
                 activeTab === tab
                   ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-mg hover:text-dt"
               }`}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -163,21 +163,21 @@ export default function Leaderboards() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Students</h2>
+            <h2 className="text-2xl font-bold text-dt mb-6">Top Students</h2>
             {topStudents.map((student) => (
               <div
                 key={student.rank}
                 className={`rounded-lg border p-6 flex items-center gap-6 hover:shadow-lg transition-shadow ${
                   student.isCurrentUser
                     ? "bg-forge-soft border-brass-soft"
-                    : "bg-white border-gray-200"
+                    : "bg-white border-border"
                 }`}
               >
                 <div className="flex items-center gap-4 w-32">
                   <Medal size={32} className={getMedalColor(student.rank)} />
                   <div>
-                    <p className="text-xs text-gray-500 uppercase">Rank</p>
-                    <p className="text-2xl font-bold text-gray-900">#{student.rank}</p>
+                    <p className="text-xs text-mg uppercase">Rank</p>
+                    <p className="text-2xl font-bold text-dt">#{student.rank}</p>
                   </div>
                 </div>
 
@@ -186,21 +186,21 @@ export default function Leaderboards() {
                 </div>
 
                 <div className="flex-1">
-                  <p className="font-bold text-gray-900">{student.name}</p>
-                  <p className="text-sm text-gray-600">{student.courses} courses completed</p>
+                  <p className="font-bold text-dt">{student.name}</p>
+                  <p className="text-sm text-mg">{student.courses} courses completed</p>
                 </div>
 
                 <div className="grid grid-cols-3 gap-6 min-w-fit">
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Certificates</p>
+                    <p className="text-xs text-mg uppercase mb-1">Certificates</p>
                     <p className="text-2xl font-bold text-ember-strong">{student.certificates}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Streak</p>
+                    <p className="text-xs text-mg uppercase mb-1">Streak</p>
                     <p className="text-2xl font-bold text-orange-500">{student.streak}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Points</p>
+                    <p className="text-xs text-mg uppercase mb-1">Points</p>
                     <p className="text-2xl font-bold text-blue-600">{student.points}</p>
                   </div>
                 </div>
@@ -216,17 +216,17 @@ export default function Leaderboards() {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Trainers</h2>
+            <h2 className="text-2xl font-bold text-dt mb-6">Top Trainers</h2>
             {topTrainers.map((trainer) => (
               <div
                 key={trainer.rank}
-                className="bg-white rounded-lg border border-gray-200 p-6 flex items-center gap-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border p-6 flex items-center gap-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-center gap-4 w-32">
                   <Medal size={32} className={getMedalColor(trainer.rank)} />
                   <div>
-                    <p className="text-xs text-gray-500 uppercase">Rank</p>
-                    <p className="text-2xl font-bold text-gray-900">#{trainer.rank}</p>
+                    <p className="text-xs text-mg uppercase">Rank</p>
+                    <p className="text-2xl font-bold text-dt">#{trainer.rank}</p>
                   </div>
                 </div>
 
@@ -235,21 +235,21 @@ export default function Leaderboards() {
                 </div>
 
                 <div className="flex-1">
-                  <p className="font-bold text-gray-900">{trainer.name}</p>
-                  <p className="text-sm text-gray-600">{trainer.courses} courses · {trainer.students.toLocaleString()} students</p>
+                  <p className="font-bold text-dt">{trainer.name}</p>
+                  <p className="text-sm text-mg">{trainer.courses} courses · {trainer.students.toLocaleString()} students</p>
                 </div>
 
                 <div className="grid grid-cols-3 gap-6 min-w-fit">
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Rating</p>
+                    <p className="text-xs text-mg uppercase mb-1">Rating</p>
                     <p className="text-2xl font-bold text-yellow-500">{trainer.rating}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Students</p>
+                    <p className="text-xs text-mg uppercase mb-1">Students</p>
                     <p className="text-2xl font-bold text-purple-600">{trainer.students.toLocaleString()}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-gray-500 uppercase mb-1">Revenue</p>
+                    <p className="text-xs text-mg uppercase mb-1">Revenue</p>
                     <p className="text-2xl font-bold text-ember-strong">{trainer.revenue}</p>
                   </div>
                 </div>
@@ -266,27 +266,27 @@ export default function Leaderboards() {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Most Endorsed Skills</h2>
+              <h2 className="text-2xl font-bold text-dt mb-6">Most Endorsed Skills</h2>
               <div className="space-y-3">
                 {skillEndorsements.slice(0, 4).map((skill, i) => (
-                  <div key={i} className="bg-white rounded-lg border border-gray-200 p-4">
+                  <div key={i} className="bg-white rounded-lg border border-border p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{skill.skill}</p>
-                        <p className="text-xs text-gray-500">{skill.category}</p>
+                        <p className="font-semibold text-dt">{skill.skill}</p>
+                        <p className="text-xs text-mg">{skill.category}</p>
                       </div>
                       {skill.trending && (
                         <Zap size={18} className="text-orange-500 fill-orange-500" />
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
                         <div
                           className="h-full bg-ember-strong"
                           style={{ width: `${(skill.endorsements / 450) * 100}%` }}
                         ></div>
                       </div>
-                      <p className="text-sm font-semibold text-gray-900">{skill.endorsements}</p>
+                      <p className="text-sm font-semibold text-dt">{skill.endorsements}</p>
                     </div>
                   </div>
                 ))}
@@ -294,27 +294,27 @@ export default function Leaderboards() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Emerging Skills</h2>
+              <h2 className="text-2xl font-bold text-dt mb-6">Emerging Skills</h2>
               <div className="space-y-3">
                 {skillEndorsements.slice(4).map((skill, i) => (
-                  <div key={i} className="bg-white rounded-lg border border-gray-200 p-4">
+                  <div key={i} className="bg-white rounded-lg border border-border p-4">
                     <div className="flex items-center justify-between mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{skill.skill}</p>
-                        <p className="text-xs text-gray-500">{skill.category}</p>
+                        <p className="font-semibold text-dt">{skill.skill}</p>
+                        <p className="text-xs text-mg">{skill.category}</p>
                       </div>
                       {skill.trending && (
                         <Zap size={18} className="text-orange-500 fill-orange-500" />
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
                         <div
                           className="h-full bg-ember-strong"
                           style={{ width: `${(skill.endorsements / 450) * 100}%` }}
                         ></div>
                       </div>
-                      <p className="text-sm font-semibold text-gray-900">{skill.endorsements}</p>
+                      <p className="text-sm font-semibold text-dt">{skill.endorsements}</p>
                     </div>
                   </div>
                 ))}

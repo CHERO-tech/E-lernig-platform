@@ -21,11 +21,11 @@ function NotificationsContent() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div className="bg-white border-b border-border sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-6 py-6">
-          <Link href={`/${user?.role ?? "student"}/dashboard`} className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+          <Link href={`/${user?.role ?? "student"}/dashboard`} className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
             <ArrowLeft size={16} />
             Back to Dashboard
           </Link>
@@ -33,9 +33,9 @@ function NotificationsContent() {
             <div className="flex items-center gap-3">
               <Bell size={24} className="text-ember-strong" />
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+                <h1 className="text-2xl font-bold text-dt">Notifications</h1>
                 {unreadCount > 0 && (
-                  <p className="text-sm text-gray-600">{unreadCount} unread messages</p>
+                  <p className="text-sm text-mg">{unreadCount} unread messages</p>
                 )}
               </div>
             </div>
@@ -48,7 +48,7 @@ function NotificationsContent() {
                   <CheckCheck size={16} /> Mark all as read
                 </button>
               )}
-              <Link href="/settings" className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2">
+              <Link href="/settings" className="px-4 py-2 text-sm font-medium text-dt hover:bg-ow rounded-lg transition-colors flex items-center gap-2">
                 <Filter size={16} /> Settings
               </Link>
             </div>
@@ -69,7 +69,7 @@ function NotificationsContent() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 filter === tab.id
                   ? "bg-ember-strong text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-ow text-dt hover:bg-surface"
               }`}
             >
               {tab.label}
@@ -91,7 +91,7 @@ function NotificationsContent() {
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 className={`p-4 rounded-lg border transition-all ${
                   notif.read
-                    ? "bg-white border-gray-200 hover:border-gray-300"
+                    ? "bg-white border-border hover:border-border"
                     : "bg-blue-50 border-blue-200 hover:border-blue-300"
                 }`}
               >
@@ -103,16 +103,16 @@ function NotificationsContent() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className={`font-semibold ${notif.read ? "text-gray-900" : "text-blue-900"}`}>
+                        <p className={`font-semibold ${notif.read ? "text-dt" : "text-blue-900"}`}>
                           {notif.title}
                         </p>
-                        <p className="text-sm text-gray-600 mt-1">{notif.message}</p>
+                        <p className="text-sm text-mg mt-1">{notif.message}</p>
                       </div>
                       {!notif.read && (
                         <div className="w-2 h-2 rounded-full bg-blue-600 flex-shrink-0 mt-2" />
                       )}
                     </div>
-                    <p className="text-xs text-gray-500 mt-3">{formatRelativeTime(notif.createdAt)}</p>
+                    <p className="text-xs text-mg mt-3">{formatRelativeTime(notif.createdAt)}</p>
                   </div>
 
                   {/* Actions */}
@@ -120,7 +120,7 @@ function NotificationsContent() {
                     {!notif.read && (
                       <button
                         onClick={() => markAsRead(notif.id)}
-                        className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-ember-strong"
+                        className="p-2 hover:bg-ow rounded-lg transition-colors text-mg hover:text-ember-strong"
                         title="Mark as read"
                       >
                         <Check size={18} />
@@ -128,7 +128,7 @@ function NotificationsContent() {
                     )}
                     <button
                       onClick={() => deleteNotification(notif.id)}
-                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600 hover:text-red-600"
+                      className="p-2 hover:bg-ow rounded-lg transition-colors text-mg hover:text-red-600"
                       title="Delete"
                     >
                       <Trash2 size={18} />
@@ -142,18 +142,18 @@ function NotificationsContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-16 bg-white rounded-lg border border-gray-200"
+            className="text-center py-16 bg-white rounded-lg border border-border"
           >
-            <Bell size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-gray-600 mb-4 text-lg">No notifications yet</p>
-            <p className="text-gray-500">When something important happens, you&apos;ll see it here</p>
+            <Bell size={48} className="mx-auto text-border mb-4" />
+            <p className="text-mg mb-4 text-lg">No notifications yet</p>
+            <p className="text-mg">When something important happens, you&apos;ll see it here</p>
           </motion.div>
         )}
 
         {/* Empty State Message */}
         {unreadCount === 0 && notifications.length > 0 && filter === "unread" && (
           <div className="text-center py-12">
-            <p className="text-gray-600">You&apos;re all caught up! 🎉</p>
+            <p className="text-mg">You&apos;re all caught up! 🎉</p>
           </div>
         )}
       </div>

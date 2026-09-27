@@ -12,6 +12,7 @@ export interface QuizAttempt {
 export interface AssignmentSubmission {
   assignmentId: string;
   fileName: string;
+  fileDataUrl?: string;
   submittedAt: string;
   status: 'submitted' | 'graded';
   score?: number;
@@ -36,6 +37,6 @@ export interface EnrollmentContextType {
   enroll: (courseId: string) => void;
   markLessonComplete: (courseId: string, lessonId: string) => void;
   recordQuizAttempt: (courseId: string, quizId: string, score: number) => void;
-  submitAssignment: (courseId: string, assignmentId: string, fileName: string) => void;
+  submitAssignment: (courseId: string, assignmentId: string, fileName: string, fileDataUrl?: string) => void;
   setLastViewedLesson: (courseId: string, lessonId: string) => void;
 }

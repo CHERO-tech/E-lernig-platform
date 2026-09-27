@@ -30,7 +30,7 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ff5f57" }} />
               <span className="w-2.5 h-2.5 rounded-full" style={{ background: "#ffbd2e" }} />
               <span className="w-2.5 h-2.5 rounded-full bg-pg/60" />
-              <span className="ml-2 font-mono text-xs text-mg">welcome.sh</span>
+              <span className="ml-2 font-mono text-xs text-brass">welcome.sh</span>
             </div>
             <div className="p-6 font-mono text-sm space-y-3">
               {missionLines.map((line, i) => (
@@ -47,7 +47,7 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
               <br />
               put to work.
             </h2>
-            <p className="text-sm text-mg">
+            <p className="text-sm text-brass">
               Hands-on projects in Software Development, Networking, and Multimedia — reviewed by
               mentors, certified for hiring.
             </p>
@@ -57,7 +57,7 @@ export default function AuthShell({ children }: { children: React.ReactNode }) {
           {badges.map((b) => (
             <div key={b} className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-pg" />
-              <span className="font-mono text-xs text-mg">{b}</span>
+              <span className="font-mono text-xs text-brass">{b}</span>
             </div>
           ))}
         </div>

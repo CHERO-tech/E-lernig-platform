@@ -18,6 +18,7 @@ function CreateQuizContent() {
     course: courses.length > 0 ? courses[0].id : "course-1",
     timeLimit: 15,
     passingScore: 70,
+    dueDate: "",
     questions: [
       {
         id: 1,
@@ -108,6 +109,7 @@ function CreateQuizContent() {
       description: formData.description,
       timeLimit: formData.timeLimit,
       passingScore: formData.passingScore,
+      dueDate: formData.dueDate || undefined,
       questions: formData.questions.map(q => ({ ...q, id: q.id.toString() })),
     });
     addNotification({
@@ -120,14 +122,14 @@ function CreateQuizContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Create Quiz</h1>
+          <h1 className="text-3xl font-bold text-dt">Create Quiz</h1>
         </div>
       </div>
 
@@ -137,44 +139,44 @@ function CreateQuizContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-8"
+            className="bg-white rounded-lg border border-border p-8"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Quiz Settings</h2>
+            <h2 className="text-2xl font-bold text-dt mb-6">Quiz Settings</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Quiz Title *</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="title">Quiz Title *</label>
                 <input id="title"
                   type="text"
                   name="title"
                   placeholder="e.g., React Hooks Quiz"
                   value={formData.title}
                   onChange={handleBasicChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="description">Description *</label>
                 <textarea id="description"
                   name="description"
                   placeholder="What is this quiz about?"
                   rows={3}
                   value={formData.description}
                   onChange={handleBasicChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course">Course</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="course">Course</label>
                   <select id="course"
                     name="course"
                     value={formData.course}
                     onChange={handleBasicChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   >
                     {courses.map(course => (
                       <option key={course.id} value={course.id}>{course.title}</option>
@@ -183,18 +185,18 @@ function CreateQuizContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="timeLimit">Time Limit (min)</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="timeLimit">Time Limit (min)</label>
                   <input id="timeLimit"
                     type="number"
                     name="timeLimit"
                     value={formData.timeLimit}
                     onChange={handleBasicChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="passingScore">Passing Score (%)</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="passingScore">Passing Score (%)</label>
                   <input id="passingScore"
                     type="number"
                     name="passingScore"
@@ -202,7 +204,18 @@ function CreateQuizContent() {
                     onChange={handleBasicChange}
                     min="0"
                     max="100"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="dueDate">Due Date (optional)</label>
+                  <input id="dueDate"
+                    type="date"
+                    name="dueDate"
+                    value={formData.dueDate}
+                    onChange={handleBasicChange}
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
               </div>
@@ -212,7 +225,7 @@ function CreateQuizContent() {
           {/* Questions */}
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Questions ({formData.questions.length})</h2>
+              <h2 className="text-2xl font-bold text-dt">Questions ({formData.questions.length})</h2>
               <button
                 type="button"
                 onClick={handleAddQuestion}
@@ -228,11 +241,11 @@ function CreateQuizContent() {
                   key={q.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-lg border border-gray-200 p-6"
+                  className="bg-white rounded-lg border border-border p-6"
                 >
                   {/* Question Header */}
                   <div className="flex items-center justify-between mb-4">
-                    <p className="text-sm font-semibold text-gray-700">Question {qIdx + 1}</p>
+                    <p className="text-sm font-semibold text-dt">Question {qIdx + 1}</p>
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -257,7 +270,7 @@ function CreateQuizContent() {
                     placeholder="Enter question text"
                     value={q.question}
                     onChange={(e) => handleQuestionChange(q.id, "question", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                    aria-label="Enter question text"/>
 
@@ -273,7 +286,7 @@ function CreateQuizContent() {
                             onChange={() => handleQuestionChange(q.id, "correct", optIdx)}
                             className="w-4 h-4"
                           />
-                          <span className="text-xs text-gray-600">Correct</span>
+                          <span className="text-xs text-mg">Correct</span>
                         </label>
                         <input
                           type="text"
@@ -281,7 +294,7 @@ function CreateQuizContent() {
                           aria-label={`Option ${optIdx + 1}`}
                           value={option}
                           onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                          className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
                           required
                         />
                       </div>
@@ -294,7 +307,7 @@ function CreateQuizContent() {
                     placeholder="Explanation (shown after answer)"
                     value={q.explanation}
                     onChange={(e) => handleQuestionChange(q.id, "explanation", e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
                    aria-label="Explanation (shown after answer)"/>
                 </motion.div>
               ))}
@@ -312,7 +325,7 @@ function CreateQuizContent() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+              className="px-8 py-3 border border-border text-dt rounded-lg font-medium hover:bg-ow"
             >
               Cancel
             </button>

@@ -3,6 +3,10 @@ import { User, UserRole, ProfileUpdate } from './types';
 // In-memory mock user store
 const mockUsers = new Map<string, { user: User; password: string }>();
 
+// In-memory password reset tokens. In a real deployment these would be
+// emailed to the user rather than handed back in the response.
+const resetTokens = new Map<string, { email: string; expiresAt: number }>();
+
 // Mock users for testing
 const defaultMockUsers: Array<{ user: User; password: string }> = [
   {
@@ -173,11 +177,33 @@ export const mockAuthService = {
     return entry.user;
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- kept to match the AuthService interface
-  async requestPasswordReset(_email: string): Promise<void> {
+  async requestPasswordReset(email: string): Promise<string> {
     await new Promise((resolve) => setTimeout(resolve, 800));
-    // Mock: always resolves so the UI can show a "check your email" state,
-    // regardless of whether the address is registered (avoids leaking
-    // which emails have accounts).
+    // Always generate and return a token, regardless of whether the address is
+    // registered — the response itself never reveals which emails have accounts.
+    // Only when the token is actually redeemed (below) does it matter whether a
+    // real account existed. There's no email service here, so the caller is
+    // responsible for surfacing this token directly to the user with a clear
+    // "this would normally be emailed" disclaimer.
+    const token = Math.random().toString(36).slice(2, 8).toUpperCase();
+    if (mockUsers.has(email)) {
+      resetTokens.set(token, { email, expiresAt: Date.now() + 15 * 60 * 1000 });
+    }
+    return token;
+  },
+
+  async resetPasswordWithToken(token: string, newPassword: string): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 600));
+
+    const entry = resetTokens.get(token);
+    if (!entry || entry.expiresAt < Date.now()) {
+      throw new Error('That reset code is invalid or has expired');
+    }
+    const userEntry = mockUsers.get(entry.email);
+    if (!userEntry) {
+      throw new Error('That reset code is invalid or has expired');
+    }
+    userEntry.password = newPassword;
+    resetTokens.delete(token);
   },
 };

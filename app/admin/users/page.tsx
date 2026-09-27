@@ -49,23 +49,23 @@ function UsersContent() {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       active: "bg-forge-soft text-ember2 border-brass-soft",
-      inactive: "bg-gray-50 text-gray-700 border-gray-200",
+      inactive: "bg-ow text-dt border-border",
       suspended: "bg-red-50 text-red-700 border-red-200",
     };
     return colors[status] || colors.active;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-            <p className="text-gray-600">Manage platform users and permissions</p>
+            <h1 className="text-3xl font-bold text-dt">User Management</h1>
+            <p className="text-mg">Manage platform users and permissions</p>
           </div>
         </div>
       </div>
@@ -78,13 +78,13 @@ function UsersContent() {
           className="mb-8 space-y-4"
         >
           <div className="relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            <Search className="absolute left-3 top-3 text-mg" size={20} />
             <input
               type="text"
               placeholder="Search users by name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+              className="w-full pl-10 pr-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
              aria-label="Search users by name or email"/>
           </div>
 
@@ -96,7 +96,7 @@ function UsersContent() {
                 className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                   filterRole === role
                     ? "bg-ember-strong text-white"
-                    : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+                    : "bg-white border border-border text-dt hover:bg-ow"
                 }`}
               >
                 {role === "all" ? "All Users" : role}
@@ -110,18 +110,93 @@ function UsersContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-lg border border-gray-200 overflow-hidden"
+          className="bg-white rounded-lg border border-border overflow-hidden"
         >
-          <div className="overflow-x-auto">
+          {/* Mobile: stacked cards */}
+          <div className="md:hidden divide-y divide-border">
+            {filteredUsers.map((u) => (
+              <div key={u.id} className="p-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-dt truncate">{u.name}</p>
+                    <p className="text-sm text-mg flex items-center gap-1 truncate">
+                      <Mail size={14} className="shrink-0" /> {u.email}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Link
+                      href={`/admin/users/${u.id}`}
+                      className="p-2 hover:bg-surface rounded-lg transition-colors"
+                      title="View Details"
+                      aria-label={`View details for ${u.name}`}
+                    >
+                      <Shield size={18} className="text-mg" />
+                    </Link>
+                    {u.status !== "suspended" ? (
+                      <button
+                        onClick={() => updatePersonStatus(u.id, 'suspended')}
+                        className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-600"
+                        title="Suspend User"
+                        aria-label={`Suspend ${u.name}`}
+                      >
+                        <Lock size={18} />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => updatePersonStatus(u.id, 'active')}
+                        className="p-2 hover:bg-forge-soft rounded-lg transition-colors text-ember-strong"
+                        title="Unsuspend User"
+                        aria-label={`Unsuspend ${u.name}`}
+                      >
+                        <Lock size={18} />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (confirm(`Are you sure you want to delete ${u.name}?`)) {
+                          deletePerson(u.id);
+                        }
+                      }}
+                      className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-600"
+                      title="Delete"
+                      aria-label={`Delete ${u.name}`}
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap mb-2">
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRoleColor(u.role)} capitalize`}>
+                    {u.role}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(u.status)} capitalize`}>
+                    {u.status}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4 text-xs text-mg">
+                  <span>Joined {formatDate(u.joinedAt)}</span>
+                  <span>{u.courseCount} courses</span>
+                </div>
+              </div>
+            ))}
+            {filteredUsers.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-mg">No users found</p>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop: table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-ow border-b border-border">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">User</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Role</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Joined</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase">Activity</th>
-                  <th className="px-6 py-4 text-right text-xs font-semibold text-gray-700 uppercase">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-dt uppercase">User</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-dt uppercase">Role</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-dt uppercase">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-dt uppercase">Joined</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-dt uppercase">Activity</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-dt uppercase">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -131,12 +206,12 @@ function UsersContent() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: i * 0.05 }}
-                    className="border-b border-gray-200 hover:bg-gray-50"
+                    className="border-b border-border hover:bg-ow"
                   >
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-gray-900">{u.name}</p>
-                        <p className="text-sm text-gray-500 flex items-center gap-1">
+                        <p className="font-medium text-dt">{u.name}</p>
+                        <p className="text-sm text-mg flex items-center gap-1">
                           <Mail size={14} /> {u.email}
                         </p>
                       </div>
@@ -151,17 +226,17 @@ function UsersContent() {
                         {u.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{formatDate(u.joinedAt)}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{u.courseCount} courses</td>
+                    <td className="px-6 py-4 text-sm text-mg">{formatDate(u.joinedAt)}</td>
+                    <td className="px-6 py-4 text-sm text-mg">{u.courseCount} courses</td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/admin/users/${u.id}`}
-                          className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
+                          className="p-2 hover:bg-surface rounded-lg transition-colors"
                           title="View Details"
                           aria-label={`View details for ${u.name}`}
                         >
-                          <Shield size={18} className="text-gray-600" />
+                          <Shield size={18} className="text-mg" />
                         </Link>
                         {u.status !== "suspended" && (
                           <button
@@ -204,8 +279,8 @@ function UsersContent() {
           </div>
 
           {filteredUsers.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-600">No users found</p>
+            <div className="hidden md:block text-center py-12">
+              <p className="text-mg">No users found</p>
             </div>
           )}
         </motion.div>
@@ -223,9 +298,9 @@ function UsersContent() {
             { label: "Inactive", value: people.filter(u => u.status === "inactive").length },
             { label: "Suspended", value: people.filter(u => u.status === "suspended").length },
           ].map((stat, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
-              <p className="text-gray-600 text-sm mb-2">{stat.label}</p>
-              <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+            <div key={i} className="bg-white rounded-lg border border-border p-6">
+              <p className="text-mg text-sm mb-2">{stat.label}</p>
+              <p className="text-3xl font-bold text-dt">{stat.value}</p>
             </div>
           ))}
         </motion.div>

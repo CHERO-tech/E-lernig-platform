@@ -54,12 +54,18 @@ function MyEnrollmentsContent() {
     if (!course) return null;
     const progress = calculateCourseProgress(enrollment, course);
     const status = progress.percentComplete === 100 ? 'completed' : 'in-progress';
+    const hasPassedAllQuizzes = course.quizzes.every((quiz) =>
+      enrollment.quizAttempts.some((a) => a.quizId === quiz.id && a.score >= quiz.passingScore)
+    );
+    const passStatus: 'passed' | 'needs-improvement' | 'in-progress' =
+      status !== 'completed' ? 'in-progress' : hasPassedAllQuizzes ? 'passed' : 'needs-improvement';
     return {
       id: course.id,
       title: course.title,
       instructor: course.instructor,
       progress: progress.percentComplete,
       status,
+      passStatus,
       image: "bg-gradient-to-br from-ember-strong to-ember",
       lessons: progress.lessonsTotal,
       completed: progress.lessonsCompleted,
@@ -73,7 +79,7 @@ function MyEnrollmentsContent() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
@@ -94,7 +100,7 @@ function MyEnrollmentsContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4 mb-8 border-b border-gray-200"
+          className="flex gap-4 mb-8 border-b border-border"
         >
           {["all", "in-progress", "completed"].map((tab) => (
             <button
@@ -103,7 +109,7 @@ function MyEnrollmentsContent() {
               className={`px-6 py-4 font-medium transition-colors capitalize ${
                 filterTab === tab
                   ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-mg hover:text-dt"
               }`}
             >
               {tab === "in-progress" ? "In Progress" : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -122,7 +128,7 @@ function MyEnrollmentsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow"
+              className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-xl transition-shadow"
             >
               {/* Course Image */}
               <div className={`h-40 ${course.image} relative`}>
@@ -138,18 +144,18 @@ function MyEnrollmentsContent() {
 
               {/* Course Info */}
               <div className="p-6">
-                <h3 className="font-bold text-lg text-gray-900 mb-1">{course.title}</h3>
-                <p className="text-sm text-gray-600 mb-4">by {course.instructor}</p>
+                <h3 className="font-bold text-lg text-dt mb-1">{course.title}</h3>
+                <p className="text-sm text-mg mb-4">by {course.instructor}</p>
 
                 {/* Progress Bar */}
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-mg">
                       {course.completed}/{course.lessons} lessons completed
                     </p>
                     <p className="text-sm font-semibold text-ember-strong">{course.progress}%</p>
                   </div>
-                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-border rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-ember-strong to-ember transition-all duration-300"
                       style={{ width: `${course.progress}%` }}
@@ -158,9 +164,14 @@ function MyEnrollmentsContent() {
                 </div>
 
                 {/* Meta Info */}
-                <div className="flex items-center justify-between text-xs text-gray-600 mb-4 pb-4 border-b border-gray-200">
+                <div className="flex items-center justify-between text-xs text-mg mb-4 pb-4 border-b border-border">
                   <span>Enrolled: {course.enrolled}</span>
-                  {course.status === "completed" && <span className="px-2 py-1 bg-forge-soft text-ember2 rounded font-medium">Completed</span>}
+                  {course.passStatus === "passed" && (
+                    <span className="px-2 py-1 bg-forge-soft text-ember2 rounded font-medium">Passed</span>
+                  )}
+                  {course.passStatus === "needs-improvement" && (
+                    <span className="px-2 py-1 bg-yellow-100 text-yellow-700 rounded font-medium">Needs Improvement</span>
+                  )}
                 </div>
 
                 {/* Actions */}
@@ -173,14 +184,14 @@ function MyEnrollmentsContent() {
                   </button>
                   <button
                     onClick={handleDownload}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                    className="px-4 py-2 border border-border text-dt rounded-lg font-medium text-sm hover:bg-ow flex items-center justify-center gap-1"
                     aria-label={`Download materials for ${course.title}`}
                   >
                     <Download size={16} />
                   </button>
                   <button
                     onClick={() => handleShare(course.title)}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium text-sm hover:bg-gray-50 flex items-center justify-center gap-1"
+                    className="px-4 py-2 border border-border text-dt rounded-lg font-medium text-sm hover:bg-ow flex items-center justify-center gap-1"
                     aria-label={`Share ${course.title}`}
                   >
                     <Share2 size={16} />
@@ -189,8 +200,8 @@ function MyEnrollmentsContent() {
 
                 {/* Rating for completed courses */}
                 {course.status === "completed" && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <p className="text-xs text-gray-600 mb-2">Leave a review</p>
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <p className="text-xs text-mg mb-2">Leave a review</p>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -215,11 +226,11 @@ function MyEnrollmentsContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-12 text-center"
+            className="bg-white rounded-lg border border-border p-12 text-center"
           >
-            <BookOpen size={48} className="mx-auto text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No courses yet</h2>
-            <p className="text-gray-600 mb-6">Start learning by enrolling in a course today!</p>
+            <BookOpen size={48} className="mx-auto text-mg mb-4" />
+            <h2 className="text-2xl font-bold text-dt mb-2">No courses yet</h2>
+            <p className="text-mg mb-6">Start learning by enrolling in a course today!</p>
             <button
               onClick={() => router.push("/courses")}
               className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember"

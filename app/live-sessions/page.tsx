@@ -67,7 +67,7 @@ function LiveSessionsContent() {
   const getStatusColor = (status: string) => {
     if (status === "ongoing") return "bg-red-100 text-red-700";
     if (status === "upcoming") return "bg-blue-100 text-blue-700";
-    return "bg-gray-100 text-gray-700";
+    return "bg-ow text-dt";
   };
 
   const getStatusLabel = (status: string) => {
@@ -77,7 +77,7 @@ function LiveSessionsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
@@ -94,7 +94,7 @@ function LiveSessionsContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4 mb-8 border-b border-gray-200"
+          className="flex gap-4 mb-8 border-b border-border"
         >
           {["upcoming", "ongoing", "recorded"].map((tab) => (
             <button
@@ -103,7 +103,7 @@ function LiveSessionsContent() {
               className={`px-6 py-4 font-medium transition-colors capitalize ${
                 filterTab === tab
                   ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-mg hover:text-dt"
               }`}
             >
               {tab} ({filtered.length})
@@ -124,7 +124,7 @@ function LiveSessionsContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
+                  className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-xl transition-shadow group cursor-pointer"
                   onClick={() => {
                     if (isLive || session.status === "recorded") {
                       router.push(`/live-sessions/${session.id}`);
@@ -156,14 +156,14 @@ function LiveSessionsContent() {
 
                   {/* Content */}
                   <div className="p-6">
-                    <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{session.title}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{session.course}</p>
+                    <h3 className="font-bold text-lg text-dt mb-2 line-clamp-2">{session.title}</h3>
+                    <p className="text-sm text-mg mb-4">{session.course}</p>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-600 mb-4 line-clamp-2">{session.description}</p>
+                    <p className="text-sm text-mg mb-4 line-clamp-2">{session.description}</p>
 
                     {/* Meta Info */}
-                    <div className="space-y-2 mb-4 text-sm text-gray-600">
+                    <div className="space-y-2 mb-4 text-sm text-mg">
                       <div className="flex items-center gap-2">
                         <Users size={16} />
                         <span>
@@ -181,9 +181,9 @@ function LiveSessionsContent() {
                     </div>
 
                     {/* Instructor */}
-                    <div className="pt-4 border-t border-gray-200">
-                      <p className="text-xs text-gray-600 mb-1">Instructor</p>
-                      <p className="font-semibold text-gray-900">{session.instructor}</p>
+                    <div className="pt-4 border-t border-border">
+                      <p className="text-xs text-mg mb-1">Instructor</p>
+                      <p className="font-semibold text-dt">{session.instructor}</p>
                     </div>
 
                     {/* CTA */}
@@ -197,7 +197,7 @@ function LiveSessionsContent() {
                           ? "bg-red-600 text-white hover:bg-red-700"
                           : session.status === "upcoming"
                             ? "bg-blue-50 text-blue-600 hover:bg-blue-100"
-                            : "bg-gray-50 text-gray-700 hover:bg-gray-100"
+                            : "bg-ow text-dt hover:bg-ow"
                       }`}
                     >
                       {isLive ? "Join Now" : session.status === "upcoming" ? "Register" : "Watch Recording"}
@@ -211,11 +211,11 @@ function LiveSessionsContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg border border-gray-200 p-12 text-center"
+            className="bg-white rounded-lg border border-border p-12 text-center"
           >
-            <Video size={48} className="mx-auto text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">No sessions found</h2>
-            <p className="text-gray-600">Check back soon for new live sessions!</p>
+            <Video size={48} className="mx-auto text-mg mb-4" />
+            <h2 className="text-2xl font-bold text-dt mb-2">No sessions found</h2>
+            <p className="text-mg">Check back soon for new live sessions!</p>
           </motion.div>
         )}
 

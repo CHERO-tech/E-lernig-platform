@@ -11,7 +11,7 @@ export default function CTABand() {
           <br />
           Start building.
         </h2>
-        <p className="text-lg mb-10 text-mg">
+        <p className="text-lg mb-10 text-brass">
           No lecture halls, no waitlist. Take the diagnostic, get matched to a track, and ship
           your first project in week one.
         </p>

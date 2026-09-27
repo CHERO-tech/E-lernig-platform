@@ -3,12 +3,13 @@
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
-import { CourseLevel } from "@/lib/courses/types";
+import { CourseLevel, CourseSection } from "@/lib/courses/types";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { SectionsEditor } from "@/components/courses/SectionsEditor";
 
 function CreateCourseContent() {
   const router = useRouter();
@@ -22,29 +23,14 @@ function CreateCourseContent() {
     level: "Beginner" as const,
     price: "",
     duration: "",
-    sections: [{ id: 1, title: "Section 1", lessons: 3 }],
   });
+  const [sections, setSections] = useState<CourseSection[]>([
+    { id: "section-1", title: "Section 1", lessons: [] },
+  ]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddSection = () => {
-    setFormData(prev => ({
-      ...prev,
-      sections: [
-        ...prev.sections,
-        { id: Date.now(), title: `Section ${prev.sections.length + 1}`, lessons: 0 },
-      ],
-    }));
-  };
-
-  const handleRemoveSection = (id: number) => {
-    setFormData(prev => ({
-      ...prev,
-      sections: prev.sections.filter(section => section.id !== id),
-    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -58,6 +44,15 @@ function CreateCourseContent() {
       });
       return;
     }
+    if (sections.some((s) => s.lessons.some((l) => !l.title.trim()))) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Every lesson needs a title before the course can be created.',
+      });
+      return;
+    }
     addCourse({
       title: formData.title,
       description: formData.description,
@@ -68,7 +63,7 @@ function CreateCourseContent() {
       durationHours: parseInt(formData.duration) || 0,
       instructor: user?.name || 'Unknown',
       instructorId: user?.id,
-      sections: [],
+      sections,
       quizzes: [],
       assignments: [],
       published: true,
@@ -83,14 +78,14 @@ function CreateCourseContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Create New Course</h1>
+          <h1 className="text-3xl font-bold text-dt">Create New Course</h1>
         </div>
       </div>
 
@@ -98,47 +93,47 @@ function CreateCourseContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg border border-gray-200 p-8"
+          className="bg-white rounded-lg border border-border p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Info */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Information</h2>
+              <h2 className="text-2xl font-bold text-dt mb-6">Course Information</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Course Title *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="title">Course Title *</label>
                   <input id="title"
                     type="text"
                     name="title"
                     placeholder="Enter course title"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="description">Description *</label>
                   <textarea id="description"
                     name="description"
                     placeholder="Describe your course..."
                     rows={4}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="category">Category *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="category">Category *</label>
                     <select id="category"
                       name="category"
                       value={formData.category}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       <option value="web-development">Web Development</option>
@@ -149,12 +144,12 @@ function CreateCourseContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="level">Level *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="level">Level *</label>
                     <select id="level"
                       name="level"
                       value={formData.level}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       <option value="Beginner">Beginner</option>
@@ -166,27 +161,27 @@ function CreateCourseContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="price">Price ($) *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="price">Price ($) *</label>
                     <input id="price"
                       type="number"
                       name="price"
                       placeholder="99"
                       value={formData.price}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="duration">Duration (hours) *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="duration">Duration (hours) *</label>
                     <input id="duration"
                       type="number"
                       name="duration"
                       placeholder="40"
                       value={formData.duration}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -195,38 +190,17 @@ function CreateCourseContent() {
             </div>
 
             {/* Course Structure */}
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Structure</h2>
-              <div className="space-y-4">
-                {formData.sections.map((section) => (
-                  <div key={section.id} className="p-4 bg-gray-50 rounded-lg flex items-center justify-between">
-                    <div>
-                      <p className="font-semibold text-gray-900">{section.title}</p>
-                      <p className="text-sm text-gray-600">{section.lessons} lessons</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSection(section.id)}
-                      className="p-2 hover:bg-red-100 rounded-lg text-red-600"
-                      aria-label={`Remove ${section.title}`}
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                ))}
-
-                <button
-                  type="button"
-                  onClick={handleAddSection}
-                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
-                >
-                  <Plus size={20} /> Add Section
-                </button>
-              </div>
+            <div className="border-t border-border pt-6">
+              <h2 className="text-2xl font-bold text-dt mb-2">Course Structure</h2>
+              <p className="text-sm text-mg mb-6">
+                Add sections and lessons. Each lesson needs a title and content — video and downloadable
+                resource links are optional.
+              </p>
+              <SectionsEditor sections={sections} onChange={setSections} />
             </div>
 
             {/* Actions */}
-            <div className="border-t border-gray-200 pt-6 flex gap-4">
+            <div className="border-t border-border pt-6 flex gap-4">
               <button
                 type="submit"
                 className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
@@ -236,7 +210,7 @@ function CreateCourseContent() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="px-8 py-3 border border-border text-dt rounded-lg font-medium hover:bg-ow"
               >
                 Cancel
               </button>

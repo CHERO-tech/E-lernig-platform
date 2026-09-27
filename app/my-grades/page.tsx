@@ -58,7 +58,7 @@ function MyGradesContent() {
   const passedCount = allGrades.filter(g => g.passed).length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
@@ -88,11 +88,11 @@ function MyGradesContent() {
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={i} className="bg-white rounded-lg border border-border p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-mg text-sm mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-dt">{stat.value}</p>
                   </div>
                   <Icon size={32} className={`text-${stat.color}-600 opacity-50`} />
                 </div>
@@ -104,9 +104,9 @@ function MyGradesContent() {
         {/* Grades List */}
         <div className="space-y-4">
           {allGrades.length === 0 ? (
-            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-              <Award size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-600 text-lg">No graded items yet</p>
+            <div className="bg-white rounded-lg border border-border p-12 text-center">
+              <Award size={48} className="mx-auto text-border mb-4" />
+              <p className="text-mg text-lg">No graded items yet</p>
             </div>
           ) : (
             allGrades.map((grade, i) => (
@@ -115,7 +115,7 @@ function MyGradesContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <button
                   onClick={() => setExpandedId(expandedId === grade.id ? null : grade.id)}
@@ -130,22 +130,22 @@ function MyGradesContent() {
                       }`}>
                         {grade.type === 'quiz' ? 'Quiz' : 'Assignment'}
                       </div>
-                      <h3 className="text-lg font-bold text-gray-900">{grade.title}</h3>
+                      <h3 className="text-lg font-bold text-dt">{grade.title}</h3>
                     </div>
-                    <p className="text-sm text-gray-600">{grade.course}</p>
+                    <p className="text-sm text-mg">{grade.course}</p>
                   </div>
                   <div className="text-right">
                     <div className={`text-2xl font-bold ${grade.score >= grade.maxScore * 0.7 ? 'text-ember-strong' : 'text-red-600'}`}>
                       {grade.score}/{grade.maxScore}
                     </div>
-                    <p className="text-xs text-gray-500">{grade.date}</p>
+                    <p className="text-xs text-mg">{grade.date}</p>
                   </div>
                 </button>
 
                 {expandedId === grade.id && grade.type === 'assignment' && 'feedback' in grade && grade.feedback && (
-                  <div className="border-t border-gray-200 p-6 bg-gray-50">
-                    <p className="font-semibold text-gray-900 mb-2">Feedback</p>
-                    <p className="text-gray-700">{grade.feedback}</p>
+                  <div className="border-t border-border p-6 bg-ow">
+                    <p className="font-semibold text-dt mb-2">Feedback</p>
+                    <p className="text-dt">{grade.feedback}</p>
                   </div>
                 )}
               </motion.div>

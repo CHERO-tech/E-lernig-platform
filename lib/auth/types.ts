@@ -22,7 +22,8 @@ export interface AuthContextType {
   logout: () => Promise<void>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
   deleteAccount: () => Promise<void>;
-  requestPasswordReset: (email: string) => Promise<void>;
+  requestPasswordReset: (email: string) => Promise<string>;
+  resetPasswordWithToken: (token: string, newPassword: string) => Promise<void>;
   updateProfile: (updates: ProfileUpdate) => Promise<void>;
   isAuthenticated: boolean;
 }

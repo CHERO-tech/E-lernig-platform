@@ -76,17 +76,17 @@ function LiveSessionContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-ow flex flex-col">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-              <ArrowLeft size={20} className="text-gray-600" />
+            <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+              <ArrowLeft size={20} className="text-mg" />
             </button>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{session.title}</h1>
-              <p className="text-sm text-gray-600">by {session.instructor}</p>
+              <h1 className="text-2xl font-bold text-dt">{session.title}</h1>
+              <p className="text-sm text-mg">by {session.instructor}</p>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ function LiveSessionContent() {
             </span>
             <button
               onClick={handleShareSession}
-              className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+              className="p-2 text-mg hover:bg-ow rounded-lg"
               aria-label="Share session"
             >
               <Share2 size={20} />
@@ -144,7 +144,7 @@ function LiveSessionContent() {
             </button>
             <button
               onClick={handleShareSession}
-              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-3 border border-border text-dt rounded-lg font-medium hover:bg-ow flex items-center justify-center gap-2"
             >
               <Share2 size={18} /> Share Session
             </button>
@@ -155,16 +155,16 @@ function LiveSessionContent() {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="lg:col-span-1 flex flex-col bg-white rounded-lg border border-gray-200 overflow-hidden"
+          className="lg:col-span-1 flex flex-col bg-white rounded-lg border border-border overflow-hidden"
         >
           {/* Tabs */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-border">
             <button
               onClick={() => setShowParticipants(false)}
               className={`flex-1 py-3 font-medium flex items-center justify-center gap-2 transition-colors ${
                 !showParticipants
                   ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-mg hover:text-dt"
               }`}
             >
               <MessageCircle size={18} /> Chat
@@ -174,7 +174,7 @@ function LiveSessionContent() {
               className={`flex-1 py-3 font-medium flex items-center justify-center gap-2 transition-colors ${
                 showParticipants
                   ? "text-ember-strong border-b-2 border-ember-strong"
-                  : "text-gray-600 hover:text-gray-900"
+                  : "text-mg hover:text-dt"
               }`}
             >
               <Users size={18} /> People
@@ -191,13 +191,13 @@ function LiveSessionContent() {
                     key={p.id}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg"
+                    className="flex items-center gap-3 p-2 hover:bg-ow rounded-lg"
                   >
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember to-ember-strong flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                       {p.avatar}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-dt truncate">
                         {p.name}
                         {p.isInstructor && <span className="text-xs text-blue-600 ml-1">(Instructor)</span>}
                       </p>
@@ -218,11 +218,11 @@ function LiveSessionContent() {
                     animate={{ opacity: 1, y: 0 }}
                     className={`${msg.isInstructor ? "bg-blue-50 border border-blue-200 p-2 rounded" : ""}`}
                   >
-                    <p className="text-xs text-gray-600 mb-1">
-                      <span className="font-semibold text-gray-900">{msg.author}</span>{" "}
-                      <span className="text-gray-500">{msg.time}</span>
+                    <p className="text-xs text-mg mb-1">
+                      <span className="font-semibold text-dt">{msg.author}</span>{" "}
+                      <span className="text-mg">{msg.time}</span>
                     </p>
-                    <p className="text-sm text-gray-700">{msg.message}</p>
+                    <p className="text-sm text-dt">{msg.message}</p>
                   </motion.div>
                 ))}
               </div>
@@ -231,7 +231,7 @@ function LiveSessionContent() {
 
           {/* Chat Input */}
           {!showParticipants && (
-            <div className="border-t border-gray-200 p-3 bg-gray-50">
+            <div className="border-t border-border p-3 bg-ow">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -239,7 +239,7 @@ function LiveSessionContent() {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="flex-1 px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
                  aria-label="Send a message"/>
                 <button
                   onClick={handleSendMessage}
@@ -255,8 +255,8 @@ function LiveSessionContent() {
       </div>
 
       {/* Footer Info */}
-      <div className="bg-white border-t border-gray-200 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between text-sm text-gray-600">
+      <div className="bg-white border-t border-border px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-sm text-mg">
           <div>
             <span className="font-semibold">{session.title}</span> • {session.duration}
           </div>

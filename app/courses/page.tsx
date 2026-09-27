@@ -16,16 +16,29 @@ const levelTone = {
 export default function Courses() {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState<string>("All");
+  const [level, setLevel] = useState<string>("All");
+  const [price, setPrice] = useState<string>("All");
+  const [sortBy, setSortBy] = useState<string>("relevance");
   const { courses: allCourses } = useCourses();
   const courses = useMemo(() => allCourses.filter((c) => c.published !== false), [allCourses]);
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(courses.map((c) => c.category)))], [courses]);
 
-  const filtered = courses.filter(
-    (c) =>
-      c.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (category === "All" || c.category === category)
-  );
+  const filtered = courses
+    .filter(
+      (c) =>
+        c.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (category === "All" || c.category === category) &&
+        (level === "All" || c.level === level) &&
+        (price === "All" || (price === "Free" ? c.price === 0 : c.price > 0))
+    )
+    .sort((a, b) => {
+      if (sortBy === "rating") return b.rating - a.rating;
+      if (sortBy === "popular") return b.students - a.students;
+      if (sortBy === "price-low") return a.price - b.price;
+      if (sortBy === "price-high") return b.price - a.price;
+      return 0;
+    });
 
   return (
     <div className="min-h-screen bg-ow">
@@ -37,7 +50,7 @@ export default function Courses() {
           </Link>
           <p className="font-mono text-xs mb-2 text-pg">$ ls ./courses --all</p>
           <h1 className="text-4xl font-bold mb-3 text-white tracking-tight">Explore Courses</h1>
-          <p className="text-mg">
+          <p className="text-brass">
             {courses.length} courses across {categories.length - 1} learning tracks
           </p>
         </div>
@@ -55,6 +68,39 @@ export default function Courses() {
               className="w-full pl-10 pr-4 py-3 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
              aria-label="Search courses"/>
           </div>
+          <select
+            value={level}
+            onChange={(e) => setLevel(e.target.value)}
+            aria-label="Filter by level"
+            className="px-3 py-3 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
+          >
+            <option value="All">Any Level</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+          <select
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            aria-label="Filter by price"
+            className="px-3 py-3 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
+          >
+            <option value="All">Free or Paid</option>
+            <option value="Free">Free</option>
+            <option value="Paid">Paid</option>
+          </select>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            aria-label="Sort courses"
+            className="px-3 py-3 rounded-lg text-sm outline-none bg-white border border-border text-dt focus:border-pg"
+          >
+            <option value="relevance">Relevance</option>
+            <option value="rating">Highest Rated</option>
+            <option value="popular">Most Popular</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
         </div>
 
         <div className="flex gap-2 flex-wrap mb-8 border-b border-border pb-4">

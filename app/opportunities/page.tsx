@@ -126,7 +126,7 @@ export default function Opportunities() {
               className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                 filterType === type
                   ? "bg-ember-strong text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  : "bg-ow text-dt hover:bg-surface"
               }`}
             >
               {type}
@@ -141,12 +141,12 @@ export default function Opportunities() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
+              className="bg-white border border-border rounded-lg p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{opp.title}</h3>
-                  <p className="text-gray-600">{opp.company}</p>
+                  <h3 className="text-xl font-bold text-dt mb-2">{opp.title}</h3>
+                  <p className="text-mg">{opp.company}</p>
                 </div>
                 <button
                   onClick={() => handleApply(opp.id, opp.title)}
@@ -165,18 +165,18 @@ export default function Opportunities() {
                 </button>
               </div>
 
-              <p className="text-gray-600 mb-4">{opp.desc}</p>
+              <p className="text-mg mb-4">{opp.desc}</p>
 
               <div className="flex flex-wrap gap-6 text-sm">
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center gap-2 text-mg">
                   <Briefcase size={18} />
                   <span>{opp.type}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center gap-2 text-mg">
                   <MapPin size={18} />
                   <span>{opp.location}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-600">
+                <div className="flex items-center gap-2 text-mg">
                   <DollarSign size={18} />
                   <span>{opp.salary}</span>
                 </div>
@@ -188,8 +188,8 @@ export default function Opportunities() {
 
       <div className="bg-forge-soft py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to land your dream job?</h2>
-          <p className="text-gray-600 mb-8">Upskill with our courses and increase your chances of getting hired</p>
+          <h2 className="text-3xl font-bold text-dt mb-4">Ready to land your dream job?</h2>
+          <p className="text-mg mb-8">Upskill with our courses and increase your chances of getting hired</p>
           <Link
             href="/courses"
             className="inline-block px-8 py-4 bg-ember-strong text-white font-semibold rounded-lg hover:bg-ember transition-colors"

@@ -181,16 +181,16 @@ function SettingsContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg transition-colors" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-            <p className="text-gray-600">Manage your account and preferences</p>
+            <h1 className="text-3xl font-bold text-dt">Settings</h1>
+            <p className="text-mg">Manage your account and preferences</p>
           </div>
         </div>
       </div>
@@ -199,17 +199,17 @@ function SettingsContent() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar Tabs */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden sticky top-6">
+            <div className="bg-white rounded-lg border border-border overflow-hidden sticky top-6">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-gray-200 last:border-0 transition-colors ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium border-b border-border last:border-0 transition-colors ${
                       activeTab === tab.id
                         ? "bg-forge-soft text-ember-strong"
-                        : "text-gray-700 hover:bg-gray-50"
+                        : "text-dt hover:bg-ow"
                     }`}
                   >
                     <Icon size={18} />
@@ -230,15 +230,15 @@ function SettingsContent() {
             >
               {/* Profile Tab */}
               {activeTab === "profile" && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
+                <div className="bg-white rounded-lg border border-border p-8">
+                  <h2 className="text-2xl font-bold text-dt mb-6">Profile Information</h2>
 
                   <div className="mb-8 flex items-center gap-4">
                     <div className="w-16 h-16 rounded-full bg-gradient-to-br from-ember-strong to-ember flex items-center justify-center text-white text-xl font-bold">
                       {user?.avatar}
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Profile Picture</p>
+                      <p className="text-sm text-mg">Profile Picture</p>
                       <button onClick={handleChangeAvatar} className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1">
                         Change Avatar
                       </button>
@@ -247,30 +247,30 @@ function SettingsContent() {
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Full Name</label>
+                      <label className="block text-sm font-medium text-dt mb-2" htmlFor="name">Full Name</label>
                       <input id="name"
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                        className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email Address</label>
+                      <label className="block text-sm font-medium text-dt mb-2" htmlFor="email">Email Address</label>
                       <input id="email"
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                        className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2" htmlFor="phone">
+                        <label className="block text-sm font-medium text-dt mb-2 flex items-center gap-2" htmlFor="phone">
                           <Phone size={16} /> Phone Number
                         </label>
                         <input id="phone"
@@ -278,11 +278,11 @@ function SettingsContent() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2" htmlFor="location">
+                        <label className="block text-sm font-medium text-dt mb-2 flex items-center gap-2" htmlFor="location">
                           <MapPin size={16} /> Location
                         </label>
                         <input id="location"
@@ -290,19 +290,19 @@ function SettingsContent() {
                           name="location"
                           value={formData.location}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                          className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="bio">Bio</label>
+                      <label className="block text-sm font-medium text-dt mb-2" htmlFor="bio">Bio</label>
                       <textarea id="bio"
                         name="bio"
                         value={formData.bio}
                         onChange={handleInputChange}
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                        className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
@@ -320,7 +320,7 @@ function SettingsContent() {
                       <button
                         onClick={handleCancelProfile}
                         disabled={profileSaving}
-                        className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        className="px-6 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors disabled:opacity-50"
                       >
                         Cancel
                       </button>
@@ -331,8 +331,8 @@ function SettingsContent() {
 
               {/* Notifications Tab */}
               {activeTab === "notifications" && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
+                <div className="bg-white rounded-lg border border-border p-8">
+                  <h2 className="text-2xl font-bold text-dt mb-6">Notification Preferences</h2>
 
                   <div className="space-y-4">
                     {[
@@ -341,15 +341,15 @@ function SettingsContent() {
                       { key: "courseUpdates" as keyof Preferences, label: "Course Updates", desc: "Get notified about course progress" },
                       { key: "weeklyDigest" as keyof Preferences, label: "Weekly Digest", desc: "Receive a weekly summary of your activity" },
                     ].map((item) => (
-                      <div key={item.key} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                      <div key={item.key} className="flex items-center justify-between p-4 border border-border rounded-lg hover:bg-ow transition-colors">
                         <div>
-                          <p className="font-medium text-gray-900">{item.label}</p>
-                          <p className="text-sm text-gray-600">{item.desc}</p>
+                          <p className="font-medium text-dt">{item.label}</p>
+                          <p className="text-sm text-mg">{item.desc}</p>
                         </div>
                         <button
                           onClick={() => handlePreferenceChange(item.key)}
                           className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full transition-colors ${
-                            preferences[item.key as keyof typeof preferences] ? "bg-ember-strong" : "bg-gray-300"
+                            preferences[item.key as keyof typeof preferences] ? "bg-ember-strong" : "bg-border"
                           }`}
                         >
                           <span
@@ -376,18 +376,18 @@ function SettingsContent() {
 
               {/* Security Tab */}
               {activeTab === "security" && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Security Settings</h2>
+                <div className="bg-white rounded-lg border border-border p-8">
+                  <h2 className="text-2xl font-bold text-dt mb-6">Security Settings</h2>
 
                   <div className="space-y-6">
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="font-semibold text-gray-900 mb-2">Password</h3>
-                      <p className="text-sm text-gray-600 mb-4">Change the password used to log in</p>
+                    <div className="p-4 border border-border rounded-lg">
+                      <h3 className="font-semibold text-dt mb-2">Password</h3>
+                      <p className="text-sm text-mg mb-4">Change the password used to log in</p>
 
                       {!showPasswordForm ? (
                         <button
                           onClick={() => setShowPasswordForm(true)}
-                          className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                          className="px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors"
                         >
                           Change Password
                         </button>
@@ -399,7 +399,7 @@ function SettingsContent() {
                             aria-label="Current password"
                             value={passwordFields.current}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, current: e.target.value }))}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                            className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
                             required
                           />
                           <input
@@ -408,7 +408,7 @@ function SettingsContent() {
                             aria-label="New password"
                             value={passwordFields.next}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, next: e.target.value }))}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                            className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
                             required
                           />
                           <input
@@ -417,7 +417,7 @@ function SettingsContent() {
                             aria-label="Confirm new password"
                             value={passwordFields.confirm}
                             onChange={(e) => setPasswordFields((p) => ({ ...p, confirm: e.target.value }))}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                            className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ember-strong"
                             required
                           />
 
@@ -439,7 +439,7 @@ function SettingsContent() {
                                 setPasswordError("");
                                 setPasswordFields({ current: "", next: "", confirm: "" });
                               }}
-                              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors text-sm"
+                              className="px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors text-sm"
                             >
                               Cancel
                             </button>
@@ -448,9 +448,9 @@ function SettingsContent() {
                       )}
                     </div>
 
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="font-semibold text-gray-900 mb-2">Two-Factor Authentication</h3>
-                      <p className="text-sm text-gray-600 mb-4">
+                    <div className="p-4 border border-border rounded-lg">
+                      <h3 className="font-semibold text-dt mb-2">Two-Factor Authentication</h3>
+                      <p className="text-sm text-mg mb-4">
                         {twoFactorEnabled
                           ? "Two-factor authentication is enabled for your account."
                           : "Enhance your account security with 2FA"}
@@ -468,9 +468,9 @@ function SettingsContent() {
                       </button>
                     </div>
 
-                    <div className="p-4 border border-gray-200 rounded-lg">
-                      <h3 className="font-semibold text-gray-900 mb-2">Active Sessions</h3>
-                      <p className="text-sm text-gray-600 mb-4">Sign out everywhere you&apos;re currently logged in</p>
+                    <div className="p-4 border border-border rounded-lg">
+                      <h3 className="font-semibold text-dt mb-2">Active Sessions</h3>
+                      <p className="text-sm text-mg mb-4">Sign out everywhere you&apos;re currently logged in</p>
                       <button
                         onClick={handleLogout}
                         className="px-4 py-2 border border-red-300 text-red-600 rounded-lg font-medium hover:bg-red-50 transition-colors"
@@ -507,7 +507,7 @@ function SettingsContent() {
                             <button
                               onClick={() => setShowDeleteConfirm(false)}
                               disabled={deleting}
-                              className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                              className="px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors"
                             >
                               Cancel
                             </button>
@@ -521,12 +521,12 @@ function SettingsContent() {
 
               {/* Appearance Tab */}
               {activeTab === "appearance" && (
-                <div className="bg-white rounded-lg border border-gray-200 p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Appearance</h2>
+                <div className="bg-white rounded-lg border border-border p-8">
+                  <h2 className="text-2xl font-bold text-dt mb-6">Appearance</h2>
 
                   <div className="space-y-6">
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-4">Theme</p>
+                      <p className="text-sm font-medium text-dt mb-4">Theme</p>
                       <div className="grid grid-cols-3 gap-4">
                         {[
                           { id: "light" as const, label: "Light", color: "bg-white" },
@@ -537,31 +537,31 @@ function SettingsContent() {
                             key={option.id}
                             onClick={() => setTheme(option.id)}
                             className={`p-4 rounded-lg border-2 transition-colors ${option.color} ${
-                              theme === option.id ? "border-ember-strong" : "border-gray-200"
+                              theme === option.id ? "border-ember-strong" : "border-border"
                             }`}
                           >
-                            <p className={`font-medium ${option.id === "light" ? "text-gray-900" : "text-white"}`}>
+                            <p className={`font-medium ${option.id === "light" ? "text-dt" : "text-white"}`}>
                               {option.label}
                             </p>
                           </button>
                         ))}
                       </div>
-                      <p className="text-xs text-gray-500 mt-3">
+                      <p className="text-xs text-mg mt-3">
                         Applies immediately. Full dark styling currently covers part of the app; more pages are being
                         migrated over.
                       </p>
                     </div>
 
-                    <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="p-4 border border-border rounded-lg">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="font-medium text-gray-900">Dark Mode</p>
-                          <p className="text-sm text-gray-600">Quick toggle between light and dark</p>
+                          <p className="font-medium text-dt">Dark Mode</p>
+                          <p className="text-sm text-mg">Quick toggle between light and dark</p>
                         </div>
                         <button
                           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
                           className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full transition-colors ${
-                            resolvedTheme === "dark" ? "bg-ember-strong" : "bg-gray-300"
+                            resolvedTheme === "dark" ? "bg-ember-strong" : "bg-border"
                           }`}
                         >
                           <span

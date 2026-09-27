@@ -52,11 +52,11 @@ export default function About() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Mission</h2>
-              <p className="text-lg text-gray-600 mb-4">
+              <h2 className="text-4xl font-bold text-dt mb-6">Our Mission</h2>
+              <p className="text-lg text-mg mb-4">
                 Forge exists to democratize access to world-class education and career opportunities. We believe that talent and ambition, not background or geography, should determine success.
               </p>
-              <p className="text-lg text-gray-600 mb-6">
+              <p className="text-lg text-mg mb-6">
                 By combining hands-on projects, expert mentorship, and real-world feedback, we&apos;re creating a new generation of skilled professionals ready to make an impact.
               </p>
               <Link href="/courses" className="inline-flex items-center gap-2 text-ember-strong hover:text-ember2 font-semibold">
@@ -84,7 +84,7 @@ export default function About() {
                 className="bg-forge-soft rounded-lg p-8 text-center"
               >
                 <p className="text-4xl font-bold text-ember-strong mb-2">{stat.number}</p>
-                <p className="text-gray-700 font-medium">{stat.label}</p>
+                <p className="text-dt font-medium">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -97,7 +97,7 @@ export default function About() {
           transition={{ duration: 0.4 }}
           className="mb-20"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Our Values</h2>
+          <h2 className="text-4xl font-bold text-dt mb-12 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, i) => {
               const Icon = value.icon;
@@ -107,13 +107,13 @@ export default function About() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 p-8 text-center hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg border border-border p-8 text-center hover:shadow-lg transition-shadow"
                 >
                   <div className="w-16 h-16 bg-forge-soft rounded-full flex items-center justify-center text-ember-strong mx-auto mb-4">
                     <Icon size={32} />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{value.title}</h3>
-                  <p className="text-gray-600">{value.desc}</p>
+                  <h3 className="text-xl font-bold text-dt mb-2">{value.title}</h3>
+                  <p className="text-mg">{value.desc}</p>
                 </motion.div>
               );
             })}
@@ -127,7 +127,7 @@ export default function About() {
           transition={{ duration: 0.4 }}
           className="mb-20"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">Leadership Team</h2>
+          <h2 className="text-4xl font-bold text-dt mb-12 text-center">Leadership Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map((member, i) => (
               <motion.div
@@ -135,14 +135,14 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white rounded-lg border border-gray-200 p-6 text-center hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border p-6 text-center hover:shadow-lg transition-shadow"
               >
                 <div className="w-24 h-24 bg-gradient-to-br from-ember to-ember-strong rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
                   {member.name.split(' ').map(n => n[0]).join('')}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{member.name}</h3>
+                <h3 className="text-lg font-bold text-dt mb-1">{member.name}</h3>
                 <p className="text-ember-strong font-medium mb-2">{member.role}</p>
-                <p className="text-gray-600 text-sm">{member.desc}</p>
+                <p className="text-mg text-sm">{member.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -155,8 +155,8 @@ export default function About() {
           transition={{ duration: 0.4 }}
           className="bg-forge-soft rounded-lg p-12 mb-20 text-center"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Impact</h2>
-          <p className="text-gray-600 text-lg mb-8 max-w-3xl mx-auto">
+          <h2 className="text-3xl font-bold text-dt mb-4">Our Impact</h2>
+          <p className="text-mg text-lg mb-8 max-w-3xl mx-auto">
             Over the past 3 years, we&apos;ve helped thousands of learners transition into fulfilling tech careers, with an average salary increase of 45% after completing a Forge course. We&apos;re proud to have partnered with 500+ companies to create job opportunities for our graduates.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">

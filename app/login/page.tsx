@@ -54,7 +54,7 @@ export default function LoginPage() {
 
   return (
     <AuthShell>
-      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-4">
+      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-brass hover:text-white transition-colors mb-4">
         <ArrowLeft size={16} />
         Back to Home
       </Link>

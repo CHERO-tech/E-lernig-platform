@@ -21,7 +21,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">User Not Found</h1>
+          <h1 className="text-3xl font-bold text-dt mb-4">User Not Found</h1>
           <button onClick={() => router.back()} className="px-6 py-3 bg-ember-strong text-white rounded-lg">
             Back
           </button>
@@ -41,16 +41,16 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{user.name}</h1>
-            <p className="text-gray-600">User ID: {user.id}</p>
+            <h1 className="text-3xl font-bold text-dt">{user.name}</h1>
+            <p className="text-mg">User ID: {user.id}</p>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-lg border border-gray-200 p-8"
+              className="bg-white rounded-lg border border-border p-8"
             >
               <div className="flex items-start justify-between mb-6">
                 <div className="flex gap-6">
@@ -71,7 +71,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                     {user.avatar}
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">{user.name}</h2>
+                    <h2 className="text-2xl font-bold text-dt mb-2">{user.name}</h2>
                     <div className="flex gap-2 mb-3">
                       <span className="px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-700 capitalize">
                         {user.role}
@@ -80,38 +80,38 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
                         {user.status}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-600">Last active: {formatDate(user.lastActiveAt)}</p>
+                    <p className="text-sm text-mg">Last active: {formatDate(user.lastActiveAt)}</p>
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                  <Mail size={20} className="text-gray-600" />
+                <div className="flex items-center gap-3 p-4 bg-ow rounded-lg">
+                  <Mail size={20} className="text-mg" />
                   <div>
-                    <p className="text-xs text-gray-600">Email</p>
-                    <p className="font-medium text-gray-900">{user.email}</p>
+                    <p className="text-xs text-mg">Email</p>
+                    <p className="font-medium text-dt">{user.email}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                  <Phone size={20} className="text-gray-600" />
+                <div className="flex items-center gap-3 p-4 bg-ow rounded-lg">
+                  <Phone size={20} className="text-mg" />
                   <div>
-                    <p className="text-xs text-gray-600">Phone</p>
-                    <p className="font-medium text-gray-900">{user.phone}</p>
+                    <p className="text-xs text-mg">Phone</p>
+                    <p className="font-medium text-dt">{user.phone}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                  <MapPin size={20} className="text-gray-600" />
+                <div className="flex items-center gap-3 p-4 bg-ow rounded-lg">
+                  <MapPin size={20} className="text-mg" />
                   <div>
-                    <p className="text-xs text-gray-600">Location</p>
-                    <p className="font-medium text-gray-900">{user.location}</p>
+                    <p className="text-xs text-mg">Location</p>
+                    <p className="font-medium text-dt">{user.location}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                  <Calendar size={20} className="text-gray-600" />
+                <div className="flex items-center gap-3 p-4 bg-ow rounded-lg">
+                  <Calendar size={20} className="text-mg" />
                   <div>
-                    <p className="text-xs text-gray-600">Joined</p>
-                    <p className="font-medium text-gray-900">{formatDate(user.joinedAt)}</p>
+                    <p className="text-xs text-mg">Joined</p>
+                    <p className="font-medium text-dt">{formatDate(user.joinedAt)}</p>
                   </div>
                 </div>
               </div>
@@ -122,15 +122,15 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white rounded-lg border border-border p-6"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Recent Activity</h3>
+              <h3 className="text-lg font-bold text-dt mb-6">Recent Activity</h3>
               <div className="space-y-4">
                 {user.activity.map((act, i) => (
-                  <div key={i} className="pb-4 border-b border-gray-200 last:border-0">
-                    <p className="font-semibold text-gray-900">{act.type}</p>
-                    <p className="text-sm text-gray-600 mt-1">{act.desc}</p>
-                    <p className="text-xs text-gray-500 mt-2">{formatDate(act.date)}</p>
+                  <div key={i} className="pb-4 border-b border-border last:border-0">
+                    <p className="font-semibold text-dt">{act.type}</p>
+                    <p className="text-sm text-mg mt-1">{act.desc}</p>
+                    <p className="text-xs text-mg mt-2">{formatDate(act.date)}</p>
                   </div>
                 ))}
               </div>
@@ -141,17 +141,17 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white rounded-lg border border-border p-6"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Enrolled Courses</h3>
+              <h3 className="text-lg font-bold text-dt mb-6">Enrolled Courses</h3>
               <div className="space-y-4">
                 {user.courses.map((course) => (
-                  <div key={course.id} className="pb-4 border-b border-gray-200 last:border-0">
-                    <p className="font-medium text-gray-900 mb-2">{course.title}</p>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div key={course.id} className="pb-4 border-b border-border last:border-0">
+                    <p className="font-medium text-dt mb-2">{course.title}</p>
+                    <div className="w-full bg-border rounded-full h-2">
                       <div className="bg-ember-strong h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
                     </div>
-                    <p className="text-xs text-gray-600 mt-2">{course.progress}% complete</p>
+                    <p className="text-xs text-mg mt-2">{course.progress}% complete</p>
                   </div>
                 ))}
               </div>
@@ -164,20 +164,20 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white rounded-lg border border-border p-6"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Statistics</h3>
+              <h3 className="text-lg font-bold text-dt mb-6">Statistics</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">Enrollments</p>
-                  <p className="text-3xl font-bold text-gray-900">{user.enrollments}</p>
+                  <p className="text-sm text-mg mb-1">Enrollments</p>
+                  <p className="text-3xl font-bold text-dt">{user.enrollments}</p>
                 </div>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="text-sm text-gray-600 mb-1">Courses</p>
-                  <p className="text-3xl font-bold text-gray-900">{user.courseCount}</p>
+                <div className="border-t border-border pt-4">
+                  <p className="text-sm text-mg mb-1">Courses</p>
+                  <p className="text-3xl font-bold text-dt">{user.courseCount}</p>
                 </div>
-                <div className="border-t border-gray-200 pt-4">
-                  <p className="text-sm text-gray-600 mb-1">Certificates Earned</p>
+                <div className="border-t border-border pt-4">
+                  <p className="text-sm text-mg mb-1">Certificates Earned</p>
                   <p className="text-3xl font-bold text-ember-strong">{user.certificates}</p>
                 </div>
               </div>
@@ -188,9 +188,9 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-lg border border-gray-200 p-6"
+              className="bg-white rounded-lg border border-border p-6"
             >
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Admin Actions</h3>
+              <h3 className="text-lg font-bold text-dt mb-6">Admin Actions</h3>
               <div className="space-y-3">
                 {user.status === "active" ? (
                   <button
@@ -247,12 +247,12 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-lg p-8 max-w-sm mx-4"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Change User Role</h3>
+            <h3 className="text-2xl font-bold text-dt mb-4">Change User Role</h3>
             <select
               value={selectedRole || ''}
               onChange={(e) => setSelectedRole(e.target.value as UserRole)}
               aria-label="Select a role"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-ember-strong"
+              className="w-full px-4 py-2 border border-border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-ember-strong"
             >
               <option value="">Select a role</option>
               <option value="student">Student</option>
@@ -265,7 +265,7 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             <div className="flex gap-4">
               <button
                 onClick={() => setShowRoleModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="flex-1 px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow"
               >
                 Cancel
               </button>
@@ -288,12 +288,12 @@ function UserDetailsContent({ params }: { params: { userId: string } }) {
             animate={{ scale: 1, opacity: 1 }}
             className="bg-white rounded-lg p-8 max-w-sm mx-4"
           >
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Delete User?</h3>
-            <p className="text-gray-600 mb-6">This action cannot be undone. All user data will be permanently deleted.</p>
+            <h3 className="text-2xl font-bold text-dt mb-4">Delete User?</h3>
+            <p className="text-mg mb-6">This action cannot be undone. All user data will be permanently deleted.</p>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="flex-1 px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow"
               >
                 Cancel
               </button>

@@ -33,7 +33,7 @@ export default function FeaturedCoursesSection() {
               <Link href={`/courses/${course.id}`} className="block group h-full">
                 <div className="h-full rounded-xl p-6 transition-all hover:shadow-lg hover:-translate-y-1 bg-dg2 border border-pg/[0.12]">
                   <h3 className="font-bold text-lg mb-2 text-white">{course.title}</h3>
-                  <p className="text-xs font-mono mb-4 text-mg">
+                  <p className="text-xs font-mono mb-4 text-brass">
                     {course.level} · {course.category}
                   </p>
 
@@ -43,7 +43,7 @@ export default function FeaturedCoursesSection() {
                     </div>
                     <div>
                       <p className="text-xs font-medium text-brass">{course.instructor}</p>
-                      <p className="text-xs text-mg">Instructor</p>
+                      <p className="text-xs text-brass">Instructor</p>
                     </div>
                   </div>
 
@@ -53,7 +53,7 @@ export default function FeaturedCoursesSection() {
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                       <span className="text-xs font-mono text-pg">{course.rating}</span>
-                      <span className="text-xs text-mg">({course.students.toLocaleString()})</span>
+                      <span className="text-xs text-brass">({course.students.toLocaleString()})</span>
                     </div>
                     <span className="text-xs font-semibold text-pg">View →</span>
                   </div>

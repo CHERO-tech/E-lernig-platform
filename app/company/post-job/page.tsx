@@ -46,14 +46,14 @@ function PostJobContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Post a Job Opportunity</h1>
+          <h1 className="text-3xl font-bold text-dt">Post a Job Opportunity</h1>
         </div>
       </div>
 
@@ -61,48 +61,48 @@ function PostJobContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg border border-gray-200 p-8"
+          className="bg-white rounded-lg border border-border p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Job Basics */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Job Details</h2>
+              <h2 className="text-2xl font-bold text-dt mb-6">Job Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Job Title *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="title">Job Title *</label>
                   <input id="title"
                     type="text"
                     name="title"
                     placeholder="e.g., Senior React Developer"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="department">Department *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="department">Department *</label>
                     <input id="department"
                       type="text"
                       name="department"
                       placeholder="Engineering"
                       value={formData.department}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="location">Location *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="location">Location *</label>
                     <input id="location"
                       type="text"
                       name="location"
                       placeholder="San Francisco, CA"
                       value={formData.location}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -110,12 +110,12 @@ function PostJobContent() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="type">Employment Type *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="type">Employment Type *</label>
                     <select id="type"
                       name="type"
                       value={formData.type}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       <option value="full-time">Full-time</option>
@@ -125,14 +125,14 @@ function PostJobContent() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="salary">Salary Range *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="salary">Salary Range *</label>
                     <input id="salary"
                       type="text"
                       name="salary"
                       placeholder="$120k - $160k"
                       value={formData.salary}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
@@ -141,51 +141,51 @@ function PostJobContent() {
             </div>
 
             {/* Job Description */}
-            <div className="border-t border-gray-200 pt-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Job Description</h2>
+            <div className="border-t border-border pt-6">
+              <h2 className="text-2xl font-bold text-dt mb-6">Job Description</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Job Description *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="description">Job Description *</label>
                   <textarea id="description"
                     name="description"
                     placeholder="Describe the role, responsibilities, and what we're looking for..."
                     rows={5}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="requirements">Requirements *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="requirements">Requirements *</label>
                   <textarea id="requirements"
                     name="requirements"
                     placeholder="List required qualifications and experience..."
                     rows={4}
                     value={formData.requirements}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="skills">Required Skills</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="skills">Required Skills</label>
                   <textarea id="skills"
                     name="skills"
                     placeholder="React, TypeScript, Node.js, etc. (comma-separated)"
                     rows={3}
                     value={formData.skills}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   />
                 </div>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="border-t border-gray-200 pt-6 flex gap-4">
+            <div className="border-t border-border pt-6 flex gap-4">
               <button
                 type="submit"
                 className="px-8 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors"
@@ -195,7 +195,7 @@ function PostJobContent() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="px-8 py-3 border border-border text-dt rounded-lg font-medium hover:bg-ow"
               >
                 Cancel
               </button>

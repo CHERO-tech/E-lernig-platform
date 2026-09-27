@@ -94,7 +94,7 @@ export default function TracksSection() {
                   <span className="font-mono text-xs text-pg/40">{track.tag}</span>
                 </div>
                 <h3 className="font-bold text-lg mb-2 text-white">{track.title}</h3>
-                <p className="text-sm leading-relaxed text-mg">{track.desc}</p>
+                <p className="text-sm leading-relaxed text-brass">{track.desc}</p>
               </div>
               <div className="p-6">
                 <div className="flex gap-4 mb-4 font-mono text-xs text-mg">

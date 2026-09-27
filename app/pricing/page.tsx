@@ -54,7 +54,7 @@ export default function Pricing() {
               className={`rounded-lg border-2 p-8 ${
                 plan.highlighted
                   ? "border-ember-strong bg-forge-soft ring-2 ring-ember-strong relative"
-                  : "border-gray-200 bg-white"
+                  : "border-border bg-white"
               }`}
             >
               {plan.highlighted && (
@@ -62,9 +62,9 @@ export default function Pricing() {
                   Most Popular
                 </div>
               )}
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-              <p className="text-gray-600 text-sm mb-4">{plan.desc}</p>
-              <p className="text-4xl font-bold text-gray-900 mb-6">{plan.price}</p>
+              <h3 className="text-2xl font-bold text-dt mb-2">{plan.name}</h3>
+              <p className="text-mg text-sm mb-4">{plan.desc}</p>
+              <p className="text-4xl font-bold text-dt mb-6">{plan.price}</p>
 
               <Link
                 href="/register"
@@ -81,7 +81,7 @@ export default function Pricing() {
                 {plan.features.map((feature, j) => (
                   <li key={j} className="flex items-center gap-3">
                     <Check size={20} className="text-ember-strong flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-dt">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -90,17 +90,17 @@ export default function Pricing() {
         </div>
       </div>
 
-      <div className="bg-gray-50 py-16 px-6">
+      <div className="bg-ow py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-dt mb-4">Frequently Asked Questions</h2>
           <div className="mt-8 space-y-4">
-            <div className="p-4 bg-white rounded-lg border border-gray-200 text-left">
-              <p className="font-semibold text-gray-900 mb-2">Can I change my plan?</p>
-              <p className="text-gray-600 text-sm">Yes, you can upgrade or downgrade anytime. Changes take effect immediately.</p>
+            <div className="p-4 bg-white rounded-lg border border-border text-left">
+              <p className="font-semibold text-dt mb-2">Can I change my plan?</p>
+              <p className="text-mg text-sm">Yes, you can upgrade or downgrade anytime. Changes take effect immediately.</p>
             </div>
-            <div className="p-4 bg-white rounded-lg border border-gray-200 text-left">
-              <p className="font-semibold text-gray-900 mb-2">Do you offer refunds?</p>
-              <p className="text-gray-600 text-sm">All plans come with a 30-day money-back guarantee. No questions asked.</p>
+            <div className="p-4 bg-white rounded-lg border border-border text-left">
+              <p className="font-semibold text-dt mb-2">Do you offer refunds?</p>
+              <p className="text-mg text-sm">All plans come with a 30-day money-back guarantee. No questions asked.</p>
             </div>
           </div>
         </div>

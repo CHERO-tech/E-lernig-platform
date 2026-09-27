@@ -60,7 +60,7 @@ function SkillEndorsementsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
@@ -83,9 +83,9 @@ function SkillEndorsementsContent() {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-2 space-y-6"
         >
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white rounded-lg border border-border p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">My Skills</h2>
+              <h2 className="text-2xl font-bold text-dt">My Skills</h2>
               <button
                 onClick={() => setShowAddSkill(!showAddSkill)}
                 className="flex items-center gap-2 px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors"
@@ -98,7 +98,7 @@ function SkillEndorsementsContent() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200"
+                className="mb-6 p-4 bg-ow rounded-lg border border-border"
               >
                 <div className="flex gap-3">
                   <input
@@ -107,7 +107,7 @@ function SkillEndorsementsContent() {
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleAddSkill()}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="flex-1 px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                    aria-label="Enter skill name"/>
                   <button
                     onClick={handleAddSkill}
@@ -120,7 +120,7 @@ function SkillEndorsementsContent() {
                       setShowAddSkill(false);
                       setNewSkill("");
                     }}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                    className="px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow"
                   >
                     Cancel
                   </button>
@@ -138,20 +138,20 @@ function SkillEndorsementsContent() {
                   className="p-4 bg-gradient-to-br from-forge-soft to-blue-50 rounded-lg border border-brass-soft"
                 >
                   <div className="flex items-center justify-between mb-2">
-                    <p className="font-semibold text-gray-900">{skill}</p>
+                    <p className="font-semibold text-dt">{skill}</p>
                     <span className="px-3 py-1 bg-ember-strong text-white rounded-full text-sm font-bold">
                       {user ? endorsementCountFor(user.id, skill) : 0}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-600">people endorsed this skill</p>
+                  <p className="text-xs text-mg">people endorsed this skill</p>
                 </motion.div>
               ))}
             </div>
           </div>
 
           {/* Endorse a Peer */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Endorse a Peer</h2>
+          <div className="bg-white rounded-lg border border-border p-6">
+            <h2 className="text-2xl font-bold text-dt mb-6">Endorse a Peer</h2>
             <div className="space-y-3">
               {peers.length > 0 ? (
                 peers.map((peer, i) => (
@@ -166,7 +166,7 @@ function SkillEndorsementsContent() {
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
                         {peer.avatar || peer.name.slice(0, 2).toUpperCase()}
                       </div>
-                      <p className="font-semibold text-gray-900">{peer.name}</p>
+                      <p className="font-semibold text-dt">{peer.name}</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {mySkills.map((skill) => (
@@ -182,7 +182,7 @@ function SkillEndorsementsContent() {
                   </motion.div>
                 ))
               ) : (
-                <p className="text-center text-gray-600 py-8">No other members have signed in yet to endorse.</p>
+                <p className="text-center text-mg py-8">No other members have signed in yet to endorse.</p>
               )}
             </div>
           </div>
@@ -193,19 +193,19 @@ function SkillEndorsementsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-lg border border-gray-200 p-6 h-fit sticky top-6"
+          className="bg-white rounded-lg border border-border p-6 h-fit sticky top-6"
         >
-          <h3 className="text-xl font-bold text-gray-900 mb-6">Top Endorsed</h3>
+          <h3 className="text-xl font-bold text-dt mb-6">Top Endorsed</h3>
           <div className="space-y-4">
             {topEndorsedPeople.length === 0 && (
-              <p className="text-center text-sm text-gray-600 py-4">No endorsements yet — be the first to endorse a peer.</p>
+              <p className="text-center text-sm text-mg py-4">No endorsements yet — be the first to endorse a peer.</p>
             )}
             {topEndorsedPeople.map((person) => (
-              <div key={person.id} className="text-center pb-4 border-b border-gray-100 last:border-b-0">
+              <div key={person.id} className="text-center pb-4 border-b border-border last:border-b-0">
                 <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                   {person.avatar}
                 </div>
-                <p className="font-semibold text-gray-900">{person.name}</p>
+                <p className="font-semibold text-dt">{person.name}</p>
                 <div className="flex flex-wrap gap-1 justify-center mt-2">
                   {person.skills.map((skill) => (
                     <span key={skill} className="px-2 py-1 bg-forge-soft text-ember2 text-xs rounded-full">
@@ -213,7 +213,7 @@ function SkillEndorsementsContent() {
                     </span>
                   ))}
                 </div>
-                <p className="text-sm text-gray-600 mt-2 font-semibold">{person.endorsements} endorsements</p>
+                <p className="text-sm text-mg mt-2 font-semibold">{person.endorsements} endorsements</p>
               </div>
             ))}
           </div>

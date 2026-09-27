@@ -86,14 +86,14 @@ function CreateAssignmentContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Create Assignment</h1>
+          <h1 className="text-3xl font-bold text-dt">Create Assignment</h1>
         </div>
       </div>
 
@@ -101,47 +101,47 @@ function CreateAssignmentContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-lg border border-gray-200 p-8"
+          className="bg-white rounded-lg border border-border p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Basic Info */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Assignment Details</h2>
+              <h2 className="text-2xl font-bold text-dt mb-6">Assignment Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="title">Assignment Title *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="title">Assignment Title *</label>
                   <input id="title"
                     type="text"
                     name="title"
                     placeholder="e.g., Build a React Todo App"
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="description">Description *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="description">Description *</label>
                   <textarea id="description"
                     name="description"
                     placeholder="Brief description of the assignment..."
                     rows={3}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="course">Course *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="course">Course *</label>
                     <select id="course"
                       name="course"
                       value={formData.course}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
                       {courses.map(course => (
@@ -151,27 +151,27 @@ function CreateAssignmentContent() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="dueDate">Due Date *</label>
+                    <label className="block text-sm font-medium text-dt mb-2" htmlFor="dueDate">Due Date *</label>
                     <input id="dueDate"
                       type="date"
                       name="dueDate"
                       value={formData.dueDate}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                      className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="instructions">Instructions *</label>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="instructions">Instructions *</label>
                   <textarea id="instructions"
                     name="instructions"
                     placeholder="Detailed instructions for students..."
                     rows={4}
                     value={formData.instructions}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                     required
                   />
                 </div>
@@ -179,36 +179,36 @@ function CreateAssignmentContent() {
             </div>
 
             {/* Grading Rubric */}
-            <div className="border-t border-gray-200 pt-8">
+            <div className="border-t border-border pt-8">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Grading Rubric</h2>
+                <h2 className="text-2xl font-bold text-dt">Grading Rubric</h2>
                 <p className="text-sm font-semibold text-ember-strong">Total: {totalPoints} points</p>
               </div>
 
               <div className="space-y-3">
                 {formData.rubric.map((criterion) => (
-                  <div key={criterion.id} className="flex gap-4 items-end p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div key={criterion.id} className="flex gap-4 items-end p-4 bg-ow rounded-lg border border-border">
                     <div className="flex-1">
-                      <label className="block text-xs text-gray-600 uppercase mb-1" htmlFor={`criterion-${criterion.id}`}>Criterion</label>
+                      <label className="block text-xs text-mg uppercase mb-1" htmlFor={`criterion-${criterion.id}`}>Criterion</label>
                       <input
                         id={`criterion-${criterion.id}`}
                         type="text"
                         placeholder="e.g., Code Quality"
                         value={criterion.criterion}
                         onChange={(e) => handleRubricChange(criterion.id, "criterion", e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
                     <div className="w-24">
-                      <label className="block text-xs text-gray-600 uppercase mb-1" htmlFor={`points-${criterion.id}`}>Points</label>
+                      <label className="block text-xs text-mg uppercase mb-1" htmlFor={`points-${criterion.id}`}>Points</label>
                       <input
                         id={`points-${criterion.id}`}
                         type="number"
                         placeholder="0"
                         value={criterion.points}
                         onChange={(e) => handleRubricChange(criterion.id, "points", parseInt(e.target.value) || 0)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       />
                     </div>
 
@@ -225,7 +225,7 @@ function CreateAssignmentContent() {
                 <button
                   type="button"
                   onClick={handleAddRubric}
-                  className="w-full px-4 py-3 border-2 border-dashed border-gray-300 text-gray-700 rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
+                  className="w-full px-4 py-3 border-2 border-dashed border-border text-dt rounded-lg font-medium hover:border-ember-strong hover:text-ember-strong transition-colors flex items-center justify-center gap-2"
                 >
                   <Plus size={20} /> Add Criterion
                 </button>
@@ -233,7 +233,7 @@ function CreateAssignmentContent() {
             </div>
 
             {/* Actions */}
-            <div className="border-t border-gray-200 pt-8 flex gap-4">
+            <div className="border-t border-border pt-8 flex gap-4">
               <button
                 type="submit"
                 className="flex-1 px-8 py-3 bg-ember-strong text-white rounded-lg font-bold hover:bg-ember transition-colors"
@@ -243,7 +243,7 @@ function CreateAssignmentContent() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50"
+                className="px-8 py-3 border border-border text-dt rounded-lg font-medium hover:bg-ow"
               >
                 Cancel
               </button>

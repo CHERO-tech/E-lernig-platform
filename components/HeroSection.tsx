@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const termLines = [
   { text: "$ forge init", tone: "text-pg" },
-  { text: "> loading learning paths...", tone: "text-mg" },
+  { text: "> loading learning paths...", tone: "text-brass" },
   { text: "> software-development ✓", tone: "text-brass" },
   { text: "> networking ✓", tone: "text-brass" },
   { text: "> multimedia-design ✓", tone: "text-brass" },
@@ -30,12 +30,12 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-dg pt-28 pb-16 px-6 md:px-8">
+    <section className="hero relative overflow-hidden bg-dg pt-28 pb-16 px-6 md:px-8">
       <div className="grid-bg absolute inset-0 pointer-events-none" />
       <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div className="fade-up">
           <p className="font-mono text-sm mb-6 flex items-center gap-2 text-pg">
-            <span className="text-mg">{">"}</span> SKILLS YOU CAN PUT TO WORK
+            <span className="text-brass">{">"}</span> SKILLS YOU CAN PUT TO WORK
           </p>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 text-white tracking-tight">
             Learn Digital Skills.
@@ -63,7 +63,7 @@ export default function HeroSection() {
               See How It Works
             </a>
           </div>
-          <p className="font-mono text-xs text-mg">
+          <p className="font-mono text-xs text-ink-soft">
             $ status — practical learning • mentor reviewed • career ready
           </p>
         </div>
@@ -74,7 +74,7 @@ export default function HeroSection() {
             <span className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
             <span className="w-3 h-3 rounded-full" style={{ background: "#ffbd2e" }} />
             <span className="w-3 h-3 rounded-full bg-pg/60" />
-            <span className="ml-3 font-mono text-xs text-mg">forge — bash</span>
+            <span className="ml-3 font-mono text-xs text-brass">forge — bash</span>
           </div>
           <div className="p-6 font-mono text-sm min-h-64">
             {termLines.map((line, i) => (

@@ -46,7 +46,7 @@ export function Input({
           {...props}
         />
         {icon && (
-          <div className="absolute right-3 top-3 text-gray-400">{icon}</div>
+          <div className="absolute right-3 top-3 text-mg">{icon}</div>
         )}
       </div>
       {hint && <p className="text-xs mt-1 text-mg">{hint}</p>}

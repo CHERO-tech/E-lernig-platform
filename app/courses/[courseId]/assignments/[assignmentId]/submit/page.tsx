@@ -8,12 +8,19 @@ import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 
+const MAX_STORED_FILE_SIZE = 1.5 * 1024 * 1024; // 1.5MB — keeps localStorage usage reasonable
+
+interface StagedFile {
+  name: string;
+  dataUrl?: string;
+}
+
 function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string; assignmentId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
   const { submitAssignment } = useEnrollment();
   const { addNotification } = useNotifications();
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<StagedFile[]>([]);
   const [submissionText, setSubmissionText] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState("");
@@ -45,10 +52,24 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
       : { box: "bg-pg/5 border-pg/20", icon: "text-pg2", text: "text-pg2" };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files).map((f) => f.name);
-      setFiles([...files, ...newFiles]);
-    }
+    if (!e.target.files) return;
+    Array.from(e.target.files).forEach((file) => {
+      if (file.size > MAX_STORED_FILE_SIZE) {
+        addNotification({
+          type: "system",
+          icon: "⚠️",
+          title: "File too large to store",
+          message: `"${file.name}" is over 1.5MB — only the filename will be recorded, not its contents.`,
+        });
+        setFiles((prev) => [...prev, { name: file.name }]);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        setFiles((prev) => [...prev, { name: file.name, dataUrl: reader.result as string }]);
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
   const handleRemoveFile = (index: number) => {
@@ -66,8 +87,8 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
       });
       return;
     }
-    const fileName = files[files.length - 1];
-    submitAssignment(courseId, assignmentId, fileName);
+    const lastFile = files[files.length - 1];
+    submitAssignment(courseId, assignmentId, lastFile.name, lastFile.dataUrl);
     addNotification({
       type: "system",
       icon: "✅",
@@ -150,7 +171,10 @@ function SubmitAssignmentContent({ courseId, assignmentId }: { courseId: string;
                     <div className="space-y-2">
                       {files.map((file, i) => (
                         <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-ow border border-border">
-                          <p className="text-sm text-dt">{file}</p>
+                          <p className="text-sm text-dt">
+                            {file.name}
+                            {!file.dataUrl && <span className="text-xs text-mg ml-2">(name only, too large to store)</span>}
+                          </p>
                           <button
                             type="button"
                             onClick={() => handleRemoveFile(i)}

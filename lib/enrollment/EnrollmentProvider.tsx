@@ -117,13 +117,14 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     });
   };
 
-  const submitAssignment = (courseId: string, assignmentId: string, fileName: string) => {
+  const submitAssignment = (courseId: string, assignmentId: string, fileName: string, fileDataUrl?: string) => {
     setEnrollments(prev => {
       const updated: Enrollment[] = prev.map(e => {
         if (e.courseId !== courseId) return e;
         const newSubmission: Enrollment['submissions'][0] = {
           assignmentId,
           fileName,
+          fileDataUrl,
           submittedAt: new Date().toISOString(),
           status: 'submitted',
         };

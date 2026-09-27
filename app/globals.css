@@ -316,12 +316,15 @@ header.site,
 .hero {
   --paper: var(--dg);
   --ink: #ffffff;
-  --ink-soft: var(--mg);
+  /* --mg (#606C66) is calibrated for text on light surfaces — on this dark
+     header/hero background it measures only ~3.24:1, failing WCAG AA for
+     normal text. --mg2 (#789183) is the lighter variant, verified ~5.2:1 here. */
+  --ink-soft: var(--mg2);
   --ember: var(--pg);
   --ember-strong: var(--mint);
   --forge: var(--pg);
   --brass: var(--mint);
-  --wire: var(--mg);
+  --wire: var(--mg2);
   --line: rgba(53, 196, 122, 0.1);
   --shadow: rgba(0, 0, 0, 0.5);
   color: var(--ink);

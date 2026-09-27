@@ -134,7 +134,7 @@ export default function Help() {
               placeholder="Search help articles..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-ember"
+              className="w-full pl-12 pr-4 py-3 rounded-lg text-dt placeholder-mg focus:outline-none focus:ring-2 focus:ring-ember"
              aria-label="Search help articles"/>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default function Help() {
       <div className="max-w-4xl mx-auto px-6 py-12">
         {/* FAQ Sections */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-dt mb-8">Frequently Asked Questions</h2>
 
           {filteredFaqs.length > 0 ? (
             <div className="space-y-6">
@@ -154,7 +154,7 @@ export default function Help() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{category.category}</h3>
+                  <h3 className="text-xl font-bold text-dt mb-4">{category.category}</h3>
                   <div className="space-y-2">
                     {category.items.map((item, itemIndex) => {
                       const globalIndex = catIndex * 10 + itemIndex;
@@ -164,13 +164,13 @@ export default function Help() {
                         <button
                           key={globalIndex}
                           onClick={() => setExpandedFaq(isExpanded ? null : globalIndex)}
-                          className="w-full text-left p-4 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors group"
+                          className="w-full text-left p-4 bg-ow border border-border rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors group"
                         >
                           <div className="flex items-start justify-between gap-4">
-                            <p className="font-semibold text-gray-900 group-hover:text-ember-strong transition-colors">{item.q}</p>
+                            <p className="font-semibold text-dt group-hover:text-ember-strong transition-colors">{item.q}</p>
                             <ChevronDown
                               size={20}
-                              className={`text-gray-600 flex-shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                              className={`text-mg flex-shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`}
                             />
                           </div>
 
@@ -179,7 +179,7 @@ export default function Help() {
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: "auto" }}
                               exit={{ opacity: 0, height: 0 }}
-                              className="mt-4 pt-4 border-t border-gray-200 text-gray-600"
+                              className="mt-4 pt-4 border-t border-border text-mg"
                             >
                               {item.a}
                             </motion.div>
@@ -193,7 +193,7 @@ export default function Help() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">No results found for &quot;{searchTerm}&quot;</p>
+              <p className="text-mg mb-4">No results found for &quot;{searchTerm}&quot;</p>
               <button
                 onClick={() => setSearchTerm("")}
                 className="text-ember-strong hover:text-ember2 font-medium"
@@ -211,8 +211,8 @@ export default function Help() {
           transition={{ duration: 0.4 }}
           className="bg-forge-soft border border-brass-soft rounded-lg p-8 text-center"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Didn&apos;t find what you&apos;re looking for?</h2>
-          <p className="text-gray-600 mb-8">Our support team is here to help. Reach out to us through any of these channels:</p>
+          <h2 className="text-2xl font-bold text-dt mb-4">Didn&apos;t find what you&apos;re looking for?</h2>
+          <p className="text-mg mb-8">Our support team is here to help. Reach out to us through any of these channels:</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -224,8 +224,8 @@ export default function Help() {
               return (
                 <a key={i} href={contact.link} className="p-4 bg-white rounded-lg border border-brass-soft hover:shadow-lg transition-shadow">
                   <Icon size={24} className="text-ember-strong mx-auto mb-3" />
-                  <p className="font-semibold text-gray-900 mb-1">{contact.label}</p>
-                  <p className="text-sm text-gray-600">{contact.desc}</p>
+                  <p className="font-semibold text-dt mb-1">{contact.label}</p>
+                  <p className="text-sm text-mg">{contact.desc}</p>
                 </a>
               );
             })}
@@ -239,7 +239,7 @@ export default function Help() {
           transition={{ duration: 0.4 }}
           className="mt-16"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Helpful Resources</h2>
+          <h2 className="text-2xl font-bold text-dt mb-6">Helpful Resources</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { title: "Getting Started Guide", desc: "Learn the basics of Forge in just 10 minutes" },
@@ -257,10 +257,10 @@ export default function Help() {
                     message: `"${resource.title}" is being written and will be available soon.`,
                   })
                 }
-                className="p-6 bg-gray-50 border border-gray-200 rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors text-left"
+                className="p-6 bg-ow border border-border rounded-lg hover:border-ember-strong hover:bg-forge-soft transition-colors text-left"
               >
-                <h3 className="font-semibold text-gray-900 mb-2">{resource.title}</h3>
-                <p className="text-sm text-gray-600">{resource.desc}</p>
+                <h3 className="font-semibold text-dt mb-2">{resource.title}</h3>
+                <p className="text-sm text-mg">{resource.desc}</p>
               </button>
             ))}
           </div>

@@ -77,24 +77,24 @@ function AnalyticsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+          <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
             <ArrowLeft size={16} />
             Back to Dashboard
           </Link>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <BarChart3 size={32} className="text-ember-strong" />
-              <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
+              <h1 className="text-3xl font-bold text-dt">Analytics</h1>
             </div>
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
               aria-label="Time range"
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+              className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
             >
               <option value="7d">Last 7 days</option>
               <option value="30d">Last 30 days</option>
@@ -116,11 +116,11 @@ function AnalyticsContent() {
             const Icon = stat.icon;
             const colors = colorMap[stat.color];
             return (
-              <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={i} className="bg-white rounded-lg border border-border p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-mg text-sm mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-dt">{stat.value}</p>
                   </div>
                   <div className={`p-3 rounded-lg ${colors}`}>
                     <Icon size={24} />
@@ -137,41 +137,41 @@ function AnalyticsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white rounded-lg border border-gray-200 p-6"
+          className="bg-white rounded-lg border border-border p-6"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Performance</h2>
+          <h2 className="text-2xl font-bold text-dt mb-6">Course Performance</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Course</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Students</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Revenue</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Rating</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Completion</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-dt">Course</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Students</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Revenue</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Rating</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Completion</th>
                 </tr>
               </thead>
               <tbody>
                 {coursePerformance.map((course) => (
-                  <tr key={course.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-4 px-4 font-medium text-gray-900">{course.title}</td>
-                    <td className="py-4 px-4 text-right text-gray-600">{course.students}</td>
+                  <tr key={course.id} className="border-b border-border hover:bg-ow">
+                    <td className="py-4 px-4 font-medium text-dt">{course.title}</td>
+                    <td className="py-4 px-4 text-right text-mg">{course.students}</td>
                     <td className="py-4 px-4 text-right font-semibold text-ember-strong">{course.revenue}</td>
                     <td className="py-4 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Star size={16} className="fill-yellow-400 text-yellow-400" />
-                        <span className="text-gray-900 font-medium">{course.rating}</span>
+                        <span className="text-dt font-medium">{course.rating}</span>
                       </div>
                     </td>
                     <td className="py-4 px-4 text-right">
                       <div className="flex items-center justify-end gap-3">
-                        <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="w-20 h-2 bg-border rounded-full overflow-hidden">
                           <div
                             className="h-full bg-ember-strong"
                             style={{ width: `${course.completion}%` }}
                           ></div>
                         </div>
-                        <span className="text-gray-900 font-medium w-8 text-right">{course.completion}%</span>
+                        <span className="text-dt font-medium w-8 text-right">{course.completion}%</span>
                       </div>
                     </td>
                   </tr>
@@ -188,29 +188,29 @@ function AnalyticsContent() {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Student Engagement Trend</h3>
+          <div className="bg-white rounded-lg border border-border p-6">
+            <h3 className="text-xl font-bold text-dt mb-6">Student Engagement Trend</h3>
             <div className="space-y-4">
               {studentEngagement.map((item, i) => (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-gray-700">{item.week}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.active} active</p>
+                    <p className="text-sm font-medium text-dt">{item.week}</p>
+                    <p className="text-sm font-semibold text-dt">{item.active} active</p>
                   </div>
-                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-border rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-blue-500 to-ember-strong"
                       style={{ width: `${(item.active / 350) * 100}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">{item.new} new students</p>
+                  <p className="text-xs text-mg mt-1">{item.new} new students</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Revenue Breakdown</h3>
+          <div className="bg-white rounded-lg border border-border p-6">
+            <h3 className="text-xl font-bold text-dt mb-6">Revenue Breakdown</h3>
             <div className="space-y-4">
               {[
                 { name: "Subscriptions", value: 45, amount: "$5,605" },
@@ -219,10 +219,10 @@ function AnalyticsContent() {
               ].map((item, i) => (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-gray-700">{item.name}</p>
-                    <p className="text-sm font-semibold text-gray-900">{item.amount}</p>
+                    <p className="text-sm font-medium text-dt">{item.name}</p>
+                    <p className="text-sm font-semibold text-dt">{item.amount}</p>
                   </div>
-                  <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-3 bg-border rounded-full overflow-hidden">
                     <div
                       className="h-full bg-ember-strong"
                       style={{ width: `${item.value}%` }}

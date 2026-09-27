@@ -2,7 +2,7 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { BookOpen, Clock, CheckCircle, Lock, Play } from "lucide-react";
+import { BookOpen, Clock, CheckCircle, Lock, Play, AlertCircle } from "lucide-react";
 import { use } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
@@ -31,6 +31,7 @@ function QuizzesContent({ courseId }: { courseId: string }) {
 
   const quizzes = course.quizzes.map((quiz) => {
     const attempt = enrollment?.quizAttempts.find((a) => a.quizId === quiz.id);
+    const isOverdue = !!quiz.dueDate && !attempt && new Date(quiz.dueDate).getTime() < new Date().getTime();
     return {
       id: quiz.id,
       title: quiz.title,
@@ -38,6 +39,8 @@ function QuizzesContent({ courseId }: { courseId: string }) {
       questions: quiz.questions.length,
       timeLimit: quiz.timeLimit,
       passingScore: quiz.passingScore,
+      dueDate: quiz.dueDate,
+      isOverdue,
       completed: !!attempt,
       score: attempt?.score ?? null,
       attempts: enrollment?.quizAttempts.filter((a) => a.quizId === quiz.id).length || 0,
@@ -99,6 +102,12 @@ function QuizzesContent({ courseId }: { courseId: string }) {
                       <Clock size={16} /> {quiz.timeLimit} minutes
                     </span>
                     <span>Pass: {quiz.passingScore}%</span>
+                    {quiz.dueDate && (
+                      <span className={`flex items-center gap-2 ${quiz.isOverdue ? "text-err font-medium" : ""}`}>
+                        {quiz.isOverdue && <AlertCircle size={16} />}
+                        {quiz.isOverdue ? "Overdue" : "Due"} {new Date(quiz.dueDate).toLocaleDateString()}
+                      </span>
+                    )}
                   </div>
                 </div>
 

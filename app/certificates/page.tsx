@@ -124,7 +124,7 @@ function CertificatesContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Off-screen certificate templates for PDF capture */}
       {certificates.map((cert) => (
         <div
@@ -181,11 +181,11 @@ function CertificatesContent() {
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={i} className="bg-white rounded-lg border border-border p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-mg text-sm mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-dt">{stat.value}</p>
                   </div>
                   <Icon size={32} className="text-ember-strong opacity-50" />
                 </div>
@@ -196,7 +196,7 @@ function CertificatesContent() {
 
         {/* Certificates Grid */}
         {certificates.length === 0 ? (
-          <div className="bg-white rounded-lg border border-gray-200">
+          <div className="bg-white rounded-lg border border-border">
             <EmptyState
               icon={<Award size={48} className="text-pg2" />}
               title="No certificates yet"
@@ -219,7 +219,7 @@ function CertificatesContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow"
+              className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-xl transition-shadow"
             >
               {/* Certificate Preview */}
               <div className="h-64 bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 p-8 flex items-center justify-center border-b-2 border-yellow-200 relative overflow-hidden">
@@ -236,24 +236,24 @@ function CertificatesContent() {
               <div className="p-6">
                 <div className="space-y-3 mb-6">
                   <div>
-                    <p className="text-xs text-gray-600 uppercase tracking-wide">Instructor</p>
-                    <p className="font-semibold text-gray-900">{cert.instructor}</p>
+                    <p className="text-xs text-mg uppercase tracking-wide">Instructor</p>
+                    <p className="font-semibold text-dt">{cert.instructor}</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-gray-600 uppercase tracking-wide">Issued</p>
-                      <p className="font-semibold text-gray-900">{new Date(cert.issued).toLocaleDateString()}</p>
+                      <p className="text-xs text-mg uppercase tracking-wide">Issued</p>
+                      <p className="font-semibold text-dt">{new Date(cert.issued).toLocaleDateString()}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600 uppercase tracking-wide">Score</p>
+                      <p className="text-xs text-mg uppercase tracking-wide">Score</p>
                       <p className="font-semibold text-ember-strong">{cert.score}%</p>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-xs text-gray-600 uppercase tracking-wide">Credential ID</p>
-                    <p className="text-sm font-mono text-gray-600">{cert.credentialId}</p>
+                    <p className="text-xs text-mg uppercase tracking-wide">Credential ID</p>
+                    <p className="text-sm font-mono text-mg">{cert.credentialId}</p>
                   </div>
                 </div>
 
@@ -276,7 +276,7 @@ function CertificatesContent() {
                   </button>
                   <button
                     onClick={() => handleShare(cert)}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors flex items-center justify-center gap-2"
                   >
                     {copiedId === cert.id ? (
                       <>

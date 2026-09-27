@@ -115,16 +115,16 @@ function GradingDashboardContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-ow flex">
       {/* Left Panel */}
       <div className="flex-1 max-h-screen overflow-y-auto">
-        <div className="bg-white border-b border-gray-200">
+        <div className="bg-white border-b border-border">
           <div className="max-w-5xl mx-auto px-6 py-6">
-            <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+            <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
               <ArrowLeft size={16} />
               Back to Dashboard
             </Link>
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Grading Dashboard</h1>
+            <h1 className="text-3xl font-bold text-dt mb-6">Grading Dashboard</h1>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -135,11 +135,11 @@ function GradingDashboardContent() {
               ].map((stat, i) => {
                 const Icon = stat.icon;
                 return (
-                  <div key={i} className="bg-gray-50 rounded-lg p-4">
+                  <div key={i} className="bg-ow rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                        <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                        <p className="text-mg text-sm mb-1">{stat.label}</p>
+                        <p className="text-3xl font-bold text-dt">{stat.value}</p>
                       </div>
                       <Icon size={24} className={`text-${stat.color}-600 opacity-50`} />
                     </div>
@@ -152,9 +152,9 @@ function GradingDashboardContent() {
 
         <div className="max-w-5xl mx-auto px-6 py-8">
           {submissions.length === 0 ? (
-            <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-              <FileText size={48} className="mx-auto text-gray-300 mb-4" />
-              <p className="text-gray-600 text-lg">No submissions to grade</p>
+            <div className="bg-white rounded-lg border border-border p-12 text-center">
+              <FileText size={48} className="mx-auto text-border mb-4" />
+              <p className="text-mg text-lg">No submissions to grade</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -168,14 +168,14 @@ function GradingDashboardContent() {
                   className={`w-full text-left p-4 rounded-lg border transition-all ${
                     selectedSubmission === sub.id
                       ? "border-ember-strong bg-forge-soft"
-                      : "border-gray-200 bg-white hover:border-gray-300"
+                      : "border-border bg-white hover:border-border"
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-bold text-gray-900">{sub.studentName}</h3>
-                      <p className="text-sm text-gray-600">{sub.assignment}</p>
-                      <p className="text-xs text-gray-500 mt-1">Submitted: {sub.submitted}</p>
+                      <h3 className="font-bold text-dt">{sub.studentName}</h3>
+                      <p className="text-sm text-mg">{sub.assignment}</p>
+                      <p className="text-xs text-mg mt-1">Submitted: {sub.submitted}</p>
                     </div>
                     <div className="text-right">
                       <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -199,28 +199,44 @@ function GradingDashboardContent() {
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="w-96 bg-white border-l border-gray-200 p-6 overflow-y-auto max-h-screen"
+          className="w-96 bg-white border-l border-border p-6 overflow-y-auto max-h-screen"
         >
-          <h2 className="text-xl font-bold text-gray-900 mb-4">{selected.studentName}</h2>
-          <p className="text-sm text-gray-600 mb-6">{selected.assignment}</p>
+          <h2 className="text-xl font-bold text-dt mb-4">{selected.studentName}</h2>
+          <p className="text-sm text-mg mb-6">{selected.assignment}</p>
+
+          {/* Submitted file */}
+          <div className="mb-6 p-3 bg-ow rounded-lg flex items-center justify-between">
+            <span className="text-sm text-dt truncate">{selected.submissionDetails.fileName}</span>
+            {selected.submissionDetails.fileDataUrl ? (
+              <a
+                href={selected.submissionDetails.fileDataUrl}
+                download={selected.submissionDetails.fileName}
+                className="text-sm font-medium text-ember-strong hover:underline shrink-0 ml-3"
+              >
+                Download
+              </a>
+            ) : (
+              <span className="text-xs text-mg shrink-0 ml-3">too large to store</span>
+            )}
+          </div>
 
           {/* Rubric */}
           <div className="mb-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Rubric</h3>
+            <h3 className="font-semibold text-dt mb-3">Rubric</h3>
             <div className="space-y-2">
               {selected.rubric.map(criterion => (
                 <div key={criterion.id} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-700">{criterion.criterion}</span>
-                  <span className="font-semibold text-gray-900">{criterion.points}pts</span>
+                  <span className="text-dt">{criterion.criterion}</span>
+                  <span className="font-semibold text-dt">{criterion.points}pts</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Grading Form */}
-          <div className="space-y-4 border-t border-gray-200 pt-6">
+          <div className="space-y-4 border-t border-border pt-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="grading-score">Score</label>
+              <label className="block text-sm font-medium text-dt mb-2" htmlFor="grading-score">Score</label>
               <input
                 id="grading-score"
                 type="number"
@@ -233,13 +249,13 @@ function GradingDashboardContent() {
                     [selected.id]: { ...prev[selected.id], score: parseInt(e.target.value) || 0 },
                   }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                 placeholder="0-100"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="grading-feedback">Feedback</label>
+              <label className="block text-sm font-medium text-dt mb-2" htmlFor="grading-feedback">Feedback</label>
               <textarea
                 id="grading-feedback"
                 rows={4}
@@ -250,7 +266,7 @@ function GradingDashboardContent() {
                     [selected.id]: { ...prev[selected.id], feedback: e.target.value },
                   }))
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
                 placeholder="Provide feedback..."
               />
             </div>

@@ -68,16 +68,16 @@ export default function LearningPaths() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-white rounded-xl border border-border overflow-hidden hover:shadow-lg transition-shadow"
               >
                 <div className={`h-48 bg-gradient-to-br ${path.bgGradient}`}></div>
                 <div className="p-6">
-                  <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                    <Icon size={24} className="text-gray-600" />
+                  <div className="w-12 h-12 bg-ow rounded-lg flex items-center justify-center mb-4">
+                    <Icon size={24} className="text-mg" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{path.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4">{path.desc}</p>
-                  <div className="flex justify-between text-sm text-gray-600 mb-6">
+                  <h3 className="text-xl font-bold text-dt mb-2">{path.title}</h3>
+                  <p className="text-mg text-sm mb-4">{path.desc}</p>
+                  <div className="flex justify-between text-sm text-mg mb-6">
                     <span>{path.courses} Courses</span>
                     <span>{path.students} Students</span>
                   </div>
@@ -96,8 +96,8 @@ export default function LearningPaths() {
 
       <div className="bg-forge-soft py-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to start learning?</h2>
-          <p className="text-gray-600 mb-8">Choose a path and begin your journey today</p>
+          <h2 className="text-3xl font-bold text-dt mb-4">Ready to start learning?</h2>
+          <p className="text-mg mb-8">Choose a path and begin your journey today</p>
           <Link
             href="/register"
             className="inline-block px-8 py-4 bg-ember-strong text-white font-semibold rounded-lg hover:bg-ember transition-colors"

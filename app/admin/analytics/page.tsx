@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { usePeople } from "@/lib/people/usePeople";
 import { useCourses } from "@/lib/courses/useCourses";
-import { BarChart3, Users, BookOpen, DollarSign, Activity, ArrowLeft } from "lucide-react";
+import { BarChart3, Users, BookOpen, DollarSign, Activity, ArrowLeft, Download } from "lucide-react";
 import { useState } from "react";
 
 function AdminAnalyticsContent() {
@@ -52,6 +52,19 @@ function AdminAnalyticsContent() {
     { month: "Jun", users: 12845, courses: 8934, revenue: 318000 },
   ];
 
+  const handleExport = () => {
+    const header = ["Category", "Courses", "Enrolled", "Revenue"];
+    const rows = courseMetrics.map((m) => [m.category, m.courses, m.students, m.revenue.replace(/[$,]/g, "")]);
+    const csv = [header, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `forge-course-report-${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const colorMap: {[key: string]: string} = {
     green: "text-ember-strong bg-forge-soft",
     blue: "text-blue-600 bg-blue-50",
@@ -60,30 +73,38 @@ function AdminAnalyticsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6">
-          <Link href="/admin/dashboard" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+          <Link href="/admin/dashboard" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
             <ArrowLeft size={16} />
             Back to Dashboard
           </Link>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <BarChart3 size={32} className="text-ember-strong" />
-              <h1 className="text-3xl font-bold text-gray-900">Platform Analytics</h1>
+              <h1 className="text-3xl font-bold text-dt">Platform Analytics</h1>
             </div>
-            <select
-              value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              aria-label="Time range"
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
-            >
-              <option value="7d">Last 7 days</option>
-              <option value="30d">Last 30 days</option>
-              <option value="90d">Last 90 days</option>
-              <option value="1y">Last year</option>
-            </select>
+            <div className="flex items-center gap-3">
+              <select
+                value={timeRange}
+                onChange={(e) => setTimeRange(e.target.value)}
+                aria-label="Time range"
+                className="px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+              >
+                <option value="7d">Last 7 days</option>
+                <option value="30d">Last 30 days</option>
+                <option value="90d">Last 90 days</option>
+                <option value="1y">Last year</option>
+              </select>
+              <button
+                onClick={handleExport}
+                className="px-4 py-2 border border-border rounded-lg font-medium text-sm text-dt hover:bg-ow flex items-center gap-2"
+              >
+                <Download size={16} /> Export CSV
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -99,11 +120,11 @@ function AdminAnalyticsContent() {
             const Icon = stat.icon;
             const colors = colorMap[stat.color];
             return (
-              <div key={i} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={i} className="bg-white rounded-lg border border-border p-6">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-mg text-sm mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-dt">{stat.value}</p>
                   </div>
                   <div className={`p-3 rounded-lg ${colors}`}>
                     <Icon size={24} />
@@ -123,19 +144,19 @@ function AdminAnalyticsContent() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
           {/* User Demographics */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">User Demographics</h3>
+          <div className="bg-white rounded-lg border border-border p-6">
+            <h3 className="text-xl font-bold text-dt mb-6">User Demographics</h3>
             <div className="space-y-4">
               {userDemographics.map((item, i) => (
                 <div key={i}>
                   <div className="flex items-center justify-between mb-2">
                     <div>
-                      <p className="text-sm font-medium text-gray-700">{item.role}</p>
-                      <p className="text-xs text-gray-500">{item.count.toLocaleString()} users</p>
+                      <p className="text-sm font-medium text-dt">{item.role}</p>
+                      <p className="text-xs text-mg">{item.count.toLocaleString()} users</p>
                     </div>
-                    <p className="text-sm font-semibold text-gray-900">{item.percentage}%</p>
+                    <p className="text-sm font-semibold text-dt">{item.percentage}%</p>
                   </div>
-                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-border rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-ember-strong to-ember"
                       style={{ width: `${item.percentage}%` }}
@@ -147,13 +168,13 @@ function AdminAnalyticsContent() {
           </div>
 
           {/* Monthly Trend */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">Growth Trend (6 months)</h3>
+          <div className="bg-white rounded-lg border border-border p-6">
+            <h3 className="text-xl font-bold text-dt mb-6">Growth Trend (6 months)</h3>
             <div className="space-y-6">
               {monthlyTrend.map((item, i) => (
-                <div key={i} className="pb-4 border-b border-gray-100 last:border-b-0 last:pb-0">
+                <div key={i} className="pb-4 border-b border-border last:border-b-0 last:pb-0">
                   <div className="flex items-center justify-between mb-2">
-                    <p className="text-sm font-medium text-gray-700">{item.month}</p>
+                    <p className="text-sm font-medium text-dt">{item.month}</p>
                     <span className="text-xs font-semibold text-ember-strong">${(item.revenue / 1000).toFixed(0)}K</span>
                   </div>
                   <div className="flex gap-1">
@@ -171,18 +192,18 @@ function AdminAnalyticsContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white rounded-lg border border-gray-200 p-6"
+          className="bg-white rounded-lg border border-border p-6"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Category Performance</h2>
+          <h2 className="text-2xl font-bold text-dt mb-6">Category Performance</h2>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">Category</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Courses</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Enrolled</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Revenue</th>
-                  <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700">Share</th>
+                <tr className="border-b border-border">
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-dt">Category</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Courses</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Enrolled</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Revenue</th>
+                  <th className="text-right py-3 px-4 text-sm font-semibold text-dt">Share</th>
                 </tr>
               </thead>
               <tbody>
@@ -190,20 +211,20 @@ function AdminAnalyticsContent() {
                   const totalRevenue = courseMetrics.reduce((sum, m) => sum + parseFloat(m.revenue.replace(/[$,]/g, "")), 0);
                   const share = ((parseFloat(metric.revenue.replace(/[$,]/g, "")) / totalRevenue) * 100).toFixed(1);
                   return (
-                    <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-4 px-4 font-medium text-gray-900">{metric.category}</td>
-                      <td className="py-4 px-4 text-right text-gray-600">{metric.courses}</td>
-                      <td className="py-4 px-4 text-right text-gray-600">{metric.students.toLocaleString()}</td>
+                    <tr key={i} className="border-b border-border hover:bg-ow">
+                      <td className="py-4 px-4 font-medium text-dt">{metric.category}</td>
+                      <td className="py-4 px-4 text-right text-mg">{metric.courses}</td>
+                      <td className="py-4 px-4 text-right text-mg">{metric.students.toLocaleString()}</td>
                       <td className="py-4 px-4 text-right font-semibold text-ember-strong">{metric.revenue}</td>
                       <td className="py-4 px-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="w-16 h-2 bg-border rounded-full overflow-hidden">
                             <div
                               className="h-full bg-ember-strong"
                               style={{ width: `${share}%` }}
                             ></div>
                           </div>
-                          <span className="text-gray-900 font-medium w-10 text-right">{share}%</span>
+                          <span className="text-dt font-medium w-10 text-right">{share}%</span>
                         </div>
                       </td>
                     </tr>

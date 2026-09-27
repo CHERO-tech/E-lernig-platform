@@ -116,12 +116,12 @@ export default function DashboardShell({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">{user?.name}</p>
-              <p className="font-mono text-xs truncate text-mg">{roleLabel}</p>
+              <p className="font-mono text-xs truncate text-brass">{roleLabel}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-mg hover:bg-white/5 hover:text-white transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-brass hover:bg-white/5 hover:text-white transition-colors"
           >
             <LogOut size={16} />
             Logout

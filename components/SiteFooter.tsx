@@ -49,7 +49,7 @@ export default function SiteFooter() {
             <BrandMark />
             FORGE
           </a>
-          <p className="text-sm leading-relaxed text-mg">
+          <p className="text-sm leading-relaxed text-brass">
             Practical, employer-verified skills in Software Development, Networking, and
             Multimedia.
           </p>
@@ -60,7 +60,7 @@ export default function SiteFooter() {
             <ul className="space-y-2">
               {col.items.map((item) => (
                 <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-mg transition-colors hover:text-white">
+                  <Link href={item.href} className="text-sm text-brass transition-colors hover:text-white">
                     {item.label}
                   </Link>
                 </li>
@@ -70,8 +70,8 @@ export default function SiteFooter() {
         ))}
       </div>
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 border-t border-pg/[0.08]">
-        <p className="font-mono text-xs text-mg">© 2026 Forge Learning</p>
-        <p className="font-mono text-xs text-mg">Built for practical skills, not paperwork.</p>
+        <p className="font-mono text-xs text-brass">© 2026 Forge Learning</p>
+        <p className="font-mono text-xs text-brass">Built for practical skills, not paperwork.</p>
       </div>
     </footer>
   );

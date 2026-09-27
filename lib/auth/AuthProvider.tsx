@@ -109,7 +109,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   const requestPasswordReset = useCallback(async (email: string) => {
-    await mockAuthService.requestPasswordReset(email);
+    return mockAuthService.requestPasswordReset(email);
+  }, []);
+
+  const resetPasswordWithToken = useCallback(async (token: string, newPassword: string) => {
+    await mockAuthService.resetPasswordWithToken(token, newPassword);
   }, []);
 
   const updateProfile = useCallback(
@@ -144,6 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     changePassword,
     deleteAccount,
     requestPasswordReset,
+    resetPasswordWithToken,
     updateProfile,
     isAuthenticated: !!user,
   };

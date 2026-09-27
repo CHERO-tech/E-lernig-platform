@@ -48,7 +48,7 @@ export default function PricingSection() {
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white tracking-tight">
             Plans for Every Learner
           </h2>
-          <p className="text-mg">Start with a plan, upgrade anytime.</p>
+          <p className="text-brass">Start with a plan, upgrade anytime.</p>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
           {PLANS.map((plan, i) => (
@@ -69,12 +69,12 @@ export default function PricingSection() {
                   {plan.price}
                 </span>
                 {"period" in plan && plan.period && (
-                  <span className={`text-sm mb-1.5 ${plan.featured ? "text-dg/60" : "text-mg"}`}>
+                  <span className={`text-sm mb-1.5 ${plan.featured ? "text-dg/60" : "text-brass"}`}>
                     {plan.period}
                   </span>
                 )}
               </div>
-              <p className={`text-sm mb-6 ${plan.featured ? "text-dg/70" : "text-mg"}`}>{plan.desc}</p>
+              <p className={`text-sm mb-6 ${plan.featured ? "text-dg/70" : "text-brass"}`}>{plan.desc}</p>
               <ul className="space-y-2.5 mb-8">
                 {plan.features.map((f) => (
                   <li

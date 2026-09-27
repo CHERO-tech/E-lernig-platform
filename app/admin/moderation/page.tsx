@@ -123,16 +123,16 @@ function ModerationContent() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Content Moderation</h1>
-            <p className="text-gray-600">Review and manage reported content and suspicious activities</p>
+            <h1 className="text-3xl font-bold text-dt">Content Moderation</h1>
+            <p className="text-mg">Review and manage reported content and suspicious activities</p>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@ function ModerationContent() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex gap-4 mb-8 border-b border-gray-200"
+          className="flex gap-4 mb-8 border-b border-border"
         >
           {["reports", "suspicious", "blocked"].map((tab) => (
             <button
@@ -151,7 +151,7 @@ function ModerationContent() {
               className={`pb-4 px-4 font-medium transition-colors capitalize border-b-2 ${
                 activeTab === tab
                   ? "text-ember-strong border-ember-strong"
-                  : "text-gray-600 border-transparent hover:text-gray-900"
+                  : "text-mg border-transparent hover:text-dt"
               }`}
             >
               {tab === "reports" ? "User Reports" : tab === "suspicious" ? "Suspicious Activity" : "Blocked Content"}
@@ -172,7 +172,7 @@ function ModerationContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex gap-4 items-start">
                   <input
@@ -187,15 +187,15 @@ function ModerationContent() {
                       <div>
                         <div className="flex gap-2 items-center mb-1">
                           <Flag size={18} className="text-red-600" />
-                          <span className="font-bold text-gray-900">{report.type}</span>
+                          <span className="font-bold text-dt">{report.type}</span>
                         </div>
-                        <p className="text-gray-600">{report.content}</p>
+                        <p className="text-mg">{report.content}</p>
                       </div>
                       <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(report.status)} capitalize`}>
                         {report.status}
                       </span>
                     </div>
-                    <div className="flex gap-6 text-sm text-gray-500 mt-3">
+                    <div className="flex gap-6 text-sm text-mg mt-3">
                       <span>Reported by: {report.reporter}</span>
                       <span>{report.reported}</span>
                     </div>
@@ -239,19 +239,19 @@ function ModerationContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <p className="font-bold text-gray-900">{activity.user}</p>
-                    <p className="text-gray-600 text-sm mt-1">{activity.activity}</p>
+                    <p className="font-bold text-dt">{activity.user}</p>
+                    <p className="text-mg text-sm mt-1">{activity.activity}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getRiskColor(activity.risk)}`}>
                     {activity.risk} Risk
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Detected: {activity.detected}</p>
+                  <p className="text-sm text-mg">Detected: {activity.detected}</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => investigate(activity.id)}
@@ -260,7 +260,7 @@ function ModerationContent() {
                     </button>
                     <button
                       onClick={() => dismissActivity(activity.id)}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200">
+                      className="px-3 py-1 bg-ow text-dt rounded-lg text-sm font-medium hover:bg-surface">
                       Dismiss
                     </button>
                   </div>
@@ -283,19 +283,19 @@ function ModerationContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg border border-border p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <p className="font-bold text-gray-900">{item.content}</p>
-                    <p className="text-gray-600 text-sm mt-1">Posted by: {item.user}</p>
+                    <p className="font-bold text-dt">{item.content}</p>
+                    <p className="text-mg text-sm mt-1">Posted by: {item.user}</p>
                   </div>
                   <span className="px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm font-medium">
                     {item.reason}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Blocked: {item.blocked}</p>
+                  <p className="text-sm text-mg">Blocked: {item.blocked}</p>
                   <div className="flex gap-2">
                     <button
                       onClick={() => unblock(item.id)}
@@ -319,9 +319,9 @@ function ModerationContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="fixed bottom-6 right-6 bg-white rounded-lg border border-gray-200 p-4 shadow-lg"
+            className="fixed bottom-6 right-6 bg-white rounded-lg border border-border p-4 shadow-lg"
           >
-            <p className="text-sm text-gray-600 mb-3">{selectedItems.length} item(s) selected</p>
+            <p className="text-sm text-mg mb-3">{selectedItems.length} item(s) selected</p>
             <div className="flex gap-2">
               <button
                 onClick={bulkApprove}
@@ -333,7 +333,7 @@ function ModerationContent() {
                 className="px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100">
                 Reject
               </button>
-              <button onClick={() => setSelectedItems([])} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200">
+              <button onClick={() => setSelectedItems([])} className="px-4 py-2 bg-ow text-dt rounded-lg text-sm font-medium hover:bg-surface">
                 Clear
               </button>
             </div>

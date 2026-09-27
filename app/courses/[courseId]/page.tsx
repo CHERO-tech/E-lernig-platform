@@ -49,7 +49,7 @@ export default function CourseDetail({ params }: { params: Promise<{ courseId: s
       <div className="bg-dg border-b border-pg/10">
         <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
           <div className="flex items-center justify-between mb-8">
-            <Link href="/courses" className="inline-flex items-center gap-2 text-mg hover:text-white transition-colors">
+            <Link href="/courses" className="inline-flex items-center gap-2 text-brass hover:text-white transition-colors">
               <ArrowLeft size={20} />
               Back to Courses
             </Link>

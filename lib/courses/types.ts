@@ -29,6 +29,7 @@ export interface CourseQuiz {
   description: string;
   timeLimit: number;
   passingScore: number;
+  dueDate?: string;
   questions: CourseQuizQuestion[];
 }
 

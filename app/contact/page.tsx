@@ -59,7 +59,7 @@ export default function Contact() {
           transition={{ duration: 0.4 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Contact Us</h2>
+          <h2 className="text-3xl font-bold text-dt mb-12 text-center">Contact Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactMethods.map((method, i) => {
               const Icon = method.icon;
@@ -69,14 +69,14 @@ export default function Contact() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 p-6 text-center hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg border border-border p-6 text-center hover:shadow-lg transition-shadow"
                 >
                   <div className="w-12 h-12 bg-forge-soft text-ember-strong rounded-lg flex items-center justify-center mx-auto mb-4">
                     <Icon size={24} />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-1">{method.title}</h3>
+                  <h3 className="font-bold text-dt mb-1">{method.title}</h3>
                   <p className="text-ember-strong font-medium text-sm mb-2">{method.value}</p>
-                  <p className="text-gray-600 text-xs">{method.desc}</p>
+                  <p className="text-mg text-xs">{method.desc}</p>
                 </motion.div>
               );
             })}
@@ -91,57 +91,57 @@ export default function Contact() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16"
         >
           {/* Form */}
-          <div className="bg-white rounded-lg border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+          <div className="bg-white rounded-lg border border-border p-8">
+            <h2 className="text-2xl font-bold text-dt mb-6">Send us a Message</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="name">Name</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="name">Name</label>
                 <input id="name"
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">Email</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="email">Email</label>
                 <input id="email"
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="subject">Subject</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="subject">Subject</label>
                 <input id="subject"
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder="How can we help?"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="message">Message</label>
+                <label className="block text-sm font-medium text-dt mb-2" htmlFor="message">Message</label>
                 <textarea id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   placeholder="Tell us more..."
                   rows={4}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                   required
                 />
               </div>
@@ -158,8 +158,8 @@ export default function Contact() {
           {/* Info */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Why Contact Us?</h2>
-              <p className="text-gray-600 mb-4">
+              <h2 className="text-2xl font-bold text-dt mb-4">Why Contact Us?</h2>
+              <p className="text-mg mb-4">
                 Whether you have questions about courses, need technical support, or want to partner with us, our team is ready to help. We typically respond within 24 hours.
               </p>
             </div>
@@ -168,16 +168,16 @@ export default function Contact() {
               <div className="flex gap-3 mb-4">
                 <Clock size={20} className="text-blue-600 flex-shrink-0" />
                 <div>
-                  <p className="font-semibold text-gray-900">Business Hours</p>
-                  <p className="text-sm text-gray-600">Monday - Friday: 9 AM - 6 PM EST</p>
-                  <p className="text-sm text-gray-600">Saturday - Sunday: 10 AM - 4 PM EST</p>
+                  <p className="font-semibold text-dt">Business Hours</p>
+                  <p className="text-sm text-mg">Monday - Friday: 9 AM - 6 PM EST</p>
+                  <p className="text-sm text-mg">Saturday - Sunday: 10 AM - 4 PM EST</p>
                 </div>
               </div>
             </div>
 
             <div className="bg-forge-soft rounded-lg p-6 border border-brass-soft">
-              <h3 className="font-semibold text-gray-900 mb-3">Common Inquiries</h3>
-              <ul className="space-y-2 text-sm text-gray-700">
+              <h3 className="font-semibold text-dt mb-3">Common Inquiries</h3>
+              <ul className="space-y-2 text-sm text-dt">
                 <li>✓ Course recommendations</li>
                 <li>✓ Technical issues</li>
                 <li>✓ Billing questions</li>
@@ -195,7 +195,7 @@ export default function Contact() {
           transition={{ duration: 0.4 }}
           className="mb-16"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Quick Answers</h2>
+          <h2 className="text-3xl font-bold text-dt mb-12 text-center">Quick Answers</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {faqs.map((faq, i) => (
               <motion.div
@@ -203,10 +203,10 @@ export default function Contact() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white rounded-lg border border-gray-200 p-6"
+                className="bg-white rounded-lg border border-border p-6"
               >
-                <p className="font-bold text-gray-900 mb-3">{faq.q}</p>
-                <p className="text-gray-600 text-sm">{faq.a}</p>
+                <p className="font-bold text-dt mb-3">{faq.q}</p>
+                <p className="text-mg text-sm">{faq.a}</p>
               </motion.div>
             ))}
           </div>

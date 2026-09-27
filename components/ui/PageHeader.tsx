@@ -29,7 +29,7 @@ export default function PageHeader({
               <h1 className="text-3xl font-bold mb-1 text-white tracking-tight">
                 {title}
               </h1>
-              {subtitle && <p className="text-mg">{subtitle}</p>}
+              {subtitle && <p className="text-brass">{subtitle}</p>}
             </div>
             {actions && <div>{actions}</div>}
           </div>

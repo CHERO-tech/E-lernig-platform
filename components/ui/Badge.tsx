@@ -16,9 +16,9 @@ const toneClasses: Record<BadgeTone, string> = {
   brand: "bg-pg/10 text-pg2 border border-pg/20",
   neutral: "bg-mg/10 text-mg border border-mg/20",
   success: "bg-pg/10 text-pg2 border border-pg/20",
-  warning: "bg-warn/10 text-warn border border-warn/25",
+  warning: "bg-warn/10 text-warn2 border border-warn/25",
   info: "bg-info/10 text-info border border-info/25",
-  danger: "bg-err/10 text-err border border-err/25",
+  danger: "bg-err/10 text-err2 border border-err/25",
 };
 
 export default function Badge({

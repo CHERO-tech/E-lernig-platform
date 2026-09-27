@@ -41,7 +41,7 @@ function ProfileContent() {
   const skills = ["React", "TypeScript", "Node.js", "UI Design", "Problem Solving", "Communication", "Leadership", "Project Management"];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white">
         <div className="max-w-4xl mx-auto px-6 py-8 flex items-center justify-between">
@@ -61,7 +61,7 @@ function ProfileContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="bg-white rounded-lg border border-gray-200 p-8 mb-8"
+          className="bg-white rounded-lg border border-border p-8 mb-8"
         >
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center">
             {/* Avatar */}
@@ -71,11 +71,11 @@ function ProfileContent() {
 
             {/* User Info */}
             <div className="flex-1">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">{user?.name}</h2>
-              <p className="text-gray-600 mb-4 capitalize">{user?.role} • Joined 8 months ago</p>
-              <p className="text-gray-700 mb-6">Passionate learner and tech enthusiast focused on full-stack development and design. Always eager to learn new skills and help others grow.</p>
+              <h2 className="text-3xl font-bold text-dt mb-2">{user?.name}</h2>
+              <p className="text-mg mb-4 capitalize">{user?.role} • Joined 8 months ago</p>
+              <p className="text-dt mb-6">Passionate learner and tech enthusiast focused on full-stack development and design. Always eager to learn new skills and help others grow.</p>
 
-              <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+              <div className="flex flex-wrap gap-4 text-sm text-mg">
                 <div className="flex items-center gap-2">
                   <Mail size={16} /> {user?.email}
                 </div>
@@ -92,7 +92,7 @@ function ProfileContent() {
                 >
                   <Share2 size={16} /> Share Profile
                 </button>
-                <Link href="/settings" className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center gap-2">
+                <Link href="/settings" className="px-6 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors flex items-center gap-2">
                   <Edit size={16} /> Edit Profile
                 </Link>
               </div>
@@ -110,12 +110,12 @@ function ProfileContent() {
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
-              <div key={i} className="bg-white rounded-lg border border-gray-200 p-6 text-center">
+              <div key={i} className="bg-white rounded-lg border border-border p-6 text-center">
                 <div className="w-12 h-12 bg-forge-soft text-ember-strong rounded-lg flex items-center justify-center mx-auto mb-4">
                   <Icon size={24} />
                 </div>
-                <p className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
-                <p className="text-gray-600">{stat.label}</p>
+                <p className="text-3xl font-bold text-dt mb-1">{stat.value}</p>
+                <p className="text-mg">{stat.label}</p>
               </div>
             );
           })}
@@ -126,9 +126,9 @@ function ProfileContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15 }}
-          className="bg-white rounded-lg border border-gray-200 p-8 mb-8"
+          className="bg-white rounded-lg border border-border p-8 mb-8"
         >
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Skills & Expertise</h3>
+          <h3 className="text-2xl font-bold text-dt mb-6">Skills & Expertise</h3>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill, i) => (
               <div key={i} className="px-4 py-2 bg-forge-soft text-ember2 rounded-full text-sm font-medium border border-brass-soft hover:border-ember transition-colors cursor-pointer">
@@ -143,10 +143,10 @@ function ProfileContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="bg-white rounded-lg border border-gray-200 p-8"
+          className="bg-white rounded-lg border border-border p-8"
         >
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900">Completed Courses</h3>
+            <h3 className="text-2xl font-bold text-dt">Completed Courses</h3>
             <Link href="/student/dashboard" className="text-ember-strong hover:text-ember2 font-medium">View all</Link>
           </div>
 
@@ -157,19 +157,19 @@ function ProfileContent() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.2 + i * 0.05 }}
-                className="p-4 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow"
+                className="p-4 border border-border rounded-lg hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">{course.title}</h4>
-                    <p className="text-sm text-gray-600">by {course.instructor}</p>
+                    <h4 className="font-semibold text-dt mb-1">{course.title}</h4>
+                    <p className="text-sm text-mg">by {course.instructor}</p>
                   </div>
                   <div className="text-right">
                     <div className="flex items-center gap-1 mb-1">
                       <Star size={16} className="text-yellow-500 fill-yellow-500" />
-                      <span className="font-semibold text-gray-900">{course.rating}</span>
+                      <span className="font-semibold text-dt">{course.rating}</span>
                     </div>
-                    <p className="text-xs text-gray-500">{course.date}</p>
+                    <p className="text-xs text-mg">{course.date}</p>
                   </div>
                 </div>
                 <div className="mt-3 flex items-center gap-2">
@@ -193,9 +193,9 @@ function ProfileContent() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.25 }}
-          className="bg-white rounded-lg border border-gray-200 p-8 mt-8"
+          className="bg-white rounded-lg border border-border p-8 mt-8"
         >
-          <h3 className="text-2xl font-bold text-gray-900 mb-6">Achievements</h3>
+          <h3 className="text-2xl font-bold text-dt mb-6">Achievements</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { emoji: "🎓", title: "First Certificate", desc: "Completed first course" },
@@ -203,10 +203,10 @@ function ProfileContent() {
               { emoji: "⭐", title: "Quick Learner", desc: "Completed course in 1 week" },
               { emoji: "🏆", title: "Top Performer", desc: "Scored 95% or higher" },
             ].map((achievement, i) => (
-              <div key={i} className="text-center p-4 rounded-lg bg-gray-50 hover:bg-forge-soft transition-colors cursor-pointer">
+              <div key={i} className="text-center p-4 rounded-lg bg-ow hover:bg-forge-soft transition-colors cursor-pointer">
                 <div className="text-4xl mb-2">{achievement.emoji}</div>
-                <p className="font-semibold text-gray-900 text-sm mb-1">{achievement.title}</p>
-                <p className="text-xs text-gray-600">{achievement.desc}</p>
+                <p className="font-semibold text-dt text-sm mb-1">{achievement.title}</p>
+                <p className="text-xs text-mg">{achievement.desc}</p>
               </div>
             ))}
           </div>

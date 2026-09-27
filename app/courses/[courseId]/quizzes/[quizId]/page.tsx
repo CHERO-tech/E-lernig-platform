@@ -198,6 +198,14 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
           </div>
         </div>
 
+        {quiz.dueDate && new Date(quiz.dueDate).getTime() < new Date().getTime() && (
+          <div className="bg-err/5 border-t border-err/20 px-6 py-2">
+            <p className="max-w-4xl mx-auto text-sm text-err font-medium flex items-center gap-2">
+              <AlertCircle size={16} /> This quiz was due {new Date(quiz.dueDate).toLocaleDateString()} — you can still submit, but it&apos;s overdue.
+            </p>
+          </div>
+        )}
+
         <div className="bg-ow">
           <div className="max-w-4xl mx-auto px-6 py-4">
             <div className="flex items-center justify-between text-sm mb-2 text-mg">

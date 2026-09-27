@@ -75,16 +75,16 @@ function MyLearningContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-ow">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-6 flex items-center gap-4">
-          <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-lg transition-colors" aria-label="Go back">
-            <ArrowLeft size={20} className="text-gray-600" />
+          <button onClick={() => router.back()} className="p-2 hover:bg-ow rounded-lg transition-colors" aria-label="Go back">
+            <ArrowLeft size={20} className="text-mg" />
           </button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">My Learning Journey</h1>
-            <p className="text-gray-600">Track your progress and continue learning</p>
+            <h1 className="text-3xl font-bold text-dt">My Learning Journey</h1>
+            <p className="text-mg">Track your progress and continue learning</p>
           </div>
         </div>
       </div>
@@ -110,20 +110,20 @@ function MyLearningContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="bg-white rounded-lg border border-gray-200 p-6"
+                className="bg-white rounded-lg border border-border p-6"
               >
                 <div className={`w-12 h-12 rounded-lg ${stat.color} flex items-center justify-center mb-4`}>
                   <Icon size={24} />
                 </div>
-                <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-mg text-sm mb-1">{stat.label}</p>
+                <p className="text-3xl font-bold text-dt">{stat.value}</p>
               </motion.div>
             );
           })}
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-gray-200">
+        <div className="flex gap-4 mb-8 border-b border-border">
           {[
             { id: "in-progress", label: "In Progress" },
             { id: "completed", label: "Completed" },
@@ -135,7 +135,7 @@ function MyLearningContent() {
               className={`pb-4 px-4 font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? "border-ember-strong text-ember-strong"
-                  : "border-transparent text-gray-600 hover:text-gray-900"
+                  : "border-transparent text-mg hover:text-dt"
               }`}
             >
               {tab.label}
@@ -153,28 +153,28 @@ function MyLearningContent() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.1 }}
-                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-lg transition-shadow"
                 >
                   <div className={`h-32 bg-gradient-to-br ${course.bgGradient}`}></div>
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{course.title}</h3>
-                        <p className="text-gray-600">by {course.instructor}</p>
+                        <h3 className="text-xl font-bold text-dt mb-1">{course.title}</h3>
+                        <p className="text-mg">by {course.instructor}</p>
                       </div>
                       <div className="text-right">
                         <p className="text-2xl font-bold text-ember-strong">{course.progress}%</p>
-                        <p className="text-xs text-gray-500">{course.daysLeft} days left</p>
+                        <p className="text-xs text-mg">{course.daysLeft} days left</p>
                       </div>
                     </div>
 
                     <div className="mb-4">
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-border rounded-full h-2">
                         <div className="bg-ember-strong h-2 rounded-full transition-all" style={{ width: `${course.progress}%` }}></div>
                       </div>
                     </div>
 
-                    <p className="text-sm text-gray-600 mb-4">
+                    <p className="text-sm text-mg mb-4">
                       <span className="font-medium">Current Lesson:</span> {course.currentLesson}
                     </p>
 
@@ -187,7 +187,7 @@ function MyLearningContent() {
                       </button>
                       <button
                         onClick={() => router.push(`/courses/${course.id}`)}
-                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                        className="flex-1 px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors"
                       >
                         View Course
                       </button>
@@ -196,9 +196,9 @@ function MyLearningContent() {
                 </motion.div>
               ))
             ) : (
-              <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-                <BookOpen size={48} className="mx-auto text-gray-300 mb-4" />
-                <p className="text-gray-600 text-lg mb-4">No courses in progress</p>
+              <div className="text-center py-12 bg-white rounded-lg border border-border">
+                <BookOpen size={48} className="mx-auto text-border mb-4" />
+                <p className="text-mg text-lg mb-4">No courses in progress</p>
                 <Link href="/courses" className="text-ember-strong hover:text-ember2 font-medium">
                   Browse Courses
                 </Link>
@@ -216,13 +216,13 @@ function MyLearningContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="p-6 bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow"
+                className="p-6 bg-white rounded-lg border border-border hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-1 text-lg">{course.title}</h3>
-                    <p className="text-sm text-gray-600 mb-3">by {course.instructor}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <h3 className="font-semibold text-dt mb-1 text-lg">{course.title}</h3>
+                    <p className="text-sm text-mg mb-3">by {course.instructor}</p>
+                    <div className="flex items-center gap-4 text-sm text-mg">
                       <span>Completed: {course.completedDate}</span>
                       <div className="flex items-center gap-1">
                         <span>⭐ {course.rating}/5.0</span>
@@ -237,7 +237,7 @@ function MyLearningContent() {
                     )}
                     <button
                       onClick={() => router.push(`/courses/${course.id}`)}
-                      className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                      className="px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors"
                     >
                       View Details
                     </button>
@@ -258,11 +258,11 @@ function MyLearningContent() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.1 }}
-                  className="p-6 bg-white rounded-lg border border-gray-200 text-center hover:shadow-lg transition-shadow"
+                  className="p-6 bg-white rounded-lg border border-border text-center hover:shadow-lg transition-shadow"
                 >
                   <div className="text-5xl mb-3">{achievement.emoji}</div>
-                  <p className="font-semibold text-gray-900 mb-1">{achievement.title}</p>
-                  <p className="text-sm text-gray-600">{achievement.desc}</p>
+                  <p className="font-semibold text-dt mb-1">{achievement.title}</p>
+                  <p className="text-sm text-mg">{achievement.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -273,15 +273,15 @@ function MyLearningContent() {
               transition={{ duration: 0.4, delay: 0.4 }}
               className="mt-12 p-8 bg-gradient-to-r from-forge-soft to-blue-50 rounded-lg border border-brass-soft"
             >
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Keep Learning, Earn More!</h3>
-              <p className="text-gray-600 mb-6">Complete more courses and unlock new achievements. Share your progress with your network.</p>
+              <h3 className="text-2xl font-bold text-dt mb-4">Keep Learning, Earn More!</h3>
+              <p className="text-mg mb-6">Complete more courses and unlock new achievements. Share your progress with your network.</p>
               <div className="flex gap-4">
                 <Link href="/courses" className="px-6 py-3 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors">
                   Browse More Courses
                 </Link>
                 <button
                   onClick={handleShareAchievements}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-white transition-colors"
+                  className="px-6 py-3 border border-border text-dt rounded-lg font-medium hover:bg-white transition-colors"
                 >
                   Share Achievements
                 </button>

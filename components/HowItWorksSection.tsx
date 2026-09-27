@@ -37,7 +37,7 @@ export default function HowItWorksSection() {
             >
               <div className="font-mono text-3xl font-bold mb-4 text-pg/25">{step.num}</div>
               <h3 className="font-semibold text-lg mb-3 text-white">{step.title}</h3>
-              <p className="text-sm leading-relaxed text-mg">{step.desc}</p>
+              <p className="text-sm leading-relaxed text-brass">{step.desc}</p>
               <div className="mt-4 w-8 h-0.5 bg-pg" />
             </Reveal>
           ))}

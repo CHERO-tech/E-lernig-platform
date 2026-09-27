@@ -5,9 +5,12 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/lib/auth/useAuth";
+import { addJobPosting } from "@/lib/shared/crossAccountStore";
 
 function PostJobContent() {
   const router = useRouter();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: "",
     department: "",
@@ -26,6 +29,19 @@ function PostJobContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
+    addJobPosting({
+      companyId: user.id,
+      companyName: user.name,
+      title: formData.title,
+      department: formData.department,
+      location: formData.location,
+      type: formData.type,
+      salary: formData.salary,
+      description: formData.description,
+      requirements: formData.requirements,
+      skills: formData.skills,
+    });
     router.push("/company/dashboard");
   };
 

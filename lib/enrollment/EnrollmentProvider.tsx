@@ -137,12 +137,23 @@ export function EnrollmentProvider({ children }: { children: React.ReactNode }) 
     });
   };
 
+  const setLastViewedLesson = (courseId: string, lessonId: string) => {
+    setEnrollments(prev => {
+      const updated = prev.map(e =>
+        e.courseId === courseId ? { ...e, lastViewedLessonId: lessonId } : e
+      );
+      persistEnrollments(updated);
+      return updated;
+    });
+  };
+
   const value: EnrollmentContextType = {
     enrollments,
     enroll,
     markLessonComplete,
     recordQuizAttempt,
     submitAssignment,
+    setLastViewedLesson,
   };
 
   return (

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth/useAuth";
 import AuthShell from "@/components/AuthShell";
+import { ArrowLeft } from "lucide-react";
 
 export default function ForgotPasswordPage() {
   const { requestPasswordReset } = useAuth();
@@ -34,6 +35,10 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthShell>
+      <Link href="/login" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-4">
+        <ArrowLeft size={16} />
+        Back to Login
+      </Link>
       <div className="rounded-2xl overflow-hidden shadow-2xl bg-white p-8">
         {!sent ? (
           <>

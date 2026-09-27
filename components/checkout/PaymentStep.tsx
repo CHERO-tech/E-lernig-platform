@@ -10,17 +10,20 @@ interface PaymentStepProps {
   total: number;
 }
 
+// Stripe Elements render in an iframe and can't read CSS custom properties,
+// so these mirror the current --dt/--mg/--err tokens in app/globals.css by
+// hand. If those tokens change, update these too.
 const elementOptions = {
   style: {
     base: {
       fontSize: "16px",
-      color: "#102019",
+      color: "#102019", // --dt
       "::placeholder": {
-        color: "#718078",
+        color: "#606C66", // --mg
       },
     },
     invalid: {
-      color: "#dc2626",
+      color: "#D64545", // --err
     },
   },
 };

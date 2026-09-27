@@ -5,10 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/useAuth";
 import AuthShell from "@/components/AuthShell";
+import { UserRole } from "@/lib/auth/types";
+import { ArrowLeft } from "lucide-react";
 
-const DEMO_ACCOUNTS = [
-  { label: "Student", email: "student@example.com" },
-  { label: "Trainer", email: "trainer@example.com" },
+const DEMO_ACCOUNTS: Array<{ label: string; email: string; role: UserRole }> = [
+  { label: "Student", email: "student@example.com", role: "student" },
+  { label: "Trainer", email: "trainer@example.com", role: "trainer" },
+  { label: "School", email: "school@example.com", role: "school" },
+  { label: "Guardian", email: "guardian@example.com", role: "guardian" },
+  { label: "Company", email: "company@example.com", role: "company" },
+  { label: "Admin", email: "admin@example.com", role: "admin" },
 ];
 
 export default function LoginPage() {
@@ -32,7 +38,8 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await login(email, password);
-      router.push("/student/dashboard");
+      const role = DEMO_ACCOUNTS.find((acc) => acc.email === email)?.role ?? "student";
+      router.push(`/${role}/dashboard`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {
@@ -47,6 +54,10 @@ export default function LoginPage() {
 
   return (
     <AuthShell>
+      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-4">
+        <ArrowLeft size={16} />
+        Back to Home
+      </Link>
       <div className="rounded-2xl overflow-hidden shadow-2xl bg-white">
         <div className="p-8">
           <div className="mb-6">
@@ -117,7 +128,7 @@ export default function LoginPage() {
 
           <div className="mt-4 pt-4 border-t border-border">
             <p className="text-xs text-center mb-3 text-mg">Sign in as a demo role</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               {DEMO_ACCOUNTS.map((acc) => (
                 <button
                   key={acc.email}

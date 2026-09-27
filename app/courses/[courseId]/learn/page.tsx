@@ -2,7 +2,7 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { ChevronDown, CheckCircle, Play, Download, Check } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, CheckCircle, Play, Download, Check } from "lucide-react";
 import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
@@ -12,13 +12,33 @@ import { useNotifications } from "@/lib/notifications/useNotifications";
 function CourseLearnContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
-  const { enrollments, markLessonComplete } = useEnrollment();
+  const { enrollments, markLessonComplete, setLastViewedLesson } = useEnrollment();
   const { addNotification } = useNotifications();
-  const [activeLesson, setActiveLesson] = useState("lesson-1");
-  const [expandedSection, setExpandedSection] = useState(0);
 
   const course = getCourseById(courseId);
   const enrollment = enrollments.find((e) => e.courseId === courseId);
+  const firstLessonId = course?.sections[0]?.lessons[0]?.id;
+
+  const [activeLesson, setActiveLesson] = useState(() => firstLessonId ?? "lesson-1");
+  const [expandedSection, setExpandedSection] = useState(0);
+
+  // `enrollments` hydrates from localStorage asynchronously after mount (it starts
+  // empty), so resuming at the last-viewed lesson can't happen in the useState
+  // initializer above — it would run before that data exists. Adjust state during
+  // render the first time enrollment data appears, per React's guidance for deriving
+  // state from a value that becomes available later (avoids an effect + extra render).
+  const [hasAppliedResume, setHasAppliedResume] = useState(false);
+  if (!hasAppliedResume && enrollment) {
+    setHasAppliedResume(true);
+    if (enrollment.lastViewedLessonId) {
+      setActiveLesson(enrollment.lastViewedLessonId);
+    }
+  }
+
+  const handleSelectLesson = (lessonId: string) => {
+    setActiveLesson(lessonId);
+    setLastViewedLesson(courseId, lessonId);
+  };
 
   if (!course) {
     return (
@@ -52,6 +72,9 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
     s.lessons.map((l) => ({ ...l, sectionId: s.id, sectionTitle: s.title, sectionIndex: si }))
   );
   const currentLesson = allLessons.find((l) => l.id === activeLesson) || allLessons[0];
+  const currentIndex = allLessons.findIndex((l) => l.id === currentLesson?.id);
+  const previousLesson = currentIndex > 0 ? allLessons[currentIndex - 1] : undefined;
+  const nextLesson = currentIndex >= 0 && currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : undefined;
   const isLessonCompleted = enrollment.lessonProgress.some(
     (p) => p.lessonId === currentLesson?.id && p.completed
   );
@@ -79,11 +102,23 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
           </div>
         </div>
 
-        <div className="bg-dg aspect-video flex items-center justify-center m-6 rounded-lg overflow-hidden">
-          <div className="w-16 h-16 rounded-full bg-pg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-            <Play size={32} className="text-dg ml-1" />
+        {currentLesson?.videoUrl ? (
+          <div className="bg-dg aspect-video m-6 rounded-lg overflow-hidden">
+            <iframe
+              src={currentLesson.videoUrl}
+              title={currentLesson.title}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
-        </div>
+        ) : (
+          <div className="bg-dg aspect-video flex items-center justify-center m-6 rounded-lg overflow-hidden">
+            <div className="w-16 h-16 rounded-full bg-pg/40 flex items-center justify-center">
+              <Play size={32} className="text-dg ml-1" />
+            </div>
+          </div>
+        )}
 
         <div className="px-6 pb-8">
           <h1 className="text-3xl font-bold mb-2 text-dt">{currentLesson?.title}</h1>
@@ -93,13 +128,12 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
 
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-4 text-dt">Lesson Content</h2>
-            <p className="leading-relaxed text-mg">
-              Master the fundamentals of {currentLesson?.title.toLowerCase()}. This comprehensive
-              lesson covers all the essential concepts you need to know.
+            <p className="leading-relaxed text-mg whitespace-pre-line">
+              {currentLesson?.content || "No content has been added for this lesson yet."}
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mb-6">
             <button
               onClick={handleMarkComplete}
               className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2 ${
@@ -114,18 +148,46 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
                 "Mark as Complete"
               )}
             </button>
+            {currentLesson?.resourceUrl ? (
+              <a
+                href={currentLesson.resourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 rounded-lg font-medium flex items-center gap-2 bg-white border border-border text-dt hover:bg-ow"
+              >
+                <Download size={20} /> Download Materials
+              </a>
+            ) : (
+              <button
+                onClick={() =>
+                  addNotification({
+                    type: "system",
+                    icon: "📎",
+                    title: "No Materials Yet",
+                    message: "This lesson doesn't have downloadable materials attached.",
+                  })
+                }
+                className="px-6 py-3 rounded-lg font-medium flex items-center gap-2 bg-white border border-border text-dt hover:bg-ow"
+              >
+                <Download size={20} /> Download Materials
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center justify-between border-t border-border pt-6">
             <button
-              onClick={() =>
-                addNotification({
-                  type: "system",
-                  icon: "📎",
-                  title: "No Materials Yet",
-                  message: "This lesson doesn't have downloadable materials attached.",
-                })
-              }
-              className="px-6 py-3 rounded-lg font-medium flex items-center gap-2 bg-white border border-border text-dt hover:bg-ow"
+              onClick={() => previousLesson && handleSelectLesson(previousLesson.id)}
+              disabled={!previousLesson}
+              className="flex items-center gap-2 text-sm font-medium text-mg hover:text-dt transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              <Download size={20} /> Download Materials
+              <ChevronLeft size={18} /> Previous Lesson
+            </button>
+            <button
+              onClick={() => nextLesson && handleSelectLesson(nextLesson.id)}
+              disabled={!nextLesson}
+              className="flex items-center gap-2 text-sm font-medium text-mg hover:text-dt transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              Next Lesson <ChevronRight size={18} />
             </button>
           </div>
         </div>
@@ -158,7 +220,7 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
                     return (
                       <button
                         key={lesson.id}
-                        onClick={() => setActiveLesson(lesson.id as string)}
+                        onClick={() => handleSelectLesson(lesson.id)}
                         className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                           isActive ? "bg-pg/10 text-pg2 font-medium" : "text-mg hover:bg-ow"
                         }`}

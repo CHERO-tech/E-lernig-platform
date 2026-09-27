@@ -4,6 +4,9 @@ export interface CourseLesson {
   id: string;
   title: string;
   duration: string;
+  content: string;
+  videoUrl?: string;
+  resourceUrl?: string;
 }
 
 export interface CourseSection {
@@ -88,12 +91,14 @@ export interface Course {
   assignments: CourseAssignment[];
   discussions: DiscussionThread[];
   reviews: CourseReview[];
+  published: boolean;
 }
 
 export interface CourseContextType {
   courses: Course[];
   getCourseById: (id: string) => Course | undefined;
   addCourse: (input: Omit<Course, 'id' | 'rating' | 'students' | 'discussions' | 'reviews'>) => Course;
+  updateCourse: (id: string, patch: Partial<Course>) => void;
   incrementStudentCount: (id: string) => void;
   addQuizToCourse: (courseId: string, quiz: Omit<CourseQuiz, 'id'>) => void;
   addAssignmentToCourse: (courseId: string, assignment: Omit<CourseAssignment, 'id'>) => void;

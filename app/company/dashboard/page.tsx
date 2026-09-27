@@ -7,7 +7,8 @@ import { usePeople } from "@/lib/people/usePeople";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import DashboardShell, { DashboardNavItem } from "@/components/DashboardShell";
 import { EmptyState } from "@/components/ui";
-import { Briefcase, Users, Target, TrendingUp, Settings, Search, MessageSquare, Award, BookOpen } from "lucide-react";
+import { Briefcase, Users, Target, TrendingUp, Settings, Search, MessageSquare, Award, BookOpen, ArrowLeft } from "lucide-react";
+import { getKnownUsers, listJobApplications, listJobPostings } from "@/lib/shared/crossAccountStore";
 
 const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/company/dashboard", label: "Dashboard", icon: <Briefcase size={18} /> },
@@ -30,11 +31,19 @@ function DashboardContent() {
       s.location.toLowerCase().includes(search.toLowerCase())
   );
 
+  const myPostings = user ? listJobPostings().filter((p) => p.companyId === user.id) : [];
+  const applications = listJobApplications();
+  const knownUsers = getKnownUsers();
+
   return (
     <DashboardShell roleLabel="Company" navItems={NAV_ITEMS}>
       <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-6xl mx-auto">
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-mg hover:text-dt transition-colors mb-3">
+              <ArrowLeft size={14} />
+              Back to Home
+            </Link>
             <p className="font-mono text-xs mb-2 text-pg2">$ whoami — company</p>
             <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">
               Welcome back, {user?.name?.split(" ")[0]}.
@@ -47,6 +56,50 @@ function DashboardContent() {
           >
             + Post Opportunity
           </Link>
+        </div>
+
+        <div className="rounded-xl overflow-hidden bg-white border border-border mb-6">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-border gap-4">
+            <h2 className="font-semibold text-dt">My Postings</h2>
+          </div>
+          {myPostings.length === 0 ? (
+            <EmptyState title="No postings yet" description="Post a role to start receiving applications." />
+          ) : (
+            <div className="divide-y divide-border">
+              {myPostings.map((posting) => {
+                const postingApplicants = applications.filter((a) => a.jobId === posting.id);
+                return (
+                  <div key={posting.id} className="px-6 py-4">
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
+                      <div>
+                        <p className="font-semibold text-sm text-dt">{posting.title}</p>
+                        <p className="text-xs text-mg">{posting.department} · {posting.location}</p>
+                      </div>
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-pg/10 text-pg2 whitespace-nowrap">
+                        {postingApplicants.length} applicant{postingApplicants.length === 1 ? "" : "s"}
+                      </span>
+                    </div>
+                    {postingApplicants.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {postingApplicants.map((application) => {
+                          const known = knownUsers.find((k) => k.id === application.applicantId);
+                          return (
+                            <Link
+                              key={application.id}
+                              href={`/messages/${application.applicantId}`}
+                              className="px-3 py-1.5 rounded-lg text-xs font-medium bg-ow border border-border text-dt hover:border-pg transition-colors"
+                            >
+                              {known?.name || application.applicantName}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         <div className="rounded-xl overflow-hidden bg-white border border-border">

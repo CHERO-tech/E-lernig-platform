@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Search, Filter, Star, Clock, ArrowRight } from "lucide-react";
+import { Search, Filter, Star, Clock, ArrowRight, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 
@@ -13,7 +13,7 @@ export default function SearchPage() {
   const [showFilters, setShowFilters] = useState(false);
   const { courses } = useCourses();
 
-  const allResults = courses.map(c => ({
+  const allResults = courses.filter(c => c.published !== false).map(c => ({
     id: c.id,
     type: "course",
     title: c.title,
@@ -44,6 +44,10 @@ export default function SearchPage() {
       {/* Search Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-6 py-6">
+          <Link href="/courses" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Courses
+          </Link>
           <div className="flex gap-4 items-center">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-3 text-gray-400" size={20} />

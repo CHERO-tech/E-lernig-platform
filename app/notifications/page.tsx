@@ -5,11 +5,13 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { formatRelativeTime } from "@/lib/notifications/formatRelativeTime";
-import { Bell, Check, CheckCheck, Trash2, Filter } from "lucide-react";
+import { Bell, Check, CheckCheck, Trash2, Filter, ArrowLeft } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/lib/auth/useAuth";
 
 function NotificationsContent() {
   const [filter, setFilter] = useState("all");
+  const { user } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification } = useNotifications();
 
   const filteredNotifications = notifications.filter((notif) => {
@@ -22,28 +24,34 @@ function NotificationsContent() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Bell size={24} className="text-ember-strong" />
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
-              {unreadCount > 0 && (
-                <p className="text-sm text-gray-600">{unreadCount} unread messages</p>
-              )}
+        <div className="max-w-4xl mx-auto px-6 py-6">
+          <Link href={`/${user?.role ?? "student"}/dashboard`} className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Bell size={24} className="text-ember-strong" />
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+                {unreadCount > 0 && (
+                  <p className="text-sm text-gray-600">{unreadCount} unread messages</p>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex gap-2">
-            {unreadCount > 0 && (
-              <button
-                onClick={markAllAsRead}
-                className="px-4 py-2 text-sm font-medium text-ember-strong hover:bg-forge-soft rounded-lg transition-colors flex items-center gap-2"
-              >
-                <CheckCheck size={16} /> Mark all as read
-              </button>
-            )}
-            <Link href="/settings" className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2">
-              <Filter size={16} /> Settings
-            </Link>
+            <div className="flex gap-2">
+              {unreadCount > 0 && (
+                <button
+                  onClick={markAllAsRead}
+                  className="px-4 py-2 text-sm font-medium text-ember-strong hover:bg-forge-soft rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <CheckCheck size={16} /> Mark all as read
+                </button>
+              )}
+              <Link href="/settings" className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2">
+                <Filter size={16} /> Settings
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -3,18 +3,26 @@
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useMessaging } from "@/lib/messaging/useMessaging";
 import { usePeople } from "@/lib/people/usePeople";
+import { getKnownUsers } from "@/lib/shared/crossAccountStore";
 import Link from "next/link";
-import { Search, MoreHorizontal, Pin } from "lucide-react";
-import { useState } from "react";
+import { Search, MoreHorizontal, Pin, ArrowLeft, MessageSquarePlus } from "lucide-react";
+import { useMemo, useState } from "react";
 import { EmptyState } from "@/components/ui";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { useAuth } from "@/lib/auth/useAuth";
 
 function MessagesContent() {
   const { conversations } = useMessaging();
   const { people } = usePeople();
   const { addNotification } = useNotifications();
+  const { user } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [pinnedIds, setPinnedIds] = useState<string[]>([]);
+
+  const messageableUsers = useMemo(
+    () => getKnownUsers().filter((u) => u.id !== user?.id),
+    [user?.id]
+  );
 
   const togglePin = (e: React.MouseEvent, convId: string) => {
     e.preventDefault();
@@ -51,14 +59,15 @@ function MessagesContent() {
 
   const conversationList = conversations.map((conv) => {
     const person = people.find((p) => p.id === conv.participantId);
+    const known = !person ? getKnownUsers().find((u) => u.id === conv.participantId) : undefined;
     const lastMsg = conv.messages[conv.messages.length - 1];
     return {
       ...conv,
       person,
       lastMessage: lastMsg?.text || "(no messages)",
       time: lastMsg ? formatTime(lastMsg.sentAt) : "",
-      name: person?.name || "Unknown",
-      avatar: person?.avatar || "?",
+      name: person?.name || known?.name || "Unknown",
+      avatar: person?.avatar || known?.avatar || known?.name.slice(0, 2).toUpperCase() || "?",
       online: person?.online || false,
     };
   });
@@ -69,6 +78,10 @@ function MessagesContent() {
     <div className="min-h-screen bg-ow flex flex-col">
       <div className="bg-white border-b border-border sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-6 py-6">
+          <Link href={`/${user?.role ?? "student"}/dashboard`} className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
           <h1 className="text-3xl font-bold mb-4 text-dt">Messages</h1>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-mg" size={20} />
@@ -80,6 +93,28 @@ function MessagesContent() {
               className="w-full pl-10 pr-4 py-3 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
              aria-label="Search conversations"/>
           </div>
+
+          {messageableUsers.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-mg mb-2 flex items-center gap-1.5">
+                <MessageSquarePlus size={14} /> New message
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {messageableUsers.map((u) => (
+                  <Link
+                    key={u.id}
+                    href={`/messages/${u.id}`}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-ow border border-border text-dt hover:border-pg transition-colors"
+                  >
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold bg-pg text-dg">
+                      {u.avatar || u.name.slice(0, 2).toUpperCase()}
+                    </span>
+                    {u.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

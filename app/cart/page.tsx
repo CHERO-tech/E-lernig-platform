@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { Trash2, ShoppingCart } from "lucide-react";
+import { Trash2, ShoppingCart, ArrowLeft } from "lucide-react";
 import { useCart } from "@/lib/cart/useCart";
 import { calculateCartTotals } from "@/lib/cart/calculateTotals";
 import { EmptyState } from "@/components/ui";
@@ -25,6 +26,10 @@ function CartContent() {
     <div className="min-h-screen bg-ow">
       <div className="bg-white border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-6">
+          <Link href="/courses" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Courses
+          </Link>
           <div className="flex items-center gap-3">
             <ShoppingCart size={32} className="text-pg2" />
             <h1 className="text-3xl font-bold text-dt">Shopping Cart</h1>

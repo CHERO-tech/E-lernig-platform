@@ -3,6 +3,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { Conversation, MessagingContextType, UserMessages } from './types';
 import { useAuth } from '@/lib/auth/useAuth';
+import { readMessagesForUser, writeMessagesForUser } from '@/lib/shared/crossAccountStore';
 
 const STORAGE_KEY_PREFIX = 'forge_messages_';
 
@@ -33,6 +34,13 @@ const DEFAULT_CONVERSATIONS: Conversation[] = [
   },
 ];
 
+function seedConversationsFor(userId: string): Conversation[] {
+  return DEFAULT_CONVERSATIONS.map((conv) => ({
+    ...conv,
+    messages: conv.messages.map((m) => ({ ...m, senderId: m.senderId === 'me' ? userId : m.senderId })),
+  }));
+}
+
 export const MessagingContext = createContext<MessagingContextType | undefined>(undefined);
 
 export function MessagingProvider({ children }: { children: React.ReactNode }) {
@@ -53,14 +61,15 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
         setConversations(data.conversations);
       } catch {
         localStorage.removeItem(storageKey);
-        setConversations(DEFAULT_CONVERSATIONS);
+        setConversations(seedConversationsFor(user.id));
       }
     } else {
-      setConversations(DEFAULT_CONVERSATIONS);
+      setConversations(seedConversationsFor(user.id));
     }
   }, [user?.id, loading]);
 
   const userId = user?.id;
+  const userName = user?.name;
   const persistConversations = useCallback(
     (newConversations: Conversation[]) => {
       if (!userId) return;
@@ -73,21 +82,20 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
 
   const sendMessage = useCallback(
     (participantId: string, text: string) => {
+      if (!userId) return;
+
+      const message = {
+        id: `msg-${Date.now()}`,
+        senderId: userId,
+        text,
+        sentAt: Date.now(),
+      };
+
+      // Update the sender's own copy.
       setConversations(prev => {
         const updated = prev.map(conv => {
           if (conv.participantId === participantId) {
-            return {
-              ...conv,
-              messages: [
-                ...conv.messages,
-                {
-                  id: `msg-${Date.now()}`,
-                  senderId: 'me',
-                  text,
-                  sentAt: Date.now(),
-                },
-              ],
-            };
+            return { ...conv, messages: [...conv.messages, message] };
           }
           return conv;
         });
@@ -97,14 +105,7 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
           updated.push({
             id: `conv-${Date.now()}`,
             participantId,
-            messages: [
-              {
-                id: `msg-${Date.now()}`,
-                senderId: 'me',
-                text,
-                sentAt: Date.now(),
-              },
-            ],
+            messages: [message],
             unread: 0,
             pinned: false,
           });
@@ -113,8 +114,33 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
         persistConversations(updated);
         return updated;
       });
+
+      // Deliver into the recipient's own inbox so it's there when they log in.
+      const recipientData = readMessagesForUser(participantId);
+      const recipientConversations = recipientData.conversations;
+      const recipientConvIdx = recipientConversations.findIndex(c => c.participantId === userId);
+      let updatedRecipientConversations: Conversation[];
+      if (recipientConvIdx >= 0) {
+        updatedRecipientConversations = recipientConversations.map((conv, i) =>
+          i === recipientConvIdx
+            ? { ...conv, messages: [...conv.messages, message], unread: conv.unread + 1 }
+            : conv
+        );
+      } else {
+        updatedRecipientConversations = [
+          ...recipientConversations,
+          {
+            id: `conv-${Date.now()}-${participantId}`,
+            participantId: userId,
+            messages: [message],
+            unread: 1,
+            pinned: false,
+          },
+        ];
+      }
+      writeMessagesForUser(participantId, { conversations: updatedRecipientConversations });
     },
-    [persistConversations]
+    [userId, persistConversations]
   );
 
   const markConversationRead = useCallback(
@@ -136,7 +162,9 @@ export function MessagingProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <MessagingContext.Provider value={{ conversations, sendMessage, markConversationRead, getConversationByParticipant }}>
+    <MessagingContext.Provider
+      value={{ conversations, sendMessage, markConversationRead, getConversationByParticipant, currentUserId: userId, currentUserName: userName }}
+    >
       {children}
     </MessagingContext.Provider>
   );

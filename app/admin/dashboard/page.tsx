@@ -19,6 +19,7 @@ import {
   Building2,
   Briefcase,
   UserCog,
+  ArrowLeft,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -49,6 +50,10 @@ function DashboardContent() {
       <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-6xl mx-auto">
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-mg hover:text-dt transition-colors mb-3">
+              <ArrowLeft size={14} />
+              Back to Home
+            </Link>
             <p className="font-mono text-xs mb-2 text-pg2">$ sudo systemctl status forge</p>
             <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">Platform Overview</h1>
             <div className="flex items-center gap-2">

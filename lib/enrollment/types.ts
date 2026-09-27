@@ -24,6 +24,7 @@ export interface Enrollment {
   lessonProgress: LessonProgress[];
   quizAttempts: QuizAttempt[];
   submissions: AssignmentSubmission[];
+  lastViewedLessonId?: string;
 }
 
 export interface UserEnrollments {
@@ -36,4 +37,5 @@ export interface EnrollmentContextType {
   markLessonComplete: (courseId: string, lessonId: string) => void;
   recordQuizAttempt: (courseId: string, quizId: string, score: number) => void;
   submitAssignment: (courseId: string, assignmentId: string, fileName: string) => void;
+  setLastViewedLesson: (courseId: string, lessonId: string) => void;
 }

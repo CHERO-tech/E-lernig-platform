@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth/useAuth";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import DashboardShell, { DashboardNavItem } from "@/components/DashboardShell";
-import { Users, BookOpen, BarChart3, AlertCircle, Settings } from "lucide-react";
+import { Users, BookOpen, BarChart3, AlertCircle, Settings, ArrowLeft } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/guardian/dashboard", label: "Dashboard", icon: <Users size={18} /> },
@@ -21,6 +21,10 @@ function DashboardContent() {
     <DashboardShell roleLabel="Guardian" navItems={NAV_ITEMS}>
       <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-3xl mx-auto">
         <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-mg hover:text-dt transition-colors mb-3">
+            <ArrowLeft size={14} />
+            Back to Home
+          </Link>
           <p className="font-mono text-xs mb-2 text-pg2">$ whoami — guardian</p>
           <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">
             Welcome, {user?.name?.split(" ")[0]}.

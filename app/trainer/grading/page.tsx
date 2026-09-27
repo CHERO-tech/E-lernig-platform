@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { FileText, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { FileText, Clock, CheckCircle, AlertCircle, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { listEnrolledUserIds, readEnrollmentsForUser, getKnownUsers, writeEnrollmentsForUser } from "@/lib/shared/crossAccountStore";
@@ -119,6 +120,10 @@ function GradingDashboardContent() {
       <div className="flex-1 max-h-screen overflow-y-auto">
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-5xl mx-auto px-6 py-6">
+            <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+              <ArrowLeft size={16} />
+              Back to Dashboard
+            </Link>
             <h1 className="text-3xl font-bold text-gray-900 mb-6">Grading Dashboard</h1>
 
             {/* Stats */}
@@ -265,7 +270,7 @@ function GradingDashboardContent() {
 
 export default function GradingPage() {
   return (
-    <ProtectedRoute>
+    <ProtectedRoute requiredRole="trainer">
       <GradingDashboardContent />
     </ProtectedRoute>
   );

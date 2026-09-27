@@ -19,6 +19,10 @@ import {
   DollarSign,
   BookOpen,
   ClipboardList,
+  ArrowLeft,
+  Pencil,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -33,7 +37,7 @@ const NAV_ITEMS: DashboardNavItem[] = [
 
 function DashboardContent() {
   const { user } = useAuth();
-  const { courses } = useCourses();
+  const { courses, updateCourse } = useCourses();
   const { enrollments } = useEnrollment();
 
   const trainerCourses = courses.filter((c) => c.instructorId === user?.id);
@@ -49,6 +53,10 @@ function DashboardContent() {
       <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-6xl mx-auto">
         <div className="flex items-start justify-between gap-4 mb-8">
           <div>
+            <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-mg hover:text-dt transition-colors mb-3">
+              <ArrowLeft size={14} />
+              Back to Home
+            </Link>
             <p className="font-mono text-xs mb-2 text-pg2">$ whoami — trainer</p>
             <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">
               Welcome back, {user?.name?.split(" ")[0]}.
@@ -127,6 +135,27 @@ function DashboardContent() {
                         <Star size={12} fill="currentColor" />
                         {course.rating.toFixed(1)}
                       </span>
+                      {course.published === false && (
+                        <span className="px-2 py-1 rounded-lg text-xs font-semibold bg-warn/10 text-warn2">
+                          Unpublished
+                        </span>
+                      )}
+                      <button
+                        onClick={() => updateCourse(course.id, { published: course.published === false })}
+                        className="p-1.5 rounded-lg text-mg hover:bg-ow"
+                        aria-label={course.published === false ? "Publish course" : "Unpublish course"}
+                        title={course.published === false ? "Publish course" : "Unpublish course"}
+                      >
+                        {course.published === false ? <Eye size={16} /> : <EyeOff size={16} />}
+                      </button>
+                      <Link
+                        href={`/trainer/edit-course/${course.id}`}
+                        className="p-1.5 rounded-lg text-mg hover:bg-ow"
+                        aria-label="Edit course"
+                        title="Edit course"
+                      >
+                        <Pencil size={16} />
+                      </Link>
                       <Link
                         href={`/courses/${course.id}`}
                         className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-pg/10 text-pg2 hover:bg-pg/20"

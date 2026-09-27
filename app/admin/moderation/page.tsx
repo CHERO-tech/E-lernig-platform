@@ -5,19 +5,33 @@ import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ArrowLeft, CheckCircle, XCircle, Eye, Flag } from "lucide-react";
 import { useState } from "react";
+import { listReports, removeReport as removeStoredReport, updateReportStatus } from "@/lib/shared/crossAccountStore";
+
+function formatRelativeTime(epoch: number): string {
+  const diffMs = Date.now() - epoch;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+  if (diffMins < 60) return `${Math.max(diffMins, 0)}m ago`;
+  if (diffHours < 24) return `${diffHours}h ago`;
+  return `${diffDays}d ago`;
+}
 
 function ModerationContent() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("reports");
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const [reports, setReports] = useState([
-    { id: 1, type: "Comment", content: "Inappropriate language in course review", reporter: "Alex Johnson", reported: "5 hours ago", status: "pending" as const },
-    { id: 2, type: "User Profile", content: "Suspicious profile picture", reporter: "Sarah Chen", reported: "1 day ago", status: "pending" as const },
-    { id: 3, type: "Course Content", content: "Copyright violation claim", reporter: "Admin Team", reported: "2 days ago", status: "reviewing" as const },
-    { id: 4, type: "Comment", content: "Hate speech detected", reporter: "System Auto", reported: "3 days ago", status: "resolved" as const },
-    { id: 5, type: "User Profile", content: "Fake credentials in bio", reporter: "Mike Davis", reported: "4 days ago", status: "resolved" as const },
-  ]);
+  const [reports, setReports] = useState(() =>
+    (typeof window !== "undefined" ? listReports() : []).map((r) => ({
+      id: r.id,
+      type: r.type,
+      content: r.content,
+      reporter: r.reporterName,
+      reported: formatRelativeTime(r.reportedAt),
+      status: r.status,
+    }))
+  );
 
   const [suspiciousActivities, setSuspiciousActivities] = useState([
     { id: 1, user: "John Doe", activity: "Multiple failed login attempts", risk: "High", detected: "2 hours ago" },
@@ -32,22 +46,25 @@ function ModerationContent() {
     { id: 3, content: "Spam course promotion", user: "User789", blocked: "1 week ago", reason: "Spam" },
   ]);
 
-  const toggleSelect = (id: number) => {
+  const toggleSelect = (id: string) => {
     setSelectedItems(prev =>
       prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
   };
 
-  const approveReport = (id: number) => {
+  const approveReport = (id: string) => {
+    updateReportStatus(id, 'resolved');
     setReports(prev => prev.map(r => r.id === id ? { ...r, status: 'resolved' as const } : r));
     setSelectedItems(prev => prev.filter(i => i !== id));
   };
 
-  const markReviewing = (id: number) => {
+  const markReviewing = (id: string) => {
+    updateReportStatus(id, 'reviewing');
     setReports(prev => prev.map(r => r.id === id ? { ...r, status: 'reviewing' as const } : r));
   };
 
-  const removeReport = (id: number) => {
+  const removeReport = (id: string) => {
+    removeStoredReport(id);
     setReports(prev => prev.filter(r => r.id !== id));
     setSelectedItems(prev => prev.filter(i => i !== id));
   };
@@ -66,11 +83,13 @@ function ModerationContent() {
     setBlockedContent(prev => prev.filter(c => c.id !== id));
   };
 
-  const permanentlyDelete = (id: number) => {
+  const permanentlyDelete = (id: number, content: string) => {
+    if (!confirm(`Permanently delete "${content}"? This cannot be undone.`)) return;
     setBlockedContent(prev => prev.filter(c => c.id !== id));
   };
 
   const bulkApprove = () => {
+    selectedItems.forEach(id => updateReportStatus(id, 'resolved'));
     setReports(prev =>
       prev.map(r =>
         selectedItems.includes(r.id) ? { ...r, status: 'resolved' as const } : r
@@ -80,6 +99,7 @@ function ModerationContent() {
   };
 
   const bulkReject = () => {
+    selectedItems.forEach(id => removeStoredReport(id));
     setReports(prev => prev.filter(r => !selectedItems.includes(r.id)));
     setSelectedItems([]);
   };
@@ -185,17 +205,18 @@ function ModerationContent() {
                       onClick={() => markReviewing(report.id)}
                       className="p-2 hover:bg-blue-100 rounded-lg text-blue-600"
                       title="Review"
+                      aria-label="Mark as reviewing"
                     >
                       <Eye size={18} />
                     </button>
                     <button
                       onClick={() => approveReport(report.id)}
-                      className="p-2 hover:bg-forge-soft rounded-lg text-ember-strong" title="Approve">
+                      className="p-2 hover:bg-forge-soft rounded-lg text-ember-strong" title="Approve" aria-label="Approve report">
                       <CheckCircle size={18} />
                     </button>
                     <button
                       onClick={() => removeReport(report.id)}
-                      className="p-2 hover:bg-red-100 rounded-lg text-red-600" title="Remove">
+                      className="p-2 hover:bg-red-100 rounded-lg text-red-600" title="Remove" aria-label="Remove report">
                       <XCircle size={18} />
                     </button>
                   </div>
@@ -282,7 +303,7 @@ function ModerationContent() {
                       Unblock
                     </button>
                     <button
-                      onClick={() => permanentlyDelete(item.id)}
+                      onClick={() => permanentlyDelete(item.id, item.content)}
                       className="px-3 py-1 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100">
                       Permanently Delete
                     </button>

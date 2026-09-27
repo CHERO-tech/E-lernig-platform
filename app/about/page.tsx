@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Users, Zap, Target, Award, ArrowRight } from "lucide-react";
+import { Users, Zap, Target, Award, ArrowRight, ArrowLeft } from "lucide-react";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 
 export default function About() {
@@ -33,6 +33,10 @@ export default function About() {
       {/* Hero */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-20 px-6">
         <div className="max-w-4xl mx-auto text-center">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
           <h1 className="text-5xl font-bold mb-6">About Forge</h1>
           <p className="text-xl text-forge-soft">Transforming careers through practical, industry-relevant education</p>
         </div>

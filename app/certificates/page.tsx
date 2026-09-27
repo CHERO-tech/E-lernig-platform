@@ -1,54 +1,87 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
-import { Download, Share2, Award, Calendar, Check, Loader2 } from "lucide-react";
-import { useState, useRef } from "react";
+import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { useCourses } from "@/lib/courses/useCourses";
+import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { Download, Share2, Award, Calendar, Check, Loader2, ArrowLeft } from "lucide-react";
+import { useState, useRef, useMemo } from "react";
 import { generateCertificatePdf } from "@/lib/certificates/generateCertificatePdf";
+import { EmptyState } from "@/components/ui";
+
+interface EarnedCertificate {
+  id: string;
+  course: string;
+  instructor: string;
+  issued: string;
+  score: number;
+  credentialId: string;
+}
 
 function CertificatesContent() {
   const { user } = useAuth();
-  const [downloadingId, setDownloadingId] = useState<number | null>(null);
-  const [copiedId, setCopiedId] = useState<number | null>(null);
-  const certificateRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const { enrollments } = useEnrollment();
+  const { getCourseById } = useCourses();
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const certificateRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const certificates = [
-    {
-      id: 1,
-      course: "Advanced React Patterns",
-      instructor: "Sarah Chen",
-      issued: "2024-08-15",
-      score: 92,
-      credentialId: "CERT-2024-001",
-    },
-    {
-      id: 2,
-      course: "Web Development Fundamentals",
-      instructor: "John Smith",
-      issued: "2024-07-20",
-      score: 88,
-      credentialId: "CERT-2024-002",
-    },
-    {
-      id: 3,
-      course: "UI/UX Design Masterclass",
-      instructor: "Mike Johnson",
-      issued: "2024-06-10",
-      score: 95,
-      credentialId: "CERT-2024-003",
-    },
-    {
-      id: 4,
-      course: "Python for Data Science",
-      instructor: "Alex Kumar",
-      issued: "2024-05-05",
-      score: 90,
-      credentialId: "CERT-2024-004",
-    },
-  ];
+  const certificates: EarnedCertificate[] = useMemo(() => {
+    if (!user) return [];
 
-  const handleDownload = async (cert: typeof certificates[0]) => {
+    return enrollments.flatMap((enrollment) => {
+      const course = getCourseById(enrollment.courseId);
+      if (!course) return [];
+
+      const progress = calculateCourseProgress(enrollment, course);
+      if (progress.percentComplete !== 100) return [];
+
+      const passingAttempts = course.quizzes.map((quiz) => {
+        const attempt = enrollment.quizAttempts.find(
+          (a) => a.quizId === quiz.id && a.score >= quiz.passingScore
+        );
+        return attempt;
+      });
+      if (passingAttempts.some((a) => !a)) return [];
+
+      const score =
+        passingAttempts.length > 0
+          ? Math.round(
+              passingAttempts.reduce((sum, a) => sum + (a?.score ?? 0), 0) / passingAttempts.length
+            )
+          : 100;
+
+      const timestamps = [
+        enrollment.enrolledAt,
+        ...passingAttempts.map((a) => a?.attemptedAt).filter((d): d is string => !!d),
+      ];
+      const issued = timestamps.reduce((latest, ts) => (ts > latest ? ts : latest), timestamps[0]);
+
+      return [
+        {
+          id: `CERT-${course.id}-${user.id}`,
+          course: course.title,
+          instructor: course.instructor,
+          issued,
+          score,
+          credentialId: `CERT-${course.id}-${user.id}`,
+        },
+      ];
+    });
+  }, [enrollments, getCourseById, user]);
+
+  const averageScore =
+    certificates.length > 0
+      ? Math.round(certificates.reduce((sum, c) => sum + c.score, 0) / certificates.length)
+      : 0;
+  const certificatesThisYear = certificates.filter(
+    (c) => new Date(c.issued).getFullYear() === new Date().getFullYear()
+  ).length;
+
+  const handleDownload = async (cert: EarnedCertificate) => {
     if (downloadingId !== null) return;
     setDownloadingId(cert.id);
     try {
@@ -122,6 +155,10 @@ function CertificatesContent() {
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
+          <Link href="/student/dashboard" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
           <div className="flex items-center gap-3 mb-4">
             <Award size={32} />
             <h1 className="text-4xl font-bold">My Certificates</h1>
@@ -139,8 +176,8 @@ function CertificatesContent() {
         >
           {[
             { label: "Total Certificates", value: certificates.length, icon: Award },
-            { label: "Average Score", value: "91%", icon: Award },
-            { label: "This Year", value: "4", icon: Calendar },
+            { label: "Average Score", value: `${averageScore}%`, icon: Award },
+            { label: "This Year", value: certificatesThisYear, icon: Calendar },
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
@@ -158,6 +195,23 @@ function CertificatesContent() {
         </motion.div>
 
         {/* Certificates Grid */}
+        {certificates.length === 0 ? (
+          <div className="bg-white rounded-lg border border-gray-200">
+            <EmptyState
+              icon={<Award size={48} className="text-pg2" />}
+              title="No certificates yet"
+              description="Complete a course and pass its quizzes to earn your first certificate."
+              action={
+                <Link
+                  href="/courses"
+                  className="inline-block px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110 transition-all"
+                >
+                  Browse Courses
+                </Link>
+              }
+            />
+          </div>
+        ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {certificates.map((cert, i) => (
             <motion.div
@@ -239,19 +293,18 @@ function CertificatesContent() {
             </motion.div>
           ))}
         </div>
+        )}
 
-        {/* Empty State Info */}
+        {/* Verification Info */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6 text-center"
         >
-          <p className="text-blue-900 mb-4">
-            Certificates are issued upon course completion with a passing score. They can be verified using the Credential ID.
+          <p className="text-blue-900">
+            Certificates are issued upon course completion with a passing score. Include the Credential ID when
+            sharing a certificate with employers as a reference.
           </p>
-          <a href="/help" className="text-blue-600 hover:text-blue-700 font-medium">
-            Learn about certificate verification
-          </a>
         </motion.div>
       </div>
     </div>

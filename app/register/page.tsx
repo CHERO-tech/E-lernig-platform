@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/useAuth";
 import { UserRole } from "@/lib/auth/types";
 import AuthShell from "@/components/AuthShell";
+import { ArrowLeft } from "lucide-react";
 
 const ROLES: Array<{ value: UserRole; label: string; icon: React.ReactNode; description: string }> = [
   {
@@ -98,6 +99,10 @@ export default function RegisterPage() {
 
   return (
     <AuthShell>
+      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-4">
+        <ArrowLeft size={16} />
+        Back to Home
+      </Link>
       <div className="rounded-2xl overflow-hidden shadow-2xl bg-white">
         <div className="p-8">
           <div className="mb-6">

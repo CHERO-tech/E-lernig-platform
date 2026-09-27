@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, ArrowLeft } from "lucide-react";
 
 export default function Pricing() {
   const plans = [
@@ -34,6 +34,10 @@ export default function Pricing() {
     <div className="min-h-screen bg-white">
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-7xl mx-auto text-center">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
           <h1 className="text-4xl font-bold mb-4">Simple, Transparent Pricing</h1>
           <p className="text-forge-soft text-lg">Choose the plan that fits your learning journey</p>
         </div>

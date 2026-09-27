@@ -27,6 +27,50 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
     },
     password: 'password123',
   },
+  {
+    user: {
+      id: 'school-1',
+      email: 'school@example.com',
+      name: 'Riverside Academy',
+      role: 'school',
+      avatar: 'RA',
+      createdAt: new Date(),
+    },
+    password: 'password123',
+  },
+  {
+    user: {
+      id: 'guardian-1',
+      email: 'guardian@example.com',
+      name: 'Maria Guardian',
+      role: 'guardian',
+      avatar: 'MG',
+      createdAt: new Date(),
+    },
+    password: 'password123',
+  },
+  {
+    user: {
+      id: 'company-1',
+      email: 'company@example.com',
+      name: 'Acme Talent Co.',
+      role: 'company',
+      avatar: 'AC',
+      createdAt: new Date(),
+    },
+    password: 'password123',
+  },
+  {
+    user: {
+      id: 'admin-1',
+      email: 'admin@example.com',
+      name: 'Sam Admin',
+      role: 'admin',
+      avatar: 'SA',
+      createdAt: new Date(),
+    },
+    password: 'password123',
+  },
 ];
 
 // Initialize mock users

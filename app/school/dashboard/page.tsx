@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useCourses } from "@/lib/courses/useCourses";
 import { usePeople } from "@/lib/people/usePeople";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import DashboardShell, { DashboardNavItem } from "@/components/DashboardShell";
 import { StatCard } from "@/components/ui";
-import { Building2, Users, BookOpen, Settings, UserCog } from "lucide-react";
+import { Building2, Users, BookOpen, Settings, UserCog, ArrowLeft } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/school/dashboard", label: "Dashboard", icon: <Building2 size={18} /> },
@@ -27,6 +28,10 @@ function DashboardContent() {
     <DashboardShell roleLabel="School" navItems={NAV_ITEMS}>
       <div className="p-6 md:p-8 pt-20 md:pt-8 max-w-6xl mx-auto">
         <div className="mb-8">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-xs font-mono text-mg hover:text-dt transition-colors mb-3">
+            <ArrowLeft size={14} />
+            Back to Home
+          </Link>
           <p className="font-mono text-xs mb-2 text-pg2">$ whoami — school</p>
           <h1 className="text-3xl font-bold mb-1 text-dt tracking-tight">
             Welcome, {user?.name?.split(" ")[0]}.

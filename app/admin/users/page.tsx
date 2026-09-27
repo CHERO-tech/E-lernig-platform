@@ -159,6 +159,7 @@ function UsersContent() {
                           href={`/admin/users/${u.id}`}
                           className="p-2 hover:bg-gray-200 rounded-lg transition-colors"
                           title="View Details"
+                          aria-label={`View details for ${u.name}`}
                         >
                           <Shield size={18} className="text-gray-600" />
                         </Link>
@@ -167,6 +168,7 @@ function UsersContent() {
                             onClick={() => updatePersonStatus(u.id, 'suspended')}
                             className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-600"
                             title="Suspend User"
+                            aria-label={`Suspend ${u.name}`}
                           >
                             <Lock size={18} />
                           </button>
@@ -176,6 +178,7 @@ function UsersContent() {
                             onClick={() => updatePersonStatus(u.id, 'active')}
                             className="p-2 hover:bg-forge-soft rounded-lg transition-colors text-ember-strong"
                             title="Unsuspend User"
+                            aria-label={`Unsuspend ${u.name}`}
                           >
                             <Lock size={18} />
                           </button>
@@ -188,6 +191,7 @@ function UsersContent() {
                           }}
                           className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-600"
                           title="Delete"
+                          aria-label={`Delete ${u.name}`}
                         >
                           <Trash2 size={18} />
                         </button>

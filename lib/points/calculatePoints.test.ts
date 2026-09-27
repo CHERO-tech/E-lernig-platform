@@ -17,12 +17,13 @@ function makeCourse(overrides: Partial<Course> = {}): Course {
     students: 0,
     durationHours: 0,
     sections: [
-      { id: "sec-1", title: "Section 1", lessons: [{ id: "l1", title: "Lesson 1", duration: "5m" }, { id: "l2", title: "Lesson 2", duration: "5m" }] },
+      { id: "sec-1", title: "Section 1", lessons: [{ id: "l1", title: "Lesson 1", duration: "5m", content: "" }, { id: "l2", title: "Lesson 2", duration: "5m", content: "" }] },
     ],
     quizzes: [],
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
     ...overrides,
   };
 }

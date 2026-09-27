@@ -3,17 +3,99 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, Briefcase, DollarSign, ArrowRight, Check } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { useAuth } from "@/lib/auth/useAuth";
+import { addJobApplication, listJobApplications, listJobPostings } from "@/lib/shared/crossAccountStore";
+
+const SEED_OPPORTUNITIES = [
+  {
+    id: "seed-1",
+    title: "Senior React Developer",
+    company: "Tech Startup Inc",
+    type: "Full-time",
+    location: "San Francisco, CA",
+    salary: "$120k - $160k",
+    desc: "Build scalable web applications with React and Node.js",
+  },
+  {
+    id: "seed-2",
+    title: "Product Designer Internship",
+    company: "Design Studio Co",
+    type: "Internship",
+    location: "Remote",
+    salary: "$20/hour",
+    desc: "Create beautiful user experiences for mobile apps",
+  },
+  {
+    id: "seed-3",
+    title: "Data Scientist",
+    company: "AI Solutions Ltd",
+    type: "Full-time",
+    location: "New York, NY",
+    salary: "$130k - $170k",
+    desc: "Work with cutting-edge ML models and big data",
+  },
+  {
+    id: "seed-4",
+    title: "UX/UI Designer",
+    company: "Creative Agency",
+    type: "Contract",
+    location: "Austin, TX",
+    salary: "$80/hour",
+    desc: "Design interfaces for enterprise applications",
+  },
+  {
+    id: "seed-5",
+    title: "Full Stack Developer",
+    company: "Web Services Corp",
+    type: "Full-time",
+    location: "Remote",
+    salary: "$100k - $140k",
+    desc: "Build end-to-end web solutions",
+  },
+  {
+    id: "seed-6",
+    title: "DevOps Engineer",
+    company: "Cloud Infrastructure",
+    type: "Full-time",
+    location: "Seattle, WA",
+    salary: "$110k - $150k",
+    desc: "Manage cloud infrastructure and CI/CD pipelines",
+  },
+];
 
 export default function Opportunities() {
   const [filterType, setFilterType] = useState("all");
-  const [appliedIds, setAppliedIds] = useState<number[]>([]);
   const { addNotification } = useNotifications();
+  const { user } = useAuth();
 
-  const handleApply = (id: number, title: string) => {
-    if (appliedIds.includes(id)) return;
-    setAppliedIds(prev => [...prev, id]);
+  const [applications, setApplications] = useState(() =>
+    typeof window !== "undefined" ? listJobApplications() : []
+  );
+  const appliedIds = useMemo(
+    () => applications.filter((a) => a.applicantId === user?.id).map((a) => a.jobId),
+    [applications, user?.id]
+  );
+
+  const opportunities = useMemo(() => {
+    const posted = typeof window !== "undefined" ? listJobPostings() : [];
+    const real = posted.map((p) => ({
+      id: p.id,
+      title: p.title,
+      company: p.companyName,
+      type: p.type === "full-time" ? "Full-time" : p.type === "part-time" ? "Part-time" : p.type === "contract" ? "Contract" : "Internship",
+      location: p.location,
+      salary: p.salary,
+      desc: p.description,
+    }));
+    return [...real, ...SEED_OPPORTUNITIES];
+  }, []);
+
+  const handleApply = (id: string, title: string) => {
+    if (!user || appliedIds.includes(id)) return;
+    const application = addJobApplication({ jobId: id, applicantId: user.id, applicantName: user.name });
+    setApplications((prev) => [...prev, application]);
     addNotification({
       type: "system",
       icon: "✅",
@@ -21,63 +103,6 @@ export default function Opportunities() {
       message: `Your application for "${title}" has been submitted.`,
     });
   };
-
-  const opportunities = [
-    {
-      id: 1,
-      title: "Senior React Developer",
-      company: "Tech Startup Inc",
-      type: "Full-time",
-      location: "San Francisco, CA",
-      salary: "$120k - $160k",
-      desc: "Build scalable web applications with React and Node.js",
-    },
-    {
-      id: 2,
-      title: "Product Designer Internship",
-      company: "Design Studio Co",
-      type: "Internship",
-      location: "Remote",
-      salary: "$20/hour",
-      desc: "Create beautiful user experiences for mobile apps",
-    },
-    {
-      id: 3,
-      title: "Data Scientist",
-      company: "AI Solutions Ltd",
-      type: "Full-time",
-      location: "New York, NY",
-      salary: "$130k - $170k",
-      desc: "Work with cutting-edge ML models and big data",
-    },
-    {
-      id: 4,
-      title: "UX/UI Designer",
-      company: "Creative Agency",
-      type: "Contract",
-      location: "Austin, TX",
-      salary: "$80/hour",
-      desc: "Design interfaces for enterprise applications",
-    },
-    {
-      id: 5,
-      title: "Full Stack Developer",
-      company: "Web Services Corp",
-      type: "Full-time",
-      location: "Remote",
-      salary: "$100k - $140k",
-      desc: "Build end-to-end web solutions",
-    },
-    {
-      id: 6,
-      title: "DevOps Engineer",
-      company: "Cloud Infrastructure",
-      type: "Full-time",
-      location: "Seattle, WA",
-      salary: "$110k - $150k",
-      desc: "Manage cloud infrastructure and CI/CD pipelines",
-    },
-  ];
 
   return (
     <div className="min-h-screen bg-white">

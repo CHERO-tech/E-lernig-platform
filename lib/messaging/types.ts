@@ -22,4 +22,6 @@ export interface MessagingContextType {
   sendMessage: (participantId: string, text: string) => void;
   markConversationRead: (participantId: string) => void;
   getConversationByParticipant: (participantId: string) => Conversation | undefined;
+  currentUserId?: string;
+  currentUserName?: string;
 }

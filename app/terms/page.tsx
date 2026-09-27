@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 
 export default function Terms() {
   return (
@@ -9,6 +10,10 @@ export default function Terms() {
       {/* Hero */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-4xl mx-auto">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
           <h1 className="text-4xl font-bold mb-2">Terms of Service</h1>
           <p className="text-forge-soft">Last updated: September 3, 2026</p>
         </div>

@@ -8,6 +8,7 @@ import { useCourses } from "@/lib/courses/useCourses";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { EmptyState } from "@/components/ui";
+import { submitReport } from "@/lib/shared/crossAccountStore";
 
 function DiscussionsContent({ courseId }: { courseId: string }) {
   const router = useRouter();
@@ -231,14 +232,20 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
                     <ThumbsUp size={16} /> {thread.helpful}
                   </button>
                   <button
-                    onClick={() =>
+                    onClick={() => {
+                      submitReport({
+                        type: "Discussion Thread",
+                        content: `"${thread.title}" in course discussions`,
+                        reporterId: user?.id ?? "unknown",
+                        reporterName: user?.name ?? "Unknown",
+                      });
                       addNotification({
                         type: "system",
                         icon: "🚩",
                         title: "Thread Reported",
                         message: "Thanks — our moderators will review this post.",
-                      })
-                    }
+                      });
+                    }}
                     className="p-2 transition-colors text-mg hover:text-err"
                     aria-label="Report thread"
                   >

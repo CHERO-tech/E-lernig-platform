@@ -21,6 +21,7 @@ function makeCourse(overrides: Partial<Course> = {}): Course {
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
     ...overrides,
   };
 }
@@ -46,8 +47,8 @@ describe("calculateCourseProgress", () => {
   it("counts lessons across multiple sections and rounds the percentage", () => {
     const course = makeCourse({
       sections: [
-        { id: "s1", title: "S1", lessons: [{ id: "l1", title: "L1", duration: "5m" }, { id: "l2", title: "L2", duration: "5m" }] },
-        { id: "s2", title: "S2", lessons: [{ id: "l3", title: "L3", duration: "5m" }] },
+        { id: "s1", title: "S1", lessons: [{ id: "l1", title: "L1", duration: "5m", content: "" }, { id: "l2", title: "L2", duration: "5m", content: "" }] },
+        { id: "s2", title: "S2", lessons: [{ id: "l3", title: "L3", duration: "5m", content: "" }] },
       ],
     });
     const enrollment = makeEnrollment({
@@ -62,7 +63,7 @@ describe("calculateCourseProgress", () => {
 
   it("reports 100% when every lesson is completed", () => {
     const course = makeCourse({
-      sections: [{ id: "s1", title: "S1", lessons: [{ id: "l1", title: "L1", duration: "5m" }] }],
+      sections: [{ id: "s1", title: "S1", lessons: [{ id: "l1", title: "L1", duration: "5m", content: "" }] }],
     });
     const enrollment = makeEnrollment({ lessonProgress: [{ lessonId: "l1", completed: true }] });
 

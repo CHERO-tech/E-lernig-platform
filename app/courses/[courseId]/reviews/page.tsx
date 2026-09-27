@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Star, ThumbsUp } from "lucide-react";
+import { ArrowLeft, Star, ThumbsUp, Flag } from "lucide-react";
 import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { calculateReviewStats } from "@/lib/courses/calculateReviewStats";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { submitReport } from "@/lib/shared/crossAccountStore";
 
 function CourseReviewsContent({ courseId }: { courseId: string }) {
   const router = useRouter();
@@ -246,12 +247,34 @@ function CourseReviewsContent({ courseId }: { courseId: string }) {
                 <h4 className="font-bold mb-2 text-dt">{review.title}</h4>
                 <p className="mb-4 text-mg">{review.text}</p>
 
-                <button
-                  onClick={() => markReviewHelpful(courseId, review.id)}
-                  className="flex items-center gap-2 text-sm transition-colors text-mg hover:text-pg2"
-                >
-                  <ThumbsUp size={16} /> Helpful ({review.helpful})
-                </button>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => markReviewHelpful(courseId, review.id)}
+                    className="flex items-center gap-2 text-sm transition-colors text-mg hover:text-pg2"
+                  >
+                    <ThumbsUp size={16} /> Helpful ({review.helpful})
+                  </button>
+                  <button
+                    onClick={() => {
+                      submitReport({
+                        type: "Course Review",
+                        content: `"${review.title}" by ${review.author}`,
+                        reporterId: user?.id ?? "unknown",
+                        reporterName: user?.name ?? "Unknown",
+                      });
+                      addNotification({
+                        type: "system",
+                        icon: "🚩",
+                        title: "Review Reported",
+                        message: "Thanks — our moderators will review this post.",
+                      });
+                    }}
+                    className="p-1.5 transition-colors text-mg hover:text-err"
+                    aria-label="Report review"
+                  >
+                    <Flag size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

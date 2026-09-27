@@ -1,10 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
-import { Award, TrendingUp } from "lucide-react";
+import { Award, TrendingUp, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 function MyGradesContent() {
@@ -61,6 +62,10 @@ function MyGradesContent() {
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
+          <Link href="/student/dashboard" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
           <div className="flex items-center gap-3 mb-4">
             <Award size={36} />
             <h1 className="text-4xl font-bold">My Grades</h1>

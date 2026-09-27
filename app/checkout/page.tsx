@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Check, Lock, AlertCircle } from "lucide-react";
+import { Check, Lock, AlertCircle, ArrowLeft } from "lucide-react";
 import { Elements } from "@stripe/react-stripe-js";
 import { Stripe } from "@stripe/stripe-js";
 import { useCart } from "@/lib/cart/useCart";
@@ -19,6 +20,7 @@ function CheckoutContent() {
   const { addNotification } = useNotifications();
   const { enroll } = useEnrollment();
   const [step, setStep] = useState<"shipping" | "payment" | "confirmation">("shipping");
+  const [shippingError, setShippingError] = useState<string | null>(null);
   const [stripe, setStripe] = useState<Stripe | null>(null);
   const [completedOrder, setCompletedOrder] = useState<{
     orderNumber: string;
@@ -51,6 +53,20 @@ function CheckoutContent() {
 
   const handleContinue = () => {
     if (step === "shipping") {
+      const requiredFields: (keyof typeof formData)[] = [
+        "firstName",
+        "lastName",
+        "email",
+        "address",
+        "city",
+        "state",
+        "zip",
+      ];
+      if (requiredFields.some((field) => !formData[field].trim())) {
+        setShippingError("Please fill in all shipping fields before continuing.");
+        return;
+      }
+      setShippingError(null);
       setStep("payment");
     }
   };
@@ -86,6 +102,10 @@ function CheckoutContent() {
     <div className="min-h-screen bg-ow">
       <div className="bg-white border-b border-border">
         <div className="max-w-4xl mx-auto px-6 py-6">
+          <Link href="/cart" className="inline-flex items-center gap-1.5 text-sm text-mg hover:text-dt transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Cart
+          </Link>
           <h1 className="text-3xl font-bold text-dt">Checkout</h1>
         </div>
       </div>
@@ -198,6 +218,9 @@ function CheckoutContent() {
                     </div>
                   </div>
                 </div>
+                {shippingError && (
+                  <p className="mt-4 text-sm text-err">{shippingError}</p>
+                )}
               </div>
             )}
 
@@ -260,7 +283,7 @@ function CheckoutContent() {
                   </div>
                 </div>
 
-                <p className="text-sm mb-6 text-mg">A confirmation email has been sent to {formData.email}</p>
+                <p className="text-sm mb-6 text-mg">Check your notifications for your enrollment confirmation.</p>
               </div>
             )}
 

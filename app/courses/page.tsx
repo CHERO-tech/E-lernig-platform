@@ -16,7 +16,8 @@ const levelTone = {
 export default function Courses() {
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState<string>("All");
-  const { courses } = useCourses();
+  const { courses: allCourses } = useCourses();
+  const courses = useMemo(() => allCourses.filter((c) => c.published !== false), [allCourses]);
 
   const categories = useMemo(() => ["All", ...Array.from(new Set(courses.map((c) => c.category)))], [courses]);
 

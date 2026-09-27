@@ -255,8 +255,10 @@ svg {
   display: block;
 }
 
-a {
-  color: inherit;
+@layer base {
+  a {
+    color: inherit;
+  }
 }
 
 ::selection {

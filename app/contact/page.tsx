@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, MessageSquare, Clock, Send } from "lucide-react";
+import { Mail, Phone, MapPin, MessageSquare, Clock, Send, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 export default function Contact() {
@@ -42,6 +42,10 @@ export default function Contact() {
       {/* Hero */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
           <h1 className="text-4xl font-bold mb-4">Get in Touch</h1>
           <p className="text-forge-soft text-lg">Have questions? We&apos;re here to help!</p>
         </div>

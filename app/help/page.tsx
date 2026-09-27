@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronDown, Search, MessageCircle, Mail, Phone } from "lucide-react";
+import { ChevronDown, Search, MessageCircle, Mail, Phone, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 
@@ -118,6 +119,10 @@ export default function Help() {
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-16 px-6">
         <div className="max-w-4xl mx-auto text-center">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Home
+          </Link>
           <h1 className="text-4xl font-bold mb-4">Help & Support</h1>
           <p className="text-forge-soft text-lg mb-8">Find answers to common questions or reach out to our team</p>
 

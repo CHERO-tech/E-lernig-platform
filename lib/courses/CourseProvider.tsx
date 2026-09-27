@@ -30,27 +30,105 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'Introduction & Setup',
         lessons: [
-          { id: 'lesson-1', title: 'Course Overview', duration: '5 min' },
-          { id: 'lesson-2', title: 'Setting Up Your Environment', duration: '12 min' },
-          { id: 'lesson-3', title: 'Project Structure', duration: '8 min' },
+          {
+            id: 'lesson-1',
+            title: 'Course Overview',
+            duration: '5 min',
+            content:
+              "Welcome to Advanced React Patterns. This course assumes you're comfortable with the basics of React " +
+              "and want to go deeper: reusable component patterns, robust state management, and the performance " +
+              "techniques that separate a hobby project from a production codebase. Each section builds on the last, " +
+              "so work through them in order and use the exercises to check your understanding before moving on.",
+          },
+          {
+            id: 'lesson-2',
+            title: 'Setting Up Your Environment',
+            duration: '12 min',
+            content:
+              "We'll use Vite with the React + TypeScript template for all examples in this course. Install Node 18+, " +
+              "then run `npm create vite@latest my-app -- --template react-ts`. Once the project is scaffolded, install " +
+              "the React DevTools browser extension — you'll use its Profiler tab extensively in the Performance " +
+              "Optimization section later in this course.",
+          },
+          {
+            id: 'lesson-3',
+            title: 'Project Structure',
+            duration: '8 min',
+            content:
+              "There's no single 'correct' way to structure a React project, but grouping by feature rather than by " +
+              "file type scales better as an app grows. Instead of separate top-level `components/`, `hooks/`, and " +
+              "`utils/` folders, keep each feature's component, hook, and helper files together in one folder — it " +
+              "keeps related code next to each other and makes a feature easy to delete cleanly when it's no longer needed.",
+          },
         ],
       },
       {
         id: 'section-2',
         title: 'React Fundamentals',
         lessons: [
-          { id: 'lesson-4', title: 'Components & Props', duration: '15 min' },
-          { id: 'lesson-5', title: 'State & Lifecycle', duration: '18 min' },
-          { id: 'lesson-6', title: 'Event Handling', duration: '10 min' },
+          {
+            id: 'lesson-4',
+            title: 'Components & Props',
+            duration: '15 min',
+            content:
+              "Props are how data flows down a React tree — a component should treat its props as read-only and never " +
+              "mutate them directly. We'll cover destructuring props for readability, typing them with TypeScript " +
+              "interfaces, and the `children` prop pattern for building composable, wrapper-style components.",
+          },
+          {
+            id: 'lesson-5',
+            title: 'State & Lifecycle',
+            duration: '18 min',
+            content:
+              "`useState` gives a component memory across renders, but it's easy to misuse. We'll look at when to lift " +
+              "state up to a shared parent versus keeping it local, why you should never mutate state directly, and how " +
+              "React batches state updates so your component doesn't re-render more often than necessary.",
+          },
+          {
+            id: 'lesson-6',
+            title: 'Event Handling',
+            duration: '10 min',
+            content:
+              "React wraps native DOM events in a SyntheticEvent for consistent cross-browser behavior. This lesson " +
+              "covers passing arguments to event handlers without creating a new function on every render, and the " +
+              "difference between controlled and uncontrolled form inputs.",
+          },
         ],
       },
       {
         id: 'section-3',
         title: 'Advanced Patterns',
         lessons: [
-          { id: 'lesson-7', title: 'Custom Hooks', duration: '20 min' },
-          { id: 'lesson-8', title: 'Context API', duration: '15 min' },
-          { id: 'lesson-9', title: 'Performance Optimization', duration: '25 min' },
+          {
+            id: 'lesson-7',
+            title: 'Custom Hooks',
+            duration: '20 min',
+            content:
+              "A custom hook is just a function whose name starts with `use` that calls other hooks — it's the primary " +
+              "way to extract and reuse stateful logic between components. We'll build a `useLocalStorage` hook " +
+              "together and cover the rules that keep custom hooks predictable (always call hooks at the top level, " +
+              "never inside a condition or loop).",
+          },
+          {
+            id: 'lesson-8',
+            title: 'Context API',
+            duration: '15 min',
+            content:
+              "Context lets you avoid prop-drilling values like the current theme or logged-in user through every level " +
+              "of your tree. We'll cover creating a context, providing it once near the root, and why splitting a " +
+              "large context into smaller, focused ones avoids unnecessary re-renders in consumers that only care " +
+              "about part of the value.",
+          },
+          {
+            id: 'lesson-9',
+            title: 'Performance Optimization',
+            duration: '25 min',
+            content:
+              "Before reaching for `memo`, `useMemo`, or `useCallback`, profile first — premature memoization adds " +
+              "complexity without guaranteed benefit. We'll use the React DevTools Profiler to find components that " +
+              "re-render unnecessarily, then apply the right optimization for each case, plus code-splitting with " +
+              "`React.lazy` for routes that aren't needed on initial load.",
+          },
         ],
       },
     ],
@@ -222,6 +300,7 @@ const DEFAULT_COURSES: Course[] = [
         verified: true,
       },
     ],
+    published: true,
   },
   {
     id: 'course-2',
@@ -240,8 +319,25 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'HTML Foundations',
         lessons: [
-          { id: 'lesson-1', title: 'HTML Basics', duration: '10 min' },
-          { id: 'lesson-2', title: 'Semantic HTML', duration: '12 min' },
+          {
+            id: 'lesson-1',
+            title: 'HTML Basics',
+            duration: '10 min',
+            content:
+              "HTML gives a web page its structure. In this lesson we cover the anatomy of an HTML document — the " +
+              "`<!DOCTYPE html>` declaration, `<head>` vs `<body>`, and the most common elements you'll reach for " +
+              "constantly: headings, paragraphs, links, images, and lists.",
+          },
+          {
+            id: 'lesson-2',
+            title: 'Semantic HTML',
+            duration: '12 min',
+            content:
+              "Semantic elements like `<header>`, `<nav>`, `<main>`, `<article>`, and `<footer>` describe what content " +
+              "means, not just how it looks. Using them correctly improves accessibility for screen-reader users and " +
+              "helps search engines understand your page's structure — we'll rebuild a plain `<div>`-only layout using " +
+              "semantic tags side by side so you can see the difference.",
+          },
         ],
       },
     ],
@@ -249,6 +345,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
   {
     id: 'course-3',
@@ -267,7 +364,16 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'Design Basics',
         lessons: [
-          { id: 'lesson-1', title: 'Design Principles', duration: '15 min' },
+          {
+            id: 'lesson-1',
+            title: 'Design Principles',
+            duration: '15 min',
+            content:
+              "Good UI design rests on a handful of repeatable principles: visual hierarchy (guiding the eye to what " +
+              "matters most first), consistency (reusing the same patterns so users don't have to relearn your " +
+              "interface), and contrast (making sure interactive elements are unmistakably interactive). We'll critique " +
+              "a few real interfaces together and identify which of these principles they follow or break.",
+          },
         ],
       },
     ],
@@ -275,6 +381,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
   {
     id: 'course-4',
@@ -293,7 +400,15 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'Python Fundamentals',
         lessons: [
-          { id: 'lesson-1', title: 'Python Basics', duration: '20 min' },
+          {
+            id: 'lesson-1',
+            title: 'Python Basics',
+            duration: '20 min',
+            content:
+              "We'll cover Python's core syntax — variables, lists, dictionaries, and control flow — with an eye " +
+              "toward how they're used in data work: reading a CSV into a list of dictionaries, filtering rows, and " +
+              "computing simple aggregates before we bring in Pandas in the next section.",
+          },
         ],
       },
     ],
@@ -301,6 +416,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
   {
     id: 'course-5',
@@ -319,7 +435,7 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'Flutter Basics',
         lessons: [
-          { id: 'lesson-1', title: 'Flutter Setup', duration: '10 min' },
+          { id: 'lesson-1', title: 'Flutter Setup', duration: '10 min', content: 'Install the Flutter SDK, configure your editor, and create your first Flutter project with `flutter create`. We\'ll verify the toolchain with `flutter doctor` and run the starter app on a simulator.' },
         ],
       },
     ],
@@ -327,6 +443,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
   {
     id: 'course-6',
@@ -345,7 +462,7 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'AWS Foundations',
         lessons: [
-          { id: 'lesson-1', title: 'AWS Overview', duration: '15 min' },
+          { id: 'lesson-1', title: 'AWS Overview', duration: '15 min', content: 'A tour of AWS\'s core building blocks — compute, storage, networking, and databases — and how they fit together. We\'ll map out a simple three-tier architecture before diving into individual services.' },
         ],
       },
     ],
@@ -353,6 +470,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
   {
     id: 'course-7',
@@ -372,7 +490,7 @@ const DEFAULT_COURSES: Course[] = [
         id: 'section-1',
         title: 'DevOps Basics',
         lessons: [
-          { id: 'lesson-1', title: 'DevOps Introduction', duration: '12 min' },
+          { id: 'lesson-1', title: 'DevOps Introduction', duration: '12 min', content: 'What DevOps actually means day to day: breaking down the wall between development and operations, the core practices (CI/CD, infrastructure as code, monitoring), and why they exist.' },
         ],
       },
     ],
@@ -380,6 +498,7 @@ const DEFAULT_COURSES: Course[] = [
     assignments: [],
     discussions: [],
     reviews: [],
+    published: true,
   },
 ];
 
@@ -427,6 +546,17 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
       return newCourse;
     },
     [courses, persistCourses]
+  );
+
+  const updateCourse = useCallback(
+    (id: string, patch: Partial<Course>) => {
+      setCourses(prev => {
+        const updated = prev.map(c => (c.id === id ? { ...c, ...patch } : c));
+        persistCourses(updated);
+        return updated;
+      });
+    },
+    [persistCourses]
   );
 
   const incrementStudentCount = useCallback(
@@ -583,6 +713,7 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
     courses,
     getCourseById,
     addCourse,
+    updateCourse,
     incrementStudentCount,
     addQuizToCourse,
     addAssignmentToCourse,

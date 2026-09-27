@@ -1,52 +1,62 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Award, Plus, ThumbsUp } from "lucide-react";
-import { useState } from "react";
+import { Award, Plus, ThumbsUp, ArrowLeft } from "lucide-react";
+import { useMemo, useState } from "react";
+import { useAuth } from "@/lib/auth/useAuth";
+import { addEndorsement, getKnownUsers, listAllEndorsements } from "@/lib/shared/crossAccountStore";
+
+const DEFAULT_SKILLS = ["React", "TypeScript", "Node.js", "UI Design", "Communication"];
 
 function SkillEndorsementsContent() {
-  const [endorsements, setEndorsements] = useState({
-    "React": 42,
-    "TypeScript": 38,
-    "Node.js": 35,
-    "UI Design": 28,
-    "Communication": 22,
-  });
-
-  const [pendingEndorsements, setPendingEndorsements] = useState([
-    { id: 1, name: "Sarah Chen", skill: "React", avatar: "SC", date: "2 days ago" },
-    { id: 2, name: "Mike Johnson", skill: "TypeScript", avatar: "MJ", date: "1 week ago" },
-    { id: 3, name: "Emma Davis", skill: "Communication", avatar: "ED", date: "3 days ago" },
-  ]);
+  const { user } = useAuth();
+  const [mySkills, setMySkills] = useState<string[]>(DEFAULT_SKILLS);
+  const [allEndorsements, setAllEndorsements] = useState(() =>
+    typeof window !== "undefined" ? listAllEndorsements() : []
+  );
 
   const [showAddSkill, setShowAddSkill] = useState(false);
   const [newSkill, setNewSkill] = useState("");
 
-  const topEndorsedPeople = [
-    { name: "Sarah Chen", avatar: "SC", skills: ["React", "TypeScript", "UI Design"], endorsements: 203 },
-    { name: "Mike Johnson", avatar: "MJ", skills: ["Node.js", "Python", "AWS"], endorsements: 187 },
-    { name: "Emma Davis", avatar: "ED", skills: ["UI Design", "Figma", "UX Research"], endorsements: 156 },
-    { name: "Alex Kumar", avatar: "AK", skills: ["Python", "ML", "Data Science"], endorsements: 142 },
-  ];
+  const peers = useMemo(
+    () => getKnownUsers().filter((u) => u.id !== user?.id),
+    [user?.id]
+  );
+
+  const endorsementCountFor = (studentId: string, skill: string) =>
+    allEndorsements.filter((e) => e.studentId === studentId && e.skill === skill).length;
+
+  const topEndorsedPeople = useMemo(() => {
+    return peers
+      .map((peer) => {
+        const peerSkills = Array.from(new Set(allEndorsements.filter((e) => e.studentId === peer.id).map((e) => e.skill)));
+        return {
+          id: peer.id,
+          name: peer.name,
+          avatar: peer.avatar || peer.name.slice(0, 2).toUpperCase(),
+          skills: peerSkills,
+          endorsements: allEndorsements.filter((e) => e.studentId === peer.id).length,
+        };
+      })
+      .filter((p) => p.endorsements > 0)
+      .sort((a, b) => b.endorsements - a.endorsements)
+      .slice(0, 4);
+  }, [peers, allEndorsements]);
 
   const handleAddSkill = () => {
-    if (newSkill.trim()) {
-      setEndorsements(prev => ({ ...prev, [newSkill]: 0 }));
+    if (newSkill.trim() && !mySkills.includes(newSkill.trim())) {
+      setMySkills((prev) => [...prev, newSkill.trim()]);
       setNewSkill("");
       setShowAddSkill(false);
     }
   };
 
-  const handleAcceptEndorsement = (id: number) => {
-    const endorsement = pendingEndorsements.find(e => e.id === id);
-    if (endorsement) {
-      setEndorsements(prev => ({
-        ...prev,
-        [endorsement.skill]: (prev[endorsement.skill as keyof typeof prev] || 0) + 1,
-      }));
-      setPendingEndorsements(pendingEndorsements.filter(e => e.id !== id));
-    }
+  const handleEndorse = (peerId: string, peerName: string, skill: string) => {
+    if (!user) return;
+    addEndorsement({ studentId: peerId, skill, endorserId: user.id, endorserName: user.name });
+    setAllEndorsements(listAllEndorsements());
   };
 
   return (
@@ -54,6 +64,10 @@ function SkillEndorsementsContent() {
       {/* Header */}
       <div className="bg-gradient-to-r from-ember-strong to-ember text-white py-12 px-6">
         <div className="max-w-6xl mx-auto">
+          <Link href="/student/dashboard" className="inline-flex items-center gap-1.5 text-sm text-forge-soft hover:text-white transition-colors mb-4">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
           <div className="flex items-center gap-3 mb-4">
             <Award size={36} />
             <h1 className="text-4xl font-bold">Skill Endorsements</h1>
@@ -115,7 +129,7 @@ function SkillEndorsementsContent() {
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {Object.entries(endorsements).map(([skill, count], i) => (
+              {mySkills.map((skill, i) => (
                 <motion.div
                   key={skill}
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -125,7 +139,9 @@ function SkillEndorsementsContent() {
                 >
                   <div className="flex items-center justify-between mb-2">
                     <p className="font-semibold text-gray-900">{skill}</p>
-                    <span className="px-3 py-1 bg-ember-strong text-white rounded-full text-sm font-bold">{count}</span>
+                    <span className="px-3 py-1 bg-ember-strong text-white rounded-full text-sm font-bold">
+                      {user ? endorsementCountFor(user.id, skill) : 0}
+                    </span>
                   </div>
                   <p className="text-xs text-gray-600">people endorsed this skill</p>
                 </motion.div>
@@ -133,38 +149,40 @@ function SkillEndorsementsContent() {
             </div>
           </div>
 
-          {/* Pending Endorsements */}
+          {/* Endorse a Peer */}
           <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Pending Endorsements</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Endorse a Peer</h2>
             <div className="space-y-3">
-              {pendingEndorsements.length > 0 ? (
-                pendingEndorsements.map((endorsement, i) => (
+              {peers.length > 0 ? (
+                peers.map((peer, i) => (
                   <motion.div
-                    key={endorsement.id}
+                    key={peer.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg"
+                    className="p-4 bg-blue-50 border border-blue-200 rounded-lg"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 mb-3">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-                        {endorsement.avatar}
+                        {peer.avatar || peer.name.slice(0, 2).toUpperCase()}
                       </div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{endorsement.name}</p>
-                        <p className="text-sm text-gray-600">Endorsed your <span className="font-medium">{endorsement.skill}</span> skill • {endorsement.date}</p>
-                      </div>
+                      <p className="font-semibold text-gray-900">{peer.name}</p>
                     </div>
-                    <button
-                      onClick={() => handleAcceptEndorsement(endorsement.id)}
-                      className="px-4 py-2 bg-ember-strong text-white rounded-lg font-medium hover:bg-ember transition-colors flex items-center gap-2"
-                    >
-                      <ThumbsUp size={16} /> Accept
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      {mySkills.map((skill) => (
+                        <button
+                          key={skill}
+                          onClick={() => handleEndorse(peer.id, peer.name, skill)}
+                          className="px-3 py-1.5 bg-white border border-blue-200 text-blue-700 rounded-lg text-xs font-medium hover:bg-ember-strong hover:text-white hover:border-ember-strong transition-colors flex items-center gap-1.5"
+                        >
+                          <ThumbsUp size={14} /> {skill}
+                        </button>
+                      ))}
+                    </div>
                   </motion.div>
                 ))
               ) : (
-                <p className="text-center text-gray-600 py-8">No pending endorsements</p>
+                <p className="text-center text-gray-600 py-8">No other members have signed in yet to endorse.</p>
               )}
             </div>
           </div>
@@ -179,8 +197,11 @@ function SkillEndorsementsContent() {
         >
           <h3 className="text-xl font-bold text-gray-900 mb-6">Top Endorsed</h3>
           <div className="space-y-4">
-            {topEndorsedPeople.map((person, i) => (
-              <div key={i} className="text-center pb-4 border-b border-gray-100 last:border-b-0">
+            {topEndorsedPeople.length === 0 && (
+              <p className="text-center text-sm text-gray-600 py-4">No endorsements yet — be the first to endorse a peer.</p>
+            )}
+            {topEndorsedPeople.map((person) => (
+              <div key={person.id} className="text-center pb-4 border-b border-gray-100 last:border-b-0">
                 <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
                   {person.avatar}
                 </div>

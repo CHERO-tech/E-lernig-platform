@@ -1,11 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
-import { BarChart3, TrendingUp, Users, DollarSign, Star } from "lucide-react";
+import { BarChart3, TrendingUp, Users, DollarSign, Star, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 function AnalyticsContent() {
@@ -79,22 +80,28 @@ function AnalyticsContent() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <BarChart3 size={32} className="text-ember-strong" />
-            <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <Link href="/trainer/dashboard" className="inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900 transition-colors mb-3">
+            <ArrowLeft size={16} />
+            Back to Dashboard
+          </Link>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <BarChart3 size={32} className="text-ember-strong" />
+              <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
+            </div>
+            <select
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value)}
+              aria-label="Time range"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+            >
+              <option value="7d">Last 7 days</option>
+              <option value="30d">Last 30 days</option>
+              <option value="90d">Last 90 days</option>
+              <option value="1y">Last year</option>
+            </select>
           </div>
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            aria-label="Time range"
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
-          >
-            <option value="7d">Last 7 days</option>
-            <option value="30d">Last 30 days</option>
-            <option value="90d">Last 90 days</option>
-            <option value="1y">Last year</option>
-          </select>
         </div>
       </div>
 

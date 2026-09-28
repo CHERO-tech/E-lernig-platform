@@ -2,18 +2,21 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronLeft, ChevronRight, CheckCircle, Play, Download, Check } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, CheckCircle, Play, Download, Check, ClipboardList, FileText, StickyNote } from "lucide-react";
+import Link from "next/link";
 import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { useLessonNotes } from "@/lib/notes/useLessonNotes";
 
 function CourseLearnContent({ courseId }: { courseId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
   const { enrollments, markLessonComplete, setLastViewedLesson } = useEnrollment();
   const { addNotification } = useNotifications();
+  const { notes, setLessonNote } = useLessonNotes(courseId);
 
   const course = getCourseById(courseId);
   const enrollment = enrollments.find((e) => e.courseId === courseId);
@@ -94,7 +97,14 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
               ← Back to Course
             </button>
             <div className="flex items-center gap-4">
-              <span className="font-mono text-sm text-mg">{progress.percentComplete}% Complete</span>
+              <div className="text-right">
+                <span className="font-mono text-sm text-mg block">{progress.percentComplete}% Complete</span>
+                {course.quizzes.length > 0 && (
+                  <span className="text-xs text-mg">
+                    Certificate requires all lessons + passing every quiz
+                  </span>
+                )}
+              </div>
               <div className="w-24 h-2 rounded-full overflow-hidden bg-border">
                 <div className="h-full bg-pg transition-all duration-300" style={{ width: `${progress.percentComplete}%` }} />
               </div>
@@ -132,6 +142,25 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
               {currentLesson?.content || "No content has been added for this lesson yet."}
             </p>
           </div>
+
+          {currentLesson && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold mb-4 text-dt flex items-center gap-2">
+                <StickyNote size={20} /> My Notes
+              </h2>
+              <label htmlFor="lesson-notes" className="sr-only">
+                Your notes for this lesson
+              </label>
+              <textarea
+                id="lesson-notes"
+                rows={4}
+                placeholder="Jot down anything worth remembering from this lesson — only you can see this."
+                value={notes[currentLesson.id] ?? ""}
+                onChange={(e) => setLessonNote(currentLesson.id, e.target.value)}
+                className="w-full px-4 py-3 rounded-lg text-sm outline-none bg-ow border border-border text-dt focus:border-pg"
+              />
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-4 mb-6">
             <button
@@ -194,6 +223,26 @@ function CourseLearnContent({ courseId }: { courseId: string }) {
       </div>
 
       <div className="w-full lg:w-80 bg-white border-l border-border p-6 overflow-y-auto max-h-screen">
+        {(course.quizzes.length > 0 || course.assignments.length > 0) && (
+          <div className="flex gap-2 mb-6">
+            {course.quizzes.length > 0 && (
+              <Link
+                href={`/courses/${courseId}/quizzes`}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-pg/10 text-pg2 hover:bg-pg/20 transition-colors"
+              >
+                <ClipboardList size={16} /> Quizzes
+              </Link>
+            )}
+            {course.assignments.length > 0 && (
+              <Link
+                href={`/courses/${courseId}/assignments`}
+                className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium bg-ow border border-border text-dt hover:bg-border/40 transition-colors"
+              >
+                <FileText size={16} /> Assignments
+              </Link>
+            )}
+          </div>
+        )}
         <h3 className="font-bold mb-4 text-dt">Course Content</h3>
         <div className="space-y-2">
           {course.sections.map((section, si) => (

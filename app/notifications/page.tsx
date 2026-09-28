@@ -103,9 +103,19 @@ function NotificationsContent() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className={`font-semibold ${notif.read ? "text-dt" : "text-blue-900"}`}>
-                          {notif.title}
-                        </p>
+                        {notif.link ? (
+                          <Link
+                            href={notif.link}
+                            onClick={() => !notif.read && markAsRead(notif.id)}
+                            className={`font-semibold hover:underline ${notif.read ? "text-dt" : "text-blue-900"}`}
+                          >
+                            {notif.title}
+                          </Link>
+                        ) : (
+                          <p className={`font-semibold ${notif.read ? "text-dt" : "text-blue-900"}`}>
+                            {notif.title}
+                          </p>
+                        )}
                         <p className="text-sm text-mg mt-1">{notif.message}</p>
                       </div>
                       {!notif.read && (

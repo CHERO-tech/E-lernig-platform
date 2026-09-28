@@ -3,6 +3,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { Person, PeopleContextType, PersonStatus } from './types';
 import { UserRole } from '@/lib/auth/types';
+import { setEmailSuspended } from '@/lib/shared/crossAccountStore';
 
 const STORAGE_KEY = 'forge_people';
 
@@ -222,6 +223,10 @@ export function PeopleProvider({ children }: { children: React.ReactNode }) {
       setPeople(prev => {
         const updated = prev.map(p => (p.id === id ? { ...p, status } : p));
         persistPeople(updated);
+        const person = updated.find(p => p.id === id);
+        if (person) {
+          setEmailSuspended(person.email, status === 'suspended');
+        }
         return updated;
       });
     },

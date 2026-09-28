@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bell } from "lucide-react";
 import { useNotifications } from "@/lib/notifications/useNotifications";
@@ -9,13 +10,17 @@ import { formatRelativeTime } from "@/lib/notifications/formatRelativeTime";
 
 export function NotificationBell() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const { notifications, unreadCount, markAsRead } = useNotifications();
 
   const recentNotifications = notifications.slice(0, 4);
 
-  const handleNotificationClick = (id: string, isRead: boolean) => {
+  const handleNotificationClick = (id: string, isRead: boolean, link?: string) => {
     if (!isRead) {
       markAsRead(id);
+    }
+    if (link) {
+      router.push(link);
     }
   };
 
@@ -66,7 +71,7 @@ export function NotificationBell() {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       onClick={() => {
-                        handleNotificationClick(notif.id, notif.read);
+                        handleNotificationClick(notif.id, notif.read, notif.link);
                         setOpen(false);
                       }}
                       className={`px-4 py-3 hover:bg-ow dark:hover:bg-gray-700 cursor-pointer transition-colors ${

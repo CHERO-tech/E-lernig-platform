@@ -7,6 +7,29 @@ import { ArrowLeft, Plus, Trash2, Copy } from "lucide-react";
 import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { QuizQuestionType } from "@/lib/courses/types";
+
+interface DraftQuestion {
+  id: number;
+  type: QuizQuestionType;
+  question: string;
+  options: string[];
+  correct: number;
+  acceptableAnswersRaw: string;
+  explanation: string;
+}
+
+function makeBlankQuestion(id: number): DraftQuestion {
+  return {
+    id,
+    type: "multiple-choice",
+    question: "",
+    options: ["", "", "", ""],
+    correct: 0,
+    acceptableAnswersRaw: "",
+    explanation: "",
+  };
+}
 
 function CreateQuizContent() {
   const router = useRouter();
@@ -19,15 +42,7 @@ function CreateQuizContent() {
     timeLimit: 15,
     passingScore: 70,
     dueDate: "",
-    questions: [
-      {
-        id: 1,
-        question: "",
-        options: ["", "", "", ""],
-        correct: 0,
-        explanation: "",
-      },
-    ],
+    questions: [makeBlankQuestion(1)] as DraftQuestion[],
   });
 
   const handleBasicChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -41,6 +56,23 @@ function CreateQuizContent() {
       questions: prev.questions.map(q =>
         q.id === id ? { ...q, [field]: value } : q
       ),
+    }));
+  };
+
+  const handleTypeChange = (id: number, type: QuizQuestionType) => {
+    setFormData(prev => ({
+      ...prev,
+      questions: prev.questions.map(q => {
+        if (q.id !== id) return q;
+        if (type === "true-false") {
+          return { ...q, type, options: ["True", "False"], correct: 0 };
+        }
+        if (type === "multiple-choice") {
+          const options = q.options.length === 2 ? ["", "", "", ""] : q.options;
+          return { ...q, type, options, correct: 0 };
+        }
+        return { ...q, type };
+      }),
     }));
   };
 
@@ -59,16 +91,7 @@ function CreateQuizContent() {
     const newId = Math.max(...formData.questions.map(q => q.id), 0) + 1;
     setFormData(prev => ({
       ...prev,
-      questions: [
-        ...prev.questions,
-        {
-          id: newId,
-          question: "",
-          options: ["", "", "", ""],
-          correct: 0,
-          explanation: "",
-        },
-      ],
+      questions: [...prev.questions, makeBlankQuestion(newId)],
     }));
   };
 
@@ -104,13 +127,33 @@ function CreateQuizContent() {
       });
       return;
     }
+    if (formData.questions.some(q => q.type === "short-answer" && !q.acceptableAnswersRaw.trim())) {
+      addNotification({
+        type: 'system',
+        icon: '⚠️',
+        title: 'Error',
+        message: 'Every short-answer question needs at least one acceptable answer',
+      });
+      return;
+    }
     addQuizToCourse(formData.course, {
       title: formData.title,
       description: formData.description,
       timeLimit: formData.timeLimit,
       passingScore: formData.passingScore,
       dueDate: formData.dueDate || undefined,
-      questions: formData.questions.map(q => ({ ...q, id: q.id.toString() })),
+      questions: formData.questions.map(q => ({
+        id: q.id.toString(),
+        type: q.type,
+        question: q.question,
+        explanation: q.explanation,
+        options: q.type === "short-answer" ? [] : q.options,
+        correct: q.type === "short-answer" ? 0 : q.correct,
+        acceptableAnswers:
+          q.type === "short-answer"
+            ? q.acceptableAnswersRaw.split(",").map(a => a.trim()).filter(Boolean)
+            : undefined,
+      })),
     });
     addNotification({
       type: 'system',
@@ -274,7 +317,39 @@ function CreateQuizContent() {
                     required
                    aria-label="Enter question text"/>
 
+                  {/* Question Type */}
+                  <div className="mb-4">
+                    <label className="block text-xs font-medium text-mg mb-2" htmlFor={`type-${q.id}`}>Question Type</label>
+                    <select
+                      id={`type-${q.id}`}
+                      value={q.type}
+                      onChange={(e) => handleTypeChange(q.id, e.target.value as QuizQuestionType)}
+                      className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                    >
+                      <option value="multiple-choice">Multiple Choice</option>
+                      <option value="true-false">True / False</option>
+                      <option value="short-answer">Short Answer</option>
+                    </select>
+                  </div>
+
                   {/* Options */}
+                  {q.type === "short-answer" ? (
+                    <div className="mb-4">
+                      <label className="block text-xs font-medium text-mg mb-2" htmlFor={`accepted-${q.id}`}>
+                        Acceptable Answers (comma-separated)
+                      </label>
+                      <input
+                        id={`accepted-${q.id}`}
+                        type="text"
+                        placeholder="e.g. Paris, paris, City of Light"
+                        value={q.acceptableAnswersRaw}
+                        onChange={(e) => handleQuestionChange(q.id, "acceptableAnswersRaw", e.target.value)}
+                        className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                        required
+                      />
+                      <p className="text-xs text-mg mt-1">Matching ignores capitalization and extra spaces.</p>
+                    </div>
+                  ) : (
                   <div className="space-y-3 mb-4">
                     {q.options.map((option, optIdx) => (
                       <div key={optIdx} className="flex items-center gap-3">
@@ -288,18 +363,23 @@ function CreateQuizContent() {
                           />
                           <span className="text-xs text-mg">Correct</span>
                         </label>
-                        <input
-                          type="text"
-                          placeholder={`Option ${optIdx + 1}`}
-                          aria-label={`Option ${optIdx + 1}`}
-                          value={option}
-                          onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
-                          className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
-                          required
-                        />
+                        {q.type === "true-false" ? (
+                          <span className="flex-1 px-3 py-2 text-sm text-dt">{option}</span>
+                        ) : (
+                          <input
+                            type="text"
+                            placeholder={`Option ${optIdx + 1}`}
+                            aria-label={`Option ${optIdx + 1}`}
+                            value={option}
+                            onChange={(e) => handleOptionChange(q.id, optIdx, e.target.value)}
+                            className="flex-1 px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+                            required
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
+                  )}
 
                   {/* Explanation */}
                   <input

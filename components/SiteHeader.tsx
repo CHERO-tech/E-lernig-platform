@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import BrandMark from "./BrandMark";
+import Avatar from "./Avatar";
 import { useAuth } from "@/lib/auth/useAuth";
 import { NotificationBell } from "./NotificationBell";
 import { LogOut, Settings, User, Zap } from "lucide-react";
@@ -13,6 +14,8 @@ const NAV_LINKS = [
   { href: "#tracks", label: "Tracks" },
   { href: "#how", label: "How it works" },
   { href: "#featured", label: "Featured" },
+  { href: "/categories", label: "Categories" },
+  { href: "/instructors", label: "Instructors" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -60,9 +63,7 @@ export default function SiteHeader() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-ow dark:hover:bg-gray-700 transition-colors"
                 >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-ember-strong to-brass flex items-center justify-center text-white text-xs font-bold">
-                  {user?.avatar}
-                </div>
+                <Avatar value={user?.avatar} name={user?.name} className="w-8 h-8 rounded-full text-xs" />
                 <span className="text-sm font-medium hidden sm:inline">
                   {user?.name?.split(" ")[0]}
                 </span>

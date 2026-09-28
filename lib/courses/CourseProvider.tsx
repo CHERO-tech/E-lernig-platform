@@ -201,7 +201,22 @@ const DEFAULT_COURSES: Course[] = [
         title: 'Best practices for state management',
         content: 'What are the best practices for managing state in large React applications?',
         createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000,
-        answers: 5,
+        replies: [
+          {
+            id: 'reply-1',
+            author: 'Sarah Chen',
+            avatar: 'SC',
+            content: 'Keep state as local as possible, and only lift it up when multiple components actually need it. For anything shared platform-wide, Context works fine at this scale.',
+            createdAt: Date.now() - 1.5 * 24 * 60 * 60 * 1000,
+          },
+          {
+            id: 'reply-2',
+            author: 'Mike Chen',
+            avatar: 'MC',
+            content: 'Agreed — I’d also avoid reaching for a state library until you actually feel the pain of prop drilling. Most apps never need one.',
+            createdAt: Date.now() - 1 * 24 * 60 * 60 * 1000,
+          },
+        ],
         views: 342,
         helpful: 28,
         isPinned: true,
@@ -213,7 +228,15 @@ const DEFAULT_COURSES: Course[] = [
         title: 'useEffect dependency array confusion',
         content: 'I am confused about the dependency array in useEffect. When should I use empty array vs passing dependencies?',
         createdAt: Date.now() - 1 * 24 * 60 * 60 * 1000,
-        answers: 3,
+        replies: [
+          {
+            id: 'reply-3',
+            author: 'John Doe',
+            avatar: 'JD',
+            content: 'An empty array means "run once on mount." Any other array means "re-run whenever one of these values changes." The linter will tell you what belongs in it — trust it.',
+            createdAt: Date.now() - 20 * 60 * 60 * 1000,
+          },
+        ],
         views: 156,
         helpful: 12,
         isPinned: false,
@@ -225,7 +248,7 @@ const DEFAULT_COURSES: Course[] = [
         title: 'Performance tips for React apps',
         content: 'What are some performance optimization techniques you use in your React projects?',
         createdAt: Date.now() - 5 * 60 * 60 * 1000,
-        answers: 2,
+        replies: [],
         views: 89,
         helpful: 7,
         isPinned: false,
@@ -237,7 +260,7 @@ const DEFAULT_COURSES: Course[] = [
         title: 'Testing React components',
         content: 'What testing library do you recommend for React component testing?',
         createdAt: Date.now() - 30 * 60 * 1000,
-        answers: 1,
+        replies: [],
         views: 45,
         helpful: 3,
         isPinned: false,
@@ -622,12 +645,46 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
                     author,
                     avatar,
                     createdAt: Date.now(),
-                    answers: 0,
+                    replies: [],
                     views: 0,
                     helpful: 0,
                     isPinned: false,
                   },
                 ],
+              }
+            : c
+        );
+        persistCourses(updated);
+        return updated;
+      });
+    },
+    [persistCourses]
+  );
+
+  const postDiscussionReply = useCallback(
+    (courseId: string, threadId: string, content: string, author: string, avatar: string) => {
+      setCourses(prev => {
+        const updated = prev.map(c =>
+          c.id === courseId
+            ? {
+                ...c,
+                discussions: c.discussions.map(d =>
+                  d.id === threadId
+                    ? {
+                        ...d,
+                        replies: [
+                          ...d.replies,
+                          {
+                            id: `reply-${Date.now()}`,
+                            author,
+                            avatar,
+                            content,
+                            createdAt: Date.now(),
+                          },
+                        ],
+                      }
+                    : d
+                ),
               }
             : c
         );
@@ -718,6 +775,7 @@ export function CourseProvider({ children }: { children: React.ReactNode }) {
     addQuizToCourse,
     addAssignmentToCourse,
     postDiscussionQuestion,
+    postDiscussionReply,
     markDiscussionHelpful,
     submitReview,
     markReviewHelpful,

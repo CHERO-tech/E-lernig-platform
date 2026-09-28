@@ -140,7 +140,35 @@ function AnalyticsContent() {
           className="bg-white rounded-lg border border-border p-6"
         >
           <h2 className="text-2xl font-bold text-dt mb-6">Course Performance</h2>
-          <div className="overflow-x-auto">
+
+          {/* Mobile: stacked cards */}
+          <div className="md:hidden divide-y divide-border">
+            {coursePerformance.map((course) => (
+              <div key={course.id} className="py-4">
+                <p className="font-medium text-dt mb-2">{course.title}</p>
+                <div className="flex items-center justify-between text-sm mb-2">
+                  <span className="text-mg">{course.students} students</span>
+                  <span className="font-semibold text-ember-strong">{course.revenue}</span>
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Star size={16} className="fill-yellow-400 text-yellow-400" />
+                  <span className="text-dt font-medium text-sm">{course.rating}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-ember-strong"
+                      style={{ width: `${course.completion}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-dt font-medium text-sm w-8 text-right">{course.completion}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">

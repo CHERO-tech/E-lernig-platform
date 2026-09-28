@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import DashboardShell, { DashboardNavItem } from "@/components/DashboardShell";
@@ -8,7 +9,11 @@ import { NotificationBell } from "@/components/NotificationBell";
 import { StatCard, EmptyState } from "@/components/ui";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
+import { useNotifications } from "@/lib/notifications/useNotifications";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { getUpcomingDeadlines } from "@/lib/enrollment/getUpcomingDeadlines";
+import { getActivityFeed, ActivityType } from "@/lib/enrollment/getActivityFeed";
+import { getUnremindedDeadlines, markDeadlinesReminded } from "@/lib/enrollment/deadlineReminders";
 import {
   LayoutDashboard,
   BookOpen,
@@ -21,13 +26,29 @@ import {
   ThumbsUp,
   Video,
   ArrowLeft,
+  Clock,
+  AlertCircle,
+  History,
+  CheckCircle2,
+  UserPlus,
+  Bookmark,
+  FileText,
 } from "lucide-react";
+
+const ACTIVITY_ICONS: Record<ActivityType, React.ReactNode> = {
+  enrolled: <UserPlus size={16} className="text-info" />,
+  quiz: <CheckCircle2 size={16} className="text-pg2" />,
+  assignment: <FileCheck2 size={16} className="text-pg2" />,
+  certificate: <AwardIcon size={16} className="text-warn" />,
+};
 
 const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/student/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
   { href: "/my-learning", label: "My Learning", icon: <BookOpen size={18} /> },
   { href: "/my-grades", label: "My Grades", icon: <GraduationCap size={18} /> },
   { href: "/certificates", label: "Certificates", icon: <Award size={18} /> },
+  { href: "/saved-courses", label: "Saved Courses", icon: <Bookmark size={18} /> },
+  { href: "/resources", label: "Resources", icon: <FileText size={18} /> },
   { href: "/live-sessions", label: "Live Sessions", icon: <Video size={18} /> },
   { href: "/skill-endorsements", label: "Skill Endorsements", icon: <ThumbsUp size={18} /> },
   { href: "/messages", label: "Messages", icon: <MessageSquare size={18} /> },
@@ -38,6 +59,7 @@ function DashboardContent() {
   const { user } = useAuth();
   const { getCourseById } = useCourses();
   const { enrollments } = useEnrollment();
+  const { addNotification } = useNotifications();
 
   const enrolled = enrollments
     .map((enrollment) => {
@@ -54,6 +76,41 @@ function DashboardContent() {
   const coursesCompleted = enrolled.filter((e) => e.progress.percentComplete === 100).length;
   const lessonsCompleted = enrolled.reduce((sum, e) => sum + e.progress.lessonsCompleted, 0);
   const submissions = enrolled.reduce((sum, e) => sum + e.progress.assignmentsSubmitted, 0);
+
+  const allDeadlines = getUpcomingDeadlines(enrollments, getCourseById);
+  const deadlines = allDeadlines.slice(0, 5);
+  const activity = user ? getActivityFeed(user.id, enrollments, getCourseById).slice(0, 5) : [];
+
+  // One-time reminder per deadline: the first time it's due within 3 days
+  // (or already overdue), notify once and never again for that same item.
+  useEffect(() => {
+    if (!user) return;
+    const toRemind = getUnremindedDeadlines(user.id, allDeadlines);
+    if (toRemind.length === 0) return;
+    for (const deadline of toRemind) {
+      addNotification({
+        type: "course",
+        icon: deadline.type === "quiz" ? "📝" : "📋",
+        title: deadline.isOverdue ? `Overdue: ${deadline.title}` : `Due soon: ${deadline.title}`,
+        message: `${deadline.courseTitle} — ${deadline.type} due ${new Date(deadline.dueDate).toLocaleDateString()}`,
+        link: deadline.href,
+      });
+    }
+    markDeadlinesReminded(user.id, toRemind);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const formatDueDate = (dueDate: string) =>
+    new Date(dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+
+  const formatActivityTime = (timestamp: number) => {
+    const diffMs = new Date().getTime() - timestamp;
+    const diffDays = Math.floor(diffMs / 86400000);
+    if (diffDays <= 0) return "Today";
+    if (diffDays === 1) return "Yesterday";
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return new Date(timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  };
 
   return (
     <DashboardShell roleLabel="Student" navItems={NAV_ITEMS}>
@@ -142,6 +199,61 @@ function DashboardContent() {
                       </div>
                     </div>
                   </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Upcoming Deadlines */}
+          <div className="rounded-xl overflow-hidden bg-white border border-border">
+            <div className="flex items-center gap-2 px-6 py-4 border-b border-border">
+              <Clock size={18} className="text-mg" />
+              <h2 className="font-semibold text-dt">Upcoming Deadlines</h2>
+            </div>
+            {deadlines.length === 0 ? (
+              <p className="p-6 text-sm text-mg">Nothing due — you&apos;re all caught up.</p>
+            ) : (
+              <div className="divide-y divide-border">
+                {deadlines.map((deadline) => (
+                  <Link
+                    key={`${deadline.type}-${deadline.courseId}-${deadline.title}`}
+                    href={deadline.href}
+                    className="flex items-start gap-3 px-6 py-3 hover:bg-ow transition-colors"
+                  >
+                    {deadline.isOverdue ? (
+                      <AlertCircle size={16} className="text-err shrink-0 mt-0.5" />
+                    ) : (
+                      <Clock size={16} className="text-mg shrink-0 mt-0.5" />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-dt truncate">{deadline.title}</p>
+                      <p className="text-xs text-mg truncate">{deadline.courseTitle}</p>
+                    </div>
+                    <p className={`font-mono text-xs shrink-0 ${deadline.isOverdue ? "text-err font-medium" : "text-mg"}`}>
+                      {deadline.isOverdue ? "Overdue" : formatDueDate(deadline.dueDate)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Recent Activity */}
+          <div className="lg:col-span-2 rounded-xl overflow-hidden bg-white border border-border">
+            <div className="flex items-center gap-2 px-6 py-4 border-b border-border">
+              <History size={18} className="text-mg" />
+              <h2 className="font-semibold text-dt">Recent Activity</h2>
+            </div>
+            {activity.length === 0 ? (
+              <p className="p-6 text-sm text-mg">Nothing yet — enroll in a course to get started.</p>
+            ) : (
+              <div className="divide-y divide-border">
+                {activity.map((event, i) => (
+                  <div key={i} className="flex items-center gap-3 px-6 py-3">
+                    {ACTIVITY_ICONS[event.type]}
+                    <p className="flex-1 text-sm text-dt truncate">{event.detail}</p>
+                    <p className="font-mono text-xs text-mg shrink-0">{formatActivityTime(event.timestamp)}</p>
+                  </div>
                 ))}
               </div>
             )}

@@ -89,7 +89,7 @@ export default function RegisterPage() {
 
     try {
       await signup(formData.email, formData.password, formData.fullName, selectedRole);
-      router.push(`/${selectedRole}/dashboard`);
+      router.push("/verify-email");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Signup failed");
     } finally {

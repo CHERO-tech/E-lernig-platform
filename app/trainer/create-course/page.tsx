@@ -10,6 +10,8 @@ import { CourseLevel, CourseSection } from "@/lib/courses/types";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { SectionsEditor } from "@/components/courses/SectionsEditor";
+import { ObjectivesEditor } from "@/components/courses/ObjectivesEditor";
+import CourseThumbnail from "@/components/CourseThumbnail";
 
 function CreateCourseContent() {
   const router = useRouter();
@@ -19,11 +21,13 @@ function CreateCourseContent() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    thumbnail: "",
     category: "web-development",
     level: "Beginner" as const,
     price: "",
     duration: "",
   });
+  const [objectives, setObjectives] = useState<string[]>([]);
   const [sections, setSections] = useState<CourseSection[]>([
     { id: "section-1", title: "Section 1", lessons: [] },
   ]);
@@ -56,7 +60,8 @@ function CreateCourseContent() {
     addCourse({
       title: formData.title,
       description: formData.description,
-      whatYoullLearn: [],
+      thumbnail: formData.thumbnail.trim() || undefined,
+      whatYoullLearn: objectives.map((o) => o.trim()).filter(Boolean),
       category: formData.category,
       level: formData.level as CourseLevel,
       price: parseInt(formData.price) || 0,
@@ -126,6 +131,21 @@ function CreateCourseContent() {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-sm font-medium text-dt mb-2" htmlFor="thumbnail">Thumbnail Image URL</label>
+                  <input id="thumbnail"
+                    type="url"
+                    name="thumbnail"
+                    placeholder="https://images.example.com/course-cover.jpg (optional)"
+                    value={formData.thumbnail}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
+                  />
+                  {formData.thumbnail.trim() && (
+                    <CourseThumbnail title={formData.title || "Course"} thumbnail={formData.thumbnail} className="h-32 w-full rounded-lg mt-3" />
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-dt mb-2" htmlFor="category">Category *</label>
@@ -137,9 +157,11 @@ function CreateCourseContent() {
                       required
                     >
                       <option value="web-development">Web Development</option>
-                      <option value="mobile-dev">Mobile Development</option>
+                      <option value="mobile-development">Mobile Development</option>
                       <option value="design">Design</option>
                       <option value="data-science">Data Science</option>
+                      <option value="cloud">Cloud</option>
+                      <option value="devops">DevOps</option>
                     </select>
                   </div>
 
@@ -187,6 +209,13 @@ function CreateCourseContent() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Learning Objectives */}
+            <div className="border-t border-border pt-6">
+              <h2 className="text-2xl font-bold text-dt mb-2">What You&apos;ll Learn</h2>
+              <p className="text-sm text-mg mb-4">Shown on the course page as bullet points students see before enrolling.</p>
+              <ObjectivesEditor objectives={objectives} onChange={setObjectives} />
             </div>
 
             {/* Course Structure */}

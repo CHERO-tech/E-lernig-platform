@@ -8,6 +8,7 @@ import { CourseProvider } from "@/lib/courses/CourseProvider";
 import { EnrollmentProvider } from "@/lib/enrollment/EnrollmentProvider";
 import { PeopleProvider } from "@/lib/people/PeopleProvider";
 import { MessagingProvider } from "@/lib/messaging/MessagingProvider";
+import { BookmarksProvider } from "@/lib/bookmarks/BookmarksProvider";
 import "./globals.css";
 
 const inter = Inter({
@@ -57,7 +58,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <EnrollmentProvider>
                     <PeopleProvider>
                       <MessagingProvider>
-                        {children}
+                        <BookmarksProvider>
+                          {children}
+                        </BookmarksProvider>
                       </MessagingProvider>
                     </PeopleProvider>
                   </EnrollmentProvider>

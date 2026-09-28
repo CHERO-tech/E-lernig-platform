@@ -1,4 +1,5 @@
 import { User, UserRole, ProfileUpdate } from './types';
+import { isEmailSuspended } from '@/lib/shared/crossAccountStore';
 
 // In-memory mock user store
 const mockUsers = new Map<string, { user: User; password: string }>();
@@ -6,6 +7,9 @@ const mockUsers = new Map<string, { user: User; password: string }>();
 // In-memory password reset tokens. In a real deployment these would be
 // emailed to the user rather than handed back in the response.
 const resetTokens = new Map<string, { email: string; expiresAt: number }>();
+
+// Same idea for email verification codes.
+const verificationCodes = new Map<string, { code: string; expiresAt: number }>();
 
 // Mock users for testing
 const defaultMockUsers: Array<{ user: User; password: string }> = [
@@ -17,6 +21,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'student',
       avatar: 'AS',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -28,6 +33,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'trainer',
       avatar: 'JT',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -39,6 +45,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'school',
       avatar: 'RA',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -50,6 +57,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'guardian',
       avatar: 'MG',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -61,6 +69,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'company',
       avatar: 'AC',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -72,6 +81,7 @@ const defaultMockUsers: Array<{ user: User; password: string }> = [
       role: 'admin',
       avatar: 'SA',
       createdAt: new Date(),
+      emailVerified: true,
     },
     password: 'password123',
   },
@@ -90,6 +100,10 @@ export const mockAuthService = {
     const userEntry = mockUsers.get(email);
     if (!userEntry || userEntry.password !== password) {
       throw new Error('Invalid email or password');
+    }
+
+    if (isEmailSuspended(email)) {
+      throw new Error('This account has been suspended. Contact an administrator.');
     }
 
     return userEntry.user;
@@ -119,6 +133,7 @@ export const mockAuthService = {
         .join('')
         .toUpperCase(),
       createdAt: new Date(),
+      emailVerified: false,
     };
 
     mockUsers.set(email, { user: newUser, password });
@@ -205,5 +220,31 @@ export const mockAuthService = {
     }
     userEntry.password = newPassword;
     resetTokens.delete(token);
+  },
+
+  async requestEmailVerification(email: string): Promise<string> {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // Same "hand the code back instead of emailing it" pattern as password
+    // reset — there's no email service here, so the caller shows this
+    // directly to the user with a clear disclaimer.
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    verificationCodes.set(email, { code, expiresAt: Date.now() + 15 * 60 * 1000 });
+    return code;
+  },
+
+  async verifyEmail(email: string, code: string): Promise<User> {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const entry = verificationCodes.get(email);
+    if (!entry || entry.expiresAt < Date.now() || entry.code !== code) {
+      throw new Error('That verification code is invalid or has expired');
+    }
+    const userEntry = mockUsers.get(email);
+    if (!userEntry) {
+      throw new Error('User not found');
+    }
+    userEntry.user = { ...userEntry.user, emailVerified: true };
+    verificationCodes.delete(email);
+    return userEntry.user;
   },
 };

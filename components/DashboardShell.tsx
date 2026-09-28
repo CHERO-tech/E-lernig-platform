@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, MailWarning } from "lucide-react";
 import BrandMark from "./BrandMark";
+import Avatar from "./Avatar";
 import { useAuth } from "@/lib/auth/useAuth";
 
 export interface DashboardNavItem {
@@ -111,9 +112,7 @@ export default function DashboardShell({
 
         <div className="p-4 border-t border-pg/[0.12]">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 font-semibold text-sm bg-pg text-dg">
-              {user?.avatar}
-            </div>
+            <Avatar value={user?.avatar} name={user?.name} className="w-8 h-8 rounded-full text-sm shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">{user?.name}</p>
               <p className="font-mono text-xs truncate text-brass">{roleLabel}</p>
@@ -130,7 +129,18 @@ export default function DashboardShell({
       </aside>
 
       {/* Content */}
-      <main className="flex-1 md:ml-64 min-w-0">{children}</main>
+      <main className="flex-1 md:ml-64 min-w-0">
+        {user?.emailVerified === false && (
+          <Link
+            href="/verify-email"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-warn/10 text-warn2 text-sm font-medium hover:bg-warn/20 transition-colors"
+          >
+            <MailWarning size={16} />
+            Verify your email to secure your account — click to continue
+          </Link>
+        )}
+        {children}
+      </main>
     </div>
   );
 }

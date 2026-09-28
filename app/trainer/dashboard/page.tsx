@@ -23,6 +23,7 @@ import {
   Pencil,
   EyeOff,
   Eye,
+  Megaphone,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -30,6 +31,7 @@ const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/trainer/create-course", label: "Create Course", icon: <PlusCircle size={18} /> },
   { href: "/trainer/assignments/create", label: "Create Assignment", icon: <ClipboardList size={18} /> },
   { href: "/trainer/grading", label: "Grading", icon: <FileCheck2 size={18} /> },
+  { href: "/trainer/announcements", label: "Announcements", icon: <Megaphone size={18} /> },
   { href: "/trainer/analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
   { href: "/messages", label: "Messages", icon: <MessageSquare size={18} /> },
   { href: "/settings", label: "Settings", icon: <Settings size={18} /> },

@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Search, Star, Clock, BookOpen } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, Star, Clock, BookOpen, Bookmark } from "lucide-react";
 import { useState, useMemo } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
+import { useAuth } from "@/lib/auth/useAuth";
+import { useBookmarks } from "@/lib/bookmarks/useBookmarks";
+import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
 import { Badge, EmptyState } from "@/components/ui";
+import CourseThumbnail from "@/components/CourseThumbnail";
 import BrandMark from "@/components/BrandMark";
 
 const levelTone = {
@@ -14,6 +19,9 @@ const levelTone = {
 } as const;
 
 export default function Courses() {
+  const router = useRouter();
+  const { isAuthenticated } = useAuth();
+  const { isBookmarked, toggleBookmark } = useBookmarks();
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState<string>("All");
   const [level, setLevel] = useState<string>("All");
@@ -112,7 +120,7 @@ export default function Courses() {
                 category === cat ? "bg-pg/10 text-pg2" : "text-mg hover:bg-white"
               }`}
             >
-              {cat}
+              {cat === "All" ? cat : formatCategoryLabel(cat)}
             </button>
           ))}
         </div>
@@ -129,11 +137,25 @@ export default function Courses() {
                   href={`/courses/${course.id}`}
                   className="rounded-lg overflow-hidden transition-all hover:shadow-lg h-full flex flex-col bg-white border border-border"
                 >
-                  <div className="h-32 relative bg-gradient-to-br from-dg2 to-dg flex items-center justify-center">
-                    <span className="text-3xl font-bold text-pg/40 font-mono">{course.title[0]}</span>
+                  <div className="h-32 relative">
+                    <CourseThumbnail title={course.title} thumbnail={course.thumbnail} className="absolute inset-0 w-full h-full" />
                     <div className="absolute top-3 right-3 px-2 py-1 rounded-lg text-xs font-bold bg-pg text-dg">
                       {course.price === 0 ? "Free" : `$${course.price}`}
                     </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (!isAuthenticated) {
+                          router.push("/login");
+                          return;
+                        }
+                        toggleBookmark(course.id);
+                      }}
+                      aria-label={isBookmarked(course.id) ? "Remove from saved courses" : "Save course for later"}
+                      className="absolute top-3 left-3 w-7 h-7 rounded-lg bg-black/40 hover:bg-black/60 flex items-center justify-center transition-colors"
+                    >
+                      <Bookmark size={14} className={isBookmarked(course.id) ? "fill-white text-white" : "text-white"} />
+                    </button>
                   </div>
 
                   <div className="p-4 flex-1 flex flex-col">

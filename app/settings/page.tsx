@@ -6,7 +6,10 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { ArrowLeft, Bell, Lock, Palette, LogOut, User, Phone, MapPin, Save, ShieldCheck, AlertTriangle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Avatar from "@/components/Avatar";
+
+const MAX_AVATAR_SIZE = 1.5 * 1024 * 1024; // 1.5MB — same cap used for assignment uploads
 
 interface Preferences {
   emailNotifications: boolean;
@@ -95,17 +98,34 @@ function SettingsContent() {
     }
   };
 
-  const handleChangeAvatar = async () => {
-    const initials = window.prompt("Enter 1-2 letters for your new avatar:", user?.avatar || "")?.trim().slice(0, 2).toUpperCase();
-    if (!initials) return;
-    setProfileError("");
-    try {
-      await updateProfile({ avatar: initials });
-      setProfileSuccess(true);
-      setTimeout(() => setProfileSuccess(false), 2000);
-    } catch (err) {
-      setProfileError(err instanceof Error ? err.message : "Failed to update avatar");
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAvatarFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // allow re-selecting the same file later
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setProfileError("Please choose an image file");
+      return;
     }
+    if (file.size > MAX_AVATAR_SIZE) {
+      setProfileError("That image is too large — please choose one under 1.5MB");
+      return;
+    }
+
+    setProfileError("");
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        await updateProfile({ avatar: reader.result as string });
+        setProfileSuccess(true);
+        setTimeout(() => setProfileSuccess(false), 2000);
+      } catch (err) {
+        setProfileError(err instanceof Error ? err.message : "Failed to update avatar");
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleCancelProfile = () => {
@@ -234,14 +254,24 @@ function SettingsContent() {
                   <h2 className="text-2xl font-bold text-dt mb-6">Profile Information</h2>
 
                   <div className="mb-8 flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-ember-strong to-ember flex items-center justify-center text-white text-xl font-bold">
-                      {user?.avatar}
-                    </div>
+                    <Avatar value={user?.avatar} name={user?.name} className="w-16 h-16 rounded-full text-xl" />
                     <div>
                       <p className="text-sm text-mg">Profile Picture</p>
-                      <button onClick={handleChangeAvatar} className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1">
+                      <input
+                        ref={avatarInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarFileSelected}
+                        className="hidden"
+                        id="avatar-upload"
+                      />
+                      <button
+                        onClick={() => avatarInputRef.current?.click()}
+                        className="text-ember-strong hover:text-ember2 font-medium text-sm mt-1"
+                      >
                         Change Avatar
                       </button>
+                      <p className="text-xs text-mg mt-0.5">JPG or PNG, up to 1.5MB</p>
                     </div>
                   </div>
 

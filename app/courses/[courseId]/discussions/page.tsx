@@ -2,6 +2,7 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { MessageSquare, ThumbsUp, Reply, Flag, Search } from "lucide-react";
 import { use, useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
@@ -56,7 +57,7 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
       d.content.toLowerCase().includes(searchQuery.toLowerCase());
 
     if (!matchesSearch) return false;
-    if (filterTab === "unanswered") return d.answers === 0;
+    if (filterTab === "unanswered") return d.replies.length === 0;
     if (filterTab === "popular") return d.views > 100;
     return true;
   });
@@ -178,7 +179,7 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
               {tab} (
               {
                 discussions.filter((d) => {
-                  if (tab === "unanswered") return d.answers === 0;
+                  if (tab === "unanswered") return d.replies.length === 0;
                   if (tab === "popular") return d.views > 100;
                   return true;
                 }).length
@@ -199,12 +200,14 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-4 mb-2">
                     <div>
-                      {thread.answers > 0 && (
+                      {thread.replies.length > 0 && (
                         <span className="inline-block mb-1 px-2 py-1 text-xs font-semibold rounded bg-pg/10 text-pg2">
                           ✓ Answered
                         </span>
                       )}
-                      <h3 className="font-bold text-lg mb-1 text-dt">{thread.title}</h3>
+                      <Link href={`/courses/${courseId}/discussions/${thread.id}`} className="hover:text-pg2 transition-colors">
+                        <h3 className="font-bold text-lg mb-1 text-dt">{thread.title}</h3>
+                      </Link>
                       <p className="text-sm text-mg">
                         by {thread.author} · {formatDate(thread.createdAt)}
                       </p>
@@ -216,9 +219,12 @@ function DiscussionsContent({ courseId }: { courseId: string }) {
 
               <div className="flex items-center justify-between pt-4 border-t border-border flex-wrap gap-3">
                 <div className="flex items-center gap-6 text-sm text-mg">
-                  <span className="flex items-center gap-1">
-                    <Reply size={16} /> {thread.answers} answers
-                  </span>
+                  <Link
+                    href={`/courses/${courseId}/discussions/${thread.id}`}
+                    className="flex items-center gap-1 hover:text-pg2 transition-colors"
+                  >
+                    <Reply size={16} /> {thread.replies.length} {thread.replies.length === 1 ? "reply" : "replies"}
+                  </Link>
                   <span className="flex items-center gap-1">
                     <MessageSquare size={16} /> {thread.views} views
                   </span>

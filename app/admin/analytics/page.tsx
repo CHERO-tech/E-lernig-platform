@@ -195,7 +195,35 @@ function AdminAnalyticsContent() {
           className="bg-white rounded-lg border border-border p-6"
         >
           <h2 className="text-2xl font-bold text-dt mb-6">Category Performance</h2>
-          <div className="overflow-x-auto">
+
+          {/* Mobile: stacked cards */}
+          <div className="md:hidden divide-y divide-border">
+            {courseMetrics.map((metric, i) => {
+              const totalRevenue = courseMetrics.reduce((sum, m) => sum + parseFloat(m.revenue.replace(/[$,]/g, "")), 0);
+              const share = ((parseFloat(metric.revenue.replace(/[$,]/g, "")) / totalRevenue) * 100).toFixed(1);
+              return (
+                <div key={i} className="py-4">
+                  <p className="font-medium text-dt mb-2">{metric.category}</p>
+                  <div className="flex items-center justify-between text-sm mb-2">
+                    <span className="text-mg">{metric.courses} course{metric.courses !== 1 ? "s" : ""} · {metric.students.toLocaleString()} enrolled</span>
+                    <span className="font-semibold text-ember-strong">{metric.revenue}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-2 bg-border rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-ember-strong"
+                        style={{ width: `${share}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-dt font-medium text-sm w-10 text-right">{share}%</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop: table */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">

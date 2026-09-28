@@ -8,16 +8,24 @@ import { ArrowLeft, BookOpen, Clock, CheckCircle2, Award } from "lucide-react";
 import { useState } from "react";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useCourses } from "@/lib/courses/useCourses";
+import { useAuth } from "@/lib/auth/useAuth";
 import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
+import { getEarnedCertificates } from "@/lib/enrollment/getEarnedCertificates";
+import { getAchievements } from "@/lib/achievements/getAchievements";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { copyShareLink } from "@/lib/utils/share";
 
 function MyLearningContent() {
   const router = useRouter();
+  const { user } = useAuth();
   const { enrollments } = useEnrollment();
-  const { getCourseById } = useCourses();
+  const { courses, getCourseById } = useCourses();
   const { addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState("in-progress");
+
+  const certifiedCourseIds = new Set(
+    user ? getEarnedCertificates(user.id, enrollments, getCourseById).map((c) => c.courseId) : []
+  );
 
   const handleShareAchievements = async () => {
     const copied = await copyShareLink();
@@ -43,12 +51,28 @@ function MyLearningContent() {
         instructor: course.instructor,
         progress: progress.percentComplete,
         currentLesson: `${progress.lessonsCompleted}/${progress.lessonsTotal} lessons`,
-        daysLeft: 12,
+        lessonsRemaining: progress.lessonsTotal - progress.lessonsCompleted,
         nextLesson: "Continue learning",
         bgGradient: "from-blue-400 via-purple-400 to-indigo-500",
       };
     })
     .filter((c): c is NonNullable<typeof c> => c !== null);
+
+  const totalLearningMinutes = enrollments.reduce((sum, enrollment) => {
+    const course = getCourseById(enrollment.courseId);
+    if (!course) return sum;
+    const completedLessonIds = new Set(
+      enrollment.lessonProgress.filter(p => p.completed).map(p => p.lessonId)
+    );
+    const minutes = course.sections
+      .flatMap(s => s.lessons)
+      .filter(l => completedLessonIds.has(l.id))
+      .reduce((lessonSum, l) => lessonSum + (parseInt(l.duration) || 0), 0);
+    return sum + minutes;
+  }, 0);
+  const learningHoursLabel = totalLearningMinutes >= 60
+    ? `${Math.round(totalLearningMinutes / 60)}h`
+    : `${totalLearningMinutes}m`;
 
   const completedCourses = enrollments
     .map(enrollment => {
@@ -62,17 +86,12 @@ function MyLearningContent() {
         instructor: course.instructor,
         completedDate: new Date(enrollment.enrolledAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
         rating: course.rating,
-        certificate: true,
+        certificate: certifiedCourseIds.has(course.id),
       };
     })
     .filter((c): c is NonNullable<typeof c> => c !== null);
 
-  const achievements = [
-    { emoji: "🎓", title: "First Course", desc: "Completed your first course" },
-    { emoji: "🔥", title: "7 Day Streak", desc: "Learned for 7 consecutive days" },
-    { emoji: "⭐", title: "5 Star Learner", desc: "Rated a course 5 stars" },
-    { emoji: "🏆", title: "Certificate Master", desc: "Earned 5 certificates" },
-  ];
+  const achievements = user ? getAchievements(user.id, enrollments, courses, getCourseById) : [];
 
   return (
     <div className="min-h-screen bg-ow">
@@ -100,7 +119,7 @@ function MyLearningContent() {
           {[
             { icon: BookOpen, label: "In Progress", value: inProgressCourses.length.toString(), color: "bg-blue-100 text-blue-600" },
             { icon: CheckCircle2, label: "Completed", value: completedCourses.length.toString(), color: "bg-forge-soft text-ember-strong" },
-            { icon: Clock, label: "Learning Hours", value: "48h", color: "bg-purple-100 text-purple-600" },
+            { icon: Clock, label: "Learning Hours", value: learningHoursLabel, color: "bg-purple-100 text-purple-600" },
             { icon: Award, label: "Certificates", value: completedCourses.length.toString(), color: "bg-yellow-100 text-yellow-600" },
           ].map((stat, i) => {
             const Icon = stat.icon;
@@ -164,7 +183,7 @@ function MyLearningContent() {
                       </div>
                       <div className="text-right">
                         <p className="text-2xl font-bold text-ember-strong">{course.progress}%</p>
-                        <p className="text-xs text-mg">{course.daysLeft} days left</p>
+                        <p className="text-xs text-mg">{course.lessonsRemaining} lesson{course.lessonsRemaining !== 1 ? "s" : ""} left</p>
                       </div>
                     </div>
 
@@ -254,15 +273,17 @@ function MyLearningContent() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {achievements.map((achievement, i) => (
                 <motion.div
-                  key={i}
+                  key={achievement.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.3, delay: i * 0.1 }}
-                  className="p-6 bg-white rounded-lg border border-border text-center hover:shadow-lg transition-shadow"
+                  className={`p-6 bg-white rounded-lg border border-border text-center hover:shadow-lg transition-shadow ${
+                    achievement.earned ? "" : "opacity-40 grayscale"
+                  }`}
                 >
                   <div className="text-5xl mb-3">{achievement.emoji}</div>
                   <p className="font-semibold text-dt mb-1">{achievement.title}</p>
-                  <p className="text-sm text-mg">{achievement.desc}</p>
+                  <p className="text-sm text-mg">{achievement.description}</p>
                 </motion.div>
               ))}
             </div>

@@ -116,6 +116,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await mockAuthService.resetPasswordWithToken(token, newPassword);
   }, []);
 
+  const requestEmailVerification = useCallback(async () => {
+    if (!user) throw new Error('Not logged in');
+    return mockAuthService.requestEmailVerification(user.email);
+  }, [user]);
+
+  const verifyEmail = useCallback(
+    async (code: string) => {
+      if (!user) throw new Error('Not logged in');
+      const updatedUser = await mockAuthService.verifyEmail(user.email, code);
+
+      const stored = localStorage.getItem(SESSION_STORAGE_KEY);
+      if (stored) {
+        const session: AuthSession = JSON.parse(stored);
+        session.user = updatedUser;
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+      }
+      setUser(updatedUser);
+    },
+    [user]
+  );
+
   const updateProfile = useCallback(
     async (updates: ProfileUpdate) => {
       if (!user) throw new Error('Not logged in');
@@ -149,6 +170,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     deleteAccount,
     requestPasswordReset,
     resetPasswordWithToken,
+    requestEmailVerification,
+    verifyEmail,
     updateProfile,
     isAuthenticated: !!user,
   };

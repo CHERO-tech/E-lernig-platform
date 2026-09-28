@@ -3,18 +3,23 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, Filter, Star, Clock, ArrowRight, ArrowLeft } from "lucide-react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCourses } from "@/lib/courses/useCourses";
+import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
+import CourseThumbnail from "@/components/CourseThumbnail";
 
-export default function SearchPage() {
+function SearchContent() {
+  const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState(() => searchParams.get("category") ?? "all");
   const [filterLevel, setFilterLevel] = useState("all");
   const [filterDuration, setFilterDuration] = useState("all");
   const [filterPrice, setFilterPrice] = useState("all");
   const [filterRating, setFilterRating] = useState("all");
   const [filterInstructor, setFilterInstructor] = useState("all");
   const [sortBy, setSortBy] = useState("relevance");
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(() => searchParams.get("category") !== null);
   const { courses } = useCourses();
 
   const allResults = courses.filter(c => c.published !== false).map(c => ({
@@ -22,6 +27,8 @@ export default function SearchPage() {
     type: "course",
     title: c.title,
     instructor: c.instructor,
+    thumbnail: c.thumbnail,
+    category: c.category,
     level: c.level,
     rating: c.rating,
     students: c.students,
@@ -31,12 +38,14 @@ export default function SearchPage() {
   }));
 
   const instructors = Array.from(new Set(allResults.map(r => r.instructor))).sort();
+  const categories = Array.from(new Set(allResults.map(r => r.category))).sort();
 
   const filteredResults = allResults
     .filter(item =>
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.instructor.toLowerCase().includes(searchTerm.toLowerCase())
     )
+    .filter(item => filterCategory === "all" || item.category === filterCategory)
     .filter(item => filterLevel === "all" || item.level === filterLevel)
     .filter(item => {
       if (filterDuration === "all") return true;
@@ -89,6 +98,21 @@ export default function SearchPage() {
           {/* Filters */}
           {showFilters && (
           <div className="flex gap-4 mt-4 flex-wrap" role="group" aria-label="Search filters">
+            <div>
+              <label className="text-sm font-medium text-dt mb-2 block" htmlFor="filter-category">Category</label>
+              <select
+                id="filter-category"
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong text-sm"
+              >
+                <option value="all">All Categories</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>{formatCategoryLabel(cat)}</option>
+                ))}
+              </select>
+            </div>
+
             <div>
               <label className="text-sm font-medium text-dt mb-2 block" htmlFor="filter-level">Level</label>
               <select
@@ -203,7 +227,7 @@ export default function SearchPage() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="bg-white rounded-lg border border-border overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <div className="h-40 bg-gradient-to-br from-ember-strong to-ember"></div>
+                <CourseThumbnail title={result.title} thumbnail={result.thumbnail} className="h-40 w-full" />
 
                 <div className="p-6">
                   <h3 className="font-bold text-dt mb-2 line-clamp-2">{result.title}</h3>
@@ -261,6 +285,7 @@ export default function SearchPage() {
             <button
               onClick={() => {
                 setSearchTerm("");
+                setFilterCategory("all");
                 setFilterLevel("all");
                 setFilterDuration("all");
                 setFilterPrice("all");
@@ -292,5 +317,13 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-ow" />}>
+      <SearchContent />
+    </Suspense>
   );
 }

@@ -6,20 +6,12 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useCourses } from "@/lib/courses/useCourses";
-import { calculateCourseProgress } from "@/lib/enrollment/calculateProgress";
-import { Download, Share2, Award, Calendar, Check, Loader2, ArrowLeft } from "lucide-react";
-import { useState, useRef, useMemo } from "react";
+import { getEarnedCertificates, EarnedCertificate } from "@/lib/enrollment/getEarnedCertificates";
+import { Download, Share2, Award, Calendar, Check, Loader2, ArrowLeft, ShieldCheck } from "lucide-react";
+import { useState, useRef, useMemo, useEffect } from "react";
+import QRCode from "qrcode";
 import { generateCertificatePdf } from "@/lib/certificates/generateCertificatePdf";
 import { EmptyState } from "@/components/ui";
-
-interface EarnedCertificate {
-  id: string;
-  course: string;
-  instructor: string;
-  issued: string;
-  score: number;
-  credentialId: string;
-}
 
 function CertificatesContent() {
   const { user } = useAuth();
@@ -29,63 +21,55 @@ function CertificatesContent() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const certificateRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const certificates: EarnedCertificate[] = useMemo(() => {
-    if (!user) return [];
+  const certificates: EarnedCertificate[] = useMemo(
+    () => (user ? getEarnedCertificates(user.id, enrollments, getCourseById) : []),
+    [user, enrollments, getCourseById]
+  );
 
-    return enrollments.flatMap((enrollment) => {
-      const course = getCourseById(enrollment.courseId);
-      if (!course) return [];
+  const [verifyUrls, setVerifyUrls] = useState<Record<string, string>>({});
+  const [qrCodes, setQrCodes] = useState<Record<string, string>>({});
 
-      const progress = calculateCourseProgress(enrollment, course);
-      if (progress.percentComplete !== 100) return [];
+  useEffect(() => {
+    if (certificates.length === 0 || typeof window === "undefined") return;
+    const origin = window.location.origin;
+    let cancelled = false;
 
-      const passingAttempts = course.quizzes.map((quiz) => {
-        const attempt = enrollment.quizAttempts.find(
-          (a) => a.quizId === quiz.id && a.score >= quiz.passingScore
-        );
-        return attempt;
-      });
-      if (passingAttempts.some((a) => !a)) return [];
+    (async () => {
+      const urls: Record<string, string> = {};
+      const codes: Record<string, string> = {};
+      for (const cert of certificates) {
+        const url = `${origin}/verify/${cert.credentialId}`;
+        urls[cert.credentialId] = url;
+        try {
+          codes[cert.credentialId] = await QRCode.toDataURL(url, { width: 160, margin: 1 });
+        } catch (error) {
+          console.error("Failed to generate verification QR code:", error);
+        }
+      }
+      if (!cancelled) {
+        setVerifyUrls(urls);
+        setQrCodes(codes);
+      }
+    })();
 
-      const score =
-        passingAttempts.length > 0
-          ? Math.round(
-              passingAttempts.reduce((sum, a) => sum + (a?.score ?? 0), 0) / passingAttempts.length
-            )
-          : 100;
-
-      const timestamps = [
-        enrollment.enrolledAt,
-        ...passingAttempts.map((a) => a?.attemptedAt).filter((d): d is string => !!d),
-      ];
-      const issued = timestamps.reduce((latest, ts) => (ts > latest ? ts : latest), timestamps[0]);
-
-      return [
-        {
-          id: `CERT-${course.id}-${user.id}`,
-          course: course.title,
-          instructor: course.instructor,
-          issued,
-          score,
-          credentialId: `CERT-${course.id}-${user.id}`,
-        },
-      ];
-    });
-  }, [enrollments, getCourseById, user]);
+    return () => {
+      cancelled = true;
+    };
+  }, [certificates]);
 
   const averageScore =
     certificates.length > 0
       ? Math.round(certificates.reduce((sum, c) => sum + c.score, 0) / certificates.length)
       : 0;
   const certificatesThisYear = certificates.filter(
-    (c) => new Date(c.issued).getFullYear() === new Date().getFullYear()
+    (c) => new Date(c.issuedAt).getFullYear() === new Date().getFullYear()
   ).length;
 
   const handleDownload = async (cert: EarnedCertificate) => {
     if (downloadingId !== null) return;
-    setDownloadingId(cert.id);
+    setDownloadingId(cert.credentialId);
     try {
-      const node = certificateRefs.current[cert.id];
+      const node = certificateRefs.current[cert.credentialId];
       if (node) {
         await generateCertificatePdf(node, `certificate-${cert.credentialId}.pdf`);
       }
@@ -96,14 +80,14 @@ function CertificatesContent() {
     }
   };
 
-  const handleShare = async (cert: typeof certificates[0]) => {
-    const shareText = `I earned a certificate in "${cert.course}" from Forge! Credential ID: ${cert.credentialId}`;
+  const handleShare = async (cert: EarnedCertificate) => {
+    const shareText = `I earned a certificate in "${cert.courseTitle}" from Forge! Credential ID: ${cert.credentialId}`;
     const shareUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/certificates`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${cert.course} - Certificate`,
+          title: `${cert.courseTitle} - Certificate`,
           text: shareText,
           url: shareUrl,
         });
@@ -115,7 +99,7 @@ function CertificatesContent() {
     } else {
       try {
         await navigator.clipboard.writeText(shareText);
-        setCopiedId(cert.id);
+        setCopiedId(cert.credentialId);
         setTimeout(() => setCopiedId(null), 2000);
       } catch (error) {
         console.error('Clipboard copy failed:', error);
@@ -128,25 +112,33 @@ function CertificatesContent() {
       {/* Off-screen certificate templates for PDF capture */}
       {certificates.map((cert) => (
         <div
-          key={`template-${cert.id}`}
+          key={`template-${cert.credentialId}`}
           ref={(el) => {
-            if (el) certificateRefs.current[cert.id] = el;
+            if (el) certificateRefs.current[cert.credentialId] = el;
           }}
           className="fixed -left-[9999px] w-[1000px] bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 p-12 flex flex-col items-center justify-center"
           style={{ height: '700px' }}
         >
           <div className="text-center w-full">
+            <p className="font-mono font-bold tracking-widest text-yellow-900 mb-6">FORGE</p>
             <div className="text-6xl mb-4">🏆</div>
             <p className="text-2xl font-bold text-yellow-900 mb-8">CERTIFICATE OF COMPLETION</p>
-            <p className="text-4xl font-bold text-yellow-900 mb-4">{cert.course}</p>
+            <p className="text-4xl font-bold text-yellow-900 mb-4">{cert.courseTitle}</p>
             <p className="text-xl text-yellow-800 mb-8">This is to certify that</p>
             <p className="text-3xl font-bold text-yellow-900 mb-8">{user?.name || 'Student'}</p>
             <p className="text-lg text-yellow-800 mb-6">has successfully completed the course with a score of</p>
             <p className="text-3xl font-bold text-ember-strong mb-8">{cert.score}%</p>
-            <div className="border-t-2 border-yellow-900 pt-6 mt-8">
-              <p className="text-yellow-800 mb-2">Instructor: {cert.instructor}</p>
-              <p className="text-yellow-800 mb-2">Date: {new Date(cert.issued).toLocaleDateString()}</p>
-              <p className="text-sm font-mono text-yellow-700">Credential ID: {cert.credentialId}</p>
+            <div className="border-t-2 border-yellow-900 pt-6 mt-8 flex items-center justify-center gap-8">
+              <div className="text-left">
+                <p className="text-yellow-800 mb-2">Instructor: {cert.instructor}</p>
+                <p className="text-yellow-800 mb-2">Date: {new Date(cert.issuedAt).toLocaleDateString()}</p>
+                <p className="text-sm font-mono text-yellow-700 mb-1">Credential ID: {cert.credentialId}</p>
+                <p className="text-xs font-mono text-yellow-700">Verify: {verifyUrls[cert.credentialId]}</p>
+              </div>
+              {qrCodes[cert.credentialId] && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={qrCodes[cert.credentialId]} alt="Verification QR code" width={90} height={90} />
+              )}
             </div>
           </div>
         </div>
@@ -215,7 +207,7 @@ function CertificatesContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {certificates.map((cert, i) => (
             <motion.div
-              key={cert.id}
+              key={cert.credentialId}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
@@ -228,7 +220,7 @@ function CertificatesContent() {
                 <div className="text-center z-10">
                   <Award size={48} className="mx-auto text-yellow-600 mb-3" />
                   <p className="text-sm text-yellow-700 font-semibold">CERTIFICATE OF COMPLETION</p>
-                  <p className="text-xl font-bold text-yellow-900 mt-2">{cert.course}</p>
+                  <p className="text-xl font-bold text-yellow-900 mt-2">{cert.courseTitle}</p>
                 </div>
               </div>
 
@@ -243,7 +235,7 @@ function CertificatesContent() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-xs text-mg uppercase tracking-wide">Issued</p>
-                      <p className="font-semibold text-dt">{new Date(cert.issued).toLocaleDateString()}</p>
+                      <p className="font-semibold text-dt">{new Date(cert.issuedAt).toLocaleDateString()}</p>
                     </div>
                     <div>
                       <p className="text-xs text-mg uppercase tracking-wide">Score</p>
@@ -251,9 +243,28 @@ function CertificatesContent() {
                     </div>
                   </div>
 
-                  <div>
-                    <p className="text-xs text-mg uppercase tracking-wide">Credential ID</p>
-                    <p className="text-sm font-mono text-mg">{cert.credentialId}</p>
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-xs text-mg uppercase tracking-wide">Credential ID</p>
+                      <p className="text-sm font-mono text-mg mb-2">{cert.credentialId}</p>
+                      <Link
+                        href={`/verify/${cert.credentialId}`}
+                        target="_blank"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-pg2 hover:underline"
+                      >
+                        <ShieldCheck size={14} /> Verify this credential
+                      </Link>
+                    </div>
+                    {qrCodes[cert.credentialId] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={qrCodes[cert.credentialId]}
+                        alt={`QR code to verify credential ${cert.credentialId}`}
+                        width={64}
+                        height={64}
+                        className="rounded border border-border shrink-0"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -264,7 +275,7 @@ function CertificatesContent() {
                     disabled={downloadingId !== null}
                     className="flex-1 px-4 py-2 bg-forge-soft text-ember-strong rounded-lg font-medium hover:bg-forge-soft transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {downloadingId === cert.id ? (
+                    {downloadingId === cert.credentialId ? (
                       <>
                         <Loader2 size={18} className="animate-spin" /> Generating...
                       </>
@@ -278,7 +289,7 @@ function CertificatesContent() {
                     onClick={() => handleShare(cert)}
                     className="flex-1 px-4 py-2 border border-border text-dt rounded-lg font-medium hover:bg-ow transition-colors flex items-center justify-center gap-2"
                   >
-                    {copiedId === cert.id ? (
+                    {copiedId === cert.credentialId ? (
                       <>
                         <Check size={18} /> Copied!
                       </>
@@ -302,8 +313,8 @@ function CertificatesContent() {
           className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6 text-center"
         >
           <p className="text-blue-900">
-            Certificates are issued upon course completion with a passing score. Include the Credential ID when
-            sharing a certificate with employers as a reference.
+            Certificates are issued upon course completion with a passing score. Each one has a unique Credential ID
+            and QR code — use the &quot;Verify this credential&quot; link on any certificate above to confirm it&apos;s genuine.
           </p>
         </motion.div>
       </div>

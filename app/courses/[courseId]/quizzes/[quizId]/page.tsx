@@ -3,10 +3,17 @@
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Clock, CheckCircle, AlertCircle } from "lucide-react";
-import { use, useState } from "react";
+import { use, useState, useCallback, useEffect } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useEnrollment } from "@/lib/enrollment/useEnrollment";
 import { useNotifications } from "@/lib/notifications/useNotifications";
+import { isAnswerCorrect } from "@/lib/courses/gradeQuizQuestion";
+
+function formatTime(totalSeconds: number): string {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
 
 function QuizContent({ courseId, quizId }: { courseId: string; quizId: string }) {
   const router = useRouter();
@@ -20,6 +27,60 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
 
   const course = getCourseById(courseId);
   const quiz = course?.quizzes.find((q) => q.id === quizId);
+
+  const handleSubmit = useCallback(() => {
+    if (!quiz) return;
+    let correctCount = 0;
+    quiz.questions.forEach((q, idx) => {
+      if (isAnswerCorrect(q, answers[idx])) correctCount++;
+    });
+    const finalScore = Math.round((correctCount / quiz.questions.length) * 100);
+    setScore(finalScore);
+    recordQuizAttempt(courseId, quiz.id, finalScore);
+    addNotification({
+      type: "system",
+      icon: "📝",
+      title: "Quiz Submitted",
+      message: `You scored ${finalScore}% on ${quiz.title}.`,
+    });
+    setSubmitted(true);
+  }, [quiz, answers, recordQuizAttempt, courseId, addNotification]);
+
+  // Countdown, backed by a start timestamp in sessionStorage so refreshing the
+  // page mid-attempt doesn't reset the clock. Auto-submits at zero. Both the
+  // tick and the auto-submit run from the interval's own callback (not
+  // synchronously in the effect body) so state updates stay tied to that
+  // external timer rather than to render.
+  const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!quiz || submitted) return;
+    const storageKey = `forge_quiz_start_${quiz.id}`;
+    let startedAt = Number(sessionStorage.getItem(storageKey));
+    if (!startedAt) {
+      startedAt = Date.now();
+      sessionStorage.setItem(storageKey, String(startedAt));
+    }
+    const totalSeconds = quiz.timeLimit * 60;
+
+    const interval = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+      const remaining = Math.max(0, totalSeconds - elapsed);
+      setTimeRemaining(remaining);
+      if (remaining <= 0) {
+        clearInterval(interval);
+        handleSubmit();
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [quiz, submitted, handleSubmit]);
+
+  useEffect(() => {
+    if (quiz && submitted) {
+      sessionStorage.removeItem(`forge_quiz_start_${quiz.id}`);
+    }
+  }, [quiz, submitted]);
 
   if (!course || !quiz) {
     return (
@@ -41,29 +102,16 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
     setAnswers((prev) => ({ ...prev, [currentQuestion]: optionIndex.toString() }));
   };
 
+  const handleTextAnswerChange = (value: string) => {
+    setAnswers((prev) => ({ ...prev, [currentQuestion]: value }));
+  };
+
   const handleNext = () => {
     if (currentQuestion < quiz.questions.length - 1) setCurrentQuestion(currentQuestion + 1);
   };
 
   const handlePrev = () => {
     if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
-  };
-
-  const handleSubmit = () => {
-    let correctCount = 0;
-    quiz.questions.forEach((q, idx) => {
-      if (parseInt(answers[idx]) === q.correct) correctCount++;
-    });
-    const finalScore = Math.round((correctCount / quiz.questions.length) * 100);
-    setScore(finalScore);
-    recordQuizAttempt(courseId, quizId, finalScore);
-    addNotification({
-      type: "system",
-      icon: "📝",
-      title: "Quiz Submitted",
-      message: `You scored ${finalScore}% on ${quiz.title}.`,
-    });
-    setSubmitted(true);
   };
 
   const isPassing = score >= quiz.passingScore;
@@ -140,8 +188,12 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
               <h3 className="text-xl font-bold mb-6 text-dt">Answer Review</h3>
               <div className="space-y-4">
                 {quiz.questions.map((q, idx) => {
-                  const isCorrect = parseInt(answers[idx] || "-1") === q.correct;
-                  const answered = idx in answers;
+                  const type = q.type ?? "multiple-choice";
+                  const isCorrect = isAnswerCorrect(q, answers[idx]);
+                  const answered = idx in answers && answers[idx].trim() !== "";
+                  const yourAnswerText = type === "short-answer" ? answers[idx] : q.options[parseInt(answers[idx] || "-1")];
+                  const correctAnswerText =
+                    type === "short-answer" ? (q.acceptableAnswers ?? []).join(" / ") : q.options[q.correct];
                   return (
                     <div key={q.id} className="rounded-lg p-4 border border-border">
                       <div className="flex items-start gap-4">
@@ -156,13 +208,12 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
                           <p className="font-medium mb-2 text-dt">{q.question}</p>
                           {answered && (
                             <p className="text-sm mb-2 text-mg">
-                              Your answer:{" "}
-                              <span className="font-medium text-dt">{q.options[parseInt(answers[idx])]}</span>
+                              Your answer: <span className="font-medium text-dt">{yourAnswerText}</span>
                             </p>
                           )}
                           {answered && !isCorrect && (
                             <p className="text-sm mb-2 text-pg2">
-                              Correct answer: <span className="font-medium">{q.options[q.correct]}</span>
+                              Correct answer: <span className="font-medium">{correctAnswerText}</span>
                             </p>
                           )}
                           <p className="text-sm text-mg">{q.explanation}</p>
@@ -192,9 +243,13 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
             <h1 className="text-2xl font-bold text-dt">{quiz.title}</h1>
             <p className="text-sm text-mg">{course.title}</p>
           </div>
-          <div className="flex items-center gap-2 text-mg">
+          <div
+            className={`flex items-center gap-2 font-medium font-mono ${
+              timeRemaining !== null && timeRemaining <= 60 ? "text-err" : "text-mg"
+            }`}
+          >
             <Clock size={20} />
-            <span className="font-medium font-mono">{quiz.timeLimit}m</span>
+            <span>{formatTime(timeRemaining ?? quiz.timeLimit * 60)}</span>
           </div>
         </div>
 
@@ -228,26 +283,42 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
         <div key={currentQuestion} className="rounded-xl p-8 mb-8 bg-white border border-border">
           <h2 className="text-2xl font-bold mb-8 text-dt">{currentQ.question}</h2>
 
-          <div className="space-y-3 mb-8">
-            {currentQ.options.map((option, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleAnswerSelect(idx)}
-                className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                  selectedAnswer === idx.toString() ? "border-pg bg-pg/[0.06]" : "border-border hover:border-mg"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-5 h-5 rounded-full border-2 ${
-                      selectedAnswer === idx.toString() ? "border-pg bg-pg" : "border-border"
-                    }`}
-                  />
-                  <span className="font-medium text-dt">{option}</span>
-                </div>
-              </button>
-            ))}
-          </div>
+          {(currentQ.type ?? "multiple-choice") === "short-answer" ? (
+            <div className="mb-8">
+              <label htmlFor="short-answer-input" className="sr-only">
+                Your answer
+              </label>
+              <input
+                id="short-answer-input"
+                type="text"
+                placeholder="Type your answer"
+                value={selectedAnswer ?? ""}
+                onChange={(e) => handleTextAnswerChange(e.target.value)}
+                className="w-full p-4 border-2 border-border rounded-lg focus:outline-none focus:border-pg text-dt"
+              />
+            </div>
+          ) : (
+            <div className="space-y-3 mb-8">
+              {currentQ.options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleAnswerSelect(idx)}
+                  className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
+                    selectedAnswer === idx.toString() ? "border-pg bg-pg/[0.06]" : "border-border hover:border-mg"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 ${
+                        selectedAnswer === idx.toString() ? "border-pg bg-pg" : "border-border"
+                      }`}
+                    />
+                    <span className="font-medium text-dt">{option}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="flex gap-4">
             <button

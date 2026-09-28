@@ -10,6 +10,7 @@ export interface User {
   phone?: string;
   location?: string;
   bio?: string;
+  emailVerified?: boolean;
 }
 
 export type ProfileUpdate = Partial<Pick<User, 'name' | 'email' | 'phone' | 'location' | 'bio' | 'avatar'>>;
@@ -24,6 +25,8 @@ export interface AuthContextType {
   deleteAccount: () => Promise<void>;
   requestPasswordReset: (email: string) => Promise<string>;
   resetPasswordWithToken: (token: string, newPassword: string) => Promise<void>;
+  requestEmailVerification: () => Promise<string>;
+  verifyEmail: (code: string) => Promise<void>;
   updateProfile: (updates: ProfileUpdate) => Promise<void>;
   isAuthenticated: boolean;
 }

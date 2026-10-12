@@ -38,6 +38,9 @@ export interface CourseQuiz {
   passingScore: number;
   dueDate?: string;
   questions: CourseQuizQuestion[];
+  // Exams reuse the whole quiz engine (question types, timer, grading) but
+  // are single-attempt — no retake once submitted.
+  isExam?: boolean;
 }
 
 export interface RubricCriterion {

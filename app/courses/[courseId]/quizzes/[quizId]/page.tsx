@@ -18,7 +18,7 @@ function formatTime(totalSeconds: number): string {
 function QuizContent({ courseId, quizId }: { courseId: string; quizId: string }) {
   const router = useRouter();
   const { getCourseById } = useCourses();
-  const { recordQuizAttempt } = useEnrollment();
+  const { enrollments, recordQuizAttempt } = useEnrollment();
   const { addNotification } = useNotifications();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
@@ -27,6 +27,13 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
 
   const course = getCourseById(courseId);
   const quiz = course?.quizzes.find((q) => q.id === quizId);
+  const priorAttempt = quiz
+    ? enrollments.find((e) => e.courseId === courseId)?.quizAttempts.find((a) => a.quizId === quiz.id)
+    : undefined;
+  // Exams are single-attempt: once a prior attempt exists, the taking UI
+  // (and its timer) never starts again — this session's `submitted` covers
+  // the attempt that's currently in progress, not one from a past visit.
+  const examLocked = !!quiz?.isExam && !!priorAttempt && !submitted;
 
   const handleSubmit = useCallback(() => {
     if (!quiz) return;
@@ -54,7 +61,7 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!quiz || submitted) return;
+    if (!quiz || submitted || examLocked) return;
     const storageKey = `forge_quiz_start_${quiz.id}`;
     let startedAt = Number(sessionStorage.getItem(storageKey));
     if (!startedAt) {
@@ -74,7 +81,7 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [quiz, submitted, handleSubmit]);
+  }, [quiz, submitted, examLocked, handleSubmit]);
 
   useEffect(() => {
     if (quiz && submitted) {
@@ -90,6 +97,39 @@ function QuizContent({ courseId, quizId }: { courseId: string; quizId: string })
           <button onClick={() => router.back()} className="px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110">
             Back
           </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (examLocked && priorAttempt) {
+    const passed = priorAttempt.score >= quiz.passingScore;
+    return (
+      <div className="min-h-screen bg-ow flex items-center justify-center px-6">
+        <div className="max-w-md w-full rounded-xl p-12 text-center bg-white border border-border">
+          <div className={`w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6 ${passed ? "bg-pg/10" : "bg-err/10"}`}>
+            {passed ? <CheckCircle size={64} className="text-pg2" /> : <AlertCircle size={64} className="text-err" />}
+          </div>
+          <h1 className="text-2xl font-bold mb-2 text-dt">Exam Already Completed</h1>
+          <p className="text-mg mb-6">
+            This exam allows a single attempt. You scored{" "}
+            <span className={`font-bold ${passed ? "text-pg2" : "text-err"}`}>{priorAttempt.score}%</span> on{" "}
+            {new Date(priorAttempt.attemptedAt).toLocaleDateString()}.
+          </p>
+          <div className="space-y-3">
+            <button
+              onClick={() => router.push(`/courses/${courseId}/quizzes`)}
+              className="w-full px-6 py-3 bg-pg text-dg rounded-lg font-medium hover:brightness-110"
+            >
+              Back to Quizzes
+            </button>
+            <button
+              onClick={() => router.push("/my-grades")}
+              className="w-full px-6 py-3 rounded-lg font-medium bg-white border border-border text-dt hover:bg-ow"
+            >
+              View Feedback in My Grades
+            </button>
+          </div>
         </div>
       </div>
     );

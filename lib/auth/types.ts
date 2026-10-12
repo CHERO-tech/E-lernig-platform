@@ -30,9 +30,3 @@ export interface AuthContextType {
   updateProfile: (updates: ProfileUpdate) => Promise<void>;
   isAuthenticated: boolean;
 }
-
-export interface AuthSession {
-  user: User;
-  token: string;
-  expiresAt: number;
-}

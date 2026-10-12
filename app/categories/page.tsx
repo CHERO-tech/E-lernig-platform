@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { useCourses } from "@/lib/courses/useCourses";
-import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
+import { useCategories } from "@/lib/categories/useCategories";
+import { getCategoryLabel } from "@/lib/categories/getCategoryLabel";
 import BrandMark from "@/components/BrandMark";
 
 export default function CategoriesPage() {
   const { courses } = useCourses();
+  const { categories: managedCategories } = useCategories();
   const published = courses.filter((c) => c.published !== false);
 
   const categories = Array.from(new Set(published.map((c) => c.category)))
@@ -51,7 +53,7 @@ export default function CategoriesPage() {
                 <div className="w-12 h-12 rounded-lg bg-pg/10 flex items-center justify-center mb-4">
                   <BookOpen size={22} className="text-pg2" />
                 </div>
-                <h3 className="font-bold text-dt mb-1">{formatCategoryLabel(category)}</h3>
+                <h3 className="font-bold text-dt mb-1">{getCategoryLabel(managedCategories, category)}</h3>
                 <p className="text-sm text-mg">
                   {count} course{count !== 1 ? "s" : ""} · {totalStudents.toLocaleString()} students
                 </p>

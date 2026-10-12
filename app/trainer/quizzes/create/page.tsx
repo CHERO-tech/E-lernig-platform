@@ -42,6 +42,7 @@ function CreateQuizContent() {
     timeLimit: 15,
     passingScore: 70,
     dueDate: "",
+    isExam: false,
     questions: [makeBlankQuestion(1)] as DraftQuestion[],
   });
 
@@ -142,6 +143,7 @@ function CreateQuizContent() {
       timeLimit: formData.timeLimit,
       passingScore: formData.passingScore,
       dueDate: formData.dueDate || undefined,
+      isExam: formData.isExam,
       questions: formData.questions.map(q => ({
         id: q.id.toString(),
         type: q.type,
@@ -262,6 +264,18 @@ function CreateQuizContent() {
                   />
                 </div>
               </div>
+
+              <label className="flex items-center gap-3 p-4 bg-ow rounded-lg cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.isExam}
+                  onChange={(e) => setFormData(prev => ({ ...prev, isExam: e.target.checked }))}
+                  className="w-4 h-4"
+                />
+                <span className="text-sm font-medium text-dt">
+                  This is a final exam — single attempt only, no retakes
+                </span>
+              </label>
             </div>
           </motion.div>
 

@@ -7,7 +7,8 @@ import { useState, useMemo } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useBookmarks } from "@/lib/bookmarks/useBookmarks";
-import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
+import { useCategories } from "@/lib/categories/useCategories";
+import { getCategoryLabel } from "@/lib/categories/getCategoryLabel";
 import { Badge, EmptyState } from "@/components/ui";
 import CourseThumbnail from "@/components/CourseThumbnail";
 import BrandMark from "@/components/BrandMark";
@@ -22,6 +23,7 @@ export default function Courses() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { isBookmarked, toggleBookmark } = useBookmarks();
+  const { categories: managedCategories } = useCategories();
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState<string>("All");
   const [level, setLevel] = useState<string>("All");
@@ -120,7 +122,7 @@ export default function Courses() {
                 category === cat ? "bg-pg/10 text-pg2" : "text-mg hover:bg-white"
               }`}
             >
-              {cat === "All" ? cat : formatCategoryLabel(cat)}
+              {cat === "All" ? cat : getCategoryLabel(managedCategories, cat)}
             </button>
           ))}
         </div>

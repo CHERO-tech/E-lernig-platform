@@ -21,6 +21,7 @@ import {
   UserCog,
   ArrowLeft,
   Mail,
+  Tag,
 } from "lucide-react";
 
 const NAV_ITEMS: DashboardNavItem[] = [
@@ -28,6 +29,7 @@ const NAV_ITEMS: DashboardNavItem[] = [
   { href: "/admin/users", label: "Users", icon: <Users size={18} /> },
   { href: "/admin/moderation", label: "Reports", icon: <AlertTriangle size={18} /> },
   { href: "/admin/messages", label: "Contact Messages", icon: <Mail size={18} /> },
+  { href: "/admin/categories", label: "Categories", icon: <Tag size={18} /> },
   { href: "/admin/analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
   { href: "/settings", label: "Settings", icon: <Settings size={18} /> },
 ];
@@ -96,11 +98,12 @@ function DashboardContent() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 rounded-xl p-6 bg-white border border-border">
             <h2 className="font-semibold mb-5 text-dt">Admin Actions</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {[
                 { label: "Manage Users", icon: <Users size={22} className="text-pg2" />, href: "/admin/users" },
                 { label: "Reports", icon: <AlertTriangle size={22} className="text-pg2" />, href: "/admin/moderation" },
                 { label: "Contact Messages", icon: <Mail size={22} className="text-pg2" />, href: "/admin/messages" },
+                { label: "Categories", icon: <Tag size={22} className="text-pg2" />, href: "/admin/categories" },
                 { label: "Analytics", icon: <BarChart3 size={22} className="text-pg2" />, href: "/admin/analytics" },
                 { label: "Settings", icon: <Settings size={22} className="text-pg2" />, href: "/settings" },
               ].map((a) => (

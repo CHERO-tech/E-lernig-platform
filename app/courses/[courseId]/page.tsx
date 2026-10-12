@@ -7,10 +7,11 @@ import { useCart } from "@/lib/cart/useCart";
 import { useCourses } from "@/lib/courses/useCourses";
 import { useAuth } from "@/lib/auth/useAuth";
 import { useBookmarks } from "@/lib/bookmarks/useBookmarks";
+import { useCategories } from "@/lib/categories/useCategories";
+import { getCategoryLabel } from "@/lib/categories/getCategoryLabel";
 import { use, useState } from "react";
 import BrandMark from "@/components/BrandMark";
 import Badge from "@/components/ui/Badge";
-import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
 import CourseThumbnail from "@/components/CourseThumbnail";
 
 export default function CourseDetail({ params }: { params: Promise<{ courseId: string }> }) {
@@ -19,6 +20,7 @@ export default function CourseDetail({ params }: { params: Promise<{ courseId: s
   const { getCourseById } = useCourses();
   const { isAuthenticated } = useAuth();
   const { isBookmarked, toggleBookmark } = useBookmarks();
+  const { categories } = useCategories();
   const [added, setAdded] = useState(false);
   const { courseId } = use(params);
 
@@ -87,7 +89,7 @@ export default function CourseDetail({ params }: { params: Promise<{ courseId: s
           <div className="lg:col-span-2 space-y-8">
             <div className="rounded-xl p-6 bg-white border border-border">
               <div className="flex flex-wrap gap-2 mb-4">
-                <Badge tone="brand">{formatCategoryLabel(course.category)}</Badge>
+                <Badge tone="brand">{getCategoryLabel(categories, course.category)}</Badge>
                 <Badge tone="neutral">{course.level}</Badge>
               </div>
               <h2 className="text-xl font-bold mb-4 text-dt">About this course</h2>

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useCourses } from "@/lib/courses/useCourses";
 import { CourseLevel, CourseSection } from "@/lib/courses/types";
 import { useAuth } from "@/lib/auth/useAuth";
+import { useCategories } from "@/lib/categories/useCategories";
 import { useNotifications } from "@/lib/notifications/useNotifications";
 import { SectionsEditor } from "@/components/courses/SectionsEditor";
 import { ObjectivesEditor } from "@/components/courses/ObjectivesEditor";
@@ -17,6 +18,7 @@ function CreateCourseContent() {
   const router = useRouter();
   const { user } = useAuth();
   const { addCourse } = useCourses();
+  const { categories } = useCategories();
   const { addNotification } = useNotifications();
   const [formData, setFormData] = useState({
     title: "",
@@ -156,12 +158,9 @@ function CreateCourseContent() {
                       className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-ember-strong"
                       required
                     >
-                      <option value="web-development">Web Development</option>
-                      <option value="mobile-development">Mobile Development</option>
-                      <option value="design">Design</option>
-                      <option value="data-science">Data Science</option>
-                      <option value="cloud">Cloud</option>
-                      <option value="devops">DevOps</option>
+                      {categories.map((cat) => (
+                        <option key={cat.key} value={cat.key}>{cat.label}</option>
+                      ))}
                     </select>
                   </div>
 

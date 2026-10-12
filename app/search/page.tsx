@@ -6,7 +6,8 @@ import { Search, Filter, Star, Clock, ArrowRight, ArrowLeft } from "lucide-react
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useCourses } from "@/lib/courses/useCourses";
-import { formatCategoryLabel } from "@/lib/courses/formatCategoryLabel";
+import { useCategories } from "@/lib/categories/useCategories";
+import { getCategoryLabel } from "@/lib/categories/getCategoryLabel";
 import CourseThumbnail from "@/components/CourseThumbnail";
 
 function SearchContent() {
@@ -21,6 +22,7 @@ function SearchContent() {
   const [sortBy, setSortBy] = useState("relevance");
   const [showFilters, setShowFilters] = useState(() => searchParams.get("category") !== null);
   const { courses } = useCourses();
+  const { categories: managedCategories } = useCategories();
 
   const allResults = courses.filter(c => c.published !== false).map(c => ({
     id: c.id,
@@ -108,7 +110,7 @@ function SearchContent() {
               >
                 <option value="all">All Categories</option>
                 {categories.map((cat) => (
-                  <option key={cat} value={cat}>{formatCategoryLabel(cat)}</option>
+                  <option key={cat} value={cat}>{getCategoryLabel(managedCategories, cat)}</option>
                 ))}
               </select>
             </div>

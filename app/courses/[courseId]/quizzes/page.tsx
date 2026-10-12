@@ -40,6 +40,7 @@ function QuizzesContent({ courseId }: { courseId: string }) {
       timeLimit: quiz.timeLimit,
       passingScore: quiz.passingScore,
       dueDate: quiz.dueDate,
+      isExam: !!quiz.isExam,
       isOverdue,
       completed: !!attempt,
       score: attempt?.score ?? null,
@@ -88,6 +89,7 @@ function QuizzesContent({ courseId }: { courseId: string }) {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h3 className="text-xl font-bold text-dt">{quiz.title}</h3>
+                    {quiz.isExam && <Badge tone="warning">Exam</Badge>}
                     <Badge tone={quiz.status === "passed" ? "success" : quiz.status === "failed" ? "danger" : "info"}>
                       {quiz.status === "passed" ? "Passed" : quiz.status === "failed" ? "Failed" : "Not Started"}
                     </Badge>
@@ -130,7 +132,7 @@ function QuizzesContent({ courseId }: { courseId: string }) {
                     }`}
                   >
                     <Play size={16} />
-                    {quiz.completed ? "Retake" : "Start"}
+                    {quiz.completed ? (quiz.isExam ? "View Result" : "Retake") : "Start"}
                   </button>
                 </div>
               </div>
@@ -154,8 +156,8 @@ function QuizzesContent({ courseId }: { courseId: string }) {
             <Lock size={16} className="text-info" /> Quiz Tips
           </h3>
           <ul className="text-sm space-y-1 text-mg">
-            <li>• You can retake quizzes to improve your score</li>
-            <li>• Your highest score is recorded and displayed</li>
+            <li>• You can retake regular quizzes to improve your score</li>
+            <li>• Quizzes marked <strong>Exam</strong> allow only one attempt — make it count</li>
             <li>• Take your time and review before submitting</li>
           </ul>
         </div>
